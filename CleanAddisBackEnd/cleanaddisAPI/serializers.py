@@ -1,17 +1,34 @@
 from rest_framework import serializers
-from .models import Address, User
+from .models import Address, Company, User
 
 
 
 class AddressSerializer(serializers.ModelSerializer):
     model = Address
-    fields = ['subcity','woreda']
+    fields = '__all__'
 
-class UserSerializer(serializers.Serializer):
-    address = AddressSerializer(read_only = True)
+class UserSerializer(serializers.ModelSerializer):
+    
+    address = AddressSerializer()
     class Meta:
         model = User
+        depth = 1
         fields = '__all__'
+
+
+
+    
+
+class CompanySerializer(serializers.ModelSerializer):
+
+    address = AddressSerializer()
+    
+    class Meta:
+
+        model = Company
+        depth = 1
+        fields = '__all__'
+
 
 
 

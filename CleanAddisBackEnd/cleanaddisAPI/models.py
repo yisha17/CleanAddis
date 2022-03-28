@@ -13,7 +13,8 @@ class Address(models.Model):
     SUBCITY_CHOICES = [
         ('Addis Ketema','AK'),
         ('Bole','Bole'),
-        ('Nifas Silk','NS')
+        ('Nifas Silk','NS'),
+        ('Kolfe','Kolfe')
 
     ]
 
@@ -30,12 +31,15 @@ class User(models.Model):
     email = models.EmailField(max_length=30,default="")
     role = models.CharField(max_length=20, default="")
     profile = models.ImageField(null=True)
-    address = models.OneToOneField(Address, on_delete=models.CASCADE,default="")
+    address = models.ForeignKey(Address, on_delete=models.CASCADE,default="")
     # unknown field type
-    device_id = models.CharField(max_length=20, default="")
+    device_id = models.CharField(max_length=20, default="",null=True)
 
     def __str__(self):
         return self.first_name
+
+    def __iter__(self):
+        return [field.value_to_string(self) for field in Address._meta.fields]
 
 
 class Company(models.Model):
@@ -46,5 +50,8 @@ class Company(models.Model):
     company_email = models.EmailField(max_length=30)
     password = models.CharField(max_length=20)
     role = models.CharField(max_length=20)
-    logo = models.ImageField()
-    address = models.OneToOneField(Address, on_delete=models.CASCADE)
+    logo = models.ImageField(null = True)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.company_name
