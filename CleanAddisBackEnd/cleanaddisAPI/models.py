@@ -31,7 +31,7 @@ class User(models.Model):
     email = models.EmailField(max_length=30,default="")
     role = models.CharField(max_length=20, default="")
     profile = models.ImageField(null=True)
-    address = models.ForeignKey(Address, on_delete=models.CASCADE,default="")
+    address = models.ForeignKey(Address, on_delete=models.DO_NOTHING,null=True)
     # unknown field type
     device_id = models.CharField(max_length=20, default="",null=True)
 
