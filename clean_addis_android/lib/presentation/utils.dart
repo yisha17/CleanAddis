@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 Widget cleanAddislogo() {
@@ -65,6 +65,14 @@ Widget buildUsername() => TextField(
           labelStyle: TextStyle(color: Colors.black),
           border: OutlineInputBorder()),
     );
+
+Color lightgreen = Color(0xffe9fff3);
+
+
+
+
+
+
 
 
 

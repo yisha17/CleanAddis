@@ -24,14 +24,13 @@ class Address(models.Model):
 
 class User(models.Model):
 
-    first_name = models.CharField(max_length=20, default="")
-    last_name = models.CharField(max_length=20, default="")
     username = models.CharField(max_length=20, default="")
     password = models.CharField(max_length=20, default="")
     email = models.EmailField(max_length=30,default="")
     role = models.CharField(max_length=20, default="")
     profile = models.ImageField(null=True)
     address = models.ForeignKey(Address, on_delete=models.DO_NOTHING,null=True)
+    phone = models.CharField(max_length= 20,null= True)
     # unknown field type
     device_id = models.CharField(max_length=20, default="",null=True)
 
@@ -55,3 +54,33 @@ class Company(models.Model):
 
     def __str__(self):
         return self.company_name
+
+
+
+class Waste(models.Model):
+
+    
+
+    TYPE_CHOICES = [
+        ('Plastic', 'Plastic'),
+        ('Organic','Organic'),
+        ('Metal','Metal'),
+        ('Aluminium', 'Almuinium'),
+        ('Paper','Paper'),
+        ('Old Gadgets','Old Gadgets'),
+        ('Glass','Glass')
+    ]
+
+    waste_name = models.CharField(max_length=20)
+    waste_type = models.CharField(max_length=20, choices= TYPE_CHOICES)
+    price_per_unit = models.IntegerField(null=True)
+    quantity = models.IntegerField(null=True)
+    weight = models.IntegerField(null=True)
+    image = models.ImageField(null = True)
+    loaction = models.CharField(max_length=30,null=True)
+    sold = models.BooleanField(null=True)
+    bought = models.BooleanField(null=True)
+    donated = models.BooleanField(null=True)
+    description = models.CharField(max_length=200,null=True)
+    
+    

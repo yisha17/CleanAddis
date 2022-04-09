@@ -29,13 +29,7 @@ class _SignupPageState extends State<SignupPage> {
   }
 
 
-  // Widget singup_input(
-  //   required 
-  // ){
-    
-
-  // }
-
+  
 
 
 
@@ -126,7 +120,7 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffe9fff3),
+      backgroundColor: lightgreen,
       body: SingleChildScrollView(
         child: Form(
           child: Padding(

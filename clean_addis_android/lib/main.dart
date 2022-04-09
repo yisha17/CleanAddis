@@ -1,5 +1,10 @@
-import 'package:clean_addis_android/Signup.dart';
-import 'package:clean_addis_android/Login.dart';
+import 'package:clean_addis_android/presentation/AddWaste.dart';
+import 'package:clean_addis_android/presentation/BottomNavigationBar.dart';
+import 'package:clean_addis_android/presentation/Home.dart';
+import 'package:clean_addis_android/presentation/NotifyMap.dart';
+import 'package:clean_addis_android/presentation/Signup.dart';
+import 'package:clean_addis_android/presentation/Login.dart';
+import 'package:clean_addis_android/presentation/YourItem.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +21,7 @@ class MyApp extends StatelessWidget {
         
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      home: NotifyPage(),
     );
   }
 }

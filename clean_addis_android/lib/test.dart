@@ -8,8 +8,6 @@ void main(){
   eth['first'] = 'yishak';
   eth['second'] = 'wondim';
   eth['gender'] = 'male';
-  print("this is $eth");
-  
 }
 
 
