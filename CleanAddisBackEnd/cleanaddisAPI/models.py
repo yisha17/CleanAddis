@@ -27,7 +27,7 @@ class User(models.Model):
     username = models.CharField(max_length=20, default="")
     password = models.CharField(max_length=20, default="")
     email = models.EmailField(max_length=30,default="")
-    role = models.CharField(max_length=20, default="")
+    role = models.CharField(max_length=20, default="",null = True)
     profile = models.ImageField(null=True)
     address = models.ForeignKey(Address, on_delete=models.DO_NOTHING,null=True)
     phone = models.CharField(max_length= 20,null= True)
