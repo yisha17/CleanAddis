@@ -91,8 +91,10 @@ class Waste(models.Model):
     description = models.CharField(max_length=200,null=True)
 class Report(models.Model):
 
-    reported = models.ForeignKey(User, on_delete = models.DO_NOTHING)
-
+    reportID = models.CharField(max_length=20, default="",null=True)
+    reportTitle = models.CharField(max_length=20,default="",null=True)
+    reportDescription = models.CharField(max_length=20,default="",null=True)
+    image = models.ImageField(null=True)
 
     
     
