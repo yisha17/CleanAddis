@@ -96,6 +96,6 @@ class Report(models.Model):
     reportDescription = models.CharField(max_length=20,default="",null=True)
     image = models.ImageField(null=True)
     loaction = models.CharField(max_length=30,null=True)
-
+    reportedBy = models.ForeignKey(User, on_delete = models.DO_NOTHING )
     
     
