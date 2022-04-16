@@ -162,6 +162,16 @@ class ReportDeleteAPIView(generics.DestroyAPIView):
 
 report_delete_view = ReportDeleteAPIView.as_view()
 
+class ReportAPIView(generics.ListAPIView):
+    queryset = Report.objects.all()
+    serializer_class = ReporterSerializer
+    lookup_field = 'reportedBy'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            reportedBy = self.kwargs['reportedBy'])
+report_list_view = ReportAPIView.as_view()
+
 class SellerAPIView(generics.ListAPIView):
     queryset = Waste.objects.all()
     serializer_class = SellerSerializer
