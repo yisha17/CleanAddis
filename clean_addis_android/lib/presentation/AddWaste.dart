@@ -76,6 +76,8 @@ DropdownMenuItem<String> buildMenuItem(String item) {
 }
 
 class AddWasteState extends State<AddWastePage> {
+  
+
   final list = ['dab', 'sdf', 'sdfs', 'sfsdf'];
   String? value;
   @override
@@ -106,6 +108,8 @@ class AddWasteState extends State<AddWastePage> {
                 )
               ],
             ),
+
+            
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.07,
             ),

@@ -1,3 +1,4 @@
+from cgitb import lookup
 from hashlib import new
 from django.shortcuts import render
 from rest_framework.views import APIView
@@ -8,16 +9,17 @@ from rest_framework import status
 from .models import *
 from .serializers import *
 
+
 # Create your views here.
 
 class UserView(APIView):
 
-    def get(self,request):
-        
+    def get(self, request):
+
         users = User.objects.all()
-        
-        serializer = UserSerializer(users, many = True)
-        
+
+        serializer = UserSerializer(users, many=True)
+
         return Response(serializer.data)
 
     def post(self, request):
@@ -29,16 +31,16 @@ class UserView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class UserDetail(APIView):
 
-    def get_object(self,id):
+    def get_object(self, id):
         try:
-            return User.objects.get( id= id)
+            return User.objects.get(id=id)
         except User.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-    
-    def get(self,request,id):
+    def get(self, request, id):
 
         user = self.get_object(id)
 
@@ -46,7 +48,7 @@ class UserDetail(APIView):
 
         return Response(serializer.data)
 
-    def put(self,request,id):
+    def put(self, request, id):
 
         user = self.get_object(id)
 
@@ -57,11 +59,10 @@ class UserDetail(APIView):
                 subcity=user_data['address']['subcity'],
                 woreda=user_data['address']['woreda'])
         except Address.DoesNotExist:
-   
+
             updated_address = Address.objects.create(
                 subcity=user_data['address']['subcity'],
                 woreda=user_data['address']['woreda'])
-        
 
         user = User.objects.create(
 
@@ -82,12 +83,11 @@ class UserDetail(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self,request,id):
+    def delete(self, request, id):
 
         user = self.get_object(id)
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
 
 
 class CompanyAPIView(APIView):
@@ -102,9 +102,9 @@ class CompanyAPIView(APIView):
         company_data = request.data
 
         new_company = Company.objects.create(
-            address = Address.objects.get(id = company_data['address']),
-            company_name = company_data['company_name'],
-            company_email = company_data['company_email'],
+            address=Address.objects.get(id=company_data['address']),
+            company_name=company_data['company_name'],
+            company_email=company_data['company_email'],
             password=company_data['password'],
             role=company_data['role'],
             logo=company_data['logo']
@@ -119,8 +119,38 @@ class CompanyAPIView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-            
+
+class WasteAPIView(generics.RetrieveAPIView):
+
+    queryset = Waste.objects.all()
+
+    serializer_class = WasteSerializer
 
 
+class SellerAPIView(generics.ListAPIView):
+    queryset = Waste.objects.all()
+    serializer_class = SellerSerializer
+    lookup_field = 'seller'
 
-    
+
+seller_list_view = SellerAPIView.as_view()
+
+
+class WasteCreateAPIView(generics.CreateAPIView):
+    queryset = Waste.objects.all()
+
+    serializer_class = WasteSerializer
+
+    def perform_create(self, serializer):
+        return super().perform_create(serializer)
+
+
+waste_create_view = WasteCreateAPIView.as_view()
+
+
+class BuyerAPIView(generics.ListAPIView):
+    queryset = Waste.objects.all()
+    serializer_class = SellerSerializer
+    lookup_field = 'buyer'
+
+buyer_list_view = BuyerAPIView.as_view()

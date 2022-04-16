@@ -27,15 +27,13 @@ class User(models.Model):
     username = models.CharField(max_length=20, default="")
     password = models.CharField(max_length=20, default="")
     email = models.EmailField(max_length=30,default="")
-    role = models.CharField(max_length=20, default="")
+    role = models.CharField(max_length=20, default="",null = True)
     profile = models.ImageField(null=True)
-    address = models.ForeignKey(Address, on_delete=models.DO_NOTHING,null=True)
     phone = models.CharField(max_length= 20,null= True)
     # unknown field type
     device_id = models.CharField(max_length=20, default="",null=True)
 
-    def __str__(self):
-        return self.first_name
+   
 
     def __iter__(self):
         return [field.value_to_string(self) for field in Address._meta.fields]
@@ -51,6 +49,7 @@ class Company(models.Model):
     role = models.CharField(max_length=20)
     logo = models.ImageField(null = True)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
+
 
     def __str__(self):
         return self.company_name
@@ -71,11 +70,19 @@ class Waste(models.Model):
         ('Glass','Glass')
     ]
 
+    DO = [
+        ('Sell', 'Sell'),
+        ('Donate', 'Donate'),
+    ]
+
+    seller = models.ForeignKey(User, on_delete = models.DO_NOTHING )
+    buyer = models.ForeignKey(User,null=True,on_delete = models.DO_NOTHING,related_name='buyer')
     waste_name = models.CharField(max_length=20)
     waste_type = models.CharField(max_length=20, choices= TYPE_CHOICES)
+    for_waste  = models.CharField(choices= DO, max_length =10)
     price_per_unit = models.IntegerField(null=True)
     quantity = models.IntegerField(null=True)
-    weight = models.IntegerField(null=True)
+    metric = models.CharField(null=True, max_length = 20)
     image = models.ImageField(null = True)
     loaction = models.CharField(max_length=30,null=True)
     sold = models.BooleanField(null=True)
