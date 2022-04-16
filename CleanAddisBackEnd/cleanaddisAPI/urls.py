@@ -22,4 +22,8 @@ urlpatterns = [
     path('api/publicplace/<int:pk>', publicplace_detail_view),
     path('api/publicplace/<int:pk>/update', publicplace_update_view),
     path('api/publicplace/delete/<int:pk>', publicplace_delete_view),
+    path('api/seminar/', seminar_create_view),
+    path('api/seminar/<int:pk>', seminar_detail_view),
+    path('api/seminar/<int:pk>/update', seminar_update_view),
+    path('api/seminar/delete/<int:pk>', seminar_delete_view),
 ]
