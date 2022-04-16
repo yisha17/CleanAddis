@@ -67,14 +67,14 @@ class PublicPlaceSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = PublicPlace
-        field = '__all__'
+        fields = '__all__'
 class SeminarSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Seminar
-        field = '__all__'
+        fields = '__all__'
 class WorkScheduleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkSchedule
-        field = '__all__'
+        fields = '__all__'

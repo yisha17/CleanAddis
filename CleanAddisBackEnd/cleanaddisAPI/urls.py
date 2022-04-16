@@ -18,6 +18,8 @@ urlpatterns = [
     path('api/report/<int:pk>/update', report_update_view),
     path('api/report/delete/<int:pk>', report_delete_view),
     path('api/report/reportlist/<int:reportedBy>',report_list_view),
-
-
+    path('api/publicplace/', publicplace_create_view),
+    path('api/publicplace/<int:pk>', publicplace_detail_view),
+    path('api/publicplace/<int:pk>/update', publicplace_update_view),
+    path('api/publicplace/delete/<int:pk>', publicplace_delete_view),
 ]

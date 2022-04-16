@@ -1,5 +1,6 @@
 from cgitb import lookup
 from hashlib import new
+from xml.dom.pulldom import PullDOM
 from django.shortcuts import render
 from rest_framework.views import APIView
 
@@ -171,6 +172,41 @@ class ReportAPIView(generics.ListAPIView):
             reportedBy = self.kwargs['reportedBy'])
 report_list_view = ReportAPIView.as_view()
 
+class PublicPlaceCreateAPIView(generics.CreateAPIView):
+
+    query = PublicPlace.objects.all()
+
+    serializer_class = PublicPlaceSerializer
+
+    def perform_create(self, serializer):
+        return super().perform_create(serializer)
+
+publicplace_create_view = PublicPlaceCreateAPIView.as_view()
+
+class PublicPlaceDetailAPIView(generics.RetrieveAPIView):
+
+    queryset = PublicPlace.objects.all()
+    serializer_class = PublicPlaceSerializer
+    lookup_field = 'pk'
+publicplace_detail_view = PublicPlaceDetailAPIView().as_view()
+
+
+class PublicPlaceUpdateAPIView(generics.UpdateAPIView):
+
+    queryset = PublicPlace.objects.all()
+    serializer_class = PublicPlaceSerializer
+    lookup_field = 'pk'
+
+publicplace_update_view = PublicPlaceUpdateAPIView.as_view()
+
+class PublicPlaceDeleteAPIView(generics.DestroyAPIView):
+
+    queryset = PublicPlace.objects.all()
+    serializer_class = PublicPlaceSerializer
+    lookup_field = 'pk'
+
+
+publicplace_delete_view = PublicPlaceDeleteAPIView.as_view()
 
 class SellerAPIView(generics.ListAPIView):
     authentication_classes = [authentication.TokenAuthentication]
