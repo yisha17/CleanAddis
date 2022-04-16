@@ -118,7 +118,18 @@ class Seminar(models.Model):
     seminarDescription = models.CharField(max_length=20,default="",null=True)
     seminarType = models.CharField(max_length=20, choices= TYPE_CHOICES)
     loaction = models.CharField(max_length=30,null=True)
+
 class WorkSchedule(models.Model):
     workID = models.CharField(max_length=20, default="",null=True)
-    date = models.CharField(max_length=20, default="",null=True)
-    hour = models.CharField(max_length=20, default="",null=True)
+    date = models.DateField(max_length=20, default="",null=True)
+    hour = models.DateField(max_length=20, default="",null=True)
+    
+class Announcement(models.Model):
+    notificationID = models.IntegerField(max_length=20,default="",null=True)
+    notificationTitle = models.CharField(max_length=20, default="",null=True)
+    notificationDescription = models.CharField(max_length=20, default="",null=True)
+    formDate = models.DateField(max_length=20, default="",null=True)
+    toDate = models.DateField(max_length=20, default="",null=True)
+    published = models.DateField(max_length=20, default="",null=True)
+    recipient = models.ForeignKey(User, on_delete = models.DO_NOTHING )
+
