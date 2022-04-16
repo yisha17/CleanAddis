@@ -118,3 +118,7 @@ class Seminar(models.Model):
     seminarDescription = models.CharField(max_length=20,default="",null=True)
     seminarType = models.CharField(max_length=20, choices= TYPE_CHOICES)
     loaction = models.CharField(max_length=30,null=True)
+class WorkSchedule(models.Model):
+    workID = models.CharField(max_length=20, default="",null=True)
+    date = models.CharField(max_length=20, default="",null=True)
+    hour = models.CharField(max_length=20, default="",null=True)
