@@ -1,5 +1,6 @@
 from cgitb import lookup
 from hashlib import new
+from xml.dom.pulldom import PullDOM
 from django.shortcuts import render
 from rest_framework.views import APIView
 
@@ -171,6 +172,113 @@ class ReportAPIView(generics.ListAPIView):
             reportedBy = self.kwargs['reportedBy'])
 report_list_view = ReportAPIView.as_view()
 
+class PublicPlaceCreateAPIView(generics.CreateAPIView):
+
+    query = PublicPlace.objects.all()
+
+    serializer_class = PublicPlaceSerializer
+
+    def perform_create(self, serializer):
+        return super().perform_create(serializer)
+
+publicplace_create_view = PublicPlaceCreateAPIView.as_view()
+
+class PublicPlaceDetailAPIView(generics.RetrieveAPIView):
+
+    queryset = PublicPlace.objects.all()
+    serializer_class = PublicPlaceSerializer
+    lookup_field = 'pk'
+publicplace_detail_view = PublicPlaceDetailAPIView().as_view()
+
+
+class PublicPlaceUpdateAPIView(generics.UpdateAPIView):
+
+    queryset = PublicPlace.objects.all()
+    serializer_class = PublicPlaceSerializer
+    lookup_field = 'pk'
+
+publicplace_update_view = PublicPlaceUpdateAPIView.as_view()
+
+class PublicPlaceDeleteAPIView(generics.DestroyAPIView):
+
+    queryset = PublicPlace.objects.all()
+    serializer_class = PublicPlaceSerializer
+    lookup_field = 'pk'
+
+
+publicplace_delete_view = PublicPlaceDeleteAPIView.as_view()
+
+class SeminarCreateAPIView(generics.CreateAPIView):
+
+    query = Seminar.objects.all()
+
+    serializer_class = SeminarSerializer
+
+    def perform_create(self, serializer):
+        return super().perform_create(serializer)
+
+seminar_create_view = SeminarCreateAPIView.as_view()
+
+class SeminarDetailAPIView(generics.RetrieveAPIView):
+
+    queryset = Seminar.objects.all()
+    serializer_class = SeminarSerializer
+    lookup_field = 'pk'
+seminar_detail_view = SeminarDetailAPIView().as_view()
+
+
+class SeminarUpdateAPIView(generics.UpdateAPIView):
+
+    queryset = Seminar.objects.all()
+    serializer_class = SeminarSerializer
+    lookup_field = 'pk'
+
+seminar_update_view = SeminarUpdateAPIView.as_view()
+
+class SeminarDeleteAPIView(generics.DestroyAPIView):
+
+    queryset = Seminar.objects.all()
+    serializer_class = SeminarSerializer
+    lookup_field = 'pk'
+
+
+seminar_delete_view = SeminarDeleteAPIView.as_view()
+
+class WorkScheduleCreateAPIView(generics.CreateAPIView):
+
+    query = WorkSchedule.objects.all()
+
+    serializer_class = WorkScheduleSerializer
+
+    def perform_create(self, serializer):
+        return super().perform_create(serializer)
+
+workschedule_create_view = WorkScheduleCreateAPIView.as_view()
+
+class WorkScheduleDetailAPIView(generics.RetrieveAPIView):
+
+    queryset = WorkSchedule.objects.all()
+    serializer_class = WorkScheduleSerializer
+    lookup_field = 'pk'
+workschedule_detail_view = WorkScheduleDetailAPIView().as_view()
+
+
+class WorkScheduleUpdateAPIView(generics.UpdateAPIView):
+
+    queryset = WorkSchedule.objects.all()
+    serializer_class = WorkScheduleSerializer
+    lookup_field = 'pk'
+
+workschedule_update_view = WorkScheduleUpdateAPIView.as_view()
+
+class WorkScheduleDeleteAPIView(generics.DestroyAPIView):
+
+    queryset = WorkSchedule.objects.all()
+    serializer_class = WorkScheduleSerializer
+    lookup_field = 'pk'
+
+
+workschedule_delete_view = WorkScheduleDeleteAPIView.as_view()
 
 class SellerAPIView(generics.ListAPIView):
     authentication_classes = [authentication.TokenAuthentication]

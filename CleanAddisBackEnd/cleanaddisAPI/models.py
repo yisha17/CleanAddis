@@ -94,8 +94,31 @@ class Report(models.Model):
     reportID = models.CharField(max_length=20, default="",null=True)
     reportTitle = models.CharField(max_length=20,default="",null=True)
     reportDescription = models.CharField(max_length=20,default="",null=True)
-    image = models.ImageField(null=True)
+    image = models.ImageField(null=True)    
     loaction = models.CharField(max_length=30,null=True)
     reportedBy = models.ForeignKey(User, on_delete = models.DO_NOTHING )
     
     
+class PublicPlace(models.Model):
+
+    TYPE_CHOICES = [
+        ('Toilet', 'Toilet'),
+        ('Park','Park')
+    ]
+    placeID = models.CharField(max_length=20, default="",null=True)
+    placeName = models.CharField(max_length=20,default="",null=True)
+    placeType = models.CharField(max_length=20, choices= TYPE_CHOICES)
+    rating = models.CharField(max_length=5,default="",null=True)
+    loaction = models.CharField(max_length=30,null=True)
+
+class Seminar(models.Model):
+    TYPE_CHOICES = [('Meeting','Meeting'),('Plantation','Plantation'),('Cleaning','Cleaning')]
+    seminarID = models.CharField(max_length=20, default="",null=True)
+    seminarTitle = models.CharField(max_length=20,default="",null=True)
+    seminarDescription = models.CharField(max_length=20,default="",null=True)
+    seminarType = models.CharField(max_length=20, choices= TYPE_CHOICES)
+    loaction = models.CharField(max_length=30,null=True)
+class WorkSchedule(models.Model):
+    workID = models.CharField(max_length=20, default="",null=True)
+    date = models.CharField(max_length=20, default="",null=True)
+    hour = models.CharField(max_length=20, default="",null=True)

@@ -18,6 +18,16 @@ urlpatterns = [
     path('api/report/<int:pk>/update', report_update_view),
     path('api/report/delete/<int:pk>', report_delete_view),
     path('api/report/reportlist/<int:reportedBy>',report_list_view),
-
-
+    path('api/publicplace/', publicplace_create_view),
+    path('api/publicplace/<int:pk>', publicplace_detail_view),
+    path('api/publicplace/<int:pk>/update', publicplace_update_view),
+    path('api/publicplace/delete/<int:pk>', publicplace_delete_view),
+    path('api/seminar/', seminar_create_view),
+    path('api/seminar/<int:pk>', seminar_detail_view),
+    path('api/seminar/<int:pk>/update', seminar_update_view),
+    path('api/seminar/delete/<int:pk>', seminar_delete_view),
+    path('api/workschedule/', workschedule_create_view),
+    path('api/workschedule/<int:pk>', workschedule_detail_view),
+    path('api/workschedule/<int:pk>/update', workschedule_update_view),
+    path('api/workschedule/delete/<int:pk>', workschedule_delete_view),
 ]
