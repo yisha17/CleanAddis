@@ -125,24 +125,51 @@ class CompanyAPIView(APIView):
 
 
 
-class ReportView(APIView):
+class ReportCreateAPIView(generics.CreateAPIView):
 
-    def get(self, request):
+    query = Waste.objects.all()
 
-        report = Report.objects.all()
+    serializer_class = ReportSerializer
 
-        serializer = ReportSerializer(report, many=True)
+    def perform_create(self, serializer):
+        return super().perform_create(serializer)
 
-        return Response(serializer.data)
+report_create_view = ReportCreateAPIView.as_view()
 
-    def post(self, request):
+class ReportDetailAPIView(generics.RetrieveAPIView):
 
-        serializer = ReportSerializer(data=request.data)
-        if serializer.is_valid():
-            question = serializer.save()
-            serializer = ReportSerializer(question)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    queryset = Report.objects.all()
+    serializer_class = ReportSerializer
+    lookup_field = 'pk'
+report_detail_view = ReportDetailAPIView().as_view()
+
+
+class ReportUpdateAPIView(generics.UpdateAPIView):
+
+    queryset = Report.objects.all()
+    serializer_class = ReportSerializer
+    lookup_field = 'pk'
+
+report_update_view = ReportUpdateAPIView.as_view()
+
+class ReportDeleteAPIView(generics.DestroyAPIView):
+
+    queryset = Report.objects.all()
+    serializer_class = ReportSerializer
+    lookup_field = 'pk'
+
+
+report_delete_view = ReportDeleteAPIView.as_view()
+
+class ReportAPIView(generics.ListAPIView):
+    queryset = Report.objects.all()
+    serializer_class = ReporterSerializer
+    lookup_field = 'reportedBy'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            reportedBy = self.kwargs['reportedBy'])
+report_list_view = ReportAPIView.as_view()
 
 
 class SellerAPIView(generics.ListAPIView):

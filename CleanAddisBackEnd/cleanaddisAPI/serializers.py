@@ -56,4 +56,9 @@ class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
         fields = '__all__'
+class ReporterSerializer(serializers.ModelSerializer):
 
+    class Meta:
+        model = Report
+        fields = '__all__'
+        lookup_field = 'reportedBy'
