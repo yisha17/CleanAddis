@@ -126,13 +126,24 @@ class WasteAPIView(generics.RetrieveAPIView):
 
     serializer_class = WasteSerializer
 
-class ReportAPIView(generics.RetrieveAPIView):
+class ReportView(APIView):
 
-    quesryset = Waste.objects.all()
+    def get(self, request):
 
-    serializer_class = ReportSerializer
-    
+        report = Report.objects.all()
 
+        serializer = ReportSerializer(report, many=True)
+
+        return Response(serializer.data)
+
+    def post(self, request):
+
+        serializer = ReportSerializer(data=request.data)
+        if serializer.is_valid():
+            question = serializer.save()
+            serializer = ReportSerializer(question)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class SellerAPIView(generics.ListAPIView):
     queryset = Waste.objects.all()
