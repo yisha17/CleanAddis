@@ -126,6 +126,13 @@ class WasteAPIView(generics.RetrieveAPIView):
 
     serializer_class = WasteSerializer
 
+class ReportAPIView(generics.RetrieveAPIView):
+
+    quesryset = Waste.objects.all()
+
+    serializer_class = ReportSerializer
+    
+
 
 class SellerAPIView(generics.ListAPIView):
     queryset = Waste.objects.all()
