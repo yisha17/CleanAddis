@@ -160,29 +160,6 @@ class SellerAPIView(generics.ListAPIView):
 seller_list_view = SellerAPIView.as_view()
 
 
-class WasteCreateAPIView(generics.CreateAPIView):
-
-    queryset = Waste.objects.all()
-
-    serializer_class = WasteSerializer
-
-    def perform_create(self, serializer):
-        return super().perform_create(serializer)
-
-
-waste_create_view = WasteCreateAPIView.as_view()
-
-class WasteDetailAPIView(generics.RetrieveAPIView):
-
-    queryset = Waste.objects.all()
-    serializer_class = WasteSerializer
-    lookup_field = 'pk'
-
-waste_detail_view = WasteDetailAPIView().as_view()
-
-
-
-
 
 class SellerAPIView(generics.ListAPIView):
     
