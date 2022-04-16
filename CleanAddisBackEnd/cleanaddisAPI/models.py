@@ -89,5 +89,13 @@ class Waste(models.Model):
     bought = models.BooleanField(null=True)
     donated = models.BooleanField(null=True)
     description = models.CharField(max_length=200,null=True)
+class Report(models.Model):
+
+    reportID = models.CharField(max_length=20, default="",null=True)
+    reportTitle = models.CharField(max_length=20,default="",null=True)
+    reportDescription = models.CharField(max_length=20,default="",null=True)
+    image = models.ImageField(null=True)
+    loaction = models.CharField(max_length=30,null=True)
+    reportedBy = models.ForeignKey(User, on_delete = models.DO_NOTHING )
     
     

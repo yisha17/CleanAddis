@@ -1,5 +1,6 @@
+from cgitb import lookup
 from rest_framework import serializers
-from .models import Address, Company, User, Waste
+from .models import Address, Company, Report, User, Waste
 
 
 class AddressSerializer(serializers.ModelSerializer):
@@ -49,3 +50,10 @@ class SellerSerializer(serializers.ModelSerializer):
         model = Waste
         lookup_field = 'seller'
         fields = '__all__'
+
+class ReportSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Report
+        fields = '__all__'
+
