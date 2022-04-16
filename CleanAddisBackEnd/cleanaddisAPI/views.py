@@ -2,7 +2,10 @@ from cgitb import lookup
 from hashlib import new
 from django.shortcuts import render
 from rest_framework.views import APIView
-from rest_framework import generics
+
+
+from rest_framework import generics,permissions ,authentication
+
 from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework import status
@@ -15,7 +18,7 @@ from .serializers import *
 class UserView(APIView):
 
     def get(self, request):
-
+ 
         users = User.objects.all()
 
         serializer = UserSerializer(users, many=True)
@@ -120,11 +123,7 @@ class CompanyAPIView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class WasteAPIView(generics.RetrieveAPIView):
 
-    queryset = Waste.objects.all()
-
-    serializer_class = WasteSerializer
 
 class ReportCreateAPIView(generics.CreateAPIView):
 
@@ -172,16 +171,24 @@ class ReportAPIView(generics.ListAPIView):
             reportedBy = self.kwargs['reportedBy'])
 report_list_view = ReportAPIView.as_view()
 
+
 class SellerAPIView(generics.ListAPIView):
+    authentication_classes = [authentication.TokenAuthentication]
     queryset = Waste.objects.all()
     serializer_class = SellerSerializer
     lookup_field = 'seller'
+
+    def get_queryset(self):
+
+        return super().get_queryset().filter(
+            seller=self.kwargs['seller'])
 
 
 seller_list_view = SellerAPIView.as_view()
 
 
 class WasteCreateAPIView(generics.CreateAPIView):
+
     queryset = Waste.objects.all()
 
     serializer_class = WasteSerializer
@@ -192,10 +199,88 @@ class WasteCreateAPIView(generics.CreateAPIView):
 
 waste_create_view = WasteCreateAPIView.as_view()
 
+class WasteDetailAPIView(generics.RetrieveAPIView):
+
+    queryset = Waste.objects.all()
+    serializer_class = WasteSerializer
+    lookup_field = 'pk'
+
+waste_detail_view = WasteDetailAPIView().as_view()
+
+
+
+
+
+class SellerAPIView(generics.ListAPIView):
+    
+    authentication_classes = [authentication.TokenAuthentication]
+    queryset = Waste.objects.all()
+    serializer_class = SellerSerializer
+    lookup_field = 'seller'
+
+    def get_queryset(self):
+
+        return super().get_queryset().filter(
+            seller=self.kwargs['seller'])
+
+
+seller_list_view = SellerAPIView.as_view()
+
+
+class WasteCreateAPIView(generics.CreateAPIView):
+
+    queryset = Waste.objects.all()
+
+    serializer_class = WasteSerializer
+
+    def perform_create(self, serializer):
+        return super().perform_create(serializer)
+
+
+waste_create_view = WasteCreateAPIView.as_view()
+
+class WasteDetailAPIView(generics.RetrieveAPIView):
+
+    queryset = Waste.objects.all()
+    serializer_class = WasteSerializer
+    lookup_field = 'pk'
+
+waste_detail_view = WasteDetailAPIView().as_view()
+
 
 class BuyerAPIView(generics.ListAPIView):
     queryset = Waste.objects.all()
     serializer_class = SellerSerializer
     lookup_field = 'buyer'
 
+
+    def get_queryset(self):
+
+        return super().get_queryset().filter(
+            seller = self.kwargs['buyer'])
+
 buyer_list_view = BuyerAPIView.as_view()
+
+
+class WasteUpdateAPIView(generics.UpdateAPIView):
+
+    queryset = Waste.objects.all()
+
+    serializer_class = WasteSerializer
+
+    lookup_field = 'pk'
+
+waste_update_view = WasteUpdateAPIView.as_view()
+
+
+class WasteDeleteAPIView(generics.DestroyAPIView):
+
+    queryset = Waste.objects.all()
+
+    serializer_class = WasteSerializer
+
+    lookup_field = 'pk'
+
+
+
+waste_delete_view = WasteDeleteAPIView.as_view()
