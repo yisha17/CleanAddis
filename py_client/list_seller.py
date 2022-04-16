@@ -1,6 +1,10 @@
 import requests
 
+<<<<<<< HEAD
 endpoint = 'http://localhost:8000/api/waste/buyer/7'
+=======
+endpoint = 'http://localhost:8000/api/waste/seller/5'
+>>>>>>> 0af00e03975b441d49b1cd0dfc00386f98d3dd77
 
 
 data = {
