@@ -32,7 +32,4 @@ The system will have extensive mapping service that
 
 User can rate public infrastructures
 
-**5. Education and Movements**
 
-* Seminars about environment protection
-* Movements related to cleaning and environment protection
