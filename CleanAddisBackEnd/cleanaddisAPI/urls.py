@@ -26,4 +26,8 @@ urlpatterns = [
     path('api/seminar/<int:pk>', seminar_detail_view),
     path('api/seminar/<int:pk>/update', seminar_update_view),
     path('api/seminar/delete/<int:pk>', seminar_delete_view),
+    path('api/workschedule/', workschedule_create_view),
+    path('api/workschedule/<int:pk>', workschedule_detail_view),
+    path('api/workschedule/<int:pk>/update', workschedule_update_view),
+    path('api/workschedule/delete/<int:pk>', workschedule_delete_view),
 ]
