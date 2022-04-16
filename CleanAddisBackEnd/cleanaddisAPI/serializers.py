@@ -1,6 +1,7 @@
 from cgitb import lookup
+from dataclasses import field
 from rest_framework import serializers
-from .models import Address, Company, Report, User, Waste
+from .models import Address, Company, PublicPlace, Report, Seminar, User, Waste, WorkSchedule
 
 
 class AddressSerializer(serializers.ModelSerializer):
@@ -62,3 +63,18 @@ class ReporterSerializer(serializers.ModelSerializer):
         model = Report
         fields = '__all__'
         lookup_field = 'reportedBy'
+class PublicPlaceSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = PublicPlace
+        field = '__all__'
+class SeminarSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Seminar
+        field = '__all__'
+class WorkScheduleSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = WorkSchedule
+        field = '__all__'
