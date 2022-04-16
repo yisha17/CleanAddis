@@ -13,5 +13,6 @@ urlpatterns = [
     path('api/waste/seller/<int:seller>', seller_list_view),
     path('api/waste/buyer/<int:buyer>', buyer_list_view),
     path('api/waste/', waste_create_view),
+    path('api/report/',ReportView.as_view()),
 
 ]
