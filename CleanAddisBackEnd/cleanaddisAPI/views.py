@@ -280,6 +280,42 @@ class WorkScheduleDeleteAPIView(generics.DestroyAPIView):
 
 workschedule_delete_view = WorkScheduleDeleteAPIView.as_view()
 
+class AnnouncementCreateAPIView(generics.CreateAPIView):
+
+    query = Announcement.objects.all()
+
+    serializer_class = AnnouncementSerializer
+
+    def perform_create(self, serializer):
+        return super().perform_create(serializer)
+
+announcement_create_view = AnnouncementCreateAPIView.as_view()
+
+class AnnouncementDetailAPIView(generics.RetrieveAPIView):
+
+    queryset = Announcement.objects.all()
+    serializer_class = AnnouncementSerializer
+    lookup_field = 'pk'
+announcement_detail_view = AnnouncementDetailAPIView().as_view()
+
+
+class AnnouncementUpdateAPIView(generics.UpdateAPIView):
+
+    queryset = Announcement.objects.all()
+    serializer_class = AnnouncementSerializer
+    lookup_field = 'pk'
+
+announcement_update_view = AnnouncementUpdateAPIView.as_view()
+
+class AnnouncementDeleteAPIView(generics.DestroyAPIView):
+
+    queryset = Announcement.objects.all()
+    serializer_class = AnnouncementSerializer
+    lookup_field = 'pk'
+
+
+announcement_delete_view = AnnouncementDeleteAPIView.as_view()
+
 class SellerAPIView(generics.ListAPIView):
     authentication_classes = [authentication.TokenAuthentication]
     queryset = Waste.objects.all()

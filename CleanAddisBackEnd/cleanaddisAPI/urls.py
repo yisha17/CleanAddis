@@ -30,4 +30,8 @@ urlpatterns = [
     path('api/workschedule/<int:pk>', workschedule_detail_view),
     path('api/workschedule/<int:pk>/update', workschedule_update_view),
     path('api/workschedule/delete/<int:pk>', workschedule_delete_view),
+    path('api/announcement/', announcement_create_view),
+    path('api/announcement/<int:pk>', announcement_detail_view),
+    path('api/announcement/<int:pk>/update', announcement_update_view),
+    path('api/announcement/delete/<int:pk>', announcement_delete_view),
 ]
