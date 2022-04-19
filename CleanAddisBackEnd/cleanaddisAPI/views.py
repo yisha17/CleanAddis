@@ -13,7 +13,34 @@ from .models import *
 from .serializers import *
 
 
-# Create your views here.
+
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class =  UserSerializer
+
+class UserListView(generics.ListAPIView):
+
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetailView(generics.RetriveAPIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserDeleteView(generics.DestroyAPIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    queryset = User.objects.all()
+    serilaizer_class = UserSerializer
+
+
+class UserUpdateView(generics.DestroyAPIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    queryset = User.objects.all()
+    serilaizer_class = UserSerializer
+
 
 class UserView(APIView):
 
@@ -230,7 +257,5 @@ class WasteDeleteAPIView(generics.DestroyAPIView):
     serializer_class = WasteSerializer
 
     lookup_field = 'pk'
-
-
 
 waste_delete_view = WasteDeleteAPIView.as_view()
