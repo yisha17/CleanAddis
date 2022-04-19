@@ -13,7 +13,34 @@ from .models import *
 from .serializers import *
 
 
-# Create your views here.
+
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class =  UserSerializer
+
+class UserListView(generics.ListAPIView):
+
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetailView(generics.RetriveAPIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserDeleteView(generics.DestroyAPIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    queryset = User.objects.all()
+    serilaizer_class = UserSerializer
+
+
+class UserUpdateView(generics.DestroyAPIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    queryset = User.objects.all()
+    serilaizer_class = UserSerializer
+
 
 class UserView(APIView):
 
@@ -187,29 +214,6 @@ class SellerAPIView(generics.ListAPIView):
 seller_list_view = SellerAPIView.as_view()
 
 
-class WasteCreateAPIView(generics.CreateAPIView):
-
-    queryset = Waste.objects.all()
-
-    serializer_class = WasteSerializer
-
-    def perform_create(self, serializer):
-        return super().perform_create(serializer)
-
-
-waste_create_view = WasteCreateAPIView.as_view()
-
-class WasteDetailAPIView(generics.RetrieveAPIView):
-
-    queryset = Waste.objects.all()
-    serializer_class = WasteSerializer
-    lookup_field = 'pk'
-
-waste_detail_view = WasteDetailAPIView().as_view()
-
-
-
-
 
 class SellerAPIView(generics.ListAPIView):
     
@@ -280,7 +284,5 @@ class WasteDeleteAPIView(generics.DestroyAPIView):
     serializer_class = WasteSerializer
 
     lookup_field = 'pk'
-
-
 
 waste_delete_view = WasteDeleteAPIView.as_view()
