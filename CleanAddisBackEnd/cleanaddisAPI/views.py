@@ -1,34 +1,53 @@
 from cgitb import lookup
 from hashlib import new
+from telnetlib import STATUS
 from django.shortcuts import render
 from rest_framework.views import APIView
-
-
-from rest_framework import generics,permissions ,authentication
-
-from rest_framework import mixins
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import generics, permissions, authentication
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from .models import *
 from .serializers import *
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import api_view, permission_classes
 
 
 
 
-class RegisterView(generics.CreateAPIView):
+
+class RegisterView(generics.GenericAPIView):
+    permission_classes = [AllowAny]
     queryset = User.objects.all()
-    serializer_class =  UserSerializer
+    serializer_class = RegisterSerializer
+
+    def post(self, request, *args,  **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            if user:
+                json = serializer.data
+                return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+user_signup_view = RegisterView.as_view()
+
+
 
 class UserListView(generics.ListAPIView):
-
+    
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
 
-class UserDetailView(generics.RetriveAPIView):
+class UserDetailView(generics.RetrieveAPIView):
     authentication_classes = [authentication.TokenAuthentication]
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
 
 class UserDeleteView(generics.DestroyAPIView):
     authentication_classes = [authentication.TokenAuthentication]
@@ -45,7 +64,7 @@ class UserUpdateView(generics.DestroyAPIView):
 class UserView(APIView):
 
     def get(self, request):
- 
+
         users = User.objects.all()
 
         serializer = UserSerializer(users, many=True)
@@ -53,13 +72,14 @@ class UserView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-
+        print("here it is")
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             question = serializer.save()
             serializer = UserSerializer(question)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class UserDetail(APIView):
@@ -150,8 +170,6 @@ class CompanyAPIView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
 class ReportView(APIView):
 
     def get(self, request):
@@ -187,9 +205,8 @@ class SellerAPIView(generics.ListAPIView):
 seller_list_view = SellerAPIView.as_view()
 
 
-
 class SellerAPIView(generics.ListAPIView):
-    
+
     authentication_classes = [authentication.TokenAuthentication]
     queryset = Waste.objects.all()
     serializer_class = SellerSerializer
@@ -216,11 +233,13 @@ class WasteCreateAPIView(generics.CreateAPIView):
 
 waste_create_view = WasteCreateAPIView.as_view()
 
+
 class WasteDetailAPIView(generics.RetrieveAPIView):
 
     queryset = Waste.objects.all()
     serializer_class = WasteSerializer
     lookup_field = 'pk'
+
 
 waste_detail_view = WasteDetailAPIView().as_view()
 
@@ -230,11 +249,11 @@ class BuyerAPIView(generics.ListAPIView):
     serializer_class = SellerSerializer
     lookup_field = 'buyer'
 
-
     def get_queryset(self):
 
         return super().get_queryset().filter(
-            seller = self.kwargs['buyer'])
+            seller=self.kwargs['buyer'])
+
 
 buyer_list_view = BuyerAPIView.as_view()
 
@@ -247,6 +266,7 @@ class WasteUpdateAPIView(generics.UpdateAPIView):
 
     lookup_field = 'pk'
 
+
 waste_update_view = WasteUpdateAPIView.as_view()
 
 
@@ -257,5 +277,6 @@ class WasteDeleteAPIView(generics.DestroyAPIView):
     serializer_class = WasteSerializer
 
     lookup_field = 'pk'
+
 
 waste_delete_view = WasteDeleteAPIView.as_view()

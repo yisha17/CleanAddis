@@ -40,7 +40,8 @@ class IncorrectEmailFormat extends UserState{
 }
 
 class NetworkError extends UserState{
-  NetworkError() : super(status: UserStatus.unauthenticated);
+  final String error;
+  NetworkError(this.error) : super(status: UserStatus.unauthenticated);
 }
   
 class FieldEmptyError extends UserState{

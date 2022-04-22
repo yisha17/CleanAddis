@@ -1,20 +1,15 @@
 import requests
 
-endpoint = 'http://localhost:8000/api/waste/'
+endpoint = 'http://localhost:8000/api/users/'
 
 
 data = {
-    "waste_name": "plastic bottle",
-    "buyer": 7,
-    "seller":5,
-    "waste_type": "Plastic",
-    "for_waste": 'Sell',
-    "quantity": 1244,
-    "metric": 'KG',
-    "price_per_unit": 31
-    
+    "username" : "dibaba",
+    "email":"abe@gmail.com",
+    "password":"dibaba"
 }
 
 get_response = requests.post(endpoint,json=data)
 
 print(get_response.json())
+print(get_response.headers)
