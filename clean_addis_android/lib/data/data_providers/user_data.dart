@@ -26,4 +26,23 @@ class UserDataProvider {
       throw Exception('error');
     }
   }
+
+  Future<User> login(User user) async {
+    final response = await http.post(Uri.http(base_url, user_login_path),
+        headers: <String, String>{
+          "Content-Type": "application/json;charset=UTF-8",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: jsonEncode({
+          'username': user.username,
+          'password': user.password,
+        }));
+    if (response.statusCode == 200) {
+      return User.fromJSON(jsonDecode(response.body));
+    } else if (response.statusCode == 415) {
+      throw Exception('Unsuported media type');
+    } else {
+      throw Exception('error');
+    }
+  }
 }

@@ -198,6 +198,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.6.3"
+  jwt_decode:
+    dependency: "direct main"
+    description:
+      name: jwt_decode
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.3.1"
   latlong2:
     dependency: transitive
     description:
