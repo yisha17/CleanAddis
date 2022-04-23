@@ -16,7 +16,7 @@ const ContactFormOne = () => {
               <p className="block-text mb-30 pr-10">
                 Get in touch with us,Team CleanAddis will instantly reply your message
                 .{" "}
-                </p>
+              </p>
               <div className="footer-social black-hover">
                 <a href="#" aria-label="twitter">
                   <i className="fab fa-twitter"></i>
@@ -68,8 +68,6 @@ const ContactFormOne = () => {
                     id="phone"
                     placeholder="Phone Number"
                   />
-                </div>
-                />
                 </div>
                 <div className="form-control">
                   <label htmlFor="subject" className="sr-only">

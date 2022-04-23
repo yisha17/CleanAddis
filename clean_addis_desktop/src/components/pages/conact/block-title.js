@@ -1,5 +1,5 @@
 import React from "react";
-import heart from "../assets/images/shapes/heart-2-1.png";
+import heart from "../assets/public/images/CleanAddis.jpg";
 
 const BlockTitle = ({ tagLine, title }) => {
   return (
@@ -11,5 +11,6 @@ const BlockTitle = ({ tagLine, title }) => {
       <h3>{title}</h3>
     </div>
   );
+};
 
 export default BlockTitle;
