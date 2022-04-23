@@ -10,7 +10,7 @@ const cleanaddis = () => {
         </h1>
         <Link className='py-6  px-10 bg-green-600 rounded-full 
         text-2xl hover:bg-green-500 transition duration-300 ease-in-out flex items-center 
-        ' to="/">Our Services</Link>
+        ' to="/Services">Our Services</Link>
 
     </div>
   )
