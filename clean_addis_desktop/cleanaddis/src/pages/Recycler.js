@@ -1,13 +1,13 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 
-const Login = () => {
-  return ( 
+const Recycler = () => {
+  return (
     <>
     <Navbar />
-    <div>this is it</div>
+    <div>this is Recycler</div>
   </>
   )
 }
 
-export default Login
+export default Recycler

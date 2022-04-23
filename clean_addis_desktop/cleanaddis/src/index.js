@@ -3,8 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import Login from './pages/Login';
+import Services from './pages/Services';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter,Routes,Route} from 'react-router-dom';
+import Recycler from './pages/Recycler';
+import Companies from './pages/Companies';
 
 
 ReactDOM.render(
@@ -13,7 +16,9 @@ ReactDOM.render(
         <Routes>
           <Route path="/" element = {<App />}/>
           <Route path="Login" element = {<Login />}/>
-        
+          <Route path="Services" element = {<Services />}/>
+          <Route path="Companies" element = {<Companies/>}/>
+          <Route path="Recycler" element = {<Recycler />}/>
         </Routes>
       </BrowserRouter>
   </React.StrictMode>,
