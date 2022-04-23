@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from  'react-router-dom';
 import Login from '../pages/Login';
+import Companies from '../pages/Companies';
+import Recycler from '../pages/Recycler';
 
 
 const Navbar = () => {
