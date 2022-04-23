@@ -8,9 +8,9 @@ const cleanaddis = () => {
         text-3xl font-black text-green-700 mb-14">
                 CleanAddis 
         </h1>
-        <Link className='py-6  px-10 bg-green-600 rounded-full 
-        text-2xl hover:bg-green-500 transition duration-300 ease-in-out flex items-center 
-        ' to="/Services">Our Services</Link>
+        <Link className='py-6  px-10 bg-green-600 rounded-full text-white font-medium
+        text-2xl hover:bg-green-500 transition duration-300 ease-in-out flex items-center animate-bounce
+        ' to="/Login">Join us!</Link>
 
     </div>
   )

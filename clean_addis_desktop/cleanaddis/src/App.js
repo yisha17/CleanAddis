@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import { Routes } from 'react-router-dom';
 import {BrowserRouter, Route} from 'react-router-dom';
 import Hero from './components/Hero';
+import Footer from './components/Footer';
 function App() {
   
   return (
@@ -15,7 +16,7 @@ function App() {
       <Navbar />
       <Cleanaddis />
       <Hero />
-
+      <Footer />
     </>
   );
 }
