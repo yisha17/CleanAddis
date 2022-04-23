@@ -38,9 +38,11 @@ class UserDataProvider {
           'password': user.password,
         }));
     if (response.statusCode == 200) {
+      print(response.body);
       return User.fromJSON(jsonDecode(response.body));
-    } else if (response.statusCode == 415) {
-      throw Exception('Unsuported media type');
+    } else if (response.statusCode == 401) {
+      print("exception throwed");
+      throw Exception('Incorrect username or password');
     } else {
       throw Exception('error');
     }

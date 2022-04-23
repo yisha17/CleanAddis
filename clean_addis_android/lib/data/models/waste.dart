@@ -11,7 +11,7 @@ class Waste{
   final int ?weight;
   final Image ?image;
   final String ?loaction;
-   final bool ?sold;
+  final bool ?sold;
   final bool ?bought;
   final bool ?donated;
   final String ?description;

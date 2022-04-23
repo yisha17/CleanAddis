@@ -14,4 +14,9 @@ class UserRepository{
   print(user.password);
   return this.dataProvider.signup(user);
   }
+
+
+  Future<User> login(User? user){
+    return this.dataProvider.login(user!);
+  }
 }

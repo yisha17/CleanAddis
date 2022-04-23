@@ -26,7 +26,7 @@ Widget cleanAddislogo() {
 }
 
 
-Widget buildUsername() => TextField(
+Widget buildUsername() => TextFormField(
       keyboardType: TextInputType.name,
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(

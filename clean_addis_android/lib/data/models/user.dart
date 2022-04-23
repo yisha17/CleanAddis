@@ -13,7 +13,8 @@ class User {
   final String? phone;
   final Address? address;
   final List<Waste?>? waste;
-  final String? token;
+  final String? access_token;
+  final String? refresh_token;
   //device id
 
   User({
@@ -26,7 +27,8 @@ class User {
     this.phone,
     this.address,
     this.waste,
-    this.token
+    this.access_token,
+    this.refresh_token,
   });
 
 
@@ -39,7 +41,8 @@ class User {
       role : jsonMap['role'],
       profile: jsonMap['profile'],
       phone: jsonMap['phone'],
-      token: jsonMap['token'],
+      access_token: jsonMap['access'],
+      refresh_token: jsonMap['refresh'],
       address: jsonMap['address'],
       waste: jsonMap['waste']
     );

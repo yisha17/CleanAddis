@@ -1,4 +1,5 @@
-import 'package:clean_addis_android/bloc/auth_bloc.dart';
+import 'package:clean_addis_android/bloc/Authentication/login_bloc.dart';
+import 'package:clean_addis_android/bloc/Signup/auth_bloc.dart';
 import 'package:clean_addis_android/data/data_providers/user_data.dart';
 import 'package:clean_addis_android/presentation/AddWaste.dart';
 import 'package:clean_addis_android/presentation/BottomNavigationBar.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<SignupBloc>(create: (BuildContext context) => SignupBloc(UserRepository(dataProvider: UserDataProvider()))),
+        BlocProvider<LoginBloc>(create: (BuildContext context) => LoginBloc(UserRepository(dataProvider:UserDataProvider()),))
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
           
           primarySwatch: Colors.blue,
         ),
-        home: WasteDetailPage(),
+        home: LoginPage(),
       ),
     );
   }
