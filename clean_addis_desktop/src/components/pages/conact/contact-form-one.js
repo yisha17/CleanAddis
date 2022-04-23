@@ -16,3 +16,56 @@ const ContactFormOne = () => {
               <p className="block-text mb-30 pr-10">
                 Get in touch with us,Team CleanAddis will instantly reply your message
                 .{" "}
+                </p>
+              <div className="footer-social black-hover">
+                <a href="#" aria-label="twitter">
+                  <i className="fab fa-twitter"></i>
+                </a>
+                <a href="#" aria-label="facebook">
+                  <i className="fab fa-facebook-square"></i>
+                </a>
+                <a href="#" aria-label="pinterest">
+                  <i className="fab fa-pinterest-p"></i>
+                </a>
+                <a href="#" aria-label="instagram">
+                  <i className="fab fa-instagram"></i>
+                </a>
+              </div>
+            </div>
+          </Col>
+          <Col lg={7}>
+            <form className="contact-form-validated contact-page__form form-one mb-40">
+              <div className="form-group">
+                <div className="form-control">
+                  <label htmlFor="name" className="sr-only">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder="Your Name"
+                  />
+                </div>
+                <div className="form-control">
+                  <label htmlFor="email" className="sr-only">
+                    email
+                  </label>
+                  <input
+                    type="text"
+                    name="email"
+                    id="email"
+                    placeholder="Email Address"
+                  />
+                </div>
+                <div className="form-control">
+                  <label htmlFor="phone" className="sr-only">
+                    phone
+                  </label>
+                  <input
+                    type="text"
+                    name="phone"
+                    id="phone"
+                    placeholder="Phone Number"
+                  />
+                </div>
