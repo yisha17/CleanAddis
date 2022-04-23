@@ -69,3 +69,42 @@ const ContactFormOne = () => {
                     placeholder="Phone Number"
                   />
                 </div>
+                />
+                </div>
+                <div className="form-control">
+                  <label htmlFor="subject" className="sr-only">
+                    subject
+                  </label>
+                  <input
+                    type="text"
+                    name="subject"
+                    id="subject"
+                    placeholder="Subject"
+                  />
+                </div>
+                <div className="form-control form-control-full">
+                  <label htmlFor="message" className="sr-only">
+                    message
+                  </label>
+                  <textarea
+                    name="message"
+                    placeholder="Write a Message"
+                    id="message"
+                  ></textarea>
+                </div>
+                <div className="form-control form-control-full">
+                  <button type="submit" className="thm-btn ">
+                    Submit Message
+                  </button>
+                </div>
+              </div>
+            </form>
+            <div className="result"></div>
+          </Col>
+        </Row>
+      </Container>
+    </section>
+  );
+};
+
+export default ContactFormOne;
