@@ -37,7 +37,9 @@ const ContactCardCarousel = () => {
               <i aria-label="contact icon" className="azino-icon-family"></i>
               <h3>About</h3>
               <p>
-                Our main goal is, <br />  to make our city clean and beautiful.
+              “Environmental cleanliness begins with individual desire to be clean.”
+              Our main goal is, <br />  to make our city clean and beautiful.
+
                  <br /> 
               </p>
             </div>
