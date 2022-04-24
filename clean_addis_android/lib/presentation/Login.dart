@@ -18,6 +18,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final loginBloc = LoginBloc(UserRepository(dataProvider: UserDataProvider()));
   var _formKey = GlobalKey<FormState>();
+  var _scaffoldKey = GlobalKey<ScaffoldState>();
   final textControllerEmail = TextEditingController(),
       textControllerPassword = TextEditingController(),
       textControllerName = TextEditingController(),
@@ -60,11 +61,18 @@ class _LoginPageState extends State<LoginPage> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Loading..."),
-            content: CircularProgressIndicator(
-              strokeWidth: 6,
-            ),
-          );
+              title: Center(child: Text('checking..')),
+              content: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: CircularProgressIndicator(),
+                  ),
+                ],
+              ));
         });
   }
 
@@ -124,7 +132,6 @@ class _LoginPageState extends State<LoginPage> {
     return BlocListener(
       bloc: loginBloc,
       listener: (context, LoginState state) {
-      
         if (state.user != null && state is AuthenticatedState) {
           print("user is not null");
           Navigator.of(context, rootNavigator: true).pop();
@@ -132,22 +139,36 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (context) => HomePage()));
         } else if (state is UserLoadingState) {
-          
           print("loading true");
           WidgetsBinding.instance!
               .addPostFrameCallback((_) => loadingDialog(context));
-              
         } else if (state is AuthenticationFailureState) {
-          print(true);
-          Navigator.of(context, rootNavigator: true).pop();
-          WidgetsBinding.instance!.addPostFrameCallback(
-              (_) => messageDialog(context, "Upps... " + state.e));
+          // print("trhhertherh");
+          // Navigator.of(context, rootNavigator: true).pop();
+          // WidgetsBinding.instance!.addPostFrameCallback(
+          //     (_) => messageDialog(context, "Upps... " + state.e));
+          print(state.e);
+          if (state.e == 'Exception: Incorrect username or password') {
+            String message = 'Username in use. Please change username';
+            ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+              SnackBar(
+                content: Text(message,style: TextStyle(color: Colors.white),),
+                duration: Duration(seconds: 4),
+                backgroundColor:Colors.red,
+              ),
+            );
+          } else if (state.e == 'XMLHttpRequest error.') {
+            String message = 'No Connection';
+            ScaffoldMessenger.of(_scaffoldKey.currentContext!)
+                .showSnackBar(SnackBar(content: Text(message)));
+          }
         }
       },
       child: Scaffold(
         backgroundColor: Color(0xffe9fff3),
         body: SingleChildScrollView(
           child: Form(
+            key: _formKey,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: Column(
@@ -168,27 +189,29 @@ class _LoginPageState extends State<LoginPage> {
                     height: MediaQuery.of(context).size.height * 0.07,
                   ),
                   ElevatedButton(
-                      onPressed: () {
-                        // final isValidForm = _formKey.currentState!.validate();
-                        // print(isValidForm);
-                        // if (isValidForm) {
-                          loginBloc.onLogin(
-                            textControllerName.text,
-                            textControllerPassword.text,
-                          );
-                      
-                      },
-                      child: Text(
-                        'Login',
-                        style: GoogleFonts.montserrat(
-                          textStyle: TextStyle(color: Colors.white),
-                          fontWeight: FontWeight.w700,
-                          fontSize: 26,
-                        ),
+                    onPressed: () {
+                      final isValidForm = _formKey.currentState!.validate();
+                      print(isValidForm);
+                      if (isValidForm) {
+                        loginBloc.onLogin(
+                          textControllerName.text,
+                          textControllerPassword.text,
+                        );
+                      }
+                    },
+                    child: Text(
+                      'Login',
+                      style: GoogleFonts.montserrat(
+                        textStyle: TextStyle(color: Colors.white),
+                        fontWeight: FontWeight.w700,
+                        fontSize: 26,
                       ),
-                      style: ElevatedButton.styleFrom(
-                          minimumSize: Size.fromHeight(50),
-                          primary: Color(0xff68EA26))),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size.fromHeight(50),
+                      primary: Color(0xff68EA26),
+                    ),
+                  ),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Text(
                       'Don\'t Have an Account ?',

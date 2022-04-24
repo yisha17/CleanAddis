@@ -28,7 +28,7 @@ Widget cleanAddislogo() {
 
 
 Color lightgreen = Color(0xffe9fff3);
-
+Color logogreen = Color(0xff68EA26);
 
 
 

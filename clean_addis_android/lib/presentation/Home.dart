@@ -13,39 +13,68 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: lightgreen,
+        elevation: 1,
+        leading: Icon(Icons.home,color:Colors.black),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.help,
+              color: Colors.blue,
+            ),
+            onPressed: () => {print("yishak")},
+          ),
+          IconButton(
+            padding: EdgeInsets.all(0),
+            icon: Icon(
+              Icons.settings,
+              color: logogreen,
+            ),
+            onPressed: () => {print("yishak")},
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.logout_rounded,
+              color: Colors.red,
+            ),
+            onPressed: () => {print("yishak")},
+          ),
+        ],
+      ),
       backgroundColor: lightgreen,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  padding: EdgeInsets.all(0),
-                  icon: Icon(
-                    Icons.account_circle,
-                    color: Colors.black,
-                  ),
-                  onPressed: () => {print("yishak")},
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.help,
-                    color: Colors.black,
-                  ),
-                  onPressed: () => {print("yishak")},
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.logout_rounded,
-                    color: Colors.black,
-                  ),
-                  onPressed: () => {print("yishak")},
-                ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.end,
+            //   children: [
+            //     IconButton(
+            //       padding: EdgeInsets.all(0),
+            //       icon: Icon(
+            //         Icons.account_circle,
+            //         color: Colors.black,
+            //       ),
+            //       onPressed: () => {print("yishak")},
+            //     ),
+            //     IconButton(
+            //       icon: Icon(
+            //         Icons.help,
+            //         color: Colors.black,
+            //       ),
+            //       onPressed: () => {print("yishak")},
+            //     ),
+            //     IconButton(
+            //       icon: Icon(
+            //         Icons.logout_rounded,
+            //         color: Colors.black,
+            //       ),
+            //       onPressed: () => {print("yishak")},
+            //     ),
+            //   ],
+            // ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.03,
             ),
@@ -112,10 +141,14 @@ class HomePageState extends State<HomePage> {
                 scrollDirection: Axis.horizontal,
                 children: [
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal:10),
+                    margin: EdgeInsets.symmetric(horizontal: 10),
                     color: Colors.red,
                     width: MediaQuery.of(context).size.width * 0.25,
-                    child: Image(image:NetworkImage('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),fit: BoxFit.fill,),
+                    child: Image(
+                      image: NetworkImage(
+                          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+                      fit: BoxFit.fill,
+                    ),
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 10),
@@ -160,10 +193,10 @@ class HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-             SizedBox(
+            SizedBox(
               height: MediaQuery.of(context).size.height * 0.01,
             ),
-             SizedBox(
+            SizedBox(
               height: MediaQuery.of(context).size.height * 0.14,
               child: ListView(
                 scrollDirection: Axis.horizontal,
@@ -247,7 +280,6 @@ class HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            
           ],
         ),
       ),

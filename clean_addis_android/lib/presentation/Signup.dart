@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:clean_addis_android/bloc/Signup/auth_bloc.dart';
 import 'package:clean_addis_android/bloc/Signup/auth_state.dart';
 import 'package:clean_addis_android/data/data_providers/user_data.dart';
@@ -9,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'Login.dart';
+
 class SignupPage extends StatefulWidget {
   @override
   _SignupPageState createState() => _SignupPageState();
@@ -18,6 +22,7 @@ class _SignupPageState extends State<SignupPage> {
   FocusNode myFocusNode = new FocusNode();
   final signBloc = SignupBloc(UserRepository(dataProvider: UserDataProvider()));
   var _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   final textControllerEmail = TextEditingController(),
       textControllerPassword = TextEditingController(),
       textControllerName = TextEditingController(),
@@ -41,35 +46,95 @@ class _SignupPageState extends State<SignupPage> {
     });
   }
 
-  
-
   void loadingDialog(BuildContext context) {
     showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Loading..."),
-            content: CircularProgressIndicator(
-              strokeWidth: 6,
-            ),
-          );
+              title: Center(child: Text('Loading..')),
+              content: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: CircularProgressIndicator(),
+                  ),
+                ],
+              ));
         });
   }
 
-  void messageDialog(BuildContext context, String message) {
+  void messageDialog(
+    BuildContext context,
+  ) {
     showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(message),
+            title: Container(
+              color: logogreen,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Icon(
+                    Icons.verified_user_sharp,
+                    size: 55,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'Successful',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
+            ),
+            titlePadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+            content: Container(
+              height: 120,
+              child: Column(children: [
+                Text(
+                  'Your account has been successfully created. Please Login using your account',
+                  style: TextStyle(fontSize: 20),
+                )
+              ]),
+            ),
+            contentPadding: EdgeInsets.fromLTRB(15, 10, 15, 0),
             actions: [
-              ElevatedButton(
-                child: Text("Ok"),
-                onPressed: () {
-                  Navigator.of(context, rootNavigator: true).pop();
-                },
+              Center(
+                child: ElevatedButton(
+                  child: Text(
+                    "Continue",
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0)),
+                    minimumSize: Size(100, 50),
+                    primary: Color(0xff68EA26),
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => LoginPage()));
+                    // Navigator.of(context, rootNavigator: true).pop();
+                  },
+                ),
               ),
             ],
           );
@@ -150,8 +215,7 @@ class _SignupPageState extends State<SignupPage> {
             validator: (password) {
               if (password != null && password.length < 7) {
                 return 'Password must be 7 charactesrs long';
-              }
-               else {
+              } else {
                 return null;
               }
             },
@@ -213,19 +277,43 @@ class _SignupPageState extends State<SignupPage> {
         if (state.user != null && state is UserLoadedState) {
           Navigator.of(context, rootNavigator: true).pop();
 
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => HomePage()));
+          // Navigator.of(context)
+          //     .push(MaterialPageRoute(builder: (context) => HomePage()));
+
+          WidgetsBinding.instance!.addPostFrameCallback((_) => messageDialog(
+                context,
+              ));
         } else if (state is UserLoadingState) {
           //show loading
           WidgetsBinding.instance!
               .addPostFrameCallback((_) => loadingDialog(context));
         } else if (state is NetworkError) {
           Navigator.of(context, rootNavigator: true).pop();
-          WidgetsBinding.instance!.addPostFrameCallback(
-              (_) => messageDialog(context, "Upps... " + state.error));
+          // WidgetsBinding.instance!.addPostFrameCallback(
+          //     (_) => snackbar(context, "Upps... " + state.error));
+          // var snackBar = SnackBar(content: Text(state.error));
+          print(state.error);
+          if (state.error == 'XMLHttpRequest error.') {
+            String message = 'No Connection';
+            ScaffoldMessenger.of(_scaffoldKey.currentContext!)
+                .showSnackBar(SnackBar(content: Text(message)));
+          } else if (state.error == 'Exception: Bad Request.') {
+            String message = 'Username in use. Please change username';
+            ScaffoldMessenger.of(_scaffoldKey.currentContext!)
+                .showSnackBar(SnackBar(content: Text(message)));
+          } else {
+            ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+              SnackBar(
+                content: Text('error happend. please try again'),
+                duration: Duration(seconds: 4),
+                
+              ),
+            );
+          }
         }
       },
       child: Scaffold(
+        key: _scaffoldKey,
         backgroundColor: lightgreen,
         body: SingleChildScrollView(
           child: Form(
@@ -267,10 +355,6 @@ class _SignupPageState extends State<SignupPage> {
                             textControllerEmail.text,
                             textControllerPassword.text,
                           );
-                          // Navigator.of(context).pushAndRemoveUntil(
-                          //     MaterialPageRoute(
-                          //         builder: (context) => HomePage()),
-                          //     (route) => false);
                         }
                       },
                       child: Text(
@@ -290,7 +374,10 @@ class _SignupPageState extends State<SignupPage> {
                       style: TextStyle(color: Colors.grey, fontSize: 15),
                     ),
                     TextButton(
-                        onPressed: () => print('button'),
+                        onPressed: () {
+                           Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => LoginPage()));
+                        },
                         child: Text('Login',
                             style: TextStyle(
                               color: Colors.blue,

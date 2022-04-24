@@ -4,7 +4,7 @@ endpoint = 'http://localhost:8000/api/users/'
 
 
 data = {
-    "username" : "dibaba",
+    "username" : "colombia",
     "email":"abe@gmail.com",
     "password":"dibaba"
 }

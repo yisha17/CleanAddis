@@ -20,8 +20,8 @@ class UserDataProvider {
     print(response.statusCode);
     if (response.statusCode == 201) {
       return User.fromJSON(jsonDecode(response.body));
-    } else if (response.statusCode == 415) {
-      throw Exception('Unsuported media type');
+    } else if (response.statusCode == 400) {
+      throw Exception('Bad Request.');
     } else {
       throw Exception('error');
     }

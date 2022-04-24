@@ -1,6 +1,9 @@
 import 'package:clean_addis_android/bloc/Authentication/login_bloc.dart';
 import 'package:clean_addis_android/bloc/Signup/auth_bloc.dart';
+import 'package:clean_addis_android/bloc/Waste/user_waste_bloc.dart';
 import 'package:clean_addis_android/data/data_providers/user_data.dart';
+import 'package:clean_addis_android/data/data_providers/waste_data.dart';
+import 'package:clean_addis_android/data/repositories/waste_repository.dart';
 import 'package:clean_addis_android/presentation/AddWaste.dart';
 import 'package:clean_addis_android/presentation/BottomNavigationBar.dart';
 import 'package:clean_addis_android/presentation/Home.dart';
@@ -11,11 +14,11 @@ import 'package:clean_addis_android/presentation/YourItem.dart';
 import 'package:clean_addis_android/presentation/WasteDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:get_storage/get_storage.dart';
+
 import 'data/repositories/user_repository.dart';
 
 void main() async {
-  // await GetStorage.init();
+
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
@@ -33,14 +36,16 @@ class MyApp extends StatelessWidget {
         BlocProvider<LoginBloc>(
             create: (BuildContext context) => LoginBloc(
                   UserRepository(dataProvider: UserDataProvider()),
-                ))
+                )),
+        BlocProvider(create: (BuildContext context) => UserWasteBloc(WasteRepository(dataProvider: WasteDataProvider())))
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: LoginPage(),
+        home: HomePage(),
       ),
     );
   }

@@ -12,8 +12,6 @@ class UserState extends Equatable {
   final User? user;
  
 
-  
-
   UserState({
 
     this.user,

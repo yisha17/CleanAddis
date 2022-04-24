@@ -39,7 +39,8 @@ class LoginBloc extends Bloc<LoginEvent,LoginState>{
         yield AuthenticatedState(user: data);
 
       } catch (e){
-        AuthenticationFailureState(e.toString());
+        
+        yield AuthenticationFailureState(e.toString());
         
       }
     }
