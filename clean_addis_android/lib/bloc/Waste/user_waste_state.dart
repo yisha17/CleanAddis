@@ -11,7 +11,7 @@ class WasteLoading extends UserWasteState{
 
 class WasteLoaded extends UserWasteState{
   final List<Waste> waste;
-  WasteLoaded({required this.waste});
+  WasteLoaded([this.waste = const []]);
   @override
   List<Object?> get props => [this.waste];
 }

@@ -5,6 +5,8 @@ import 'package:clean_addis_android/bloc/Authentication/login_event.dart';
 import 'package:clean_addis_android/bloc/Authentication/login_state.dart';
 import 'package:clean_addis_android/data/models/user.dart';
 import 'package:clean_addis_android/data/repositories/user_repository.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 
 class LoginBloc extends Bloc<LoginEvent,LoginState>{
   UserRepository userRepository;
@@ -30,12 +32,15 @@ class LoginBloc extends Bloc<LoginEvent,LoginState>{
         final data = await userRepository.login(user);
         print(data.access_token);
         print(data.refresh_token);
-
+       final _storage = const FlutterSecureStorage();
+        Map<String, dynamic> payload = Jwt.parseJwt(data.access_token!);
+        await _storage.write(key: 'id', value: payload['user_id'].toString());
+      
         yield AuthenticatedState(user: data);
-        
+
       } catch (e){
         AuthenticationFailureState(e.toString());
-        print("caught");
+        
       }
     }
   }

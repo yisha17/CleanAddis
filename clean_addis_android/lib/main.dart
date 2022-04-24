@@ -11,27 +11,33 @@ import 'package:clean_addis_android/presentation/YourItem.dart';
 import 'package:clean_addis_android/presentation/WasteDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+// import 'package:get_storage/get_storage.dart';
 import 'data/repositories/user_repository.dart';
 
-void main() {
+void main() async {
+  // await GetStorage.init();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
-  
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<SignupBloc>(create: (BuildContext context) => SignupBloc(UserRepository(dataProvider: UserDataProvider()))),
-        BlocProvider<LoginBloc>(create: (BuildContext context) => LoginBloc(UserRepository(dataProvider:UserDataProvider()),))
+        BlocProvider<SignupBloc>(
+            create: (BuildContext context) =>
+                SignupBloc(UserRepository(dataProvider: UserDataProvider()))),
+        BlocProvider<LoginBloc>(
+            create: (BuildContext context) => LoginBloc(
+                  UserRepository(dataProvider: UserDataProvider()),
+                ))
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          
           primarySwatch: Colors.blue,
         ),
         home: LoginPage(),
@@ -39,4 +45,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

@@ -1,4 +1,4 @@
-import 'package:clean_addis_android/presentation/utils.dart';
+import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
