@@ -37,7 +37,8 @@ class MyApp extends StatelessWidget {
             create: (BuildContext context) => LoginBloc(
                   UserRepository(dataProvider: UserDataProvider()),
                 )),
-        BlocProvider(create: (BuildContext context) => UserWasteBloc(WasteRepository(dataProvider: WasteDataProvider())))
+        BlocProvider<UserWasteBloc>(
+          create: (context) => UserWasteBloc(WasteRepository(dataProvider: WasteDataProvider())),)
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: HomePage(),
+        home: LoginPage(),
       ),
     );
   }

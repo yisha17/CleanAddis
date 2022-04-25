@@ -10,9 +10,15 @@ import 'package:http/http.dart' as http;
 
 class WasteDataProvider{
 
-  Future<List<Waste>?> fetchUserWaste(String user_id) async{
-    final response = await http.get(Uri.http(base_url,'$user_waste_path/$user_id'));
-
+  Future<List<Waste>?> fetchUserWaste(String user_id, String token) async{
+    final response = await http.get(Uri.http(base_url,'$user_waste_path$user_id'),
+    headers:{
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'JWT $token',
+    } );
+    print(token);
+    print(response);
     if (response.statusCode == 200){
       final waste = jsonDecode(response.body) as List;
       try {

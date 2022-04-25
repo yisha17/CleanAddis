@@ -7,8 +7,8 @@ class WasteRepository{
 
   WasteRepository({required this.dataProvider});
 
-  Future<List<Waste>?> fetchUserWaste(String id){
-    return this.dataProvider.fetchUserWaste(id);
+  Future<List<Waste>?> fetchUserWaste(String id,String token){
+    return this.dataProvider.fetchUserWaste(id,token);
   }
 
 }

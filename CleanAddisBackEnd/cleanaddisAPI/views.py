@@ -191,7 +191,8 @@ class ReportView(APIView):
 
 
 class SellerAPIView(generics.ListAPIView):
-    authentication_classes = [authentication.TokenAuthentication]
+    
+    permission_classes = (permissions.IsAuthenticated,)
     queryset = Waste.objects.all()
     serializer_class = SellerSerializer
     lookup_field = 'seller'
@@ -204,21 +205,6 @@ class SellerAPIView(generics.ListAPIView):
 
 seller_list_view = SellerAPIView.as_view()
 
-
-class SellerAPIView(generics.ListAPIView):
-
-    authentication_classes = [authentication.TokenAuthentication]
-    queryset = Waste.objects.all()
-    serializer_class = SellerSerializer
-    lookup_field = 'seller'
-
-    def get_queryset(self):
-
-        return super().get_queryset().filter(
-            seller=self.kwargs['seller'])
-
-
-seller_list_view = SellerAPIView.as_view()
 
 
 class WasteCreateAPIView(generics.CreateAPIView):

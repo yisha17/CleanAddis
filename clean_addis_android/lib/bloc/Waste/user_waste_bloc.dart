@@ -8,25 +8,45 @@ import 'package:meta/meta.dart';
 part 'user_waste_event.dart';
 part 'user_waste_state.dart';
 
-
-
 class UserWasteBloc extends Bloc<UserWasteEvent, UserWasteState> {
   WasteRepository _wasteRepository;
-  
-  
-  UserWasteBloc(this._wasteRepository) : super(WasteLoading()) {
-    on<HomePageOpenedEvent>((event, emit) async {
-      emit(WasteLoading()) ;
 
-      try{
+  UserWasteBloc(this._wasteRepository) : super(WasteLoadingState());
+
+  //  { on<HomePageOpenedEvent>((event, emit) async {
+
+  //     try{
+  //       final _storage = const FlutterSecureStorage();
+  //       String? user_id = await _storage.read(key: 'id');
+  //       String? token = await _storage.read(key: 'token');
+  //       final waste = await _wasteRepository.fetchUserWaste(user_id!,token!);
+  //       print(waste);
+  //       emit(WasteLoaded(waste!));
+  //       print("waste loaded");
+  //     }catch(e){
+  //       emit(GetErrorState(error: e.toString()));
+  //     }
+  //   });
+  // }
+
+  Stream<UserWasteState> mapEventToState(
+    UserWasteEvent event,
+  ) async* {
+    if (event is HomePageOpenedEvent){
+       try {
+        yield WasteLoadingState();
         final _storage = const FlutterSecureStorage();
         String? user_id = await _storage.read(key: 'id');
-        final waste = await _wasteRepository.fetchUserWaste(user_id!);
+        String? token = await _storage.read(key: 'token');
+        final waste = await _wasteRepository.fetchUserWaste(user_id!, token!);
         print(waste);
-        emit(WasteLoaded(waste!));
-      }catch(e){
-        GetErrorState(error: e.toString());
+        await Future.delayed(Duration(seconds: 3));
+        yield WasteLoaded(waste!);
+        print("waste loaded");
+      } catch (e) {
+        yield GetErrorState(error: e.toString());
       }
-    });
+    }
+   
   }
 }

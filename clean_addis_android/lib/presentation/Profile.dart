@@ -1,16 +1,10 @@
 import 'package:clean_addis_android/presentation/Setting.dart';
+import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
 
-class SettingsUI extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Setting UI",
-      home: EditProfilePage(),
-    );
-  }
-}
+import 'Home.dart';
+
+
 
 class EditProfilePage extends StatefulWidget {
   @override
@@ -23,20 +17,23 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: lightgreen,
         elevation: 1,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.green,
+            color: logogreen,
           ),
-          onPressed: () {},
+          onPressed: () {
+             Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => HomePage()));
+          },
         ),
         actions: [
           IconButton(
             icon: Icon(
               Icons.settings,
-              color: Colors.green,
+              color: logogreen,
             ),
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
@@ -96,7 +93,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               width: 4,
                               color: Theme.of(context).scaffoldBackgroundColor,
                             ),
-                            color: Colors.green,
+                            color: logogreen,
                           ),
                           child: Icon(
                             Icons.edit,
@@ -119,10 +116,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  OutlineButton(
-                    padding: EdgeInsets.symmetric(horizontal: 50),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                        padding: EdgeInsets.symmetric(horizontal: 50),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                    ),
+                   
                     onPressed: () {},
                     child: Text("CANCEL",
                         style: TextStyle(
@@ -130,13 +130,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             letterSpacing: 2.2,
                             color: Colors.black)),
                   ),
-                  RaisedButton(
+                  ElevatedButton(
                     onPressed: () {},
-                    color: Colors.green,
-                    padding: EdgeInsets.symmetric(horizontal: 50),
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
+                    style: ElevatedButton.styleFrom(
+                      primary: logogreen,
+                      padding: EdgeInsets.symmetric(horizontal: 50),
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                    ),
                     child: Text(
                       "SAVE",
                       style: TextStyle(
