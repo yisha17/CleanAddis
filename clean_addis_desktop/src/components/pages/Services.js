@@ -17,10 +17,17 @@ const Services = () => {
             <h1 class="text-white text-4xl md:text-5xl xl:text-6xl font-bold leading-tight">A better life starts with a
               beautiful
               smile.</h1>
-            <p class="text-blue-100 text-xl md:text-2xl leading-snug mt-4">Welcome to the Dentist Office of Dr. Thomas
-              Dooley,
-              where
-              trust
-              and comfort are priorities.</p>
-            <a href="#" class="px-8 py-4 bg-white text-black rounded inline-block mt-8 font-semibold">Book
               Appointment</a>
+          </div>
+        </div>
+      </section>
+    </div>
+    <section class="relative px-4 py-16 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 lg:py-32">
+      <div class="flex flex-col lg:flex-row lg:-mx-8">
+        <div class="w-full lg:w-1/2 lg:px-8">
+          <h2 class="text-3xl leading-tight font-bold mt-4">Welcome to the Dentist Office of Dr. Thomas Dooley</h2>
+          <p class="text-lg mt-4 font-semibold">Excellence in Dentistry in the Heart of NY</p>
+          <p class="mt-2 leading-relaxed">Donec convallis sollicitudin facilisis. Integer nisl ligula, accumsan non
+            tincidunt ac, imperdiet in enim.
+            Donec efficitur ullamcorper metus, eu venenatis nunc. Nam eget neque tempus, mollis sem a, faucibus mi.</p>
+        </div>
