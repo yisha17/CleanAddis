@@ -12,3 +12,15 @@ const Services = () => {
         <div class="h-full absolute top-0 left-0 z-0">
           <img src="images/cover-bg.jpg" alt="" class="w-full h-full object-cover opacity-20"/>
         </div>
+        <div class="lg:w-3/4 xl:w-2/4 relative z-10 h-100 lg:mt-16">
+          <div>
+            <h1 class="text-white text-4xl md:text-5xl xl:text-6xl font-bold leading-tight">A better life starts with a
+              beautiful
+              smile.</h1>
+            <p class="text-blue-100 text-xl md:text-2xl leading-snug mt-4">Welcome to the Dentist Office of Dr. Thomas
+              Dooley,
+              where
+              trust
+              and comfort are priorities.</p>
+            <a href="#" class="px-8 py-4 bg-white text-black rounded inline-block mt-8 font-semibold">Book
+              Appointment</a>
