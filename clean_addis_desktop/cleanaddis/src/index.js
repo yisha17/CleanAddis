@@ -8,6 +8,8 @@ import reportWebVitals from './reportWebVitals';
 import {BrowserRouter,Routes,Route} from 'react-router-dom';
 import Recycler from './pages/Recycler';
 import Companies from './pages/Companies';
+import Home from './pages/adminpages/home/Home';
+
 
 
 ReactDOM.render(
@@ -19,6 +21,7 @@ ReactDOM.render(
           <Route path="Services" element = {<Services />}/>
           <Route path="Companies" element = {<Companies/>}/>
           <Route path="Recycler" element = {<Recycler />}/>
+          <Route path="cityadmin" element = {<Home />}/>
         </Routes>
       </BrowserRouter>
   </React.StrictMode>,
