@@ -25,12 +25,15 @@ class Address(models.Model):
     woreda = models.IntegerField(default=1)
 
 
+def upload_to(instance, filename):
+    return 'images/{filename}'.format(filename=filename)
+
 class User(AbstractUser):
 
     username = models.CharField(max_length=20,unique=True, default="")
     email = models.EmailField(max_length=30,default="")
     role = models.CharField(max_length=20, default="", null = True)
-    profile = models.ImageField(null=True)
+    profile = models.ImageField(upload_to=upload_to,null=True)
     phone = models.CharField(max_length= 20,null= True)
     device_id = models.CharField(max_length=20, default="",null=True)
 
@@ -82,7 +85,7 @@ class Waste(models.Model):
     price_per_unit = models.IntegerField(null=True)
     quantity = models.IntegerField(null=True)
     metric = models.CharField(null=True, max_length = 20)
-    image = models.ImageField(null = True)
+    image = models.ImageField(upload_to = upload_to, null = True)
     loaction = models.CharField(max_length=30,null=True)
     sold = models.BooleanField(null=True)
     bought = models.BooleanField(null=True)
