@@ -1,5 +1,6 @@
 import "./home.scss"
 import CityadminSidebar from "../../../components/cityadmincomponents/sidebar/CityadminSidebar"
+import CityadminNavbar from "../../../components/cityadmincomponents/navbar/CityadminNavbar"
 
 const Home = () => {
   return (
@@ -7,7 +8,8 @@ const Home = () => {
           <CityadminSidebar/>
           
           <div className="p-7 text-2x1 font-semibold flex-1 h-screen">
-            <h1>Homepage</h1>
+          <CityadminNavbar />
+          home container
           </div>
         
    </div>

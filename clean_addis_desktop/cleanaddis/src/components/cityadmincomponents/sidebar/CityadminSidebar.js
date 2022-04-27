@@ -34,7 +34,8 @@ const CityadminSidebar = () => {
               gap-x-2  pt-8 cursor-pointer hover:bg-green-600 rounded-md`
               }>
              <img src={menu.src}  />
-             <span className={`${!open && 'hidden'} origin-left duration-200`}>{menu.title}</span>
+             <span className={`${!open && 'hidden'} origin-left duration-200`}>
+               {menu.title}</span>
             
           </li>
         ))}
