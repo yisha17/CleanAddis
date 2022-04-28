@@ -4,7 +4,6 @@ const CityadminNavbar = () => {
   return (
     <div className="navbar">
       <div className="wrapper">
-        
         <div className="search flex">
           <input type="text" placeholder="Search..."/>
         <img src={Search}/>                                                                                                 
