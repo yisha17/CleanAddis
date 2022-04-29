@@ -11,7 +11,7 @@ class Waste{
   final int ?quantity;
   final String ?metric;
   final String ?image;
-  final String ?loaction;
+  final String ?location;
   final bool ?sold;
   final bool ?bought;
   final bool ?donated;
@@ -29,7 +29,7 @@ class Waste{
     this.buyer,
     this.metric, 
     this.image, 
-    this.loaction, 
+    this.location, 
     this.sold, 
     this.bought, 
     this.donated,
@@ -50,7 +50,7 @@ class Waste{
       quantity:jsonMap['quantity'],
       metric:jsonMap['metric'],
       image:jsonMap['image'],
-      loaction:jsonMap['loaction'],
+      location:jsonMap['loaction'],
       sold:jsonMap['sold'],
       bought:jsonMap['bought'],
       donated:jsonMap['donated'],

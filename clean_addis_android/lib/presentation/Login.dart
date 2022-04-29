@@ -143,12 +143,19 @@ class _LoginPageState extends State<LoginPage> {
           WidgetsBinding.instance!
               .addPostFrameCallback((_) => loadingDialog(context));
         } else if (state is AuthenticationFailureState) {
+          Navigator.of(context, rootNavigator: true).pop();
           // print("trhhertherh");
           // Navigator.of(context, rootNavigator: true).pop();
           // WidgetsBinding.instance!.addPostFrameCallback(
           //     (_) => messageDialog(context, "Upps... " + state.e));
+          print("printing");
           print(state.e);
-          if (state.e == 'Exception: Incorrect username or password') {
+          if (state.e == 'XMLHttpRequest error.') {
+            String message = 'No Connection';
+            ScaffoldMessenger.of(_scaffoldKey.currentContext!)
+                .showSnackBar(SnackBar(content: Text(message)));
+          }
+          else if (state.e == 'Exception: Incorrect username or password') {
             String message = 'Username in use. Please change username';
             ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
               SnackBar(
@@ -157,14 +164,11 @@ class _LoginPageState extends State<LoginPage> {
                 backgroundColor:Colors.red,
               ),
             );
-          } else if (state.e == 'XMLHttpRequest error.') {
-            String message = 'No Connection';
-            ScaffoldMessenger.of(_scaffoldKey.currentContext!)
-                .showSnackBar(SnackBar(content: Text(message)));
-          }
+          } 
         }
       },
       child: Scaffold(
+        key: _scaffoldKey,
         backgroundColor: Color(0xffe9fff3),
         body: SingleChildScrollView(
           child: Form(

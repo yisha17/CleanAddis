@@ -31,13 +31,15 @@ class LoginBloc extends Bloc<LoginEvent,LoginState>{
         );
         final data = await userRepository.login(user);
         
-       final _storage = const FlutterSecureStorage();
+          final _storage = const FlutterSecureStorage();
         Map<String, dynamic> payload = Jwt.parseJwt(data.access_token!);
         await _storage.write(key: 'id', value: payload['user_id'].toString());
         await _storage.write(key: 'token', value:data.access_token);
         await _storage.write(key: 'name', value: event.username);
       
         yield AuthenticatedState(user: data);
+        
+       
 
       } catch (e){
         

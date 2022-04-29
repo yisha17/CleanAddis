@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'AddWaste.dart';
 import 'Login.dart';
 import 'Profile.dart';
 
@@ -232,7 +233,10 @@ class HomePageState extends State<HomePage> {
                                         color: Colors.white,
                                         size: 40,
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                         Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => AddWastePage()));
+                                      },
                                     ),
                                     margin:
                                         EdgeInsets.symmetric(horizontal: 10),
@@ -249,7 +253,10 @@ class HomePageState extends State<HomePage> {
                                       color: Colors.white,
                                       size: 40,
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                       Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => AddWastePage()));
+                                    },
                                   ),
                                   margin: EdgeInsets.symmetric(horizontal: 10),
                                   color: logogreen,

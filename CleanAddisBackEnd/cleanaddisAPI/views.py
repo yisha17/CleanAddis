@@ -14,7 +14,7 @@ from .models import *
 from .serializers import *
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
-
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 
@@ -210,7 +210,7 @@ seller_list_view = SellerAPIView.as_view()
 class WasteCreateAPIView(generics.CreateAPIView):
 
     queryset = Waste.objects.all()
-
+    parser_classes = (MultiPartParser, FormParser)
     serializer_class = WasteSerializer
 
     def perform_create(self, serializer):
