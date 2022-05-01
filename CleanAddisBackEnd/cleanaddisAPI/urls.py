@@ -36,7 +36,7 @@ urlpatterns = [
     path('api/announcement/<int:pk>', announcement_detail_view),
     path('api/announcement/<int:pk>/update', announcement_update_view),
     path('api/announcement/delete/<int:pk>', announcement_delete_view),
-    path('api/report/',ReportView.as_view()),
+    # path('api/report/',ReportView.as_view()),
     path('api/auth/', jwt_views.token_obtain_pair),
     path('api/auth/refresh', jwt_views.token_refresh),
 

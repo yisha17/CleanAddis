@@ -219,6 +219,7 @@ class ReportAPIView(generics.ListAPIView):
     def get_queryset(self):
         return super().get_queryset().filter(
             reportedBy = self.kwargs['reportedBy'])
+            
 report_list_view = ReportAPIView.as_view()
 
 class PublicPlaceCreateAPIView(generics.CreateAPIView):
