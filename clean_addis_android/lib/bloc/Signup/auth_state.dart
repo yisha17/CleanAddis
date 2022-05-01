@@ -10,14 +10,11 @@ enum UserStatus{
 }
 class UserState extends Equatable {
   final User? user;
-  final UserStatus status;
-
-  
+ 
 
   UserState({
 
     this.user,
-    required this.status
   });
 
   @override
@@ -27,33 +24,31 @@ class UserState extends Equatable {
 }
 
 class ShortPasswordError extends UserState{
-  ShortPasswordError() : super(status: UserStatus.unauthenticated);
+  ShortPasswordError() : super();
  }
 
 class PasswordDoesNotMatchError extends UserState{
-  PasswordDoesNotMatchError(): super(status: UserStatus.unauthenticated);
+  PasswordDoesNotMatchError(): super();
 }
 
 class IncorrectEmailFormat extends UserState{
-  IncorrectEmailFormat() : super(status: UserStatus.unauthenticated);
+  IncorrectEmailFormat() : super();
 
 }
 
 class NetworkError extends UserState{
-  NetworkError() : super(status: UserStatus.unauthenticated);
+  final String error;
+  NetworkError(this.error) : super();
 }
   
-class FieldEmptyError extends UserState{
-  FieldEmptyError() : super(status: UserStatus.unauthenticated);
-}
 
 class UserLoadingState extends UserState {
-  UserLoadingState() : super(status: UserStatus.unauthenticated);
+  UserLoadingState() : super();
 }
   
 class UserLoadedState extends UserState{
   final User? user;
-  UserLoadedState({this.user}) : super(user:user,status: UserStatus.authenticated);
+  UserLoadedState({this.user}) : super(user:user);
 }
 
 

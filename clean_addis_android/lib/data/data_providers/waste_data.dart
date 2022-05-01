@@ -74,6 +74,7 @@ class WasteDataProvider {
     }
   }
 
+
    Future<Waste> updateeWaste(
       {required Waste waste, required String token, File? file}) async {
     final request = await http.MultipartRequest(

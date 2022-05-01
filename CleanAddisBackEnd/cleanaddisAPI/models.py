@@ -1,7 +1,10 @@
 from tkinter import CASCADE
 from django.db import models
 from django.forms import CharField
-
+from django.contrib.auth.models import (
+    BaseUserManager, AbstractBaseUser
+)
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 
@@ -22,21 +25,20 @@ class Address(models.Model):
     woreda = models.IntegerField(default=1)
 
 
-class User(models.Model):
+def upload_to(instance, filename):
+    return 'images/{filename}'.format(filename=filename)
 
-    username = models.CharField(max_length=20, default="")
-    password = models.CharField(max_length=20, default="")
+class User(AbstractUser):
+
+    username = models.CharField(max_length=20,unique=True, default="")
     email = models.EmailField(max_length=30,default="")
-    role = models.CharField(max_length=20, default="",null = True)
-    profile = models.ImageField(null=True)
+    role = models.CharField(max_length=20, default="", null = True)
+    profile = models.ImageField(upload_to=upload_to,null=True)
     phone = models.CharField(max_length= 20,null= True)
-    # unknown field type
     device_id = models.CharField(max_length=20, default="",null=True)
 
-   
-
-    def __iter__(self):
-        return [field.value_to_string(self) for field in Address._meta.fields]
+    class Meta(AbstractUser.Meta):
+       swappable = 'AUTH_USER_MODEL'
 
 
 class Company(models.Model):
@@ -83,12 +85,13 @@ class Waste(models.Model):
     price_per_unit = models.IntegerField(null=True)
     quantity = models.IntegerField(null=True)
     metric = models.CharField(null=True, max_length = 20)
-    image = models.ImageField(null = True)
+    image = models.ImageField(upload_to = upload_to, null = True)
     loaction = models.CharField(max_length=30,null=True)
     sold = models.BooleanField(null=True)
     bought = models.BooleanField(null=True)
     donated = models.BooleanField(null=True)
     description = models.CharField(max_length=200,null=True)
+
 class Report(models.Model):
 
     reportID = models.CharField(max_length=20, default="",null=True)
@@ -96,7 +99,7 @@ class Report(models.Model):
     reportDescription = models.CharField(max_length=20,default="",null=True)
     image = models.ImageField(null=True)    
     loaction = models.CharField(max_length=30,null=True)
-    reportedBy = models.ForeignKey(User, on_delete = models.DO_NOTHING )
+    reportedBy = models.ForeignKey(User, on_delete = models.DO_NOTHING,null= True )
     
     
 class PublicPlace(models.Model):

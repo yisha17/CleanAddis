@@ -148,6 +148,7 @@ class AddWasteState extends State<AddWastePage> {
           }
         },
         child: Scaffold(
+
           key: _scaffoldKey,
           appBar: AppBar(
             centerTitle: true,
@@ -228,6 +229,7 @@ class AddWasteState extends State<AddWastePage> {
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.06,
+
                   ),
                   buildTextField(
                     icon: Icon(Icons.real_estate_agent),
@@ -242,6 +244,7 @@ class AddWasteState extends State<AddWastePage> {
                         return null;
                       }
                     },
+
                   ),
                   DropdownButtonFormField(
                     isDense: true,
@@ -262,6 +265,7 @@ class AddWasteState extends State<AddWastePage> {
                     value: value,
                     decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(
+
                           borderSide: BorderSide(color: logogreen),
                         ),
                         prefixIcon: Icon(
@@ -277,8 +281,9 @@ class AddWasteState extends State<AddWastePage> {
                           color: Colors.black,
                         )),
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.06,
+
+                   SizedBox(
+   height: MediaQuery.of(context).size.height * 0.06,
                   ),
                   Row(
                     children: [
@@ -317,15 +322,16 @@ class AddWasteState extends State<AddWastePage> {
                   buildTextField(
                       icon: Icon(Icons.map),
                       type: TextInputType.name,
-                      controller: this.location_text,
+                      controller: this.location_text,     
                       labelText: "Location",
                       placeholder: "Piassa, AddisAbaba"),
                   buildTextField(
                       icon: Icon(Icons.description),
                       type: TextInputType.name,
-                      controller: this.waste_description_text,
+      controller: this.waste_description_text,
                       labelText: "Description",
                       placeholder: "Description here"),
+
                   buildRadios(),
                   ElevatedButton(
                       onPressed: () {
