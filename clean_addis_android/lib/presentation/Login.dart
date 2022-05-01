@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'BottomNavigationBar.dart';
 import 'Signup.dart';
 
 class LoginPage extends StatefulWidget {
@@ -137,17 +138,13 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.of(context, rootNavigator: true).pop();
 
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => HomePage()));
+              .push(MaterialPageRoute(builder: (context) => Pages()));
         } else if (state is UserLoadingState) {
           print("loading true");
           WidgetsBinding.instance!
               .addPostFrameCallback((_) => loadingDialog(context));
         } else if (state is AuthenticationFailureState) {
           Navigator.of(context, rootNavigator: true).pop();
-          // print("trhhertherh");
-          // Navigator.of(context, rootNavigator: true).pop();
-          // WidgetsBinding.instance!.addPostFrameCallback(
-          //     (_) => messageDialog(context, "Upps... " + state.e));
           print("printing");
           print(state.e);
           if (state.e == 'XMLHttpRequest error.') {

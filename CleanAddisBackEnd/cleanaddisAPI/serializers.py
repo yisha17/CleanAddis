@@ -1,7 +1,7 @@
 from cgitb import lookup
 from dataclasses import field
 from rest_framework import serializers
-from yaml import serialize
+#from yaml import serialize
 from .models import Address, Announcement, Company, PublicPlace, Report, Seminar, User, Waste, WorkSchedule
 
 
