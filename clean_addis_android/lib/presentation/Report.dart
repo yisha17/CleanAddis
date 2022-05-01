@@ -19,7 +19,6 @@ class _ReportPageState extends State<ReportPage> {
   String wasteBlank =
       "https://www.freeiconspng.com/uploads/black-recycle-icon-png-2.png";
 
-
   void loadingDialog(BuildContext context) {
     showDialog(
         context: context,
@@ -40,6 +39,7 @@ class _ReportPageState extends State<ReportPage> {
               ));
         });
   }
+
   Widget imageholder() {
     return Stack(
       clipBehavior: Clip.none,
@@ -82,16 +82,39 @@ class _ReportPageState extends State<ReportPage> {
       }
     });
   }
+
+  Widget reportButton() {
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: ElevatedButton(
+          child: Text(
+            'Report',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 27,
+              fontWeight: FontWeight.w700
+            ),
+          ),
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size.fromHeight(50),
+            primary: Colors.red,
+          ),
+        ));
+  }
+
   Widget buildTextField(
       {required Icon icon,
       required TextInputType type,
       required String labelText,
       required String placeholder,
       required TextEditingController controller,
-      final String? Function(String?)? validator}) {
+      final String? Function(String?)? validator,
+      int? maxLines}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 35.0),
       child: TextFormField(
+        maxLines: maxLines,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: validator,
         controller: controller,
@@ -117,28 +140,63 @@ class _ReportPageState extends State<ReportPage> {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor:Colors.red,
+        title: Text(
+          'Report',
+        style: TextStyle(
+          fontSize: 30,
+          color: Colors.white,
+        ),),),
       body: Form(
           child: Column(
         children: [
           imageholder(),
-          buildTextField(
-            icon: Icon(Icons.title),
-            type: TextInputType.name,
-            controller: this.report_title_text,
-            labelText: "What is The Problem",
-            placeholder: "Report here",
-            validator: (value) {
-              if (value != null && value.length < 4) {
-                return 'You Must fill title';
-              } else {
-                return null;
-              }
-            },
+          Padding(
+            padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+            child: buildTextField(
+              icon: Icon(Icons.title),
+              type: TextInputType.name,
+              controller: this.report_title_text,
+              labelText: "What is The Problem",
+              placeholder: "Report here",
+              validator: (value) {
+                if (value != null && value.length < 4) {
+                  return 'You Must fill title';
+                } else {
+                  return null;
+                }
+              },
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+            child: buildTextField(
+              icon: Icon(Icons.title),
+              type: TextInputType.multiline,
+              controller: this.report_description_text,
+              labelText: "Describe the problem",
+              placeholder: "Report description",
+            ),
+          ),
+
+          reportButton(),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal:30.0,vertical:5),
+            child: Text('when you create your report you current location also will be sent',
+            style: TextStyle(
+              color:Colors.red,
+            )),
           )
         ],
+
+      
       )),
     );
   }
