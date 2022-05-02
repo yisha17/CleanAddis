@@ -12,7 +12,6 @@ const CityadminSidebar = () => {
   const [open,setOpen] = useState(true);
   const Menus =[
     {title:"Dashboard", src:Dashboard},
-    {title:"User", src:User},
     {title:"Report", src:Report},
     {title:"Announcement",src:Shout},
     {title:"Work",src:Work},
