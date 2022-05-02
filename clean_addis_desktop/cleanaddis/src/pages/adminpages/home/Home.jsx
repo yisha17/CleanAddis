@@ -10,10 +10,10 @@ const Home = () => {
           <div className="p-7 text-2x1  h-screen">
           <CityadminNavbar />
             <div className="widgets w-full flex flex-1 p-3 gap-10   ">
-              <Widget />
-              <Widget />
-              <Widget />
-              <Widget />
+              <Widget type="workers"/>
+              <Widget type="publicplaces" />
+              <Widget type="reports" />
+              <Widget type="announcements"/>
             </div>
           </div>
         
