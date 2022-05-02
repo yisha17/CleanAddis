@@ -9,11 +9,13 @@ class ReportListPage extends StatefulWidget {
 }
 
 class _ReportListPageState extends State<ReportListPage> {
+ 
   Widget createListTile() {
     return Container(
       height: 100,
       color: lightgreen,
       child: Card(
+        color: lightgreen,
         child: Row(
           children: [
             Expanded(
@@ -26,36 +28,74 @@ class _ReportListPageState extends State<ReportListPage> {
               flex: 66,
               child: Column(
                 children: [
-                  Expanded(
+                 Expanded(
                     flex: 25,
-                    child: Center(
-                      child: Text(
-                        'Broken Pipe',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w500,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Broken Pipe',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.edit, color: Colors.blue),
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.delete, color: Colors.red),
+                            ),
+                          ],
+                        )
+                        
+                      ],
                     ),
                   ),
                   Expanded(
                       flex: 25,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Icon(Icons.date_range),
-                          Text('Reported on May 12, 2022'),
+                          Text('Reported on May 12, 2022',style:TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                          )),
                         ],
                       )),
                   Expanded(
                     flex: 25,
-                    child: Text(
-                      'Resolved',
-                      style: TextStyle(
-                        backgroundColor: Colors.red,
-                        color: Colors.white, 
-                      ),
+                    child: Row(
+                      children: [
+                        
+                        Container(
+                          color:Colors.green,
+                          child: Text(
+                            'Resolved',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500, 
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width:50,
+                        ),
+
+                        Icon(Icons.location_on,color: Colors.red,),
+                        TextButton(
+                          onPressed: (){},
+                          child: Text(
+                            'view location'
+                          ))
+                        
+                      ],
                     ),
                   ),
                 ],
