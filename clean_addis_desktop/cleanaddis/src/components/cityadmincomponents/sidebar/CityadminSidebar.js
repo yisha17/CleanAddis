@@ -12,7 +12,6 @@ const CityadminSidebar = () => {
   const [open,setOpen] = useState(true);
   const Menus =[
     {title:"Dashboard", src:Dashboard},
-    {title:"User", src:User},
     {title:"Report", src:Report},
     {title:"Announcement",src:Shout},
     {title:"Work",src:Work},
@@ -34,7 +33,8 @@ const CityadminSidebar = () => {
               gap-x-2  pt-8 cursor-pointer hover:bg-green-600 rounded-md`
               }>
              <img src={menu.src}  />
-             <span className={`${!open && 'hidden'} origin-left duration-200`}>{menu.title}</span>
+             <span className={`${!open && 'hidden'} origin-left duration-200`}>
+               {menu.title}</span>
             
           </li>
         ))}
