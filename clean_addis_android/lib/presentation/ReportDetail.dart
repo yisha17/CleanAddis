@@ -1,11 +1,10 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ReportDetailPage extends StatefulWidget {
-  const ReportDetailPage({ Key? key }) : super(key: key);
+  const ReportDetailPage({Key? key}) : super(key: key);
 
   @override
   State<ReportDetailPage> createState() => _ReportDetailPageState();
@@ -15,13 +14,13 @@ class _ReportDetailPageState extends State<ReportDetailPage> {
   File? image;
   final ImagePicker _picker = ImagePicker();
   bool isTextfield = false;
+  bool isDescriptionField = false;
   var _formKey = GlobalKey<FormState>();
   final report_title_text = TextEditingController(),
       report_description_text = TextEditingController();
   String wasteBlank =
       "https://www.freeiconspng.com/uploads/black-recycle-icon-png-2.png";
-  
-  
+
   void _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.camera);
     setState(() {
@@ -33,20 +32,26 @@ class _ReportDetailPageState extends State<ReportDetailPage> {
     });
   }
 
-  Widget buildText(){
+  Widget buildText({
+    String? label,
+    String? text,
+  }) {
     return Container(
+      
       width: MediaQuery.of(context).size.width * 0.8,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-           'Title',
-           style: TextStyle(
-             fontSize: 24,
-           ), 
+            label!,
+            style: TextStyle(
+              fontSize: 24,
+              color: Colors.red,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           Text(
-            'Broken Pipe',
+            text!,
             style: TextStyle(
               fontSize: 20,
             ),
@@ -55,6 +60,7 @@ class _ReportDetailPageState extends State<ReportDetailPage> {
       ),
     );
   }
+
   Widget buildTextField(
       {required Icon icon,
       required TextInputType type,
@@ -92,7 +98,8 @@ class _ReportDetailPageState extends State<ReportDetailPage> {
       ),
     );
   }
-   Widget imageholder() {
+
+  Widget imageholder() {
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -123,50 +130,111 @@ class _ReportDetailPageState extends State<ReportDetailPage> {
       ],
     );
   }
+
+  Widget verticalSpace(double height) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * height,
+    );
+  }
+  Widget reportButton() {
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: ElevatedButton(
+          child: Text(
+            'Update',
+            style: TextStyle(
+                color: Colors.white, fontSize: 27, fontWeight: FontWeight.w700),
+          ),
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size.fromHeight(50),
+            primary: Colors.red,
+          ),
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          imageholder(),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal:10),
-                child: Row(
-                  mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
-                  children: [
+        body: Column(
+      children: [
+        imageholder(),
+        verticalSpace(0.07),
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  isTextfield == false
+                      ? buildText(label: 'Title', text: 'Broken Pipe')
+                      : Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          child: buildTextField(
+                              icon: Icon(Icons.title),
+                              type: TextInputType.name,
+                              labelText: 'update title',
+                              placeholder: 'Broken Pipe',
+                              controller: report_title_text),
+                        ),
+                  IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isTextfield == false
+                              ? isTextfield = true
+                              : isTextfield = false;
+                        });
+                      },
+                      icon: isTextfield
+                          ? Icon(Icons.done)
+                          : Icon(Icons.edit))
+                ],
+              ),
+            ),
+          ],
+        ),
+        verticalSpace(0.07),
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  isDescriptionField == false
+                      ? buildText(
+                          label: 'Description',
+                          text:
+                              'Broken Pipe in yeka sefer is pouring waster as hell')
+                      : Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          child: buildTextField(
+                              icon: Icon(Icons.description),
+                              type: TextInputType.multiline,
+                              labelText: 'update description',
+                              placeholder: 'Broken Pipe in yeka sefer is pouring waster as hell',
+                              controller: report_description_text),
+                        ),
+                  IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isDescriptionField== false
+                              ? isDescriptionField = true
+                              : isDescriptionField = false;
+                        });
+                      },
+                      icon: isDescriptionField ? Icon(Icons.done) : 
+                       Icon(Icons.edit)) 
+                ],
+              ),
+            ),
+          ],
+        ),
 
-                    isTextfield == false ?
-                    buildText() :
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: buildTextField(
-                        icon: Icon(Icons.title),
-                        type: TextInputType.name,
-                        labelText: 'update title',
-                        placeholder: 'Broken Pipe',
-                        controller: report_title_text),
-                    ),
-
-                      IconButton(
-                        onPressed:(){
-                          setState(() {
-                            isTextfield == false ?
-                            isTextfield = true :
-                            isTextfield = false;
-                          });
-                        } , icon: Icon(Icons.edit))
-
-                  ],
-
-                ),
-              )
-            ],
-          )
-
-        ],
-      )
-    );
+        verticalSpace(0.07),
+        reportButton(),
+      ],
+    ));
   }
 }

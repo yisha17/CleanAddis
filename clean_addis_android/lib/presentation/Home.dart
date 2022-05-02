@@ -92,105 +92,247 @@ class HomePageState extends State<HomePage> {
         ],
       ),
       backgroundColor: lightgreen,
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.03,
-            ),
-            Text(
-              'Hello Yishak!',
-              textAlign: TextAlign.left,
-              style: GoogleFonts.montserrat(
-                textStyle: TextStyle(color: Colors.black),
-                fontWeight: FontWeight.w900,
-                fontSize: 16,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.03,
               ),
-            ),
-            RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(children: <TextSpan>[
-                TextSpan(
-                  text: "Welcome to Clean",
-                  style: GoogleFonts.montserrat(
-                    textStyle: TextStyle(color: Colors.black),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 26,
-                  ),
+              Text(
+                'Hello Yishak!',
+                textAlign: TextAlign.left,
+                style: GoogleFonts.montserrat(
+                  textStyle: TextStyle(color: Colors.black),
+                  fontWeight: FontWeight.w900,
+                  fontSize: 16,
                 ),
-                TextSpan(
-                  text: "Addis",
-                  style: GoogleFonts.montserrat(
-                    textStyle: TextStyle(color: Color(0xff68EA26)),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 26,
+              ),
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(children: <TextSpan>[
+                  TextSpan(
+                    text: "Welcome to Clean",
+                    style: GoogleFonts.montserrat(
+                      textStyle: TextStyle(color: Colors.black),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 26,
+                    ),
                   ),
-                ),
-              ]),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.06,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Your Items For Sell',
-                  textAlign: TextAlign.left,
-                  style: GoogleFonts.montserrat(
-                    textStyle: TextStyle(color: Colors.black),
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16,
+                  TextSpan(
+                    text: "Addis",
+                    style: GoogleFonts.montserrat(
+                      textStyle: TextStyle(color: Color(0xff68EA26)),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 26,
+                    ),
                   ),
-                ),
-                TextButton(
-                  onPressed: () => {print("njgd")},
-                  child: Text(
-                    'Details',
-                    style: TextStyle(color: Colors.grey, fontSize: 13),
+                ]),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.06,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Your Items For Sell',
+                    textAlign: TextAlign.left,
+                    style: GoogleFonts.montserrat(
+                      textStyle: TextStyle(color: Colors.black),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.01,
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.14,
-              child: BlocBuilder(
-                  bloc: wastebloc,
-                  builder: (context, state) {
-                    if (state is WasteLoadingState) {
-                      return ListView(
-                        children: [Center(child: CircularProgressIndicator())],
-                      );
-                    }
-
-                    if (state is WasteLoaded) {
-                      final waste = state.waste;
-                      return waste.isEmpty
-                          ? Container(
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                  size: 40,
+                  TextButton(
+                    onPressed: () => {print("njgd")},
+                    child: Text(
+                      'Details',
+                      style: TextStyle(color: Colors.grey, fontSize: 13),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.14,
+                child: BlocBuilder(
+                    bloc: wastebloc,
+                    builder: (context, state) {
+                      if (state is WasteLoadingState) {
+                        return ListView(
+                          children: [Center(child: CircularProgressIndicator())],
+                        );
+                      }
+      
+                      if (state is WasteLoaded) {
+                        final waste = state.waste;
+                        return waste.isEmpty
+                            ? Container(
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                    size: 40,
+                                  ),
+                                  onPressed: () {},
                                 ),
-                                onPressed: () {},
-                              ),
-                              margin: EdgeInsets.symmetric(horizontal: 10),
-                              color: logogreen,
-                              width: MediaQuery.of(context).size.width * 0.25,
-                            )
-                          : ListView.builder(
-                              itemCount: waste.length + 1,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                if (index != waste.length) {
-                                  if (waste.elementAt(index).for_waste ==
-                                      'Sell') {
+                                margin: EdgeInsets.symmetric(horizontal: 10),
+                                color: logogreen,
+                                width: MediaQuery.of(context).size.width * 0.25,
+                              )
+                            : ListView.builder(
+                                itemCount: waste.length + 1,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  if (index != waste.length) {
+                                    if (waste.elementAt(index).for_waste ==
+                                        'Sell') {
+                                      return Column(
+                                        children: [
+                                          Container(
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 5),
+                                              color: Colors.red,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.25,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.11,
+                                              child:
+                                                  waste.elementAt(index).image ==
+                                                          null
+                                                      ? Image(
+                                                          image: chooseImage(waste
+                                                              .elementAt(index)
+                                                              .waste_type!),
+                                                          fit: BoxFit.fill,
+                                                        )
+                                                      : Image(
+                                                          image: NetworkImage(
+                                                              '${waste.elementAt(index).image}'),
+                                                          fit: BoxFit.fill,
+                                                        )),
+                                          Center(
+                                              child: Text(
+                                                  '${waste.elementAt(index).waste_name}'))
+                                        ],
+                                      );
+                                    }
+                                  } else {
+                                    Container(
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.add,
+                                          color: Colors.white,
+                                          size: 40,
+                                        ),
+                                        onPressed: () {
+                                           Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => AddWastePage()));
+                                        },
+                                      ),
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 10),
+                                      color: logogreen,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.25,
+                                    );
+                                  }
+      
+                                  return Container(
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                        size: 40,
+                                      ),
+                                      onPressed: () {
+                                         Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => AddWastePage()));
+                                      },
+                                    ),
+                                    margin: EdgeInsets.symmetric(horizontal: 10),
+                                    color: logogreen,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.25,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.115,
+                                  );
+                                });
+                      }
+                      return Center(child: CircularProgressIndicator());
+                    }),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.03,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Your Donations',
+                    textAlign: TextAlign.left,
+                    style: GoogleFonts.montserrat(
+                      textStyle: TextStyle(color: Colors.black),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () => {print("njgd")},
+                    child: Text(
+                      'Details',
+                      style: TextStyle(color: Colors.grey, fontSize: 13),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.14,
+                child: BlocBuilder(
+                    bloc: wastebloc,
+                    builder: (context, state) {
+                      if (state is WasteLoadingState) {
+                        return ListView(
+                          children: [Center(child: CircularProgressIndicator())],
+                        );
+                      }
+      
+                      if (state is WasteLoaded) {
+                        final waste = state.waste;
+                        final waste_donation = waste
+                            .where((element) => element.for_waste == 'Donate')
+                            .toList();
+                        return waste_donation.isEmpty
+                            ? Container(
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                    size: 40,
+                                  ),
+                                  onPressed: () {},
+                                ),
+                                margin: EdgeInsets.symmetric(horizontal: 10),
+                                color: logogreen,
+                                width: MediaQuery.of(context).size.width * 0.25,
+                              )
+                            : ListView.builder(
+                                itemCount: waste_donation.length + 1,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  if (index != waste.length) {
                                     return Column(
                                       children: [
                                         Container(
@@ -204,249 +346,109 @@ class HomePageState extends State<HomePage> {
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *
-                                                0.11,
-                                            child:
-                                                waste.elementAt(index).image ==
-                                                        null
-                                                    ? Image(
-                                                        image: chooseImage(waste
-                                                            .elementAt(index)
-                                                            .waste_type!),
-                                                        fit: BoxFit.fill,
-                                                      )
-                                                    : Image(
-                                                        image: NetworkImage(
-                                                            '${waste.elementAt(index).image}'),
-                                                        fit: BoxFit.fill,
-                                                      )),
+                                                0.115,
+                                            child: waste.elementAt(index).image ==
+                                                    null
+                                                ? Image(
+                                                    image: chooseImage(waste
+                                                        .elementAt(index)
+                                                        .waste_type!),
+                                                    fit: BoxFit.fill,
+                                                  )
+                                                : Image(
+                                                    image: NetworkImage(
+                                                        '${waste.elementAt(index).image}'),
+                                                    fit: BoxFit.fill,
+                                                  )),
                                         Center(
                                             child: Text(
                                                 '${waste.elementAt(index).waste_name}'))
                                       ],
                                     );
+                                  } else {
+                                    Container(
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.add,
+                                          color: Colors.white,
+                                          size: 40,
+                                        ),
+                                        onPressed: () {},
+                                      ),
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 10),
+                                      color: logogreen,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.25,
+                                      height: MediaQuery.of(context).size.height *
+                                          0.115,
+                                    );
                                   }
-                                } else {
-                                  Container(
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.add,
-                                        color: Colors.white,
-                                        size: 40,
-                                      ),
-                                      onPressed: () {
-                                         Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => AddWastePage()));
-                                      },
-                                    ),
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 10),
-                                    color: logogreen,
-                                    width: MediaQuery.of(context).size.width *
-                                        0.25,
-                                  );
-                                }
-
-                                return Container(
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.add,
-                                      color: Colors.white,
-                                      size: 40,
-                                    ),
-                                    onPressed: () {
-                                       Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => AddWastePage()));
-                                    },
-                                  ),
-                                  margin: EdgeInsets.symmetric(horizontal: 10),
-                                  color: logogreen,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.25,
-                                  height: MediaQuery.of(context).size.height *
-                                      0.115,
-                                );
-                              });
-                    }
-                    return Center(child: CircularProgressIndicator());
-                  }),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.03,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Your Donations',
-                  textAlign: TextAlign.left,
-                  style: GoogleFonts.montserrat(
-                    textStyle: TextStyle(color: Colors.black),
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16,
-                  ),
-                ),
-                TextButton(
-                  onPressed: () => {print("njgd")},
-                  child: Text(
-                    'Details',
-                    style: TextStyle(color: Colors.grey, fontSize: 13),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.01,
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.14,
-              child: BlocBuilder(
-                  bloc: wastebloc,
-                  builder: (context, state) {
-                    if (state is WasteLoadingState) {
-                      return ListView(
-                        children: [Center(child: CircularProgressIndicator())],
+                                  return Center(child: Text('Loading'));
+                                });
+                      }
+                      return Center(
+                        child: Text('Loading'),
                       );
-                    }
-
-                    if (state is WasteLoaded) {
-                      final waste = state.waste;
-                      final waste_donation = waste
-                          .where((element) => element.for_waste == 'Donate')
-                          .toList();
-                      return waste_donation.isEmpty
-                          ? Container(
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                  size: 40,
-                                ),
-                                onPressed: () {},
-                              ),
-                              margin: EdgeInsets.symmetric(horizontal: 10),
-                              color: logogreen,
-                              width: MediaQuery.of(context).size.width * 0.25,
-                            )
-                          : ListView.builder(
-                              itemCount: waste_donation.length + 1,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                if (index != waste.length) {
-                                  return Column(
-                                    children: [
-                                      Container(
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal: 5),
-                                          color: Colors.red,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.25,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.115,
-                                          child: waste.elementAt(index).image ==
-                                                  null
-                                              ? Image(
-                                                  image: chooseImage(waste
-                                                      .elementAt(index)
-                                                      .waste_type!),
-                                                  fit: BoxFit.fill,
-                                                )
-                                              : Image(
-                                                  image: NetworkImage(
-                                                      '${waste.elementAt(index).image}'),
-                                                  fit: BoxFit.fill,
-                                                )),
-                                      Center(
-                                          child: Text(
-                                              '${waste.elementAt(index).waste_name}'))
-                                    ],
-                                  );
-                                } else {
-                                  Container(
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.add,
-                                        color: Colors.white,
-                                        size: 40,
-                                      ),
-                                      onPressed: () {},
-                                    ),
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 10),
-                                    color: logogreen,
-                                    width: MediaQuery.of(context).size.width *
-                                        0.25,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.115,
-                                  );
-                                }
-                                return Center(child: Text('Loading'));
-                              });
-                    }
-                    return Center(
-                      child: Text('Loading'),
-                    );
-                  }),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.03,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Available Items',
-                  textAlign: TextAlign.left,
-                  style: GoogleFonts.montserrat(
-                    textStyle: TextStyle(color: Colors.black),
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16,
-                  ),
-                ),
-                TextButton(
-                  onPressed: () => {print("njgd")},
-                  child: Text(
-                    'Details',
-                    style: TextStyle(color: Colors.grey, fontSize: 13),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.01,
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.14,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
+                    }),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.03,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    color: Colors.red,
-                    width: MediaQuery.of(context).size.width * 0.25,
+                  Text(
+                    'Available Items',
+                    textAlign: TextAlign.left,
+                    style: GoogleFonts.montserrat(
+                      textStyle: TextStyle(color: Colors.black),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                    ),
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    color: Colors.green,
-                    width: MediaQuery.of(context).size.width * 0.25,
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    color: Colors.yellow,
-                    width: MediaQuery.of(context).size.width * 0.25,
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    color: Colors.blue,
-                    width: MediaQuery.of(context).size.width * 0.25,
+                  TextButton(
+                    onPressed: () => {print("njgd")},
+                    child: Text(
+                      'Details',
+                      style: TextStyle(color: Colors.grey, fontSize: 13),
+                    ),
                   ),
                 ],
               ),
-            ),
-          ],
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.14,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      color: Colors.red,
+                      width: MediaQuery.of(context).size.width * 0.25,
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      color: Colors.green,
+                      width: MediaQuery.of(context).size.width * 0.25,
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      color: Colors.yellow,
+                      width: MediaQuery.of(context).size.width * 0.25,
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      color: Colors.blue,
+                      width: MediaQuery.of(context).size.width * 0.25,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
