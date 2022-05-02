@@ -2,6 +2,8 @@ import "./home.scss"
 import CityadminSidebar from "../../../components/cityadmincomponents/sidebar/CityadminSidebar"
 import CityadminNavbar from "../../../components/cityadmincomponents/navbar/CityadminNavbar"
 import Widget from "../../../components/cityadmincomponents/widgets/Widget"
+import Featured from "../../../components/cityadmincomponents/featured/Featured"
+import Chart from "../../../components/cityadmincomponents/chart/Chart"
 
 const Home = () => {
   return (
@@ -14,6 +16,11 @@ const Home = () => {
               <Widget type="publicplaces" />
               <Widget type="reports" />
               <Widget type="announcements"/>
+            </div>
+            <div className="charts widgets w-full flex flex-1 p-3 gap-10  pt-3">
+              <Featured />
+              <Chart />
+
             </div>
           </div>
         

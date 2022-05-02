@@ -58,7 +58,7 @@ const Widget = ({type}) => {
     }
   return (
     <div >
-      <div className="widget   p-2 content-center justify-between shadow-xl shadow-green-300 h-40  ">
+      <div className="widget   p-2 content-center justify-between shadow-xl shadow-green-200 h-40  ">
         <div className="left col-auto">
           <span className="title font-bold text-xs text-gray-400">{data.title} </span>
           <span className="counter text-base font-light ">{amount}</span>
