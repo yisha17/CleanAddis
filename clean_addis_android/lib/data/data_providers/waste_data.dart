@@ -75,7 +75,7 @@ class WasteDataProvider {
   }
 
 
-   Future<Waste> updateeWaste(
+   Future<Waste> updateWaste(
       {required Waste waste, required String token, File? file}) async {
     final request = await http.MultipartRequest(
         "PATCH", Uri.parse('$full_base_url/$waste_path'));
