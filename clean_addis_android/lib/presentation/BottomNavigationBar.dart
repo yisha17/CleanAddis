@@ -1,5 +1,5 @@
 import 'package:clean_addis_android/presentation/Login.dart';
-import 'package:clean_addis_android/presentation/NotifyMap.dart';
+import 'package:clean_addis_android/presentation/PublicPlace.dart';
 import 'package:clean_addis_android/presentation/Profile.dart';
 import 'package:clean_addis_android/presentation/Signup.dart';
 import 'package:flutter/material.dart';
