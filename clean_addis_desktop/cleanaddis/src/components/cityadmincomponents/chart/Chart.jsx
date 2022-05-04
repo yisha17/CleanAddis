@@ -8,11 +8,11 @@ const data = [
   {name:'april',amount:'4050'},
 
 ];
-const Chart = () => {
+const Chart = (aspect) => { 
   return (
     <div className="chart flex flex-col shadow-xl shadow-green-100">
       <div className='title self-center'>Last 6 month performance</div>
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%"  aspect={aspect}>
       <AreaChart
           width={500}
           height={400}
