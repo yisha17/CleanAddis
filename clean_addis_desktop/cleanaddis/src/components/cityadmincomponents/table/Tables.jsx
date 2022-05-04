@@ -15,7 +15,8 @@ const Tables = () => {
         from: "12/03/2021",
         to: "16/03/2021",
         published: "10/03/2021",
-        for : "yeka subcity"
+        for : "yeka subcity",
+        status :"delivered"
     },
     {
         id: 2,
@@ -23,7 +24,8 @@ const Tables = () => {
         from: "12/03/2021",
         to: "16/03/2021",
         published: "10/03/2021",
-        for : "bole subcity"
+        for : "bole subcity",
+        status :"delivered"
     },
     {
         id: 3,
@@ -31,31 +33,35 @@ const Tables = () => {
         from: "12/03/2021",
         to: "16/03/2021",
         published: "10/03/2021",
-        for : "arada subcity"
+        for : "arada subcity",
+        status :"delivered"
     },
       {
-           id: 1,
+           id: 4,
            title: "cleaning announcment",
            from: "12/03/2021",
            to: "16/03/2021",
            published: "10/03/2021",
-           for : "yeka subcity"
+           for : "yeka subcity",
+           status :"pending"
        },
        {
-           id: 2,
+           id: 5,
            title: "cleaning announcment",
            from: "12/03/2021",
            to: "16/03/2021",
            published: "10/03/2021",
-           for : "bole subcity"
+           for : "bole subcity",
+           status :"pending"
        },
        {
-           id: 3,
+           id: 6,
            title: "cleaning announcment",
            from: "12/03/2021",
            to: "16/03/2021",
            published: "10/03/2021",
-           for : "arada subcity"
+           for : "arada subcity",
+           status :"delivered"
        },
       ];
   return (
@@ -69,6 +75,9 @@ const Tables = () => {
           <TableCell className="tablecell">To Date</TableCell>
           <TableCell className="tablecell">Published</TableCell>
           <TableCell className="tablecell">For</TableCell>
+          <TableCell className="tablecell">Status</TableCell>
+          
+          
 
           
         </TableRow>
@@ -86,6 +95,9 @@ const Tables = () => {
             <TableCell className="tablecell" >{data.to}</TableCell>
             <TableCell className="tablecell">{data.published}</TableCell>
             <TableCell className="tablecell">{data.for}</TableCell>
+            <TableCell className="tablecell">
+            <span className={`status ${data.status}`} >{data.status}
+            </span></TableCell>
           </TableRow>
         ))}
       </TableBody>

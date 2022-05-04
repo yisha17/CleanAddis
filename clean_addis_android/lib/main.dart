@@ -1,28 +1,58 @@
+import 'package:clean_addis_android/bloc/Authentication/login_bloc.dart';
+import 'package:clean_addis_android/bloc/Signup/auth_bloc.dart';
+import 'package:clean_addis_android/bloc/Waste/user_waste_bloc.dart';
+import 'package:clean_addis_android/data/data_providers/user_data.dart';
+import 'package:clean_addis_android/data/data_providers/waste_data.dart';
+import 'package:clean_addis_android/data/repositories/waste_repository.dart';
 import 'package:clean_addis_android/presentation/AddWaste.dart';
 import 'package:clean_addis_android/presentation/BottomNavigationBar.dart';
 import 'package:clean_addis_android/presentation/Home.dart';
 import 'package:clean_addis_android/presentation/NotifyMap.dart';
+import 'package:clean_addis_android/presentation/ReporList.dart';
+import 'package:clean_addis_android/presentation/Report.dart';
+import 'package:clean_addis_android/presentation/ReportDetail.dart';
 import 'package:clean_addis_android/presentation/Signup.dart';
 import 'package:clean_addis_android/presentation/Login.dart';
-import 'package:clean_addis_android/presentation/YourItem.dart';
+import 'package:clean_addis_android/presentation/WasteForSellList.dart';
+import 'package:clean_addis_android/presentation/WasteDetail.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
+import 'data/repositories/user_repository.dart';
+
+void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        
-        primarySwatch: Colors.blue,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SignupBloc>(
+            create: (BuildContext context) =>
+                SignupBloc(UserRepository(dataProvider: UserDataProvider()))),
+        BlocProvider<LoginBloc>(
+            create: (BuildContext context) => LoginBloc(
+                  UserRepository(dataProvider: UserDataProvider()),
+                )),
+        BlocProvider<UserWasteBloc>(
+          create: (context) => UserWasteBloc(WasteRepository(dataProvider: WasteDataProvider())),)
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+
+        home: WasteForSellPage(),
       ),
-      home: AddWastePage(),
     );
+
   }
 }
-

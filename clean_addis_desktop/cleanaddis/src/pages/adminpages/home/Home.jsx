@@ -24,8 +24,8 @@ const Home = () => {
 
             </div>
             <div>
-              <div className="listContainer shadow-xl shadow-green-100">
-                <div className="listTitle self-center pt-7 pb-3 flex shadow-xl items-center"> latest transactions </div>
+              <div className="listContainer shadow-2xl">
+                <div className="listTitle  pt-8 pb-4 flex self-center justify-center items-center"> Latest announcements </div>
                 < Tables />
               </div>
             </div>
