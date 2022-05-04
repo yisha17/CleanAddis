@@ -10,7 +10,8 @@ import Recycler from './pages/Recycler';
 import Companies from './pages/Companies';
 import Home from './pages/adminpages/home/Home';
 import List from './pages/adminpages/list/List';
-
+import Single from '../../cleanaddis/src/pages/adminpages/singlepage/Single'
+import New from '../../cleanaddis/src/pages/adminpages/new/New'
 
 
 ReactDOM.render(
@@ -23,7 +24,11 @@ ReactDOM.render(
           <Route path="Companies" element = {<Companies/>}/>
           <Route path="Recycler" element = {<Recycler />}/>
           <Route path="cityadmin" element = {<Home />}/>
-          <Route path="report" element = {<List />}/>
+          <Route path="report">
+            <Route index element={<List/>}/>
+            <Route path=":reportId" element={<Single />}/>
+            <Route path=":new" element={<New />}/>
+          </Route>
         </Routes>
       </BrowserRouter>
   </React.StrictMode>,
