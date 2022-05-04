@@ -10,7 +10,7 @@ const data = [
 ];
 const Chart = () => {
   return (
-    <div className="chart flex flex-col">
+    <div className="chart flex flex-col shadow-xl shadow-green-100">
       <div className='title self-center'>Last 6 month performance</div>
       <ResponsiveContainer width="100%" height="100%">
       <AreaChart
