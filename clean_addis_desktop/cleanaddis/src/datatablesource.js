@@ -13,7 +13,13 @@ export const userColumns = [
     {field: 'to', headerName: "to", width: 100 },
     {field: 'published', headerName: "published on date", width: 100 },
     {field: 'for', headerName: "For", width: 100 },
-    {field: 'status', headerName: "status", width: 100 },
+    {field: 'status', headerName: "status", width: 100,
+    renderCell:(params) => {
+        return(
+            <div className={`status ${params.row.status}`}>{params.row.status}</div>
+        ) 
+       }},
+
 ];
 export  const userRows = [{
     id: 1,
