@@ -9,6 +9,7 @@ import {BrowserRouter,Routes,Route} from 'react-router-dom';
 import Recycler from './pages/Recycler';
 import Companies from './pages/Companies';
 import Home from './pages/adminpages/home/Home';
+import List from './pages/adminpages/list/List';
 
 
 
@@ -22,6 +23,7 @@ ReactDOM.render(
           <Route path="Companies" element = {<Companies/>}/>
           <Route path="Recycler" element = {<Recycler />}/>
           <Route path="cityadmin" element = {<Home />}/>
+          <Route path="report" element = {<List />}/>
         </Routes>
       </BrowserRouter>
   </React.StrictMode>,
