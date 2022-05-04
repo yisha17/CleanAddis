@@ -2,3 +2,13 @@
     height: 400;
     width: 100%;
 }
+.status{
+     &.delivered{
+         color:green;
+         background-color: lightgreen;
+     }
+     &.pending{
+        color:goldenrod;
+        background-color: rgba($color: goldenrod, $alpha: 0.203);
+    }
+}
