@@ -16,11 +16,11 @@ const Datatable = () => {
     }},]
 
   return (
-    <div  style={{ height: 400, width: '100%' }} className="items-center">
+    <div  style={{ height: 500, width: '100%' }} className="items-center">
        <DataGrid 
         rows={userRows}
         columns={userColumns.concat(actionColumn)}
-        pageSize={5}
+        pageSize={10}
         rowsPerPageOptions={[5]}
         checkboxSelection
       />

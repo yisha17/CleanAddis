@@ -9,61 +9,55 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 const Tables = () => {
-   const datas = [{
-        id: 1,
-        title: "cleaning announcment",
-        from: "12/03/2021",
-        to: "16/03/2021",
-        published: "10/03/2021",
-        for : "yeka subcity",
-        status :"delivered"
-    },
-    {
-        id: 2,
-        title: "cleaning announcment",
-        from: "12/03/2021",
-        to: "16/03/2021",
-        published: "10/03/2021",
-        for : "bole subcity",
-        status :"delivered"
-    },
-    {
-        id: 3,
-        title: "cleaning announcment",
-        from: "12/03/2021",
-        to: "16/03/2021",
-        published: "10/03/2021",
-        for : "arada subcity",
-        status :"delivered"
-    },
-      {
-           id: 4,
-           title: "cleaning announcment",
-           from: "12/03/2021",
-           to: "16/03/2021",
-           published: "10/03/2021",
-           for : "yeka subcity",
-           status :"pending"
-       },
-       {
-           id: 5,
-           title: "cleaning announcment",
-           from: "12/03/2021",
-           to: "16/03/2021",
-           published: "10/03/2021",
-           for : "bole subcity",
-           status :"pending"
-       },
-       {
-           id: 6,
-           title: "cleaning announcment",
-           from: "12/03/2021",
-           to: "16/03/2021",
-           published: "10/03/2021",
-           for : "arada subcity",
-           status :"delivered"
-       },
-      ];
+  const datas = [{
+    id: 1,
+    title: "cleaning announcment",
+    from: "12/03/2021",
+    to: "16/03/2021",
+    published: "10/03/2021",
+    for : "yeka subcity"
+},
+{
+    id: 2,
+    title: "cleaning announcment",
+    from: "12/03/2021",
+    to: "16/03/2021",
+    published: "10/03/2021",
+    for : "bole subcity"
+},
+{
+    id: 3,
+    title: "cleaning announcment",
+    from: "12/03/2021",
+    to: "16/03/2021",
+    published: "10/03/2021",
+    for : "arada subcity"
+},
+  {
+       id: 1,
+       title: "cleaning announcment",
+       from: "12/03/2021",
+       to: "16/03/2021",
+       published: "10/03/2021",
+       for : "yeka subcity"
+   },
+   {
+       id: 2,
+       title: "cleaning announcment",
+       from: "12/03/2021",
+       to: "16/03/2021",
+       published: "10/03/2021",
+       for : "bole subcity"
+   },
+   {
+       id: 3,
+       title: "cleaning announcment",
+       from: "12/03/2021",
+       to: "16/03/2021",
+       published: "10/03/2021",
+       for : "arada subcity"
+   },
+  ];
   return (
     <TableContainer component={Paper}>
     <Table sx={{ minWidth: 650 }} aria-label="simple table">
