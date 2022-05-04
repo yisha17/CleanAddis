@@ -4,6 +4,7 @@ import CityadminNavbar from "../../../components/cityadmincomponents/navbar/City
 import Widget from "../../../components/cityadmincomponents/widgets/Widget"
 import Featured from "../../../components/cityadmincomponents/featured/Featured"
 import Chart from "../../../components/cityadmincomponents/chart/Chart"
+import Tables from "../../../components/cityadmincomponents/table/Tables"
 
 const Home = () => {
   return (
@@ -24,7 +25,8 @@ const Home = () => {
             </div>
             <div>
               <div className="listContainer shadow-xl shadow-green-100">
-                <div className="listTitle self-center pt-4"> latest transactions </div>
+                <div className="listTitle self-center pt-7 pb-3 flex shadow-xl items-center"> latest transactions </div>
+                < Tables />
               </div>
             </div>
           </div>
