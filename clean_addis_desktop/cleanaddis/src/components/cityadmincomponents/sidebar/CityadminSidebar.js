@@ -7,14 +7,16 @@ import User from './User.png'
 import Shout from './Shout.png'
 import Work from './Work.png'
 import Report from './Report.png'
+import Home from '../../../pages/adminpages/home/Home';
+import {Link } from "react-router-dom"
 
 const CityadminSidebar = () => {
   const [open,setOpen] = useState(true);
   const Menus =[
-    {title:"Dashboard", src:Dashboard},
-    {title:"Report", src:Report},
-    {title:"Announcement",src:Shout},
-    {title:"Work",src:Work},
+    {title:"Dashboard", src:Dashboard ,link:"/cityadmin" },
+    {title:"Report", src:Report ,link:"/cityadmin/report"},
+    {title:"Announcement",src:Shout,link:"/cityadmin/announcement"},
+    {title:"Work",src:Work,link:"/cityadmin/work"},
   ]
   return (
 
@@ -28,15 +30,18 @@ const CityadminSidebar = () => {
       </div>
       <ul>
         {Menus.map((menu,index)=>(
+       <Link to={menu.link}>
           <li key={index}
               className={`text-white text-sm font-medium flex items-center 
               gap-x-2  pt-8 cursor-pointer hover:bg-green-600 rounded-md`
               }>
+            
              <img src={menu.src}  />
              <span className={`${!open && 'hidden'} origin-left duration-200`}>
-               {menu.title}</span>
-            
+             {menu.title} </span>
+              
           </li>
+          </Link>
         ))}
       </ul>
       </div>
