@@ -13,12 +13,11 @@ import {Link } from "react-router-dom"
 const CityadminSidebar = () => {
   const [open,setOpen] = useState(true);
   const Menus =[
-    {title:"Dashboard", src:Dashboard ,link:"/cityadmin" },
-    {title:"Report", src:Report ,link:"/cityadmin/report"},
-    {title:"Waste",src:Shout,link:"/cityadmin/announcement"},
-    {title:"Work",src:Work,link:"/cityadmin/work"},
-    {title:"announcements",src:Work,link:"/cityadmin/work"},
-    {title:"seminars",src:Work,link:"/cityadmin/work"},
+    {title:"Dashboard", src:Dashboard ,link:"/user" },
+    {title:"Report", src:Report ,link:"/user/report"},
+    {title:"Waste",src:Shout,link:"/user/waste"},
+    {title:"announcements",src:Work,link:"/user/announcement"},
+    {title:"seminars",src:Work,link:"/user/seminar"},
 
   ]
   return (

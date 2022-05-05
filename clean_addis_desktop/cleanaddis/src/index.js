@@ -12,8 +12,12 @@ import Home from './pages/adminpages/home/Home';
 import List from './pages/adminpages/list/List';
 import Single from '../../cleanaddis/src/pages/adminpages/singlepage/Single';
 import New from '../../cleanaddis/src/pages/adminpages/new/New';
+import Ulist from './pages/userpages/ulist/Ulist';
+import Usingle from '../../cleanaddis/src/pages/userpages/usinglepage/Usingle';
+import Unew from '../../cleanaddis/src/pages/userpages/unew/Unew';
 import {announcementInputs, reportuserInputs} from "../src/formsource"
 import Uhome from '../src/pages/userpages/uhome/Uhome'
+
 
 ReactDOM.render(
     <React.StrictMode>
@@ -61,6 +65,16 @@ ReactDOM.render(
           </Route>
           <Route path="user">
             <Route index element={<Uhome />}/>
+            <Route path="report">
+                  <Route index element={<Ulist/>} /> 
+                  <Route path=":reportId" element={<Usingle />}/>
+                  </Route >
+                  <Route path="announcement">
+                  <Route index element={<Ulist/>} /> 
+                  <Route path=":announcementId" element={<Usingle />}/>
+                  <Route path="new" element={<Unew inputs = {announcementInputs} title="Add new Announcement"/>}/>
+                  </Route >
+                
           </Route>
 
           
