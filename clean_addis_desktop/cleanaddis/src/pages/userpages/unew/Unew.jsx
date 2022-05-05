@@ -4,7 +4,7 @@ import UserNavbar from "../../../components/usercomponents/unavbar/UserNavbar"
 import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUpload';
 
 
-const New = ({inputs,title}) => {
+const Unew = ({inputs,title}) => {
 
   
 
@@ -42,4 +42,4 @@ const New = ({inputs,title}) => {
   )
 }
 
-export default New
+export default Unew

@@ -6,7 +6,7 @@ import Ufeatured from "../../../components/usercomponents/ufeatured/Ufeatured"
 import Uchart from "../../../components/usercomponents/uchart/Uchart"
 import Utables from "../../../components/usercomponents/utable/Utables"
 
-const Home = () => {
+const Uhome = () => {
   return (
       <div className="flex">
           <UserSidebar/>
@@ -35,4 +35,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Uhome

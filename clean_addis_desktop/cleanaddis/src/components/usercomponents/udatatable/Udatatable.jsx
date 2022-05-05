@@ -3,7 +3,7 @@ import './udatatable.scss'
 import { DataGrid } from '@mui/x-data-grid'
 import { userColumns, userRows } from '../../../datatablesource'
 import {Link} from 'react-router-dom'
-import New from '../../../pages/adminpages/new/New'
+import Unew from '../../../pages/userpages/unew/Unew'
 
 
 const Datatable = () => {
@@ -21,7 +21,7 @@ const Datatable = () => {
 
   return (
     <div>
-  <Link to="New">
+      <Link to="New">
    <div className=" border rounded border-slate-300 p-1 bg-green-200 hover:bg-yellow w-20 cursor-pointer relative left">Add new</div> 
    </Link>
     <div  style={{ height: 500, width: '100%' }} className="items-center">
@@ -33,6 +33,7 @@ const Datatable = () => {
         checkboxSelection
       />
     </div>
+    
     
     </div>
   )

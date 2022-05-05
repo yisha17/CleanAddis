@@ -28,7 +28,9 @@ const CityadminSidebar = () => {
       border-green-500 rotate  ${!open && "rotate-180"}`}
       onClick={()=>setOpen(!open)}/>
       <div className="flex gap-x-4 items-left">
-      <h2 className={`text-white origin-left font-medium text-x1 duration-300`}>City Admin</h2>
+        <Link to="/user">
+      <h2 className={`text-white origin-left font-medium text-x1 duration-300`}>User</h2>
+      </Link>
       </div>
       <ul>
         {Menus.map((menu,index)=>(
