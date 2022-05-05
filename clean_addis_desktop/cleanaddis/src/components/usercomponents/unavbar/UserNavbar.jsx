@@ -1,4 +1,4 @@
-import "./cityadminnavbar.scss"
+import "./usernavbar.scss"
 import Search from './Search.png'
 import Notification from './Notification.png'
 import List from './List.png'

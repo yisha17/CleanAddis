@@ -24,7 +24,7 @@ const New = ({inputs,title}) => {
           <form className="flex flex-col gap-6">
             {inputs.map(input=>(
             <div className="formInput" key={input.id}>
-            <label className="items-center justify-center  "> {input.lable}</label>
+            <label className="items-center justify-center"> {input.lable}</label>
             <input type={input.type} placeholder={input.placeholder} />
             </div>))}
             

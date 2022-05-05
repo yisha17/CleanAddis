@@ -1,15 +1,16 @@
-import "./list.scss"
-import CityadminSidebar from "../../../components/cityadmincomponents/sidebar/CityadminSidebar"
-import CityadminNavbar from "../../../components/cityadmincomponents/navbar/CityadminNavbar"
-import Datatable from "../../../components/cityadmincomponents/datatable/Datatable"
+import "./ulist.scss"
+import UserSidebar from "../../../components/usercomponents/usidebar/UserSidebar"
+import UserNavbar from "../../../components/usercomponents/unavbar/UserNavbar"
+import Udatatable from "../../../components/usercomponents/udatatable/Udatatable"
 
 const List = () => {
   return (
     <div className="list flex">
-    <CityadminSidebar />
+      
+    <UserSidebar />
     <div className="listContainer pt-3 pl-3">
-      <CityadminNavbar className="pt-3 " />
-      <Datatable />
+      <UserNavbar className="pt-3 " />
+      <Udatatable />
     </div>
     </div>
   )

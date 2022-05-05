@@ -1,18 +1,18 @@
-import "./new.scss"
-import CityadminSidebar from "../../../components/cityadmincomponents/sidebar/CityadminSidebar"
-import CityadminNavbar from "../../../components/cityadmincomponents/navbar/CityadminNavbar"
+import "./unew.scss"
+import UserSidebar from "../../../components/usercomponents/usidebar/UserSidebar"
+import UserNavbar from "../../../components/usercomponents/unavbar/UserNavbar"
 import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUpload';
 
 
-const New = ({inputs,title}) => {
+const Unew = ({inputs,title}) => {
 
   
 
   return (
     <div className="new flex">
-    <CityadminSidebar />    
+    <UserSidebar />    
       <div className="newcontainer pt-3 pl-2 flex-6 w-full">
-        <CityadminNavbar />
+        <UserNavbar />
       <div className = "top flex font-bold text-3xl shadow-xl pt-7 m-2 w-full text-gray-400">
         <h1 >{title}</h1>
       </div>
@@ -42,4 +42,4 @@ const New = ({inputs,title}) => {
   )
 }
 
-export default New
+export default Unew
