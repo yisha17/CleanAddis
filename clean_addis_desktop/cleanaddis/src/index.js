@@ -56,7 +56,7 @@ ReactDOM.render(
                   <Route index element={<List/>} /> 
                   <Route path=":workid" element={<Single />}/>
                   <Route path="new" element={<New inputs = {announcementInputs} title="Add new work"/>}/>
-                  </Route >
+                  </Route>
           </Route>
 
           
