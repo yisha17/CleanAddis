@@ -1,5 +1,5 @@
 import React from 'react'
-import "./featured.scss"
+import "./ufeatured.scss"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import { CircularProgressbar, buildStyles  } from "react-circular-progressbar"
 import "react-circular-progressbar/dist/styles.css";

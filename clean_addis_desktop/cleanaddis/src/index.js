@@ -13,6 +13,7 @@ import List from './pages/adminpages/list/List';
 import Single from '../../cleanaddis/src/pages/adminpages/singlepage/Single';
 import New from '../../cleanaddis/src/pages/adminpages/new/New';
 import {announcementInputs, reportuserInputs} from "../src/formsource"
+import Uhome from '../src/pages/userpages/uhome/Uhome'
 
 ReactDOM.render(
     <React.StrictMode>
@@ -57,6 +58,9 @@ ReactDOM.render(
                   <Route path=":workid" element={<Single />}/>
                   <Route path="new" element={<New inputs = {announcementInputs} title="Add new work"/>}/>
                   </Route>
+          </Route>
+          <Route path="user">
+            <Route index element={<Uhome />}/>
           </Route>
 
           

@@ -7,7 +7,7 @@ import User from './User.png'
 import Shout from './Shout.png'
 import Work from './Work.png'
 import Report from './Report.png'
-import Home from '../../../pages/adminpages/home/Home';
+import Uhome from '../../../pages/userpages/uhome/Uhome';
 import {Link } from "react-router-dom"
 
 const CityadminSidebar = () => {
@@ -15,8 +15,11 @@ const CityadminSidebar = () => {
   const Menus =[
     {title:"Dashboard", src:Dashboard ,link:"/cityadmin" },
     {title:"Report", src:Report ,link:"/cityadmin/report"},
-    {title:"Announcement",src:Shout,link:"/cityadmin/announcement"},
+    {title:"Waste",src:Shout,link:"/cityadmin/announcement"},
     {title:"Work",src:Work,link:"/cityadmin/work"},
+    {title:"announcements",src:Work,link:"/cityadmin/work"},
+    {title:"seminars",src:Work,link:"/cityadmin/work"},
+
   ]
   return (
 

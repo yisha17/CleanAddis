@@ -1,32 +1,32 @@
-import "./home.scss"
-import CityadminSidebar from "../../../components/cityadmincomponents/sidebar/CityadminSidebar"
-import CityadminNavbar from "../../../components/cityadmincomponents/navbar/CityadminNavbar"
-import Widget from "../../../components/cityadmincomponents/widgets/Widget"
-import Featured from "../../../components/cityadmincomponents/featured/Featured"
-import Chart from "../../../components/cityadmincomponents/chart/Chart"
-import Tables from "../../../components/cityadmincomponents/table/Tables"
+import "./uhome.scss"
+import UserSidebar from "../../../components/usercomponents/usidebar/UserSidebar"
+import UserNavbar from "../../../components/usercomponents/unavbar/UserNavbar"
+import Uwidget from "../../../components/usercomponents/uwidgets/Uwidget"
+import Ufeatured from "../../../components/usercomponents/ufeatured/Ufeatured"
+import Uchart from "../../../components/usercomponents/uchart/Uchart"
+import Utables from "../../../components/usercomponents/utable/Utables"
 
 const Home = () => {
   return (
       <div className="flex">
-          <CityadminSidebar/>
+          <UserSidebar/>
           <div className="p-7 text-2x1  h-screen">
-          <CityadminNavbar />
+          <UserNavbar />
             <div className="widgets w-full flex flex-1 p-3 gap-10   ">
-              <Widget type="workers"/>
-              <Widget type="publicplaces" />
-              <Widget type="reports" />
-              <Widget type="announcements"/>
+              <Uwidget type="workers"/>
+              <Uwidget type="publicplaces" />
+              <Uwidget type="reports" />
+              <Uwidget type="announcements"/>
             </div>
             <div className="charts widgets w-full flex flex-1 p-3 gap-10  pt-3">
-              <Featured />
-              <Chart />
+              <Ufeatured />
+              <Uchart />
 
             </div>
             <div>
               <div className="listContainer shadow-2xl">
                 <div className="listTitle  pt-8 pb-4 flex self-center justify-center items-center"> Latest announcements </div>
-                < Tables />
+                <Utables />
               </div>
             </div>
           </div>
