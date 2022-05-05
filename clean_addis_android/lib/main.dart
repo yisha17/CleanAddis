@@ -16,6 +16,7 @@ import 'package:clean_addis_android/presentation/SeminarList.dart';
 import 'package:clean_addis_android/presentation/Signup.dart';
 import 'package:clean_addis_android/presentation/Login.dart';
 import 'package:clean_addis_android/presentation/WasteBuy.dart';
+import 'package:clean_addis_android/presentation/WasteBuyList.dart';
 import 'package:clean_addis_android/presentation/WasteDonationList.dart';
 import 'package:clean_addis_android/presentation/WasteSellList.dart';
 import 'package:clean_addis_android/presentation/WasteDetail.dart';
@@ -54,7 +55,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
 
-        home: WasteDonationListPage(),
+        home: WasteBuyListPage(),
       ),
     );
 

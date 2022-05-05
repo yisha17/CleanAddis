@@ -79,19 +79,13 @@ class WasteBuyListPageState extends State<WasteBuyListPage> {
                     flex: 25,
                     child: Row(
                       children: [
-                        Container(
-                          color: Colors.green,
-                          child: Text(
-                            'Donated',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
+                        
+                        Icon(
+                          Icons.location_on,
+                          color: Colors.red,
                         ),
-                        SizedBox(
-                          width: 50,
-                        ),
+                        TextButton(
+                            onPressed: () {}, child: Text('view location'))
                       ],
                     ),
                   ),

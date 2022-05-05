@@ -20,15 +20,13 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   final wastebloc =
-      UserWasteBloc(WasteRepository(dataProvider: WasteDataProvider())); 
-  
+      UserWasteBloc(WasteRepository(dataProvider: WasteDataProvider()));
+
   @override
   void initState() {
     super.initState();
     wastebloc..add(HomePageOpenedEvent());
   }
-
-
 
   NetworkImage chooseImage(String type) {
     if (type == 'Plastic') {
@@ -54,7 +52,6 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: lightgreen,
@@ -165,10 +162,12 @@ class HomePageState extends State<HomePage> {
                     builder: (context, state) {
                       if (state is WasteLoadingState) {
                         return ListView(
-                          children: [Center(child: CircularProgressIndicator())],
+                          children: [
+                            Center(child: CircularProgressIndicator())
+                          ],
                         );
                       }
-      
+
                       if (state is WasteLoaded) {
                         final waste = state.waste;
                         return waste.isEmpty
@@ -179,7 +178,12 @@ class HomePageState extends State<HomePage> {
                                     color: Colors.white,
                                     size: 40,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AddWastePage()));
+                                  },
                                 ),
                                 margin: EdgeInsets.symmetric(horizontal: 10),
                                 color: logogreen,
@@ -206,20 +210,21 @@ class HomePageState extends State<HomePage> {
                                                       .size
                                                       .height *
                                                   0.11,
-                                              child:
-                                                  waste.elementAt(index).image ==
-                                                          null
-                                                      ? Image(
-                                                          image: chooseImage(waste
-                                                              .elementAt(index)
-                                                              .waste_type!),
-                                                          fit: BoxFit.fill,
-                                                        )
-                                                      : Image(
-                                                          image: NetworkImage(
-                                                              '${waste.elementAt(index).image}'),
-                                                          fit: BoxFit.fill,
-                                                        )),
+                                              child: waste
+                                                          .elementAt(index)
+                                                          .image ==
+                                                      null
+                                                  ? Image(
+                                                      image: chooseImage(waste
+                                                          .elementAt(index)
+                                                          .waste_type!),
+                                                      fit: BoxFit.fill,
+                                                    )
+                                                  : Image(
+                                                      image: NetworkImage(
+                                                          '${waste.elementAt(index).image}'),
+                                                      fit: BoxFit.fill,
+                                                    )),
                                           Center(
                                               child: Text(
                                                   '${waste.elementAt(index).waste_name}'))
@@ -235,8 +240,10 @@ class HomePageState extends State<HomePage> {
                                           size: 40,
                                         ),
                                         onPressed: () {
-                                           Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => AddWastePage()));
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AddWastePage()));
                                         },
                                       ),
                                       margin:
@@ -246,7 +253,7 @@ class HomePageState extends State<HomePage> {
                                           0.25,
                                     );
                                   }
-      
+
                                   return Container(
                                     child: IconButton(
                                       icon: Icon(
@@ -255,14 +262,17 @@ class HomePageState extends State<HomePage> {
                                         size: 40,
                                       ),
                                       onPressed: () {
-                                         Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => AddWastePage()));
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AddWastePage()));
                                       },
                                     ),
-                                    margin: EdgeInsets.symmetric(horizontal: 10),
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 10),
                                     color: logogreen,
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.25,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.25,
                                     height: MediaQuery.of(context).size.height *
                                         0.115,
                                   );
@@ -305,10 +315,12 @@ class HomePageState extends State<HomePage> {
                     builder: (context, state) {
                       if (state is WasteLoadingState) {
                         return ListView(
-                          children: [Center(child: CircularProgressIndicator())],
+                          children: [
+                            Center(child: CircularProgressIndicator())
+                          ],
                         );
                       }
-      
+
                       if (state is WasteLoaded) {
                         final waste = state.waste;
                         final waste_donation = waste
@@ -322,7 +334,12 @@ class HomePageState extends State<HomePage> {
                                     color: Colors.white,
                                     size: 40,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AddWastePage()));
+                                  },
                                 ),
                                 margin: EdgeInsets.symmetric(horizontal: 10),
                                 color: logogreen,
@@ -347,19 +364,20 @@ class HomePageState extends State<HomePage> {
                                                     .size
                                                     .height *
                                                 0.115,
-                                            child: waste.elementAt(index).image ==
-                                                    null
-                                                ? Image(
-                                                    image: chooseImage(waste
-                                                        .elementAt(index)
-                                                        .waste_type!),
-                                                    fit: BoxFit.fill,
-                                                  )
-                                                : Image(
-                                                    image: NetworkImage(
-                                                        '${waste.elementAt(index).image}'),
-                                                    fit: BoxFit.fill,
-                                                  )),
+                                            child:
+                                                waste.elementAt(index).image ==
+                                                        null
+                                                    ? Image(
+                                                        image: chooseImage(waste
+                                                            .elementAt(index)
+                                                            .waste_type!),
+                                                        fit: BoxFit.fill,
+                                                      )
+                                                    : Image(
+                                                        image: NetworkImage(
+                                                            '${waste.elementAt(index).image}'),
+                                                        fit: BoxFit.fill,
+                                                      )),
                                         Center(
                                             child: Text(
                                                 '${waste.elementAt(index).waste_name}'))
@@ -373,15 +391,21 @@ class HomePageState extends State<HomePage> {
                                           color: Colors.white,
                                           size: 40,
                                         ),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AddWastePage()));
+                                        },
                                       ),
                                       margin:
                                           EdgeInsets.symmetric(horizontal: 10),
                                       color: logogreen,
                                       width: MediaQuery.of(context).size.width *
                                           0.25,
-                                      height: MediaQuery.of(context).size.height *
-                                          0.115,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.115,
                                     );
                                   }
                                   return Center(child: Text('Loading'));
