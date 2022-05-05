@@ -10,9 +10,9 @@ import Recycler from './pages/Recycler';
 import Companies from './pages/Companies';
 import Home from './pages/adminpages/home/Home';
 import List from './pages/adminpages/list/List';
-import Single from '../../cleanaddis/src/pages/adminpages/singlepage/Single'
-import New from '../../cleanaddis/src/pages/adminpages/new/New'
-
+import Single from '../../cleanaddis/src/pages/adminpages/singlepage/Single';
+import New from '../../cleanaddis/src/pages/adminpages/new/New';
+import {announcementInputs, reportuserInputs} from "../src/formsource"
 
 ReactDOM.render(
     <React.StrictMode>
@@ -23,12 +23,43 @@ ReactDOM.render(
           <Route path="Services" element = {<Services />}/>
           <Route path="Companies" element = {<Companies/>}/>
           <Route path="Recycler" element = {<Recycler />}/>
-          <Route path="cityadmin" element = {<Home />}/>
-          <Route path="report">
+          <Route path="announcement">
             <Route index element={<List/>}/>
-            <Route path=":reportId" element={<Single />}/>
-            <Route path=":new" element={<New />}/>
+            <Route path=":announcementId" element={<Single />}/>
+            <Route path="new" element={<New inputs = {announcementInputs} />}/>
           </Route>
+          <Route path="waste">
+          <Route path=":wasteId" element={<Single />}/>
+            <Route index element={<List/>}/>
+            <Route path=":wasteId" element={<Single />}/>
+            <Route path="new" element={<New inputs = {announcementInputs} />}/>
+          </Route>
+         
+          <Route path="work">
+            <Route index element={<List/>}/>
+            <Route path=":workId" element={<Single />}/>
+            
+          </Route>
+          <Route path="cityadmin">
+            <Route index element={<Home />}/>   
+            <Route path="new" element={<New inputs = {announcementInputs} title="Add new Announcement"/>}/>
+                <Route path="report">
+                  <Route index element={<List/>} /> 
+                  <Route path=":reportId" element={<Single />}/>
+                  </Route >
+                  <Route path="announcement">
+                  <Route index element={<List/>} /> 
+                  <Route path=":announcementId" element={<Single />}/>
+                  <Route path="new" element={<New inputs = {announcementInputs} title="Add new Announcement"/>}/>
+                  </Route >
+                  <Route path="work">
+                  <Route index element={<List/>} /> 
+                  <Route path=":workid" element={<Single />}/>
+                  <Route path="new" element={<New inputs = {announcementInputs} title="Add new work"/>}/>
+                  </Route>
+          </Route>
+
+          
         </Routes>
       </BrowserRouter>
   </React.StrictMode>,
