@@ -29,6 +29,7 @@ ReactDOM.render(
             <Route path=":reportId" element={<Single />}/>
             <Route path=":new" element={<New />}/>
           </Route>
+          <Route path="New" element = {<New />} />
         </Routes>
       </BrowserRouter>
   </React.StrictMode>,
