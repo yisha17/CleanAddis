@@ -56,7 +56,7 @@ class AddWasteState extends State<AddWastePage> {
           return RadioListTile<String>(
               value: e,
               groupValue: selectedValue,
-              title: Text(e),
+              title: Text(e,style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w600),),
               onChanged: (value) => setState(() => this.selectedValue = e));
         },
       ).toList(),
@@ -189,7 +189,7 @@ class AddWasteState extends State<AddWastePage> {
                     clipBehavior: Clip.none,
                     children: [
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.4,
+                        height: MediaQuery.of(context).size.height * 0.3,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                             color: Colors.grey[300],
@@ -197,34 +197,35 @@ class AddWasteState extends State<AddWastePage> {
                                 image: (image != null)
                                     ? FileImage(image!)
                                     : NetworkImage(wasteBlank) as ImageProvider,
-                                fit: BoxFit.fill)),
+                                fit: BoxFit.cover)),
                       ),
                       Positioned(
-                        bottom: -10,
-                        right: 10,
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.image_outlined,
-                            size: 30,
+                        bottom: 0,
+                        right: 0,
+                        child: Row(
+                          children: [
+                            IconButton(
+                            icon: Icon(
+                              Icons.image_outlined,
+                              size: 30,
+                            ),
+                            onPressed: () {
+                              _pickImage();
+                            },
                           ),
-                          onPressed: () {
-                            _pickImage();
-                          },
-                        ),
-                      ),
-                      Positioned(
-                        bottom: -10,
-                        right: 40,
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.camera_alt_outlined,
-                            size: 30,
+                          IconButton(
+                            icon: Icon(
+                              Icons.camera_alt_outlined,
+                              size: 30,
+                            ),
+                            onPressed: () {
+                              _pickImage();
+                            },
                           ),
-                          onPressed: () {
-                            _pickImage();
-                          },
+                          ],
                         ),
-                      ),
+                      )
+                     
                     ],
                   ),
                   SizedBox(
@@ -232,7 +233,7 @@ class AddWasteState extends State<AddWastePage> {
 
                   ),
                   buildTextField(
-                    icon: Icon(Icons.real_estate_agent),
+                    icon: Icon(Icons.recycling),
                     type: TextInputType.name,
                     controller: this.waste_name_text,
                     labelText: "Waste name",
@@ -311,7 +312,7 @@ class AddWasteState extends State<AddWastePage> {
                       ),
                       new Flexible(
                         child: buildTextField(
-                            icon: Icon(Icons.production_quantity_limits),
+                            icon: Icon(Icons.scale),
                             type: TextInputType.name,
                             controller: this.metric_text,
                             labelText: "Unit",
@@ -320,18 +321,24 @@ class AddWasteState extends State<AddWastePage> {
                     ],
                   ),
                   buildTextField(
-                      icon: Icon(Icons.map),
+                      icon: Icon(Icons.location_on,color: Colors.red,),
                       type: TextInputType.name,
                       controller: this.location_text,     
                       labelText: "Location",
                       placeholder: "Piassa, AddisAbaba"),
                   buildTextField(
-                      icon: Icon(Icons.description),
+                      icon: Icon(Icons.description,color: Colors.amberAccent,),
                       type: TextInputType.name,
       controller: this.waste_description_text,
                       labelText: "Description",
                       placeholder: "Description here"),
-
+                  Text(
+                    'Waste For',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 22,
+                        color: Colors.black),
+                  ),
                   buildRadios(),
                   ElevatedButton(
                       onPressed: () {
@@ -347,7 +354,11 @@ class AddWasteState extends State<AddWastePage> {
                             location: this.location_text.text,
                             description: this.waste_description_text.text);
                       },
-                      child: Text('Create'))
+                      child: Text('Create',style: TextStyle(fontSize: 26,fontWeight: FontWeight.w700),),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size.fromHeight(50),
+                        primary: logogreen
+                      ),)
                 ],
               ),
             ),
