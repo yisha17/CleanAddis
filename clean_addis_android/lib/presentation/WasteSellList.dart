@@ -11,7 +11,15 @@ class WasteForSellPage extends StatefulWidget {
 
 class WasteForSellPageState extends State<WasteForSellPage> {
 
-   Widget createListTile() {
+
+
+
+  Widget horizontalSpace(double width) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * width,
+    );
+  }   
+  Widget createListTile() {
     return Container(
       height: 100,
       color: lightgreen,
@@ -78,7 +86,7 @@ class WasteForSellPageState extends State<WasteForSellPage> {
                         Container(
                           color:Colors.green,
                           child: Text(
-                            'Resolved',
+                            'Sold',
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w500, 
@@ -112,7 +120,7 @@ class WasteForSellPageState extends State<WasteForSellPage> {
       appBar: AppBar(
         backgroundColor: lightgreen,
         centerTitle: true,
-        leading: SizedBox(height: 10, width: 10,child: Image.asset('image/recycling.png',fit: BoxFit.fill,)),
+        leading: Icon(Icons.sell,color: Colors.black,),
         title: Text(
           'Waste For Sell',
           style: TextStyle(
@@ -122,6 +130,10 @@ class WasteForSellPageState extends State<WasteForSellPage> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed:(){},
+        child: Icon(Icons.add),
+        backgroundColor: Colors.red, ),
       backgroundColor: lightgreen,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(5, 10, 10, 5),
@@ -129,13 +141,22 @@ class WasteForSellPageState extends State<WasteForSellPage> {
           children: [
             
             SizedBox(
-              height: MediaQuery.of(context).size.width * 0.04,
+              height: MediaQuery.of(context).size.width * 0.01,
             ),
             Expanded(
               child: ListView(
                 scrollDirection: Axis.vertical,
                 children: [
-                  createListTile()
+                  createListTile(),
+                  createListTile(),
+                  createListTile(),
+                  createListTile(),
+                  createListTile(),
+                  createListTile(),
+                  createListTile(),
+                  createListTile(),
+                  createListTile(),
+                  createListTile(),
                   // Card(
                   //   child: Padding(
                   //     padding: const EdgeInsets.symmetric(vertical: 5.0,horizontal: 10),
