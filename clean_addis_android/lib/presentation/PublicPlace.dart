@@ -49,7 +49,7 @@ class PublicPlacePageState extends State<PublicPlacePage> {
           ],
         ),
         Positioned(
-          top: 10,
+          top: MediaQuery.of(context).size.height * 0.04,
           right: 20,
           child: IconButton(
             icon: Icon(
@@ -67,7 +67,7 @@ class PublicPlacePageState extends State<PublicPlacePage> {
 
         isSearching ?
         Positioned(
-            top: 30,
+            top: MediaQuery.of(context).size.height * 0.08,
             right: 20,
             child: Column(
               children: [

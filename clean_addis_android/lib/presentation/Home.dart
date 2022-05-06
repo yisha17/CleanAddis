@@ -1,6 +1,7 @@
 import 'package:clean_addis_android/bloc/Waste/user_waste_bloc.dart';
 import 'package:clean_addis_android/data/data_providers/waste_data.dart';
 import 'package:clean_addis_android/data/repositories/waste_repository.dart';
+import 'package:clean_addis_android/presentation/WasteBuyList.dart';
 import 'package:clean_addis_android/presentation/WasteSellList.dart';
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
@@ -53,23 +54,29 @@ class HomePageState extends State<HomePage> {
   }
 
   Widget wasteType(String type, Color id) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 5),
-      color: id,
-      width: MediaQuery.of(context).size.width * 0.25,
-      child: Center(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.recycling, color: Colors.white, size: 35),
-          Text(
-            type,
-            style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white),
-          )
-        ],
-      )),
+    return InkWell(
+      onTap: (){
+        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => WasteBuyListPage()));
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 5),
+        color: id,
+        width: MediaQuery.of(context).size.width * 0.25,
+        child: Center(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.recycling, color: Colors.white, size: 35),
+            Text(
+              type,
+              style: TextStyle(
+                  fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white),
+            )
+          ],
+        )),
+      ),
     );
   }
 Widget verticalSpace(double height) {

@@ -1,3 +1,4 @@
+import 'package:clean_addis_android/presentation/AddWaste.dart';
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -154,7 +155,10 @@ class WasteForSellPageState extends State<WasteForSellPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed:(){},
+        onPressed:(){
+          Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => AddWastePage()));
+        },
         child: Icon(Icons.add),
         backgroundColor: Colors.red, ),
       backgroundColor: lightgreen,

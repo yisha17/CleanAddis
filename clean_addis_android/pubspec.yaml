@@ -40,6 +40,7 @@ dependencies:
   geolocator: ^7.7.0
   geocoding: ^2.0.4
   webview_flutter: ^3.0.2
+  flutter_rating_bar: ^4.0.0
 
 dev_dependencies:
   flutter_test:

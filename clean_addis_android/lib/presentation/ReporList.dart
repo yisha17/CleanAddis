@@ -1,6 +1,8 @@
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
 
+import 'Report.dart';
+
 class ReportListPage extends StatefulWidget {
   const ReportListPage({Key? key}) : super(key: key);
 
@@ -128,19 +130,25 @@ class _ReportListPageState extends State<ReportListPage> {
         ),
       ),
       backgroundColor: lightgreen,
-      body: ListView(
-        children: [
-          createListTile(),
-          createListTile(),
-          createListTile(),
-          createListTile(),
-          createListTile(),
-          createListTile(),
-          createListTile(),
-        ],
+      body: SingleChildScrollView(
+        child: ListView(
+          children: [
+            createListTile(),
+            createListTile(),
+            createListTile(),
+            createListTile(),
+            createListTile(),
+            createListTile(),
+            createListTile(),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => 
+              ReportPage()));
+        },
         child: Icon(Icons.add),
         backgroundColor: Colors.red,
       ),

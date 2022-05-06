@@ -16,6 +16,33 @@ class WasteBuyListPageState extends State<WasteBuyListPage> {
     );
   }
 
+  Widget wasteType(String type, Color id) {
+    return InkWell(
+      onTap: () {
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 5),
+        color: id,
+        width: MediaQuery.of(context).size.width * 0.25,
+        child: Center(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.recycling, color: Colors.white, size: 25),
+            Text(
+              type,
+              style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white),
+            )
+          ],
+        )),
+      ),
+    );
+  }
+
   Widget createListTile() {
     return Container(
       height: 100,
@@ -104,12 +131,13 @@ class WasteBuyListPageState extends State<WasteBuyListPage> {
         appBar: AppBar(
           backgroundColor: lightgreen,
           centerTitle: true,
+          elevation: 0,
           leading: Icon(
-            Icons.compost,
+            Icons.shopping_bag,
             color: Colors.black,
           ),
           title: Text(
-            'Donations',
+            'Buy',
             style: TextStyle(
               color: Colors.black,
               fontSize: 26,
@@ -117,18 +145,26 @@ class WasteBuyListPageState extends State<WasteBuyListPage> {
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: Icon(Icons.add),
-          backgroundColor: Colors.red,
-        ),
+        
         backgroundColor: lightgreen,
         body: Padding(
           padding: const EdgeInsets.fromLTRB(5, 10, 10, 5),
           child: Column(
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.width * 0.01,
+                height: MediaQuery.of(context).size.height * 0.01,
+                child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      wasteType('Organic', Colors.green),
+                      wasteType('Plastic', Colors.yellow),
+                      wasteType('E-Waste', Colors.red),
+                      wasteType('Paper', Colors.brown),
+                      wasteType('Metal', Color.fromARGB(255, 107, 105, 105)),
+                      wasteType('Glass', Colors.orangeAccent),
+                      wasteType('Fabric', Color.fromARGB(255, 44, 110, 125)),
+                    ],
+                  )
               ),
               Expanded(
                 child: ListView(

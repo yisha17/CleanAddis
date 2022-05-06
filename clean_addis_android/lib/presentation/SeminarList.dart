@@ -1,3 +1,4 @@
+import 'package:clean_addis_android/presentation/Seminar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,42 +13,48 @@ class SeminarListPage extends StatefulWidget {
 
 class _SeminarListPageState extends State<SeminarListPage> {
   Widget createCard() {
-    return Container(
-      height:300,
-      child: Card(
-          
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 85,
-                child: Image.network(
-                  
-                    'https://www.cleanlink.com/resources/editorial/2021/cleaning-staff-26492.jpg',
-                    fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width,),
-              ),
-              Flexible(
-                flex: 20,
-                child: Center(
-                  child: Text(
-                    'How Cleaning and mental health related?',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
+    return GestureDetector(
+      onTap: (){
+         Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => SeminarPage()));
+      },
+      child: Container(
+        height:300,
+        child: Card(
+            
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 85,
+                  child: Image.network(
+                    
+                      'https://www.cleanlink.com/resources/editorial/2021/cleaning-staff-26492.jpg',
+                      fit: BoxFit.cover,
+                      width: MediaQuery.of(context).size.width,),
+                ),
+                Flexible(
+                  flex: 20,
+                  child: Center(
+                    child: Text(
+                      'How Cleaning and mental health related?',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Row(
-                children: [
-                  Icon(Icons.date_range),
-                  Text('Posted on May 22, 2022')
-                ],
-              )
-            ],
-          ),),
+                Row(
+                  children: [
+                    Icon(Icons.date_range),
+                    Text('Posted on May 22, 2022')
+                  ],
+                )
+              ],
+            ),),
+      ),
     );
   }
 
