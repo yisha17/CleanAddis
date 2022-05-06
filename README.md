@@ -9,13 +9,10 @@ from the end users.
 
 The system performs the following major functions:
 
-**1. Recommendation and Announcement**
+**1.Image classifier**
 
-The system enables city administrators to announce when waste will be collected or other 
-important issues related to cleaning the city. 
-The system gives recommendations for users with mobile phones to choose the best routes, 
-parks or toilets that is best for their safety based on input from users about the place.
-The system also recommends seminars and movements related to cleanliness of the city.
+The system will use Tensorflow lite to create a model to classify images of wastes in categories 
+that is helpful in improving our user experience.
 
 **2. Buy, Sell and Donate waste**
 
