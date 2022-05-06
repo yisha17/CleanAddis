@@ -143,6 +143,7 @@ class AddWasteState extends State<AddWastePage> {
             WidgetsBinding.instance!
                 .addPostFrameCallback((_) => loadingDialog(context));
           } else if (state.waste != null && state is WasteCreatedState) {
+            
           } else if (state is WasteCreateFailedState) {
             print(state.message.toString());
           }
@@ -152,13 +153,16 @@ class AddWasteState extends State<AddWastePage> {
           key: _scaffoldKey,
           appBar: AppBar(
             centerTitle: true,
+            elevation: 0,
             backgroundColor: lightgreen,
             leading: IconButton(
               icon: Icon(
                 Icons.arrow_back,
                 color: Colors.black,
               ),
-              onPressed: () {},
+              onPressed: () {
+                 Navigator.of(context).pop();
+              },
             ),
             title: Center(
               child:

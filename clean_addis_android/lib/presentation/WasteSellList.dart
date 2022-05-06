@@ -11,7 +11,26 @@ class WasteForSellPage extends StatefulWidget {
 
 class WasteForSellPageState extends State<WasteForSellPage> {
 
-
+  Widget wasteType(String type, Color id) {
+    return Container(
+      height: 50,
+      margin: EdgeInsets.symmetric(horizontal: 5),
+      color: id,
+      child: Center(
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.recycling, color: Colors.white, size: 35),
+          Text(
+            type,
+            style: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white),
+          )
+        ],
+      )),
+    );
+  }
 
 
   Widget horizontalSpace(double width) {
@@ -19,9 +38,12 @@ class WasteForSellPageState extends State<WasteForSellPage> {
       width: MediaQuery.of(context).size.width * width,
     );
   }   
-  Widget createListTile() {
+  Widget createListTile({
+    String? imageSrc,
+    required String name,
+    required bool isSold,
+  }) {
     return Container(
-      height: 100,
       color: lightgreen,
       child: Card(
         color: lightgreen,
@@ -29,13 +51,17 @@ class WasteForSellPageState extends State<WasteForSellPage> {
           children: [
             Expanded(
               flex: 33,
-              child: Image.network(
-                'https://picsum.photos/250?image=9',
-              ),
+              child: imageSrc != null ? 
+              Image.network(
+                imageSrc,
+              ):
+              wasteType('Glass', Colors.orangeAccent)
             ),
+
             Expanded(
               flex: 66,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                  Expanded(
                     flex: 25,
@@ -43,7 +69,7 @@ class WasteForSellPageState extends State<WasteForSellPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Plastic Bottle',
+                          name,
                           style: TextStyle(
                             color: Colors.green,
                             fontSize: 22,
@@ -97,12 +123,8 @@ class WasteForSellPageState extends State<WasteForSellPage> {
                           width:50,
                         ),
 
-                        Icon(Icons.location_on,color: Colors.red,),
-                        TextButton(
-                          onPressed: (){},
-                          child: Text(
-                            'view location'
-                          ))
+                       
+                       
                         
                       ],
                     ),
@@ -120,6 +142,7 @@ class WasteForSellPageState extends State<WasteForSellPage> {
       appBar: AppBar(
         backgroundColor: lightgreen,
         centerTitle: true,
+        elevation:0,
         leading: Icon(Icons.sell,color: Colors.black,),
         title: Text(
           'Waste For Sell',
@@ -139,6 +162,10 @@ class WasteForSellPageState extends State<WasteForSellPage> {
         padding: const EdgeInsets.fromLTRB(5, 10, 10, 5),
         child: Column(
           children: [
+
+            SizedBox(
+                height: MediaQuery.of(context).size.width * 0.01,
+            ),
             
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.01,
@@ -147,140 +174,14 @@ class WasteForSellPageState extends State<WasteForSellPage> {
               child: ListView(
                 scrollDirection: Axis.vertical,
                 children: [
-                  createListTile(),
-                  createListTile(),
-                  createListTile(),
-                  createListTile(),
-                  createListTile(),
-                  createListTile(),
-                  createListTile(),
-                  createListTile(),
-                  createListTile(),
-                  createListTile(),
-                  // Card(
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.symmetric(vertical: 5.0,horizontal: 10),
-                  //     child: Row(
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: <Widget>[
-
-
-            //               Expanded(
-            //                 flex: 2,
-            //                 child: Container(
-            //                   height: 80,
-            //                   width: 80,
-            //                   color: Colors.red,
-            //                 ),
-            //               ),
-            //               Expanded(
-            //                 flex: 4,
-            //                 child: Column(
-            //                   children: [
-            //                     Row(
-            //                       children: [
-            //                         SizedBox(
-            //                           width: MediaQuery.of(context).size.width *
-            //                               0.08,
-            //                         ),
-            //                         Text(
-            //                           'Plastic Bottle',
-            //                           style: GoogleFonts.montserrat(
-            //                             textStyle: TextStyle(color: Colors.black),
-            //                             fontSize: 20,
-            //                             fontWeight: FontWeight.w700,
-            //                           ),
-            //                         ),
-            //                       ],
-            //                     ),
-            //                     SizedBox(
-            //                       height:
-            //                           MediaQuery.of(context).size.width * 0.02,
-            //                     ),
-            //                     Row(
-            //                       children: [
-            //                         SizedBox(
-            //                           width: MediaQuery.of(context).size.width *
-            //                               0.08,
-            //                         ),
-            //                         Icon(Icons.monitor_weight, size: 15),
-            //                         Text(
-            //                           '15kg',
-            //                           style: TextStyle(
-            //                             color: Colors.black,
-            //                             fontSize: 18,
-            //                             fontWeight: FontWeight.w500,
-            //                           ),
-            //                         ),
-            //                         SizedBox(
-            //                           width: MediaQuery.of(context).size.width *
-            //                               0.02,
-            //                         ),
-            //                         Icon(Icons.price_change ,size: 15),
-            //                         Text(
-            //                           '100 Birr/KG',
-            //                           style: TextStyle(
-            //                             color: Colors.black,
-            //                             fontSize: 18,
-            //                             fontWeight: FontWeight.w500,
-            //                           ),
-            //                         )
-            //                       ],
-            //                     ),
-            //                     SizedBox(
-            //                       height: MediaQuery.of(context).size.width * 0.01,
-            //                     ),
-            //                     Row(
-            //                       mainAxisAlignment: MainAxisAlignment.end,
-            //                       children: [
-            //                         SizedBox(
-            //                           width: MediaQuery.of(context).size.width *
-            //                               0.03,
-            //                         ),
-            //                         Text(
-            //                           'SOLD',
-            //                           style: TextStyle(
-            //                             color: Color(0xff68EA26),
-            //                             fontSize: 15,
-            //                             fontWeight: FontWeight.w800,
-            //                           ),
-            //                         ),
-            //                         TextButton(
-            //                           onPressed: () => {print('delete')},
-            //                           child: Text(
-            //                             'Edit',
-            //                             style: TextStyle(
-            //                               color: Colors.blue,
-            //                               fontSize: 16,
-            //                               fontWeight: FontWeight.w500,
-            //                             ),
-            //                           ),
-            //                         ),
-            //                         TextButton(
-            //                           onPressed: () => {print('delete')},
-            //                           child: Text(
-            //                             'Delete',
-            //                             style: TextStyle(
-            //                               color: Colors.red,
-            //                               fontSize: 16,
-            //                               fontWeight: FontWeight.w500,
-            //                             ),
-            //                           ),
-            //                         ),
-            //                       ],
-            //                     ),
-            //                   ],
-            //                 ),
-            //               ),
-            //               Padding(
-            //                 padding: const EdgeInsets.only(top: 5),
-            //                 child: Container(
-            //                     height: 15, width: 15, color: Colors.green),
-            //               )
-            //             ],
-            //           ),
-            //         ),
-            //       ),
+                  createListTile(name: 'Plasic Bottle',isSold:true),
+                    createListTile(imageSrc:'https://www.newraybottles.com/wp-content/uploads/2019/11/4-glass-bottles-junk-1.png',name: 'Grained Glass', isSold: false),
+                    createListTile(imageSrc:
+                    'https://media.livingstonepartners.com/wp-content/uploads/2019/05/13101705/Metal-Waste-Deal-Image-1024x681.jpg',
+                    name: 'Metal Pan', 
+                    isSold: false),
+                    createListTile(name: 'Almunium Cans', isSold: true),
+                    createListTile(name: 'Plastic Bottle', isSold: true),
                 ],
               ),
             )

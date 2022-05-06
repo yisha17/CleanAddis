@@ -7,6 +7,7 @@ import 'package:clean_addis_android/data/repositories/waste_repository.dart';
 import 'package:clean_addis_android/presentation/AddWaste.dart';
 import 'package:clean_addis_android/presentation/BottomNavigationBar.dart';
 import 'package:clean_addis_android/presentation/Home.dart';
+import 'package:clean_addis_android/presentation/Notification.dart';
 import 'package:clean_addis_android/presentation/PublicPlace.dart';
 import 'package:clean_addis_android/presentation/ReporList.dart';
 import 'package:clean_addis_android/presentation/Report.dart';
@@ -55,7 +56,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
 
-        home: WasteBuyListPage(),
+        home: LoginPage(),
       ),
     );
 

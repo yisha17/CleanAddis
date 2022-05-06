@@ -1,6 +1,7 @@
 import 'package:clean_addis_android/bloc/Waste/user_waste_bloc.dart';
 import 'package:clean_addis_android/data/data_providers/waste_data.dart';
 import 'package:clean_addis_android/data/repositories/waste_repository.dart';
+import 'package:clean_addis_android/presentation/WasteSellList.dart';
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'AddWaste.dart';
 import 'Login.dart';
 import 'Profile.dart';
+import 'WasteDonationList.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -50,12 +52,37 @@ class HomePageState extends State<HomePage> {
     }
   }
 
+  Widget wasteType(String type, Color id) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 5),
+      color: id,
+      width: MediaQuery.of(context).size.width * 0.25,
+      child: Center(
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.recycling, color: Colors.white, size: 35),
+          Text(
+            type,
+            style: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white),
+          )
+        ],
+      )),
+    );
+  }
+Widget verticalSpace(double height) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * height,
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: lightgreen,
-        elevation: 1,
+        elevation: 0,
         leading: Icon(Icons.home, color: Colors.black),
         actions: [
           IconButton(
@@ -144,7 +171,10 @@ class HomePageState extends State<HomePage> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () => {print("njgd")},
+                    onPressed: () => {
+                       Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => WasteForSellPage()))
+                    },
                     child: Text(
                       'Details',
                       style: TextStyle(color: Colors.grey, fontSize: 13),
@@ -297,7 +327,10 @@ class HomePageState extends State<HomePage> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () => {print("njgd")},
+                    onPressed: () => {
+                       Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => WasteDonationListPage()))
+                    },
                     child: Text(
                       'Details',
                       style: TextStyle(color: Colors.grey, fontSize: 13),
@@ -448,30 +481,18 @@ class HomePageState extends State<HomePage> {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      color: Colors.red,
-                      width: MediaQuery.of(context).size.width * 0.25,
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      color: Colors.green,
-                      width: MediaQuery.of(context).size.width * 0.25,
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      color: Colors.yellow,
-                      width: MediaQuery.of(context).size.width * 0.25,
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      color: Colors.blue,
-                      width: MediaQuery.of(context).size.width * 0.25,
-                    ),
+                    wasteType('Organic', Colors.green),
+                    wasteType('Plastic', Colors.yellow),
+                    wasteType('E-Waste', Colors.red),
+                    wasteType('Paper', Colors.brown),
+                    wasteType('Metal', Color.fromARGB(255, 107, 105, 105)),
+                    wasteType('Glass', Colors.orangeAccent),
                   ],
                 ),
               ),
+              verticalSpace(0.02)
             ],
+            
           ),
         ),
       ),
