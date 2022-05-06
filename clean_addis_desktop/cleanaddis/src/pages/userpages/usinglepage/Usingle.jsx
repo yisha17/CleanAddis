@@ -1,16 +1,16 @@
-import "./single.scss"
-import CityadminSidebar from "../../../components/cityadmincomponents/sidebar/CityadminSidebar"
-import CityadminNavbar from "../../../components/cityadmincomponents/navbar/CityadminNavbar"
+import "./usingle.scss"
+import UserSidebar from "../../../components/usercomponents/usidebar/UserSidebar"
+import UserNavbar from "../../../components/usercomponents/unavbar/UserNavbar"
 import Chart from "../../../components/cityadmincomponents/chart/Chart"
 import Tables from "../../../components/cityadmincomponents/table/Tables"
 
-const Single = () => {
+const Usingle = () => {
   return (
     <div>
       <div className="single flex">
-    <CityadminSidebar />
+    <UserSidebar />
     <div className="singlecontainer  pt-3 pl-3">
-    <CityadminNavbar className="pt-3 " />
+    <UserNavbar className="pt-3 " />
       <div className="top flex">
         <div className="left shadow-2xl shadow-transparent p-10 relative pr- ">
           <div className="editButton  border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">edit</div>
@@ -54,4 +54,4 @@ const Single = () => {
 };
 
 
-export default Single
+export default Usingle

@@ -4,6 +4,7 @@ import CityadminNavbar from "../../../components/cityadmincomponents/navbar/City
 import Widget from "../../../components/cityadmincomponents/widgets/Widget"
 import Featured from "../../../components/cityadmincomponents/featured/Featured"
 import Chart from "../../../components/cityadmincomponents/chart/Chart"
+import Tables from "../../../components/cityadmincomponents/table/Tables"
 
 const Home = () => {
   return (
@@ -21,6 +22,12 @@ const Home = () => {
               <Featured />
               <Chart />
 
+            </div>
+            <div>
+              <div className="listContainer shadow-2xl">
+                <div className="listTitle  pt-8 pb-4 flex self-center justify-center items-center"> Latest announcements </div>
+                < Tables />
+              </div>
             </div>
           </div>
         

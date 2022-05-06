@@ -7,16 +7,18 @@ import User from './User.png'
 import Shout from './Shout.png'
 import Work from './Work.png'
 import Report from './Report.png'
-import Home from '../../../pages/adminpages/home/Home';
+import Uhome from '../../../pages/userpages/uhome/Uhome';
 import {Link } from "react-router-dom"
 
 const CityadminSidebar = () => {
   const [open,setOpen] = useState(true);
   const Menus =[
-    {title:"Dashboard", src:Dashboard ,link:"/cityadmin" },
-    {title:"Report", src:Report ,link:"/cityadmin/report"},
-    {title:"Announcement",src:Shout,link:"/cityadmin/announcement"},
-    {title:"Work",src:Work,link:"/cityadmin/work"},
+    {title:"Dashboard", src:Dashboard ,link:"/user" },
+    {title:"Report", src:Report ,link:"/user/report"},
+    {title:"Waste",src:Shout,link:"/user/waste"},
+    {title:"announcements",src:Work,link:"/user/announcement"},
+    {title:"seminars",src:Work,link:"/user/seminar"},
+
   ]
   return (
 
@@ -26,7 +28,9 @@ const CityadminSidebar = () => {
       border-green-500 rotate  ${!open && "rotate-180"}`}
       onClick={()=>setOpen(!open)}/>
       <div className="flex gap-x-4 items-left">
-      <h2 className={`text-white origin-left font-medium text-x1 duration-300`}>City Admin</h2>
+        <Link to="/user">
+      <h2 className={`text-white origin-left font-medium text-x1 duration-300`}>User</h2>
+      </Link>
       </div>
       <ul>
         {Menus.map((menu,index)=>(

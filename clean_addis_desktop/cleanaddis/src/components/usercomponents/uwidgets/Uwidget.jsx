@@ -1,5 +1,5 @@
 import React from 'react'
-import "./widget.scss"
+import "./uwidget.scss"
 import WorkIcon from '@mui/icons-material/Work';
 import EngineeringIcon from '@mui/icons-material/Engineering';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';

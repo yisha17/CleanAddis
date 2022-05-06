@@ -1,5 +1,5 @@
 import React from 'react'
-import "./chart.scss"
+import "./uchart.scss"
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip , ResponsiveContainer } from 'recharts';
 const data = [
   {name:'january',amount:'5000'},
