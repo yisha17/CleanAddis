@@ -28,10 +28,13 @@ class UserDataProvider {
   }
 
   Future<User> login(User user) async {
+    print(base_url);
+    print(user_login_path);
     final response = await http.post(Uri.http(base_url, user_login_path),
         headers: <String, String>{
           "Content-Type": "application/json;charset=UTF-8",
           "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "POST, OPTIONS"
         },
         body: jsonEncode({
           'username': user.username,

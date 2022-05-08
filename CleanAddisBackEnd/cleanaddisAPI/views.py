@@ -384,7 +384,7 @@ seller_list_view = SellerAPIView.as_view()
 
 
 class WasteCreateAPIView(generics.CreateAPIView):
-
+    
     queryset = Waste.objects.all()
     parser_classes = (MultiPartParser, FormParser)
     serializer_class = WasteSerializer

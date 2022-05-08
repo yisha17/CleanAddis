@@ -95,9 +95,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             ),
                             color: logogreen,
                           ),
-                          child: Icon(
-                            Icons.edit,
+                          child: IconButton(
+                            icon:Icon(Icons.edit),
                             color: Colors.white,
+                            onPressed: (){
+
+                            },
                           ),
                         )),
                   ],
@@ -109,7 +112,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               buildTextField("Full Name", "Dor Alex", false),
               buildTextField("E-mail", "alexd@gmail.com", false),
               buildTextField("Password", "********", true),
-              buildTextField("Location", "TLV, Israel", false),
+              buildTextField("Location", "AA, Ethiopia", false),
               SizedBox(
                 height: 35,
               ),

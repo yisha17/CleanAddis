@@ -10,7 +10,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 part 'waste_event.dart';
 part 'waste_state.dart';
 
-class AddWasteBloc extends Bloc<AddWasteEvent, WasteState> {
+class AddWasteBloc extends Bloc<WasteEvent, WasteState> {
   WasteRepository repository;
   AddWasteBloc(this.repository) : super(WasteState());
 
@@ -38,12 +38,12 @@ class AddWasteBloc extends Bloc<AddWasteEvent, WasteState> {
   }
 
  
-  Stream<WasteState> mapEventToState(AddWasteEvent event) async*{
+  Stream<WasteState> mapEventToState(WasteEvent event) async*{
     
     if (event is CreateWasteEvent){
       print("waste create command");
       try{
-      yield AddWasteWaitingState();
+      yield WasteLoadingState();
       final _storage = FlutterSecureStorage();
       final user_id = await _storage.read(key: 'id');
 
@@ -62,9 +62,10 @@ class AddWasteBloc extends Bloc<AddWasteEvent, WasteState> {
       print(event.image!.path);
       final token = await _storage.read(key: 'token');
       print(token);
+      print(event.image!.path);
       final data = await repository.createWaste(waste,token!,event.image!);
       print(data);
-      yield WasteCreatedState(waste:data);
+      yield WasteCreatedState(waste:data!);
     }catch(e){
       yield WasteCreateFailedState(e.toString());
     }

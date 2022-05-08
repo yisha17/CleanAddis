@@ -13,7 +13,7 @@ class WasteRepository{
     return this.dataProvider.fetchUserWaste(id,token);
   }
 
-  Future<Waste> createWaste(Waste waste,String token,File file){
+  Future<Waste?> createWaste(Waste waste,String token,File file){
     print("function called");
     return this.dataProvider.createWaste(waste:waste,token:token,file:file);
   }
