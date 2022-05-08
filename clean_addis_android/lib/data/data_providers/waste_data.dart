@@ -5,6 +5,7 @@ import 'package:clean_addis_android/data/models/waste.dart';
 import 'package:clean_addis_android/strings.dart';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 class WasteDataProvider {
   var dio = Dio();
@@ -94,6 +95,9 @@ class WasteDataProvider {
     // }
     dio.options.headers["authorization"] = "JWT ${token}";
   print('yishak');
+  
+    
+  String imageFile = file!.path.split('/').last;
     FormData formData = FormData.fromMap({
       'waste_name': waste.waste_name!,
       'waste_type': waste.waste_type!,
@@ -104,23 +108,41 @@ class WasteDataProvider {
       'price_per_unit': waste.price_per_unit,
       'location': waste.location!,
       'description': waste.description!,
-      'image' : await MultipartFile.fromFile( file!.path)
+      'image' : await MultipartFile.fromFile( 
+        file.path,
+        filename:imageFile,
+        contentType: new MediaType("image","jpg"))
     });
+
+    formData.files.addAll([
+       MapEntry(
+          "image", MultipartFile.fromFileSync(file.path,
+           filename: imageFile))
+    ]);
     
     print(formData.fields);
     print(formData.toString());
+  try{
+     final response =
+          await dio.post('$full_base_url/$waste_path', data: formData);
+          print(response.statusCode);
+      Waste waste_returned = json.decode(response.data);
+      print(response.statusCode);
+      print(waste_returned.image);
 
-    final response = await dio.post('$full_base_url/$waste_path',data: formData);
-  print(response.statusCode);
-    Waste waste_returned = json.decode(response.data);
-    print(response.statusCode);
-    print(waste_returned.image);
-
-    if (response.statusCode == 200) {
-      return waste_returned;
-    } else {
-      throw Exception('error');
-    }
+      if (response.statusCode == 201) {
+        return waste_returned;
+      } else {
+        throw Exception('error');
+      }
+  }catch(e){
+    print('printing');
+    print(e.toString());
+    throw Exception('cant create waste');
+  }
+  
+   
+  
   }
 
   Future<Waste> updateWaste(
