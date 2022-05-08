@@ -9,7 +9,7 @@ class WasteState extends Equatable{
   List<Object?> get props => throw UnimplementedError();
 }
 
-class AddWasteWaitingState extends WasteState {
+class WasteLoadingState extends WasteState {
   @override
   List<Object?> get props => [];
 }
@@ -28,3 +28,16 @@ class WasteCreateFailedState extends WasteState{
    @override
   List<Object?> get props => [this.message];
 }
+
+class WasteUpdatedState extends WasteState{
+  final Waste waste;
+  WasteUpdatedState({required this.waste});
+  @override
+  List<Object?> get props => [this.waste];
+}
+
+class WasteDeletedState extends WasteState{
+   @override
+  List<Object?> get props => [];
+}
+

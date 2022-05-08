@@ -1,6 +1,8 @@
+import 'package:clean_addis_android/presentation/Location.dart';
+import 'package:clean_addis_android/presentation/WasteBuy.dart';
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 class WasteBuyListPage extends StatefulWidget {
   @override
@@ -44,82 +46,88 @@ class WasteBuyListPageState extends State<WasteBuyListPage> {
   }
 
   Widget createListTile() {
-    return Container(
-      height: 100,
-      color: lightgreen,
-      child: Card(
+    return InkWell(
+      onTap: (){
+          Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => WasteBuyPage()));
+      },
+      child: Container(
+        height: 100,
         color: lightgreen,
-        child: Row(
-          children: [
-            Expanded(
-              flex: 33,
-              child: Image.network(
-                'https://picsum.photos/250?image=9',
+        child: Card(
+          color: lightgreen,
+          child: Row(
+            children: [
+              Expanded(
+                flex: 33,
+                child: Image.network(
+                  'https://picsum.photos/250?image=9',
+                ),
               ),
-            ),
-            Expanded(
-              flex: 66,
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 25,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Plastic Bottle',
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.edit, color: Colors.blue),
-                            ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.delete, color: Colors.red),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  Expanded(
+              Expanded(
+                flex: 66,
+                child: Column(
+                  children: [
+                    Expanded(
                       flex: 25,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(Icons.date_range),
-                          Text('Posted on May 12, 2022',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                              )),
+                          Text(
+                            'Plastic Bottle',
+                            style: TextStyle(
+                              color: Colors.green,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {},
+                                icon: Icon(Icons.price_change, color: Color.fromARGB(255, 139, 182, 45)),
+                              ),
+                              Text('2000'),
+                            ],
+                          )
                         ],
-                      )),
-                  Expanded(
-                    flex: 25,
-                    child: Row(
-                      children: [
-                        
-                        Icon(
-                          Icons.location_on,
-                          color: Colors.red,
-                        ),
-                        TextButton(
-                            onPressed: () {}, child: Text('view location'))
-                      ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            )
-          ],
+                    Expanded(
+                        flex: 25,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(Icons.date_range),
+                            Text('Posted on May 12, 2022',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                )),
+                          ],
+                        )),
+                    Expanded(
+                      flex: 25,
+                      child: Row(
+                        children: [
+                          
+                          Icon(
+                            Icons.location_on,
+                            color: Colors.red,
+                          ),
+                          TextButton(
+                              onPressed: () {
+                                 Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => LocationPage()));
+                              }, child: Text('view location'))
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -152,7 +160,7 @@ class WasteBuyListPageState extends State<WasteBuyListPage> {
           child: Column(
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.01,
+                height: MediaQuery.of(context).size.height * 0.1,
                 child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
