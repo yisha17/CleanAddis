@@ -65,7 +65,7 @@ class AddWasteBloc extends Bloc<WasteEvent, WasteState> {
       print(event.image!.path);
       final data = await repository.createWaste(waste,token!,event.image!);
       print(data);
-      yield WasteCreatedState(waste:data);
+      yield WasteCreatedState(waste:data!);
     }catch(e){
       yield WasteCreateFailedState(e.toString());
     }

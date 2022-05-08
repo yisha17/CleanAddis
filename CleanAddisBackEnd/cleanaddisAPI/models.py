@@ -94,7 +94,7 @@ class Waste(models.Model):
 
 class Report(models.Model):
 
-    reportID = models.CharField(max_length=20, default="",null=True)
+    
     reportTitle = models.CharField(max_length=20,default="",null=True)
     reportDescription = models.CharField(max_length=20,default="",null=True)
     image = models.ImageField(null=True)    
