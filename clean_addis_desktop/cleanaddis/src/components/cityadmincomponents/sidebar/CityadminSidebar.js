@@ -17,6 +17,8 @@ const CityadminSidebar = () => {
     {title:"Report", src:Report ,link:"/cityadmin/report"},
     {title:"Announcement",src:Shout,link:"/cityadmin/announcement"},
     {title:"Work",src:Work,link:"/cityadmin/work"},
+    {title:"public place",src:Work,link:"/cityadmin/publicplace"},
+    {title:"seminar",src:Work,link:"/cityadmin/seminar"},
   ]
   return (
 

@@ -1,7 +1,7 @@
 import "./unew.scss"
 import UserSidebar from "../../../components/usercomponents/usidebar/UserSidebar"
 import UserNavbar from "../../../components/usercomponents/unavbar/UserNavbar"
-import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUpload';
+
 
 
 const Unew = ({inputs,title}) => {

@@ -18,6 +18,7 @@ import Unew from '../../cleanaddis/src/pages/userpages/unew/Unew';
 import {announcementInputs, reportuserInputs} from "../src/formsource"
 import Uhome from '../src/pages/userpages/uhome/Uhome'
 import Useminar from '../src/pages/userpages/useminar/Useminar'
+import Uannouncement from '../src/pages/userpages/uannouncement/Uannouncement'
 
 ReactDOM.render(
     <React.StrictMode>
@@ -71,7 +72,7 @@ ReactDOM.render(
                   <Route path="new" element={<Unew inputs = {announcementInputs} title="Add report"/>}/>
                   </Route >
             <Route path="announcement">
-                  <Route index element={<Ulist/>} /> 
+                  <Route index element={<Uannouncement/>} /> 
                   <Route path=":announcementId" element={<Usingle />}/>
                   <Route path="new" element={<Unew inputs = {announcementInputs} title="Add new Announcement"/>}/>
                   </Route >
