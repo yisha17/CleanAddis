@@ -384,7 +384,7 @@ seller_list_view = SellerAPIView.as_view()
 
 
 class WasteCreateAPIView(generics.CreateAPIView):
-
+    permission_classes = (permissions.IsAuthenticated,)
     queryset = Waste.objects.all()
     parser_classes = (MultiPartParser, FormParser)
     serializer_class = WasteSerializer

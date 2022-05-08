@@ -5,7 +5,6 @@ import 'package:clean_addis_android/data/data_providers/waste_data.dart';
 import 'package:clean_addis_android/data/repositories/waste_repository.dart';
 import 'package:clean_addis_android/strings.dart';
 import 'package:clean_addis_android/utils.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -139,7 +138,7 @@ class AddWasteState extends State<AddWastePage> {
       child: BlocListener(
         bloc: wasteBloc,
         listener: (context, WasteState state) {
-          if (state is AddWasteWaitingState) {
+          if (state is WasteLoadingState) {
             WidgetsBinding.instance!
                 .addPostFrameCallback((_) => loadingDialog(context));
           } else if (state.waste != null && state is WasteCreatedState) {
