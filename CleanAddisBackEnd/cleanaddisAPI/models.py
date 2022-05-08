@@ -98,7 +98,8 @@ class Report(models.Model):
     reportTitle = models.CharField(max_length=20,default="",null=True)
     reportDescription = models.CharField(max_length=20,default="",null=True)
     image = models.ImageField(null=True)    
-    loaction = models.CharField(max_length=30,null=True)
+    longitude = models.DecimalField(max_digits=10, decimal_places=6)
+    latitude = models.DecimalField(max_digits=10, decimal_places=6)
     reportedBy = models.ForeignKey(User, on_delete = models.DO_NOTHING,null= True )
     
     
@@ -108,19 +109,18 @@ class PublicPlace(models.Model):
         ('Toilet', 'Toilet'),
         ('Park','Park')
     ]
-    placeID = models.CharField(max_length=20, default="",null=True)
     placeName = models.CharField(max_length=20,default="",null=True)
     placeType = models.CharField(max_length=20, choices= TYPE_CHOICES)
-    rating = models.CharField(max_length=5,default="",null=True)
-    loaction = models.CharField(max_length=30,null=True)
+    rating = models.IntegerField( null=True)
+    longitude = models.DecimalField(max_digits= 10,decimal_places=5 )
+    latitude = models.DecimalField(max_digits=10, decimal_places=5)
 
 class Seminar(models.Model):
     TYPE_CHOICES = [('Meeting','Meeting'),('Plantation','Plantation'),('Cleaning','Cleaning')]
-    seminarID = models.CharField(max_length=20, default="",null=True)
     seminarTitle = models.CharField(max_length=20,default="",null=True)
     seminarDescription = models.CharField(max_length=20,default="",null=True)
     seminarType = models.CharField(max_length=20, choices= TYPE_CHOICES)
-    loaction = models.CharField(max_length=30,null=True)
+    
 
 class WorkSchedule(models.Model):
     workID = models.CharField(max_length=20, default="",null=True)
@@ -128,7 +128,6 @@ class WorkSchedule(models.Model):
     hour = models.DateField(max_length=20, default="",null=True)
     
 class Announcement(models.Model):
-    notificationID = models.IntegerField(max_length=20,default="",null=True)
     notificationTitle = models.CharField(max_length=20, default="",null=True)
     notificationDescription = models.CharField(max_length=20, default="",null=True)
     formDate = models.DateField(max_length=20, default="",null=True)
