@@ -55,9 +55,9 @@ class HomePageState extends State<HomePage> {
 
   Widget wasteType(String type, Color id) {
     return InkWell(
-      onTap: (){
-        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => WasteBuyListPage()));
+      onTap: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => WasteBuyListPage()));
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 5),
@@ -72,18 +72,22 @@ class HomePageState extends State<HomePage> {
             Text(
               type,
               style: TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white),
             )
           ],
         )),
       ),
     );
   }
-Widget verticalSpace(double height) {
+
+  Widget verticalSpace(double height) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * height,
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -179,8 +183,8 @@ Widget verticalSpace(double height) {
                   ),
                   TextButton(
                     onPressed: () => {
-                       Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => WasteForSellPage()))
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => WasteForSellPage()))
                     },
                     child: Text(
                       'Details',
@@ -207,7 +211,10 @@ Widget verticalSpace(double height) {
 
                       if (state is WasteLoaded) {
                         final waste = state.waste;
-                        return waste.isEmpty
+                        final waste_donation = waste
+                            .where((element) => element.for_waste == 'Sell')
+                            .toList();
+                        return waste_donation.isEmpty
                             ? Container(
                                 child: IconButton(
                                   icon: Icon(
@@ -227,13 +234,19 @@ Widget verticalSpace(double height) {
                                 width: MediaQuery.of(context).size.width * 0.25,
                               )
                             : ListView.builder(
-                                itemCount: waste.length + 1,
+                                itemCount: waste_donation.length + 1,
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) {
-                                  if (index != waste.length) {
-                                    if (waste.elementAt(index).for_waste ==
-                                        'Sell') {
-                                      return Column(
+                                  if (index <= waste_donation.length - 1) {
+                                    return InkWell(
+                                      onTap: () {
+                                        print(
+                                            '${waste.elementAt(index).for_waste}');
+                                        print(index);
+                                        print(waste_donation.length);
+                                        print('${waste_donation.elementAt(index).post_date}');
+                                      },
+                                      child: Column(
                                         children: [
                                           Container(
                                               margin: EdgeInsets.symmetric(
@@ -246,28 +259,18 @@ Widget verticalSpace(double height) {
                                               height: MediaQuery.of(context)
                                                       .size
                                                       .height *
-                                                  0.11,
-                                              child: waste
-                                                          .elementAt(index)
-                                                          .image ==
-                                                      null
-                                                  ? Image(
-                                                      image: chooseImage(waste
-                                                          .elementAt(index)
-                                                          .waste_type!),
-                                                      fit: BoxFit.fill,
-                                                    )
-                                                  : Image(
-                                                      image: NetworkImage(
-                                                          '${waste.elementAt(index).image}'),
-                                                      fit: BoxFit.fill,
-                                                    )),
+                                                  0.115,
+                                              child: Image(
+                                                image: NetworkImage(
+                                                    '${waste_donation.elementAt(index).image}'),
+                                                fit: BoxFit.fill,
+                                              )),
                                           Center(
                                               child: Text(
-                                                  '${waste.elementAt(index).waste_name}'))
+                                                  '${waste_donation.elementAt(index).waste_name}'))
                                         ],
-                                      );
-                                    }
+                                      ),
+                                    );
                                   } else {
                                     Container(
                                       child: IconButton(
@@ -288,9 +291,11 @@ Widget verticalSpace(double height) {
                                       color: logogreen,
                                       width: MediaQuery.of(context).size.width *
                                           0.25,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.115,
                                     );
                                   }
-
                                   return Container(
                                     child: IconButton(
                                       icon: Icon(
@@ -335,7 +340,7 @@ Widget verticalSpace(double height) {
                   ),
                   TextButton(
                     onPressed: () => {
-                       Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => WasteDonationListPage()))
                     },
                     child: Text(
@@ -364,7 +369,7 @@ Widget verticalSpace(double height) {
                       if (state is WasteLoaded) {
                         final waste = state.waste;
                         final waste_donation = waste
-                            .where((element) => element.for_waste == 'Donate')
+                            .where((element) => element.for_waste == 'Donation')
                             .toList();
                         return waste_donation.isEmpty
                             ? Container(
@@ -389,39 +394,38 @@ Widget verticalSpace(double height) {
                                 itemCount: waste_donation.length + 1,
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) {
-                                  if (index != waste.length) {
-                                    return Column(
-                                      children: [
-                                        Container(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 5),
-                                            color: Colors.red,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.25,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.115,
-                                            child:
-                                                waste.elementAt(index).image ==
-                                                        null
-                                                    ? Image(
-                                                        image: chooseImage(waste
-                                                            .elementAt(index)
-                                                            .waste_type!),
-                                                        fit: BoxFit.fill,
-                                                      )
-                                                    : Image(
-                                                        image: NetworkImage(
-                                                            '${waste.elementAt(index).image}'),
-                                                        fit: BoxFit.fill,
-                                                      )),
-                                        Center(
-                                            child: Text(
-                                                '${waste.elementAt(index).waste_name}'))
-                                      ],
+                                  if (index <= waste_donation.length - 1) {
+                                    return InkWell(
+                                      onTap: () {
+                                        print(
+                                            '${waste.elementAt(index).for_waste}');
+                                        print(index);
+                                        print(waste_donation.length);
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 5),
+                                              color: Colors.red,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.25,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.115,
+                                              child: Image(
+                                                image: NetworkImage(
+                                                    '${waste_donation.elementAt(index).image}'),
+                                                fit: BoxFit.fill,
+                                              )),
+                                          Center(
+                                              child: Text(
+                                                  '${waste_donation.elementAt(index).waste_name}'))
+                                        ],
+                                      ),
                                     );
                                   } else {
                                     Container(
@@ -448,7 +452,28 @@ Widget verticalSpace(double height) {
                                               0.115,
                                     );
                                   }
-                                  return Center(child: Text('Loading'));
+                                  return Container(
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                        size: 40,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AddWastePage()));
+                                      },
+                                    ),
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 10),
+                                    color: logogreen,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.25,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.115,
+                                  );
                                 });
                       }
                       return Center(
@@ -499,7 +524,6 @@ Widget verticalSpace(double height) {
               ),
               verticalSpace(0.02)
             ],
-            
           ),
         ),
       ),

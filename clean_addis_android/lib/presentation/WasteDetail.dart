@@ -2,6 +2,8 @@ import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../bloc/Waste/user_waste_bloc.dart';
+
 class WasteDetailPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -10,7 +12,7 @@ class WasteDetailPage extends StatefulWidget {
 }
 
 class WasteDetailState extends State<WasteDetailPage> {
-
+  
   static const values = <String>['Donation', 'Sell'];
   String selectedValue = values.first;
 

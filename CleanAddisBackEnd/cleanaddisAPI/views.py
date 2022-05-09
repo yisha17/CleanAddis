@@ -373,13 +373,46 @@ class SellerAPIView(generics.ListAPIView):
     serializer_class = SellerSerializer
     lookup_field = 'seller'
 
-    def get_queryset(self):
-
-        return super().get_queryset().filter(
-            seller=self.kwargs['seller'])
+    def get_queryset(self,type= 'Plastic'):
+        lists = super().get_queryset().filter(
+            seller=self.kwargs['seller']).order_by('-post_date')
+        return lists
 
 
 seller_list_view = SellerAPIView.as_view()
+
+
+class SellerAPIViewByType(generics.ListAPIView):
+
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = Waste.objects.all()
+    serializer_class = SellerSerializer
+    lookup_field = 'seller'
+
+    def get_queryset(self, type='Plastic'):
+        lists = super().get_queryset().filter(
+            seller=self.kwargs['seller'], for_waste='Sell', waste_type=type).order_by('-post_date')
+        print(lists)
+        return lists
+
+
+seller_list_view_by_type = SellerAPIViewByType.as_view()
+
+
+class DonatorAPIViewByType(generics.ListAPIView):
+
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = Waste.objects.all()
+    serializer_class = SellerSerializer
+    lookup_field = 'seller'
+
+    def get_queryset(self, type='Plastic'):
+        lists = super().get_queryset().filter(
+            seller=self.kwargs['seller'], for_waste='Donation', waste_type=type).order_by('-post_date')
+        print(lists)
+        return lists
+
+donator_list_view_by_type = DonatorAPIViewByType.as_view()
 
 
 
@@ -412,9 +445,8 @@ class BuyerAPIView(generics.ListAPIView):
     lookup_field = 'buyer'
 
     def get_queryset(self):
-
         return super().get_queryset().filter(
-            seller=self.kwargs['buyer'])
+            buyer=self.kwargs['buyer']).order_by('post_date')
 
 
 buyer_list_view = BuyerAPIView.as_view()

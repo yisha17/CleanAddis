@@ -7,6 +7,7 @@ class Report{
   final DateTime? post_date;
   final String? title;
   final String? description;
+  final String? image;
   final bool? isResolved;
   final double? longtiude;
   final double? latitude;
@@ -16,6 +17,7 @@ class Report{
     this.reportedBy,
     this.post_date,
     this.title,
+    this.image,
     this.description,
     this.isResolved,
     this.latitude,
@@ -30,6 +32,7 @@ class Report{
       title: jsonMap['title'],
       description: jsonMap['description'],
       isResolved: jsonMap['isResolved'],
+      image : jsonMap['image'],
       longtiude:jsonMap['longitude'],
       latitude: jsonMap['latitiude'],
     );

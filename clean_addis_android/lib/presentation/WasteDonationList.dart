@@ -2,7 +2,12 @@ import 'package:clean_addis_android/presentation/AddWaste.dart';
 import 'package:clean_addis_android/presentation/WasteDetail.dart';
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../bloc/Waste/user_waste_bloc.dart';
+import '../data/data_providers/waste_data.dart';
+import '../data/repositories/waste_repository.dart';
 
 class WasteDonationListPage extends StatefulWidget {
   @override
@@ -12,6 +17,16 @@ class WasteDonationListPage extends StatefulWidget {
 }
 
 class WasteDonationListPageState extends State<WasteDonationListPage> {
+  
+  final wastebloc =
+      UserWasteBloc(WasteRepository(dataProvider: WasteDataProvider()));
+
+  @override
+  void initState() {
+    super.initState();
+    wastebloc..add(HomePageOpenedEvent());
+  } 
+     
   Widget horizontalSpace(double width) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * width,
@@ -188,23 +203,62 @@ class WasteDonationListPageState extends State<WasteDonationListPage> {
                   ],
                 )
               ),
-              Expanded(
-                child: ListView(
-                  scrollDirection: Axis.vertical,
-                  children: [
-                    createListTile(),
-                    createListTile(),
-                    createListTile(),
-                    createListTile(),
-                    createListTile(),
-                    createListTile(),
-                    createListTile(),
-                    createListTile(),
-                    createListTile(),
-                    createListTile(),
-                    
-                  ],
-                ),
+              BlocBuilder(
+                bloc: wastebloc,
+                builder: (context,state) {
+                  if (state is WasteLoadingState) {
+                      return Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [Center(child: CircularProgressIndicator())],
+                        ),
+                      );
+                  }
+
+                  if (state is WasteLoaded){
+                    final waste = state.waste;
+                    final waste_donation = waste
+                          .where((element) => element.for_waste == 'Donation')
+                          .toList();
+                    return waste_donation.isEmpty ?
+                    Center(
+                      child: Text('you dont have any donations yet')
+                    ):
+                    Expanded(
+                    child: ListView.builder(
+                      itemCount: waste_donation.length,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context,index){
+                        return createListTile();
+                      },
+                     
+                    ),
+                  );
+
+                  }
+                  return Center(
+                    child:Text('sorry there is an error')
+                  );
+                  // return Expanded(
+                  //   child: ListView(
+                  //     scrollDirection: Axis.vertical,
+                  //     children: [
+                  //       createListTile(),
+                  //       createListTile(),
+                  //       createListTile(),
+                  //       createListTile(),
+                  //       createListTile(),
+                  //       createListTile(),
+                  //       createListTile(),
+                  //       createListTile(),
+                  //       createListTile(),
+                  //       createListTile(),
+                        
+                  //     ],
+                  //   ),
+                  // );
+                }
               )
             ],
           ),

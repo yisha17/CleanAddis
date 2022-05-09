@@ -24,6 +24,7 @@ class AddWasteBloc extends Bloc<WasteEvent, WasteState> {
   File? image,
   String? location,
   String? description}){
+    
     add(CreateWasteEvent(
       waste_name:waste_name,
       waste_type: waste_type!, 
@@ -58,7 +59,7 @@ class AddWasteBloc extends Bloc<WasteEvent, WasteState> {
         location: event.location,
         description: event.description
       );
-      print(waste.waste_name);
+      print(waste.for_waste);
       print(event.image!.path);
       final token = await _storage.read(key: 'token');
       print(token);

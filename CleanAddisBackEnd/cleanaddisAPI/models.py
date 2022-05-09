@@ -68,13 +68,14 @@ class Waste(models.Model):
         ('Metal','Metal'),
         ('Aluminium', 'Almuinium'),
         ('Paper','Paper'),
-        ('Old Gadgets','Old Gadgets'),
-        ('Glass','Glass')
+        ('E-waste','E-waste'),
+        ('Glass','Glass'),
+        ('Fabric','Fabric')
     ]
 
     DO = [
         ('Sell', 'Sell'),
-        ('Donate', 'Donate'),
+        ('Donation', 'Donation'),
     ]
 
     seller = models.ForeignKey(User, on_delete = models.DO_NOTHING )
@@ -91,6 +92,7 @@ class Waste(models.Model):
     bought = models.BooleanField(null=True)
     donated = models.BooleanField(null=True)
     description = models.CharField(max_length=200,null=True)
+    post_date = models.DateTimeField(auto_now_add=True)
 
 class Report(models.Model):
 
