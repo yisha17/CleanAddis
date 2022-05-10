@@ -25,31 +25,4 @@ if( !defined( 'ABSPATH' ) ){
 				}
 				//
 				echo '<h1 class="h1">'.esc_html( $errorText ).'</h1>';
-				
-
-				// Wrong text block
-
-				$wrongText = wp_kses_post( __( 'Either something went wrong or the page dosen&rsquo;t exist anymore.', 'philosophy' ) );
-
-				if( philosophy_opt('philosophy_fof_titletwo') ){
-					$wrongText = philosophy_opt('philosophy_fof_titletwo');
-				}
-
-				$anchor = philosophy_anchor_tag(
-					array(
-						'url' 	 => esc_url( site_url( '/' ) ),
-						'text' 	 => esc_html__( 'Go To Home page', 'philosophy' ),
-					)
-				);
-
-				echo philosophy_paragraph_tag(
-					array(
-						'text' 	 => esc_html( $wrongText ).' '.wp_kses_post( $anchor ),
-					)
-				);
-				?>
-			</div>
-			</div>
-		</div>
-	</div>
-</div>
+	
