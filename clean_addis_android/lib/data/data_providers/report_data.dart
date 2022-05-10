@@ -1,28 +1,60 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:clean_addis_android/data/models/report.dart';
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:clean_addis_android/strings.dart';
+import 'package:http_parser/http_parser.dart';
 
 class ReportDataProvider{
+  var dio = Dio();
 
   Future<Report> createReport({required Report report,required String token, File? file}) async{
-    final request = 
-      await http.MultipartRequest("POST",Uri.parse('$full_base_url/$report_path'));
-      request.headers.addAll({"Authorization": "JWT $token"});
-      request.files.add(await http.MultipartFile.fromPath("image", file!.path));
-      request.fields.forEach((key, dynamic value) {
-      request.fields[key] = value;
+    dio.options.headers["authorization"] = "JWT ${token}";
+    String imageFile = file!.path.split('/').last;
+    FormData formData = FormData.fromMap({
+      'reportTitle': report.title,
+      'reportDescription': report.description,
+      'reportedBy': report.reportedBy,
+      'longitude': report.longitude,
+      'latitude': report.latitude,
+      'image': await MultipartFile.fromFile(file.path,
+          filename: imageFile, contentType: new MediaType("image", "jpg"))
     });
-    var response = await request.send();
-    var responsed = await http.Response.fromStream(response);
-    final report = json.decode(responsed.body);
+    
+    final response =  await dio.post('$full_base_url/$report_path', data: formData);
 
-    if (response.statusCode == 200) {
-      return report;
+    Report report_returned = Report.fromJSON(response.data);
+
+     if (response.statusCode == 201) {
+      return report_returned;
     } else {
       throw Exception('error');
     }
+  }
+
+
+   Future<List<Report>?> fetchUserReport(String user_id, String token) async {
+    final response = await http
+        .get(Uri.http(base_url, '$user_report_path$user_id'), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'JWT $token',
+    });
+
+    if (response.statusCode == 200) {
+      final report = jsonDecode(response.body) as List;
+      try {
+        List<Report> wasteList = report.map((e) => Report.fromJSON(e)).toList();
+
+        return wasteList;
+      } catch (err) {
+        print(err);
+      }
+    } else {
+      throw Exception('Could not fetch waste');
+    }
+    return null;
   }
 
   Future<Report> singleReport(String id) async {

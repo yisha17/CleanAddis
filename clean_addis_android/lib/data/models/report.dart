@@ -9,7 +9,7 @@ class Report{
   final String? description;
   final String? image;
   final bool? isResolved;
-  final double? longtiude;
+  final double? longitude;
   final double? latitude;
 
   Report({
@@ -21,7 +21,7 @@ class Report{
     this.description,
     this.isResolved,
     this.latitude,
-    this.longtiude,
+    this.longitude,
   });
 
   factory Report.fromJSON(Map<String,dynamic> jsonMap){
@@ -29,11 +29,11 @@ class Report{
       id: jsonMap['id'],
       reportedBy: jsonMap['reportedBy'],
       post_date: jsonMap['post_date'],
-      title: jsonMap['title'],
-      description: jsonMap['description'],
+      title: jsonMap['reportTitle'],
+      description: jsonMap['reportDescription'],
       isResolved: jsonMap['isResolved'],
       image : jsonMap['image'],
-      longtiude:jsonMap['longitude'],
+      longitude:jsonMap['longitude'],
       latitude: jsonMap['latitiude'],
     );
     return result;

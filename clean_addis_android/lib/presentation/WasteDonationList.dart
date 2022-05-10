@@ -10,21 +10,41 @@ import '../data/data_providers/waste_data.dart';
 import '../data/repositories/waste_repository.dart';
 
 class WasteDonationListPage extends StatefulWidget {
+
+  final String? for_waste;
+  final String? type;
+  WasteDonationListPage({this.for_waste,this.type});
   @override
   State<StatefulWidget> createState() {
     return WasteDonationListPageState();
   }
 }
 
-class WasteDonationListPageState extends State<WasteDonationListPage> {
-  
+class WasteDonationListPageState extends State<WasteDonationListPage>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+     
+
   final wastebloc =
       UserWasteBloc(WasteRepository(dataProvider: WasteDataProvider()));
+  bool isPressed = false;
+ 
 
   @override
   void initState() {
+    
+     this._controller = AnimationController(
+      duration: const Duration(milliseconds: 5000),
+      vsync: this,
+    );
+    wastebloc..add(DetailPageEvent(for_waste: widget.for_waste!, type: widget.type!));
     super.initState();
-    wastebloc..add(HomePageOpenedEvent());
+  }
+
+   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   } 
      
   Widget horizontalSpace(double width) {
@@ -34,10 +54,23 @@ class WasteDonationListPageState extends State<WasteDonationListPage> {
   }
 
   Widget wasteType(String type, Color id) {
+
     return InkWell(
+      
       onTap: (){
-         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => WasteDetailPage()));
+
+        setState(() {
+          isPressed == false ? 
+          isPressed = true:
+          isPressed = false;
+        });
+
+        _controller.forward(from: 0.0);
+        wastebloc
+          ..add(DetailPageEvent(
+              for_waste: widget.for_waste!, type:type));
+        //  Navigator.of(context).push(MaterialPageRoute(
+        //                   builder: (context) => WasteDetailPage()));
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 5),
@@ -48,7 +81,12 @@ class WasteDonationListPageState extends State<WasteDonationListPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.recycling, color: Colors.white, size: 25),
+            isPressed ?
+            Icon(Icons.recycling, color: Colors.white, size: 25):
+            RotationTransition(
+                    turns: Tween(begin: 0.0, end: 1.0).animate(_controller),
+                    child: Icon(Icons.recycling, color: Colors.white, size: 25),
+                  ),
             Text(
               type,
               style: TextStyle(
@@ -218,16 +256,15 @@ class WasteDonationListPageState extends State<WasteDonationListPage> {
 
                   if (state is WasteLoaded){
                     final waste = state.waste;
-                    final waste_donation = waste
-                          .where((element) => element.for_waste == 'Donation')
-                          .toList();
-                    return waste_donation.isEmpty ?
+                    print('here');
+                   
+                    return waste.isEmpty ?
                     Center(
                       child: Text('you dont have any donations yet')
                     ):
                     Expanded(
                     child: ListView.builder(
-                      itemCount: waste_donation.length,
+                      itemCount: waste.length,
                       scrollDirection: Axis.vertical,
                       itemBuilder: (context,index){
                         return createListTile();

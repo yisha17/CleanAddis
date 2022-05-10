@@ -13,6 +13,10 @@ class WasteRepository{
     return this.dataProvider.fetchUserWaste(id,token);
   }
 
+  Future<List<Waste>?> fetchUserWasteByType(String id, String token, String for_waste, String type) {
+    return this.dataProvider.fetchUserWasteByType(id, token,for_waste,type);
+  }
+
   Future<Waste?> createWaste(Waste waste,String token,File file){
     print("function called");
     return this.dataProvider.createWaste(waste:waste,token:token,file:file);

@@ -32,7 +32,7 @@ class User(AbstractUser):
 
     username = models.CharField(max_length=20,unique=True, default="")
     email = models.EmailField(max_length=30,default="")
-    role = models.CharField(max_length=20, default="", null = True)
+    role = models.CharField(max_length=20, default="Resident", null = True)
     profile = models.ImageField(upload_to=upload_to,null=True)
     phone = models.CharField(max_length= 20,null= True)
     device_id = models.CharField(max_length=20, default="",null=True)
@@ -99,11 +99,12 @@ class Report(models.Model):
     
     reportTitle = models.CharField(max_length=20,default="",null=True)
     reportDescription = models.CharField(max_length=20,default="",null=True)
+    isResolved = models.BooleanField(default= False)
     image = models.ImageField(null=True)    
     longitude = models.DecimalField(max_digits=10, decimal_places=6)
     latitude = models.DecimalField(max_digits=10, decimal_places=6)
     reportedBy = models.ForeignKey(User, on_delete = models.DO_NOTHING,null= True )
-    
+    post_date = models.DateTimeField(auto_now_add=True)
     
 class PublicPlace(models.Model):
 

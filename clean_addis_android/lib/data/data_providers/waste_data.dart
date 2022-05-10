@@ -33,6 +33,29 @@ class WasteDataProvider {
     return null;
   }
 
+    Future<List<Waste>?> fetchUserWasteByType(String user_id, String token,String for_waste,String type) async {
+    final response = await http
+        .get(Uri.http(base_url, '$user_waste_path$user_id/$for_waste/$type'), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'JWT $token',
+    });
+
+    if (response.statusCode == 200) {
+      final waste = jsonDecode(response.body) as List;
+      try {
+        List<Waste> wasteList = waste.map((e) => Waste.fromJSON(e)).toList();
+
+        return wasteList;
+      } catch (err) {
+        print(err);
+      }
+    } else {
+      throw Exception('Could not fetch waste');
+    }
+    return null;
+  }
+
   Future<List<Waste>?> fetchAllWaste() async {
     final response = await http.get(Uri.http(base_url, user_waste_path));
 
@@ -63,7 +86,7 @@ class WasteDataProvider {
   Future<Waste> createWaste(
       {required Waste waste, required String token, File? file}) async {
     dio.options.headers["authorization"] = "JWT ${token}";
-  print('yishak');
+  
   
     
   String imageFile = file!.path.split('/').last;

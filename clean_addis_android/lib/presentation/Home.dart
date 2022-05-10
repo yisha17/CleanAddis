@@ -340,8 +340,11 @@ class HomePageState extends State<HomePage> {
                   ),
                   TextButton(
                     onPressed: () => {
+  
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => WasteDonationListPage()))
+                          builder: (context) => 
+                          WasteDonationListPage(for_waste: 'Donation',type:'Pastic'))),
+
                     },
                     child: Text(
                       'Details',
