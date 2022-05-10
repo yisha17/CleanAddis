@@ -4,7 +4,8 @@ part of 'report_bloc.dart';
 
 class ReportState extends Equatable {
   final Report? report;
-  ReportState({this.report});
+  final List<Report?>? reportList;
+  ReportState({this.report,this.reportList});
    @override
   List<Object?> get props => throw UnimplementedError();
 }
@@ -27,6 +28,13 @@ class ReportErrorState extends ReportState{
   ReportErrorState({required this.message});
   @override
   List<Object?> get props => [this.message];
+}
+
+class ReportListState extends ReportState{
+  final List<Report> reportList;
+  ReportListState([this.reportList = const[]]);
+  @override
+  List<Object?> get props => [this.reportList];
 }
 
 

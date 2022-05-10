@@ -4,13 +4,13 @@
 class Report{
   final int? id;
   final int? reportedBy;
-  final DateTime? post_date;
+  final String? post_date;
   final String? title;
   final String? description;
   final String? image;
   final bool? isResolved;
-  final double? longitude;
-  final double? latitude;
+  final String? longitude;
+  final String? latitude;
 
   Report({
     this.id,
@@ -34,7 +34,7 @@ class Report{
       isResolved: jsonMap['isResolved'],
       image : jsonMap['image'],
       longitude:jsonMap['longitude'],
-      latitude: jsonMap['latitiude'],
+      latitude: jsonMap['latitude'],
     );
     return result;
   }

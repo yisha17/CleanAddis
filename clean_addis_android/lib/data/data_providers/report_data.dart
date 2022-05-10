@@ -22,7 +22,8 @@ class ReportDataProvider{
           filename: imageFile, contentType: new MediaType("image", "jpg"))
     });
     
-    final response =  await dio.post('$full_base_url/$report_path', data: formData);
+    print(formData);
+    final response =  await dio.post('$full_base_url$report_path', data: formData);
 
     Report report_returned = Report.fromJSON(response.data);
 

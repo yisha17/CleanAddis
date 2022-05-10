@@ -176,11 +176,13 @@ class CompanyAPIView(APIView):
 
 
 class ReportCreateAPIView(generics.CreateAPIView):
-
-    query = Waste.objects.all()
-
+    
+    
+    query = Report.objects.all()
+    parser_classes = (MultiPartParser, FormParser)
     serializer_class = ReportSerializer
 
+   
     def perform_create(self, serializer):
         return super().perform_create(serializer)
 
@@ -408,6 +410,7 @@ class WasteCreateAPIView(generics.CreateAPIView):
     queryset = Waste.objects.all()
     parser_classes = (MultiPartParser, FormParser)
     serializer_class = WasteSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
     def perform_create(self, serializer):
         return super().perform_create(serializer)

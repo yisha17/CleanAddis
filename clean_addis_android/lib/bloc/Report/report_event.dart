@@ -8,8 +8,8 @@ abstract class ReportEvent extends Equatable{
 class ReportCreateEvent extends ReportEvent{
   final String? title;
   final String? description;
-  final double? longitude;
-  final double? latitude;
+  final String? longitude;
+  final String? latitude;
   final File? image;
 
 
