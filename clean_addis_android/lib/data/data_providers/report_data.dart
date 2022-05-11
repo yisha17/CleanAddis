@@ -58,8 +58,12 @@ class ReportDataProvider{
     return null;
   }
 
-  Future<Report> singleReport(String id) async {
-    final response = await http.get(Uri.http(base_url, '$user_report_path/$id'));
+  Future<Report> singleReport(String id,String token) async {
+    final response = await http.get(Uri.http(base_url, '$report_path/$id'), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'JWT $token',
+    });
     if (response.statusCode == 200) {
       return Report.fromJSON(jsonDecode(response.body));
     } else {

@@ -65,7 +65,7 @@ class DateFormatter{
 
       var datelist = date.split('-');
       var year = datelist[0];
-      var month = months[int.parse(datelist[1]) + 1];
+      var month = months[int.parse(datelist[1]) - 1];
       var day = datelist[2].substring(1,3);
 
       return '$month $day, $year';

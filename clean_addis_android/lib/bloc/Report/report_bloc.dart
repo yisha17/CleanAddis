@@ -12,6 +12,7 @@ part 'report_state.dart';
 
 class ReportBloc extends Bloc<ReportEvent, ReportState> {
   ReportRepository reportRepository;
+  String? waste_id;
   ReportBloc(this.reportRepository) : super(ReportState());
 
  
@@ -59,6 +60,18 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
         yield ReportListState(report!);
       }catch(e){
         yield ReportErrorState(message: e.toString());
+      }
+    }
+
+    if (event is ReportDetailEvent){
+      try{
+        yield ReportLoadingState();
+        final _storage = FlutterSecureStorage();
+        String? token = await _storage.read(key: 'token');
+        final report = await reportRepository.singleReport(waste_id!, token!);
+        yield ReportState(report: report);
+      }catch(e){
+
       }
     }
     

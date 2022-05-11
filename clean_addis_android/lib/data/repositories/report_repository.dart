@@ -16,6 +16,13 @@ class ReportRepository {
     return this.dataProvider.createReport(report: report, token: token, file: file);
   }
 
+
+  Future<Report?> singleReport(String id, String token, ) {
+    return this
+        .dataProvider
+        .singleReport(id,token);
+  }
+
   Future<void> deleteReport(int id, String token) {
     return this.dataProvider.deleteReport(id, token);
   }
