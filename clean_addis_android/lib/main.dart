@@ -23,12 +23,13 @@ import 'package:clean_addis_android/presentation/WasteSellList.dart';
 import 'package:clean_addis_android/presentation/WasteDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'data/repositories/user_repository.dart';
 
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: "assets/confg/.env");
   runApp(MyApp());
 }
 

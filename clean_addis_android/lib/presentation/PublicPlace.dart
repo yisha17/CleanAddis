@@ -1,3 +1,5 @@
+
+import 'package:location/location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -11,6 +13,35 @@ class PublicPlacePage extends StatefulWidget {
 }
 
 class PublicPlacePageState extends State<PublicPlacePage> {
+
+
+  void initState(){
+    super.initState();
+
+  }
+
+  void initializeLocationAndSave() async{
+    Location _location = Location();
+    bool? serviceEnabled;
+    PermissionStatus? permissionGranted;
+
+    serviceEnabled = await _location.serviceEnabled();
+    if (!serviceEnabled){
+      serviceEnabled = await _location.requestService();
+    }
+    permissionGranted = await _location.hasPermission();
+
+    if (permissionGranted == _location.hasPermission()){
+      permissionGranted = await _location.requestPermission();
+    }
+
+    LocationData locationData = await _location.getLocation();
+    
+
+
+    
+
+  }
   bool isSearching = false;
   @override
   Widget build(BuildContext context) {
