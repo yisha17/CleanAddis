@@ -1,5 +1,8 @@
+import 'package:clean_addis_android/presentation/ReportDetail.dart';
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
+
+import 'Report.dart';
 
 class ReportListPage extends StatefulWidget {
   const ReportListPage({Key? key}) : super(key: key);
@@ -11,97 +14,103 @@ class ReportListPage extends StatefulWidget {
 class _ReportListPageState extends State<ReportListPage> {
  
   Widget createListTile() {
-    return Container(
-      height: 100,
-      color: lightgreen,
-      child: Card(
+    return InkWell(
+      onTap:() {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => ReportDetailPage()));
+      },
+      child: Container(
+        height: 100,
         color: lightgreen,
-        child: Row(
-          children: [
-            Expanded(
-              flex: 33,
-              child: Image.network(
-                'https://picsum.photos/250?image=9',
+        child: Card(
+          color: lightgreen,
+          child: Row(
+            children: [
+              Expanded(
+                flex: 33,
+                child: Image.network(
+                  'https://picsum.photos/250?image=9',
+                ),
               ),
-            ),
-            Expanded(
-              flex: 66,
-              child: Column(
-                children: [
-                 Expanded(
-                    flex: 25,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Broken Pipe',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.edit, color: Colors.blue),
-                            ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.delete, color: Colors.red),
-                            ),
-                          ],
-                        )
-                        
-                      ],
-                    ),
-                  ),
-                  Expanded(
+              Expanded(
+                flex: 66,
+                child: Column(
+                  children: [
+                   Expanded(
                       flex: 25,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(Icons.date_range),
-                          Text('Reported on May 12, 2022',style:TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                          )),
-                        ],
-                      )),
-                  Expanded(
-                    flex: 25,
-                    child: Row(
-                      children: [
-                        
-                        Container(
-                          color:Colors.green,
-                          child: Text(
-                            'Resolved',
+                          Text(
+                            'Broken Pipe',
                             style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500, 
+                              color: Colors.red,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          width:50,
-                        ),
-
-                        Icon(Icons.location_on,color: Colors.red,),
-                        TextButton(
-                          onPressed: (){},
-                          child: Text(
-                            'view location'
-                          ))
-                        
-                      ],
+                          Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {},
+                                icon: Icon(Icons.edit, color: Colors.blue),
+                              ),
+                              IconButton(
+                                onPressed: () {},
+                                icon: Icon(Icons.delete, color: Colors.red),
+                              ),
+                            ],
+                          )
+                          
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            )
-          ],
+                    Expanded(
+                        flex: 25,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(Icons.date_range),
+                            Text('Reported on May 12, 2022',style:TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                            )),
+                          ],
+                        )),
+                    Expanded(
+                      flex: 25,
+                      child: Row(
+                        children: [
+                          
+                          Container(
+                            color:Colors.green,
+                            child: Text(
+                              'Resolved',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500, 
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width:50,
+                          ),
+    
+                          Icon(Icons.location_on,color: Colors.red,),
+                          TextButton(
+                            onPressed: (){},
+                            child: Text(
+                              'view location'
+                            ))
+                          
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -112,6 +121,7 @@ class _ReportListPageState extends State<ReportListPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: lightgreen,
+        elevation: 0,
         centerTitle: true,
         leading: Icon(
           Icons.report,
@@ -140,7 +150,11 @@ class _ReportListPageState extends State<ReportListPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => 
+              ReportPage()));
+        },
         child: Icon(Icons.add),
         backgroundColor: Colors.red,
       ),
