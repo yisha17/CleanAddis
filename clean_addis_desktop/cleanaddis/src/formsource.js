@@ -19,11 +19,11 @@ export const wasteInputs = [{},{},{},{},{},{},{},{}];
 export const workInputs = [{},{},{}];
 export const announcementInputs = [{
     id:1,
-    label:"image :",
+    label:"yishak :",
     type:"file",},
     {
         id:2,
-        label:"from date :",
+        label:"from yishak date :",
         type:"date",},
         {
             id:3,

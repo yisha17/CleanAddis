@@ -64,15 +64,15 @@ ReactDOM.render(
                   <Route path="new" element={<New inputs = {announcementInputs} title="Add new work"/>}/>
                   </Route>
           </Route>
-          <Route path="user">
+          <Route path="itadmin">
             <Route index element={<Uhome />}/>
-            <Route path="report">
+            <Route path="user">
                   <Route index element={<Ulist/>} /> 
                   <Route path=":reportId" element={<Usingle />}/>
-                  <Route path="new" element={<Unew inputs = {announcementInputs} title="Add report"/>}/>
+                  <Route path="new" element={<Unew inputs = {announcementInputs} title="Add user"/>}/>
                   </Route >
             <Route path="announcement">
-                  <Route index element={<Uannouncement/>} /> 
+                  <Route index element={<Uannouncement />} /> 
                   <Route path=":announcementId" element={<Usingle />}/>
                   <Route path="new" element={<Unew inputs = {announcementInputs} title="Add new Announcement"/>}/>
                   </Route >
