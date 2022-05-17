@@ -37,7 +37,7 @@ class PublicPlacePageState extends State<PublicPlacePage> {
 
     LocationData locationData = await _location.getLocation();
     
-
+    
 
     
 

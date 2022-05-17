@@ -35,7 +35,7 @@ class WasteDataProvider {
 
     Future<List<Waste>?> fetchUserWasteByType(String user_id, String token,String for_waste,String type) async {
     final response = await http
-        .get(Uri.http(base_url, '$user_waste_path$user_id/$for_waste/$type'), headers: {
+        .get(Uri.http(base_url, '$user_waste_path$user_id/?for_waste = $for_waste&waste_type = $type'), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'JWT $token',

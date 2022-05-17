@@ -34,6 +34,27 @@ class ReportDataProvider{
     }
   }
 
+  Future<Report> updateReport({required Report report,required String token,required String id}) async{
+    print(report.title);
+    print(report.description);
+    final response = await http.patch(Uri.http(base_url,'$report_path$id/update'),headers: {
+       'Authorization': 'JWT $token',
+       "Content-Type": "application/json;charset=UTF-8",
+
+    },
+    body: jsonEncode({
+      'reportTitle': report.title,
+      'reportDescription': report.description,
+    }));
+    
+    var updated_report = Report.fromJSON(jsonDecode(response.body));
+    if (response.statusCode == 200){
+      return updated_report;
+    }else{
+      throw Exception('error');
+    }
+  }
+
 
    Future<List<Report>?> fetchUserReport(String user_id, String token) async {
     final response = await http
@@ -58,6 +79,8 @@ class ReportDataProvider{
     return null;
   }
 
+  
+
   Future<Report> singleReport(String id,String token) async {
     final response = await http.get(Uri.http(base_url, '$report_path/$id'), headers: {
       'Content-Type': 'application/json',
@@ -73,7 +96,7 @@ class ReportDataProvider{
 
 
   Future<void> deleteReport(int id,String token) async{
-    final response = await http.delete(Uri.http(base_url, '$user_report_path/$id'));
+    final response = await http.delete(Uri.http(base_url, '$report_path'+'delete/$id'));
 
     if (response == 204){
       print("deleted");

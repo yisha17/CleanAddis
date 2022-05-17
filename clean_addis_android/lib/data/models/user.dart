@@ -1,6 +1,4 @@
 import 'package:clean_addis_android/data/models/address.dart';
-import 'package:flutter/material.dart';
-
 import 'waste.dart';
 
 class User {
@@ -9,7 +7,7 @@ class User {
   final String? email;
   final String? password;
   final String? role;
-  final Image? profile;
+  final String? profile;
   final String? phone;
   final Address? address;
   final List<Waste?>? waste;

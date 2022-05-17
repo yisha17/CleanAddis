@@ -390,13 +390,15 @@ class SellerAPIViewByType(generics.ListAPIView):
     queryset = Waste.objects.all()
     serializer_class = SellerSerializer
     lookup_field = 'seller'
+    filter_fields = ('for_waste', 'waste_type')
 
-    def get_queryset(self, type='Plastic',for_waste = 'Donation'):
+    def get_queryset(self, waste_type='Paper',for_waste = 'Donation'):
+        print(waste_type)
         lists = super().get_queryset().filter(
-            seller=self.kwargs['seller'], for_waste=for_waste, waste_type=type).order_by('-post_date')
+            seller=self.kwargs['seller'], for_waste=for_waste, waste_type= waste_type).order_by('-post_date')
         print(lists)
         return lists
-
+ 
 
 seller_list_view_by_type = SellerAPIViewByType.as_view()
 

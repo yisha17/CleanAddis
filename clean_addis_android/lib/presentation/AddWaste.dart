@@ -10,25 +10,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddWastePage extends StatefulWidget {
-
-  String? waste_name;
-  String? waste_type;
-  String? for_waste;
-  String? metrics;
-  String? image;
-  int ? price;
-  int? quanity;
-  String? location;
-  String? description;
+  final int? id;
+  final String? waste_name;
+  final String? waste_type;
+  final String? for_waste;
+  final String? metric;
+  final String? image;
+  final int ? price;
+  final int? quantity;
+  final String? location;
+  final String? description;
 
 
   AddWastePage({
+    this.id,
    this.waste_name,
    this.waste_type,
    this.for_waste,
-   this.metrics,
+   this.metric,
    this.price,
-   this.quanity,
+   this.quantity,
    this.location,
    this.image,
    this.description
@@ -53,7 +54,7 @@ class AddWasteState extends State<AddWastePage> {
   
   final list = waste_type;
   static const values = <String>['Donation', 'Sell'];
-  String selectedValue = values.first;
+  late String selectedValue = isEditing() ? widget.for_waste! :values.first;
   String? value;
   File? image;
   String wasteBlank =
@@ -61,18 +62,25 @@ class AddWasteState extends State<AddWastePage> {
   final ImagePicker _picker = ImagePicker();
   final wasteBloc =
       AddWasteBloc(WasteRepository(dataProvider: WasteDataProvider()));
-  bool isEditing = false;
+
   var _formKey = GlobalKey<FormState>();
   var _scaffoldKey = GlobalKey<ScaffoldState>();
-  final waste_name_text = TextEditingController(),
-      waste_type_text = TextEditingController(),
-      waste_for_text = TextEditingController(),
-      waste_description_text = TextEditingController(),
-      metric_text = TextEditingController(),
-      price_per_unit_text = TextEditingController(),
-      quantity_text = TextEditingController(),
-      location_text = TextEditingController();
+  late final waste_name_text = TextEditingController(text: isEditing() ? widget.waste_name : null),
+      waste_type_text = TextEditingController(text: isEditing() ? widget.waste_name : null),
+      waste_for_text = TextEditingController(text: isEditing() ? widget.for_waste: null),
+      waste_description_text = TextEditingController(text: isEditing() ? widget.description : null),
+      metric_text = TextEditingController(text: isEditing() ? widget.metric : null),
+      price_per_unit_text = TextEditingController(text: isEditing() ? widget.price.toString(): null),
+      quantity_text = TextEditingController(text: isEditing() ? widget.quantity.toString() : null),
+      location_text = TextEditingController(text: isEditing() ? widget.location : null);
 
+bool isEditing(){
+  if(widget.id != null){
+    return true;
+  }else{
+    return false;
+  }
+}
   Widget buildRadios() {
     return Column(
       children: values.map(
@@ -282,7 +290,7 @@ class AddWasteState extends State<AddWastePage> {
                     isDense: true,
                     items: list.map((String category) {
                       return new DropdownMenuItem(
-                          value: category,
+                          value: isEditing() ? widget.waste_type : category,
                           child: Row(
                             children: <Widget>[
                               Text(category),

@@ -13,7 +13,7 @@ urlpatterns = [
     path('api/waste/<int:pk>/update', waste_update_view),
     path('api/waste/delete/<int:pk>', waste_delete_view),
     path('api/waste/seller/<int:seller>', seller_list_view),
-    path('api/waste/seller/<int:seller>/<str:for_waste>/<str:type>', seller_list_view_by_type),
+    path('api/waste/seller/<int:seller>/<str:for_waste>/<str:wastetype>', seller_list_view_by_type),
     path('api/waste/buyer/<int:buyer>', buyer_list_view),
     path('api/waste/', waste_create_view),
     path('api/report/', report_create_view),
@@ -37,7 +37,6 @@ urlpatterns = [
     path('api/announcement/<int:pk>', announcement_detail_view),
     path('api/announcement/<int:pk>/update', announcement_update_view),
     path('api/announcement/delete/<int:pk>', announcement_delete_view),
-    # path('api/report/',ReportView.as_view()),
     path('api/auth/', jwt_views.token_obtain_pair),
     path('api/auth/refresh', jwt_views.token_refresh),
 

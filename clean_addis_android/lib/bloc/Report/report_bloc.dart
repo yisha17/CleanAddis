@@ -40,7 +40,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
         final token = await _storage.read(key: 'token');
         final data =
             await reportRepository.createReport(report, token!, event.image!);
-
+        await Future.delayed(Duration(seconds: 3));
         yield ReportCreatedState(report: data!);
       } catch (e) {
         yield ReportErrorState(message: e.toString());
@@ -71,9 +71,39 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
         final report = await reportRepository.singleReport(waste_id!, token!);
         yield ReportState(report: report);
       }catch(e){
+        yield ReportErrorState(message: e.toString());
+      }
+    }
 
+    if (event is ReportEditEvent){
+      try{
+        yield ReportLoadingState();
+        final _storage = FlutterSecureStorage();
+        String? token = await _storage.read(key: 'token');
+         Report report = Report(
+            title: event.title,
+            description: event.description,);
+            print(report.description);
+        final report_updated  = await reportRepository.updateReport(report: report,token: token!,id: event.id.toString());
+        yield ReportState(report: report_updated);
+      } catch (e) {
+        yield ReportErrorState(message: e.toString());
+      }
+    }
+
+    if (event is ReportDeleteEvent) {
+      try{
+        yield ReportLoadingState();
+        final _storage = FlutterSecureStorage();
+        String? token = await _storage.read(key: 'token');
+        await reportRepository.deleteReport(int.parse(event.id), token!);
+        yield ReportDeletedState();
+      }catch(e){
+        yield ReportErrorState(message: e.toString());
       }
     }
     
   }
+
+  
 }
