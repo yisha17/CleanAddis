@@ -288,6 +288,10 @@ bool isEditing(){
                   ),
                   DropdownButtonFormField(
                     isDense: true,
+                    validator: (value){
+                      value == null ? 
+                       'error': null;
+                    },
                     items: list.map((String category) {
                       return new DropdownMenuItem(
                           value: isEditing() ? widget.waste_type : category,
@@ -333,7 +337,14 @@ bool isEditing(){
                             type: TextInputType.number,
                             controller: this.price_per_unit_text,
                             labelText: "price",
-                            placeholder: "100"),
+                            placeholder: "100",
+                            validator:(value){
+                              if (selectedValue == 'Donation' && int.parse(price_per_unit_text.text) > 0){
+                                return 'Donation is free';
+                              }else{
+                                return null;
+                              }
+                            }),
                       ),
                       SizedBox(
                         width: 20.0,

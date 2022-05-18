@@ -6,13 +6,13 @@ import 'package:clean_addis_android/presentation/WasteSellList.dart';
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
 import 'AddWaste.dart';
 import 'Login.dart';
 import 'Profile.dart';
-import 'WasteDonationList.dart';
+import 'WasteList.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -184,7 +184,10 @@ class HomePageState extends State<HomePage> {
                   TextButton(
                     onPressed: () => {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => WasteForSellPage()))
+                          builder: (context) => WasteDonationListPage(
+                            for_waste: 'Sell',
+                            type: 'Organic',
+                          )))
                     },
                     child: Text(
                       'Details',
@@ -288,7 +291,7 @@ class HomePageState extends State<HomePage> {
                                       ),
                                       margin:
                                           EdgeInsets.symmetric(horizontal: 10),
-                                      color: logogreen,
+                                      color: Colors.grey,
                                       width: MediaQuery.of(context).size.width *
                                           0.25,
                                       height:
@@ -300,7 +303,7 @@ class HomePageState extends State<HomePage> {
                                     child: IconButton(
                                       icon: Icon(
                                         Icons.add,
-                                        color: Colors.white,
+                                        color: Colors.black,
                                         size: 40,
                                       ),
                                       onPressed: () {
@@ -311,12 +314,12 @@ class HomePageState extends State<HomePage> {
                                       },
                                     ),
                                     margin:
-                                        EdgeInsets.symmetric(horizontal: 10),
-                                    color: logogreen,
+                                        EdgeInsets.fromLTRB(10, 0, 10, 20),
+                                    color: Colors.grey,
                                     width: MediaQuery.of(context).size.width *
                                         0.25,
                                     height: MediaQuery.of(context).size.height *
-                                        0.115,
+                                        0.11,
                                   );
                                 });
                       }
@@ -459,7 +462,7 @@ class HomePageState extends State<HomePage> {
                                     child: IconButton(
                                       icon: Icon(
                                         Icons.add,
-                                        color: Colors.white,
+                                        color: Colors.black,
                                         size: 40,
                                       ),
                                       onPressed: () {
@@ -470,8 +473,8 @@ class HomePageState extends State<HomePage> {
                                       },
                                     ),
                                     margin:
-                                        EdgeInsets.symmetric(horizontal: 10),
-                                    color: logogreen,
+                                         EdgeInsets.fromLTRB(10, 0, 10, 20),
+                                    color: Colors.grey,
                                     width: MediaQuery.of(context).size.width *
                                         0.25,
                                     height: MediaQuery.of(context).size.height *
@@ -485,7 +488,7 @@ class HomePageState extends State<HomePage> {
                     }),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.03,
+                height: MediaQuery.of(context).size.height * 0.04,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -499,17 +502,17 @@ class HomePageState extends State<HomePage> {
                       fontSize: 16,
                     ),
                   ),
-                  TextButton(
-                    onPressed: () => {print("njgd")},
-                    child: Text(
-                      'Details',
-                      style: TextStyle(color: Colors.grey, fontSize: 13),
-                    ),
-                  ),
+                  // TextButton(
+                  //   onPressed: () => {print("njgd")},
+                  //   child: Text(
+                  //     'Details',
+                  //     style: TextStyle(color: Colors.grey, fontSize: 13),
+                  //   ),
+                  // ),
                 ],
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.01,
+                height: MediaQuery.of(context).size.height * 0.03,
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.14,
@@ -522,6 +525,7 @@ class HomePageState extends State<HomePage> {
                     wasteType('Paper', Colors.brown),
                     wasteType('Metal', Color.fromARGB(255, 107, 105, 105)),
                     wasteType('Glass', Colors.orangeAccent),
+                    wasteType('Fabric', Color.fromARGB(255, 44, 110, 125))
                   ],
                 ),
               ),

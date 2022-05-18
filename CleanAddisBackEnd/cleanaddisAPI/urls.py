@@ -13,7 +13,7 @@ urlpatterns = [
     path('api/waste/<int:pk>/update', waste_update_view),
     path('api/waste/delete/<int:pk>', waste_delete_view),
     path('api/waste/seller/<int:seller>', seller_list_view),
-    path('api/waste/seller/<int:seller>/<str:for_waste>/<str:wastetype>', seller_list_view_by_type),
+    path('api/waste/seller/<int:seller>/<str:for_waste>/<str:waste_type>', seller_list_view_by_type),
     path('api/waste/buyer/<int:buyer>', buyer_list_view),
     path('api/waste/', waste_create_view),
     path('api/report/', report_create_view),

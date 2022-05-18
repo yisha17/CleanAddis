@@ -392,10 +392,12 @@ class SellerAPIViewByType(generics.ListAPIView):
     lookup_field = 'seller'
     filter_fields = ('for_waste', 'waste_type')
 
-    def get_queryset(self, waste_type='Paper',for_waste = 'Donation'):
-        print(waste_type)
+    def get_queryset(self):
+        
         lists = super().get_queryset().filter(
-            seller=self.kwargs['seller'], for_waste=for_waste, waste_type= waste_type).order_by('-post_date')
+            seller=self.kwargs['seller'], 
+            for_waste=self.kwargs['for_waste'], 
+            waste_type= self.kwargs['waste_type']).order_by('-post_date')
         print(lists)
         return lists
  
