@@ -6,8 +6,6 @@ import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../bloc/Report/report_bloc.dart';
 import '../data/data_providers/report_data.dart';
@@ -38,7 +36,6 @@ class ReportDetailPage extends StatefulWidget {
 
 class _ReportDetailPageState extends State<ReportDetailPage> {
   File? image;
-  final ImagePicker _picker = ImagePicker();
   bool isTextfield = false;
   bool isDescriptionField = false;
   final report_title_text = TextEditingController(),

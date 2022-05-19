@@ -22,6 +22,13 @@ class WasteRepository{
     return this.dataProvider.createWaste(waste:waste,token:token,file:file);
   }
 
+  Future<Waste?> updateWaste(String id,Waste waste, String token, File? file) {
+    
+    return this
+        .dataProvider
+        .updateWaste(id: id, waste: waste, token: token, file: file);
+  }
+
   Future<void> deleteWaste(int id ,String token){
     return this.dataProvider.deleteWaste(id, token);
   }

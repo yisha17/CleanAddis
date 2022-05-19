@@ -8,17 +8,17 @@ import '../bloc/Waste/user_waste_bloc.dart';
 import '../data/data_providers/waste_data.dart';
 import '../data/repositories/waste_repository.dart';
 
-class WasteDonationListPage extends StatefulWidget {
+class WasteListPage extends StatefulWidget {
   final String? for_waste;
   final String? type;
-  WasteDonationListPage({this.for_waste, this.type});
+  WasteListPage({this.for_waste, this.type});
   @override
   State<StatefulWidget> createState() {
-    return WasteDonationListPageState();
+    return WasteListPageState();
   }
 }
 
-class WasteDonationListPageState extends State<WasteDonationListPage>
+class WasteListPageState extends State<WasteListPage>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
@@ -101,6 +101,7 @@ class WasteDonationListPageState extends State<WasteDonationListPage>
     required String for_waste,
     required String post_date,
     required bool donated,
+    required bool sold,
   }) {
     var date = DateFormatter.changetoMD(post_date);
     return InkWell(
@@ -118,6 +119,7 @@ class WasteDonationListPageState extends State<WasteDonationListPage>
                   post_date: date,
                   unit: unit,
                   donated: donated,
+                  sold: sold,
                   price: price,
                   image: image,
                 )));
@@ -161,18 +163,7 @@ class WasteDonationListPageState extends State<WasteDonationListPage>
                               ),
                             ),
                           ),
-                          // Row(
-                          //   children: [
-                          //     IconButton(
-                          //       onPressed: () {},
-                          //       icon: Icon(Icons.edit, color: Colors.blue),
-                          //     ),
-                          //     IconButton(
-                          //       onPressed: () {},
-                          //       icon: Icon(Icons.delete, color: Colors.red),
-                          //     ),
-                          //   ],
-                          // )
+                        
                         ],
                       ),
                     ),
@@ -366,6 +357,7 @@ class WasteDonationListPageState extends State<WasteDonationListPage>
                                       description:
                                           '${waste.elementAt(index).description}',
                                       donated: waste.elementAt(index).donated!,
+                                    sold: waste.elementAt(index).sold!,
                                       waste_type:
                                           '${waste.elementAt(index).waste_type}',
                                       for_waste:

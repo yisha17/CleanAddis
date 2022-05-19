@@ -1,8 +1,7 @@
+import 'package:clean_addis_android/presentation/AddWaste.dart';
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../bloc/Waste/user_waste_bloc.dart';
 
 class WasteDetailPage extends StatefulWidget {
   final int? waste_id;
@@ -14,6 +13,7 @@ class WasteDetailPage extends StatefulWidget {
   final String? price;
   final String? unit;
   final String? post_date;
+  final bool? sold;
   final bool? donated;
 
   final String? location;
@@ -29,6 +29,7 @@ class WasteDetailPage extends StatefulWidget {
       this.price,
       this.post_date,
       this.donated,
+      this.sold,
       this.location,
       this.description});
   @override
@@ -221,11 +222,13 @@ class WasteDetailState extends State<WasteDetailPage> {
         actions: [
            IconButton(
             onPressed: () {
-              messageDialog(
+              widget.donated! || widget.sold! ?
+              
+                messageDialog(
                   context: context,
-                  title: 'Edit Report',
-                  color: Colors.blue,
-                  body: 'Are you sure you want to Edit your report?',
+                  title: 'Cant Edit Waste',
+                  color: Colors.red,
+                  body: 'You Already Donated/Sold the waste',
                   icon: Icons.edit,
                   actions: [
                     Center(
@@ -241,6 +244,49 @@ class WasteDetailState extends State<WasteDetailPage> {
                             ),
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();
+                            } 
+                          ),
+                         
+                        ],
+                      ),
+                    ),
+                  ]):
+              messageDialog(
+                  context: context,
+                  title: 'Edit Waste',
+                  color: Colors.blue,
+                  body: 'Are you sure you want to Edit your Waste?',
+                  icon: Icons.edit,
+                  actions: [
+                    Center(
+                      child: Row(
+                        children: [
+                          TextButton(
+                            child: Text(
+                              "OK",
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            onPressed: () {
+                            
+                              Navigator.of(context, rootNavigator: true).pop();
+                              Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                              AddWastePage(
+                                                id: widget.waste_id,
+                                                image:widget.image,
+                                                waste_name: widget.waste_name,
+                                                waste_type: widget.waste_type,
+                                                for_waste: widget.for_waste,
+                                                metric: widget.unit,
+                                                quantity: widget.quantity,
+                                                price: widget.price,
+                                                location: widget.location,
+                                                description: widget.description,
+                                              )));
                             } 
                           ),
                           TextButton(
@@ -259,6 +305,8 @@ class WasteDetailState extends State<WasteDetailPage> {
                       ),
                     ),
                   ]);
+                  
+
             },
             icon: Icon(Icons.edit),
             color: Colors.white,
@@ -385,7 +433,10 @@ class WasteDetailState extends State<WasteDetailPage> {
                   icon: Icons.shop_two,
                   color: TypeColor.chooseColor(widget.waste_type!),
                   label: 'Status',
-                  text: widget.donated! ? 'Donated' : 'Available'),
+                  text: widget.for_waste! == 'Donation' ?
+                        widget.donated! ? 'Donated' : 'Available':
+                        widget.sold! ? 'Sold': 'Available') 
+                  //widget.donated! ? 'Donated' : 'Available'),
              
             ],
           ),
