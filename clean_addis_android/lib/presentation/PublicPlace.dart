@@ -1,9 +1,13 @@
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:location/location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:latlong2/latlong.dart' as latLng;
+import 'package:mapbox_gl/mapbox_gl.dart';
+import '../main.dart';
+
 
 class PublicPlacePage extends StatefulWidget {
   @override
@@ -17,7 +21,7 @@ class PublicPlacePageState extends State<PublicPlacePage> {
 
   void initState(){
     super.initState();
-
+    initializeLocationAndSave();
   }
 
   void initializeLocationAndSave() async{
@@ -37,11 +41,18 @@ class PublicPlacePageState extends State<PublicPlacePage> {
 
     LocationData locationData = await _location.getLocation();
     
+  LatLng currentLatLng = LatLng(locationData.latitude!,locationData.longitude!);
     
-
-    
-
+   
+    sharedPreferences.setDouble('latitude', locationData.latitude!);
+    sharedPreferences.setDouble('longitude', locationData.longitude!);
   }
+
+  LatLng getLatLngFromSharedPrefs() {
+    return LatLng(sharedPreferences.getDouble('latitude')!,
+        sharedPreferences.getDouble('longitude')!);
+  }
+  
   bool isSearching = false;
   @override
   Widget build(BuildContext context) {

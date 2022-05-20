@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:latlong2/latlong.dart' as LatLng;
 
 Widget cleanAddislogo() {
   return RichText(
@@ -26,17 +27,7 @@ Widget cleanAddislogo() {
   );
 }
 
-class SecureStorageUtil {
-  static FlutterSecureStorage _preferences = FlutterSecureStorage();
 
-  static Future<String?> getString(String key, {String defValue = ''}) {
-    return _preferences.read(key: key);
-  }
-
-  static Future<void> putString(String key, String value) {
-    return _preferences.write(key: key, value: value);
-  }
-}
 
 Color lightgreen = Color(0xffe9fff3);
 Color logogreen = Color(0xff68EA26);
