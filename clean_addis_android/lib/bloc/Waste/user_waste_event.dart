@@ -12,10 +12,11 @@ class HomePageOpenedEvent extends UserWasteEvent{
 
 }
 
-class  DetailPageEvent extends UserWasteState{
-  final List<Waste> waste;
-  DetailPageEvent({required this.waste});
+class  DetailPageEvent extends UserWasteEvent{
+  final String for_waste;
+  final String type;
+  DetailPageEvent({required this.for_waste,required this.type});
   
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [for_waste,type];
 }

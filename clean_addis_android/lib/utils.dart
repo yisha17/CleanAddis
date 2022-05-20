@@ -46,6 +46,32 @@ Color lightgreen = Color(0xffe9fff3);
 Color logogreen = Color(0xff68EA26);
 
 
+class DateFormatter{
+
+  static String  changetoMD(String date){
+    const months = [
+      'January', 
+      'February', 
+      'March', 
+      'April', 
+      'May', 
+      'June', 
+      'July',
+      'August', 
+      'September', 
+      'October', 
+      'November', 
+      'December'];
+
+      var datelist = date.split('-');
+      var year = datelist[0];
+      var month = months[int.parse(datelist[1]) + 1];
+      var day = datelist[2].substring(1,3);
+
+      return '$month $day, $year';
+  }
+}
+
 
 
 

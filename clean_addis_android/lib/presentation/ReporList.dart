@@ -1,7 +1,11 @@
 import 'package:clean_addis_android/presentation/ReportDetail.dart';
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../bloc/Report/report_bloc.dart';
+import '../data/data_providers/report_data.dart';
+import '../data/repositories/report_repository.dart';
 import 'Report.dart';
 
 class ReportListPage extends StatefulWidget {
@@ -13,6 +17,16 @@ class ReportListPage extends StatefulWidget {
 
 class _ReportListPageState extends State<ReportListPage> {
  
+  final reportBloc = ReportBloc(ReportRepository(dataProvider: ReportDataProvider()));
+
+
+   @override
+   void initState(){
+     reportBloc..add(ReportListEvent());
+     super.initState();
+   }
+
+
   Widget createListTile() {
     return InkWell(
       onTap:() {
@@ -118,45 +132,90 @@ class _ReportListPageState extends State<ReportListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: lightgreen,
-        elevation: 0,
-        centerTitle: true,
-        leading: Icon(
-          Icons.report,
-          size: 26,
-          color: Colors.red,
-        ),
-        title: Text(
-          'Your Report',
-          style: TextStyle(
+    return BlocProvider(
+      create: (context) =>
+            ReportBloc(ReportRepository(dataProvider: ReportDataProvider())),
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: lightgreen,
+          elevation: 0,
+          centerTitle: true,
+          leading: Icon(
+            Icons.report,
+            size: 26,
             color: Colors.red,
-            fontSize: 26,
-            fontWeight: FontWeight.w600,
+          ),
+          title: Text(
+            'Your Report',
+            style: TextStyle(
+              color: Colors.red,
+              fontSize: 26,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
-      ),
-      backgroundColor: lightgreen,
-      body: ListView(
-        children: [
-          createListTile(),
-          createListTile(),
-          createListTile(),
-          createListTile(),
-          createListTile(),
-          createListTile(),
-          createListTile(),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => 
-              ReportPage()));
-        },
-        child: Icon(Icons.add),
-        backgroundColor: Colors.red,
+        backgroundColor: lightgreen,
+        body: BlocBuilder(
+          bloc:reportBloc,
+           builder: (context,state) {
+                  if (state is ReportLoadingState) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [Center(child: CircularProgressIndicator())],
+                      );
+                  }
+
+                  if(state is ReportListState){
+                    final reportList = state.reportList;
+                    return reportList.isEmpty ?
+
+                     Center(
+                      child: Text('you dont have any Report yet')
+                    ):
+
+                     ListView.builder(
+                      itemCount: reportList.length,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context,index){
+                        return createListTile();
+                      },
+                     
+                                       );
+                    
+
+                  }
+
+                  return Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [Center(child: CircularProgressIndicator())],
+                        )
+                      );
+                  
+           }
+          // child: ListView(
+          //   children: [
+          //     createListTile(),
+          //     createListTile(),
+          //     createListTile(),
+          //     createListTile(),
+          //     createListTile(),
+          //     createListTile(),
+          //     createListTile(),
+          //   ],
+          // ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => 
+                ReportPage()));
+          },
+          child: Icon(Icons.add),
+          backgroundColor: Colors.red,
+        ),
       ),
     );
   }

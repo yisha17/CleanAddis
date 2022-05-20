@@ -86,10 +86,10 @@ class SellerSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ReportSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Report
         fields = '__all__'
+
 class ReporterSerializer(serializers.ModelSerializer):
 
     class Meta:
