@@ -2,11 +2,22 @@ import React from 'react'
 import './udatatable.scss'
 import { DataGrid } from '@mui/x-data-grid'
 import { userColumns, userRows } from '../../../datatablesource'
-import {Link} from 'react-router-dom'
-import Unew from '../../../pages/userpages/unew/Unew'
+import {Link} from 'react-router-dom';
+import {useEffect} from 'react'
 
+import axios from 'axios'; 
+
+ 
 
 const Datatable = () => {
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "pjgwpra92346ilzqculx01fl822qar03",
+  };
+  useEffect(() => {
+    axios.get("https://cleanaddis.herokuapp.com/api/user/1")
+    .then((res)=>console.log(res))
+},[])
     const actionColumn = [{field:"action", headerName:"Action", width:230,
     renderCell:(params) => {
      return(
