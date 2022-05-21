@@ -1,7 +1,7 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:location/location.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
+
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 

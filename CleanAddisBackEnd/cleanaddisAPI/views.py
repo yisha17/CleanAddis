@@ -454,6 +454,13 @@ class WasteDetailAPIView(generics.RetrieveAPIView):
 waste_detail_view = WasteDetailAPIView().as_view()
 
 
+class WasteAllAPIView(generics.ListAPIView):
+    queryset = Waste.objects.all()
+    serializer_class = WasteSerializer
+    lookup_field = 'pk'
+
+all_waste_list_view = WasteAllAPIView().as_view()
+
 class BuyerAPIView(generics.ListAPIView):
     queryset = Waste.objects.all()
     serializer_class = SellerSerializer
