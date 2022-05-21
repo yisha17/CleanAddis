@@ -6,7 +6,7 @@ const Edit = () => {
   return (
     <div>
     <div class="rounded justify-center item-center p-6 m-4">
-    <Link to="/cityadmin/publicplace"  onClick={<Editormodal />}> <div className="editButton  border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">close</div>
+    <Link to="/cityadmin/seminar"  onClick={<Editormodal />}> <div className="editButton  border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">close</div>
           </Link>
         <h1 class="block w-full text-center text-gray-800 text-2xl font-bold mb-6">Edit Public Place</h1>
         <form action="/" method="post">
