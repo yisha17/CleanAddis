@@ -9,7 +9,8 @@
    <application
         android:label="CleanAddis"
         android:icon="@mipmap/ic_launcher"
-        android:usesCleartextTraffic = "true">
+        android:usesCleartextTraffic = "true"
+        android:name="${applicationName}">
         
         <activity
             android:name=".MainActivity"

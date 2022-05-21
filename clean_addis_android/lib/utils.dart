@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:latlong2/latlong.dart' as LatLng;
+
 
 Widget cleanAddislogo() {
   return RichText(

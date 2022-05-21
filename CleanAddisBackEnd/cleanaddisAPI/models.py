@@ -119,6 +119,9 @@ class PublicPlace(models.Model):
     longitude = models.DecimalField(max_digits= 14,decimal_places=10,unique=True )
     latitude = models.DecimalField(max_digits=14, decimal_places=10, unique=True)
 
+    
+
+
 class Seminar(models.Model):
     TYPE_CHOICES = [('Meeting','Meeting'),('Plantation','Plantation'),('Cleaning','Cleaning')]
     seminarTitle = models.CharField(max_length=20,default="",null=True)

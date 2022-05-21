@@ -2,13 +2,14 @@ import 'package:clean_addis_android/bloc/Waste/user_waste_bloc.dart';
 import 'package:clean_addis_android/data/data_providers/waste_data.dart';
 import 'package:clean_addis_android/data/repositories/waste_repository.dart';
 import 'package:clean_addis_android/presentation/WasteBuyList.dart';
-import 'package:clean_addis_android/presentation/WasteSellList.dart';
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:location/location.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
+import '../main.dart';
 import 'AddWaste.dart';
 import 'Login.dart';
 import 'Profile.dart';
@@ -29,6 +30,31 @@ class HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     wastebloc..add(HomePageOpenedEvent());
+    initializeLocationAndSave();
+  }
+
+  void initializeLocationAndSave() async {
+    Location _location = Location();
+    bool? serviceEnabled;
+    PermissionStatus? permissionGranted;
+
+    serviceEnabled = await _location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await _location.requestService();
+    }
+    permissionGranted = await _location.hasPermission();
+
+    if (permissionGranted == _location.hasPermission()) {
+      permissionGranted = await _location.requestPermission();
+    }
+
+    LocationData locationData = await _location.getLocation();
+
+    LatLng currentLatLng =
+        LatLng(locationData.latitude!, locationData.longitude!);
+
+    sharedPreferences.setDouble('latitude', locationData.latitude!);
+    sharedPreferences.setDouble('longitude', locationData.longitude!);
   }
 
   NetworkImage chooseImage(String type) {
