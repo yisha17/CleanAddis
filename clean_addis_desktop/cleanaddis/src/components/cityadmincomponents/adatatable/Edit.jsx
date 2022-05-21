@@ -1,5 +1,4 @@
 import React from 'react'
-import Single from '../../../pages/adminpages/asinglepage/Single';
 import Edit from '../../../pages/adminpages/asinglepage/Edit'
 
 const Editormodal = ({visible, onClose}) => {
