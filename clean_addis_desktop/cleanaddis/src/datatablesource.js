@@ -82,3 +82,31 @@ export  const userRows = [{
        status :"delivered"
    },
   ];
+export const rColumn = [
+    
+];
+export const rRow = [
+];
+
+export const aColumn = [
+];
+export const aRow = [
+];
+
+export const sColumn = [
+];
+export const sRow = [
+];
+
+export const wColumn = [
+];
+export const wRow = [
+]
+export const pColumn = [
+];
+export const pRow = [
+];
+
+
+
+

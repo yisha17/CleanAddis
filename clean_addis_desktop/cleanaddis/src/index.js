@@ -13,8 +13,12 @@ import Rlist from './pages/adminpages/reportlist/List';
 import Alist from './pages/adminpages/announcementlist/List';
 import Slist from './pages/adminpages/seminarlist/List';
 import Wlist from './pages/adminpages/worklist/List';
-import Plist from './pages/adminpages/publicplacelist/Lists';
-import Single from '../../cleanaddis/src/pages/adminpages/singlepage/Single';
+import Plist from './pages/adminpages/publicplacelist/List';
+import Ssingle from './pages/adminpages/ssinglepage/Single';
+import Asingle from './pages/adminpages/asinglepage/Single';
+import Wsingle from './pages/adminpages/wsinglepage/Single';
+import Psingle from './pages/adminpages/psinglepage/Single';
+import Rsingle from './pages/adminpages/rsinglepage/Single';
 import New from '../../cleanaddis/src/pages/adminpages/new/New';
 import Ulist from './pages/userpages/ulist/Ulist';
 import Usingle from '../../cleanaddis/src/pages/userpages/usinglepage/Usingle';
@@ -38,26 +42,26 @@ ReactDOM.render(
             <Route path="new" element={<New inputs = {announcementInputs} title="Add new Announcement"/>}/>
                 <Route path="report">
                   <Route index element={<Rlist/>} /> 
-                  <Route path=":reportId" element={<Single />}/>
+                  <Route path=":reportId" element={<Rsingle />}/>
                   </Route >
                   <Route path="announcement">
                   <Route index element={<Alist/>} /> 
-                  <Route path=":announcementId" element={<Single />}/>
+                  <Route path=":announcementId" element={<Asingle />}/>
                   <Route path="new" element={<New inputs = {announcementInputs} title="Add new Announcement"/>}/>
                   </Route >
                   <Route path="work">
                   <Route index element={<Wlist/>} /> 
-                  <Route path=":workid" element={<Single />}/>
+                  <Route path=":workid" element={<Wsingle />}/>
                   <Route path="new" element={<New inputs = {announcementInputs} title="Add new work"/>}/>
                   </Route>
                   <Route path="seminar">
                   <Route index element={<Slist/>} /> 
-                  <Route path=":semiarid" element={<Single />}/>
+                  <Route path=":semiarid" element={<Ssingle />}/>
                   <Route path="new" element={<New inputs = {announcementInputs} title="Add new work"/>}/>
                   </Route>
                   <Route path="publicplace">
                   <Route index element={<Plist/>} /> 
-                  <Route path=":publicid" element={<Single />}/>
+                  <Route path=":publicid" element={<Psingle />}/>
                   <Route path="new" element={<New inputs = {announcementInputs} title="Add new work"/>}/>
                   </Route>
           </Route>
