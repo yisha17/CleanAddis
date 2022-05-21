@@ -82,8 +82,6 @@ ReactDOM.render(
                   <Route path=":announcementId" element={<Usingle />}/>
                   <Route path="new" element={<Unew inputs = {announcementInputs} title="Add new Announcement"/>}/>
                   </Route >
-            
-                
           </Route>
 
           
