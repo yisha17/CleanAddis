@@ -36,7 +36,7 @@ const Adatatable = () => {
     <div>
       <div>
       <Link to ="/cityadmin/announcement" onClick={() => setShowMyModal(true)}>
-           <div className="border rounded border-slate-300 justify-center flex items-center m-4  hover:bg-green-400 cursor-pointer pt-4 pb-5">Add New Announcement </div> 
+           <div className="border rounded border-slate-300 justify-center flex items-center m-4  hover:bg-green-400 cursor-pointer pt-4 pb-5">Add New Announcements </div> 
            </Link>
       </div>
     <div  style={{ height: 500, width: '100%' }} className="items-center">
