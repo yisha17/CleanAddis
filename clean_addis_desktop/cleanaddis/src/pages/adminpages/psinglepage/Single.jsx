@@ -4,7 +4,7 @@ import CityadminNavbar from "../../../components/cityadmincomponents/navbar/City
 import Chart from "../../../components/cityadmincomponents/chart/Chart"
 import Tables from "../../../components/cityadmincomponents/table/Tables"
 
-const Single = () => {
+const Psingle = () => {
   return (
     <div>
       <div className="single flex">
@@ -54,4 +54,4 @@ const Single = () => {
 };
 
 
-export default Single
+export default Psingle
