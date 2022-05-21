@@ -7,10 +7,12 @@ import New from '../../../pages/adminpages/new/New'
 import { useState } from 'react'
 import Newmodal from "../../../components/cityadmincomponents/adatatable/NewModal"
 import Modal from '../adatatable/Modal'
+import EditModal from '../adatatable/Edit'
 
 const Adatatable = () => {
     const [showMyModal,setShowMyModal]  = useState(false)
     const [showSingle, setSingle] = useState(false)
+    const [showEdit, setEdit] = useState(false)
     const actionColumn = [{field:"action", headerName:"Action", width:230,
     renderCell:(params) => {
      return(
@@ -18,7 +20,7 @@ const Adatatable = () => {
           <Link to ="/cityadmin/announcement" onClick={() => setSingle(true)}>
            <div className="viewButton border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">View</div> 
            </Link>
-           <Link to ="/cityadmin/announcement" onClick={() => setSingle(true)}>
+           <Link to ="/cityadmin/announcement" onClick={() => setEdit(true)}>
            <div className="viewButton border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">Edit</div> 
            </Link>
            
@@ -49,6 +51,7 @@ const Adatatable = () => {
     <div>
         <Newmodal  visible={showMyModal}/>
         <Modal visible={showSingle}/>
+        <EditModal visible={showEdit}/>
       </div>
     
     </div>
