@@ -1,6 +1,6 @@
 
-const base_url = 'cleanaddis.herokuapp.com';
-const full_base_url = 'https://cleanaddis.herokuapp.com';
+const base_url = '192.168.1.7:8000';
+const full_base_url = 'http://192.168.1.7:8000';
 const user_signup_path = '/api/users/';
 const user_login_path = '/api/auth/';
 const user_waste_path = 'api/waste/seller/';
@@ -16,8 +16,9 @@ const waste_type = <String>[
   'Glass',
   'Metal',
   'Paper',
-  'Electronics',
+  'E-Waste',
   'Organic',
-  'Cloth'
+  'Fabric',
+  'Aluminum'
 ];
 

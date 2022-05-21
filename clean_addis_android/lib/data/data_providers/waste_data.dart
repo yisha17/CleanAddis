@@ -33,6 +33,29 @@ class WasteDataProvider {
     return null;
   }
 
+    Future<List<Waste>?> fetchUserWasteByType(String user_id, String token,String for_waste,String type) async {
+    final response = await http
+        .get(Uri.http(base_url, '$user_waste_path$user_id/$for_waste/$type'), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'JWT $token',
+    });
+
+    if (response.statusCode == 200) {
+      final waste = jsonDecode(response.body) as List;
+      try {
+        List<Waste> wasteList = waste.map((e) => Waste.fromJSON(e)).toList();
+
+        return wasteList;
+      } catch (err) {
+        print(err);
+      }
+    } else {
+      throw Exception('Could not fetch waste');
+    }
+    return null;
+  }
+
   Future<List<Waste>?> fetchAllWaste() async {
     final response = await http.get(Uri.http(base_url, user_waste_path));
 
@@ -62,39 +85,8 @@ class WasteDataProvider {
 
   Future<Waste> createWaste(
       {required Waste waste, required String token, File? file}) async {
-    // final request =
-    //     await http.MultipartRequest("POST", Uri.parse('$full_base_url/$waste_path'));
-
-    // request.headers.addAll({"Authorization": "JWT $token"});
-    // request.files.add(await http.MultipartFile.fromPath("image", file!.path));
-    // request.fields.forEach((key, dynamic value) {
-    //   request.fields[key] = value;
-    // });
-
-    // request.fields['waste_name'] = waste.waste_name!;
-    // request.fields['waste_type'] = waste.waste_type!;
-    // request.fields['for_waste'] = waste.for_waste!;
-    // request.fields['seller'] = waste.seller as String;
-    // request.fields['waste_name'] = waste.waste_name!;
-    // request.fields['metric'] = waste.metric!;
-    // request.fields['quantity'] = waste.quantity! as String;
-    // request.fields['price_per_unit'] = waste.price_per_unit as String;
-    // request.fields['location'] = waste.location!;
-    // request.fields['description'] = waste.description!;
-
-    // var response = await request.send();
-    // var responsed = await http.Response.fromStream(response);
-    // final waste_ret = json.decode(responsed.body);
-    // print(response.statusCode);
-    // print(request.fields['waste_name']);
-
-    // if (response.statusCode == 200) {
-    //   return waste_ret;
-    // } else {
-    //   throw Exception('error');
-    // }
     dio.options.headers["authorization"] = "JWT ${token}";
-  print('yishak');
+  
   
     
   String imageFile = file!.path.split('/').last;
@@ -114,11 +106,7 @@ class WasteDataProvider {
         contentType: new MediaType("image","jpg"))
     });
 
-    formData.files.addAll([
-       MapEntry(
-          "image", MultipartFile.fromFileSync(file.path,
-           filename: imageFile))
-    ]);
+  
     
     print(formData.fields);
     print(formData.toString());
@@ -126,7 +114,10 @@ class WasteDataProvider {
      final response =
           await dio.post('$full_base_url/$waste_path', data: formData);
           print(response.statusCode);
-      Waste waste_returned = json.decode(response.data);
+      
+      
+      Waste waste_returned = Waste.fromJSON(response.data);
+
       print(response.statusCode);
       print(waste_returned.image);
 

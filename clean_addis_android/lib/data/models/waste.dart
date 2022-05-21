@@ -16,7 +16,7 @@ class Waste{
   final bool ?bought;
   final bool ?donated;
   final String ?description;
-  final DateTime ?post_date;
+  final String ?post_date;
 
   Waste({
     this.id,

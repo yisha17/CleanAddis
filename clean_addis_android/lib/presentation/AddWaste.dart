@@ -10,6 +10,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddWastePage extends StatefulWidget {
+
+  String? waste_name;
+  String? waste_type;
+  String? for_waste;
+  String? metrics;
+  String? image;
+  int ? price;
+  int? quanity;
+  String? location;
+  String? description;
+
+
+  AddWastePage({
+   this.waste_name,
+   this.waste_type,
+   this.for_waste,
+   this.metrics,
+   this.price,
+   this.quanity,
+   this.location,
+   this.image,
+   this.description
+  });
   @override
   State<StatefulWidget> createState() {
     return AddWasteState();
@@ -26,6 +49,8 @@ DropdownMenuItem<String> buildMenuItem(String item) {
 }
 
 class AddWasteState extends State<AddWastePage> {
+
+  
   final list = waste_type;
   static const values = <String>['Donation', 'Sell'];
   String selectedValue = values.first;
@@ -36,7 +61,7 @@ class AddWasteState extends State<AddWastePage> {
   final ImagePicker _picker = ImagePicker();
   final wasteBloc =
       AddWasteBloc(WasteRepository(dataProvider: WasteDataProvider()));
-
+  bool isEditing = false;
   var _formKey = GlobalKey<FormState>();
   var _scaffoldKey = GlobalKey<ScaffoldState>();
   final waste_name_text = TextEditingController(),
@@ -56,7 +81,10 @@ class AddWasteState extends State<AddWastePage> {
               value: e,
               groupValue: selectedValue,
               title: Text(e,style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w600),),
-              onChanged: (value) => setState(() => this.selectedValue = e));
+              onChanged: (value) => setState(() => {
+                this.selectedValue = e,
+                print(this.selectedValue)
+              }));
         },
       ).toList(),
     );
@@ -346,7 +374,7 @@ class AddWasteState extends State<AddWastePage> {
                   ElevatedButton(
                       onPressed: () {
                         wasteBloc.onCreateWaste(
-                            for_waste: 'Sell',
+                            for_waste: this.selectedValue,
                             waste_name: this.waste_name_text.text,
                             waste_type: this.value,
                             price_per_unit:
