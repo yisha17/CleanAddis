@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom'
 import New from '../../../pages/adminpages/new/New'
 
 
-const Datatable = () => {
+const Rdatatable = () => {
     const actionColumn = [{field:"action", headerName:"Action", width:230,
     renderCell:(params) => {
      return(
@@ -36,4 +36,4 @@ const Datatable = () => {
   )
 }
 
-export default Datatable
+export default Rdatatable

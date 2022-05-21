@@ -1,7 +1,7 @@
 import "./list.scss"
 import CityadminSidebar from "../../../components/cityadmincomponents/sidebar/CityadminSidebar"
 import CityadminNavbar from "../../../components/cityadmincomponents/navbar/CityadminNavbar"
-import Datatable from "../../../components/cityadmincomponents/datatable/Datatable"
+import Adatatable from "../../../components/cityadmincomponents/adatatable/Datatable"
 
 const Alist = () => {
   return (
@@ -9,7 +9,7 @@ const Alist = () => {
     <CityadminSidebar />
     <div className="listContainer pt-3 pl-3">
       <CityadminNavbar className="pt-3 " />
-      <Datatable />
+      <Adatatable />
     </div>
     </div>
   )
