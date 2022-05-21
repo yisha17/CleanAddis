@@ -26,4 +26,8 @@ class ReportRepository {
   Future<void> deleteReport(int id, String token) {
     return this.dataProvider.deleteReport(id, token);
   }
+
+  Future<Report> updateReport({required Report report, required String id, required String token}){
+    return this.dataProvider.updateReport(report: report, token: token, id: id);
+  }
 }

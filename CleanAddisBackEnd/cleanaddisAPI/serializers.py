@@ -101,6 +101,7 @@ class PublicPlaceSerializer(serializers.ModelSerializer):
     class Meta:
         model = PublicPlace
         fields = '__all__'
+        lookup_field = 'publicType'
 class SeminarSerializer(serializers.ModelSerializer):
 
     class Meta:

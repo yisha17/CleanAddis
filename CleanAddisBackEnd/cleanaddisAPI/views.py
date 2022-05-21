@@ -17,8 +17,8 @@ from .serializers import *
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.parsers import MultiPartParser, FormParser
-
-
+from geopy.distance import geodesic
+from math import sin, cos, sqrt, atan2, radians
 
 
 class RegisterView(generics.GenericAPIView):
@@ -224,6 +224,15 @@ class ReportAPIView(generics.ListAPIView):
             
 report_list_view = ReportAPIView.as_view()
 
+
+
+class ReportAllAPIView(generics.ListAPIView):
+    queryset = Report.objects.all()
+    serializer_class = ReporterSerializer
+         
+all_report_list_view = ReportAPIView.as_view()
+
+
 class PublicPlaceCreateAPIView(generics.CreateAPIView):
 
     query = PublicPlace.objects.all()
@@ -259,6 +268,18 @@ class PublicPlaceDeleteAPIView(generics.DestroyAPIView):
 
 
 publicplace_delete_view = PublicPlaceDeleteAPIView.as_view()
+
+class PublicPlaceList(generics.ListAPIView):
+    queryset = PublicPlace.objects.all()
+    serializer_class = PublicPlaceSerializer
+
+    # def get_queryset(self):
+    #     return super().get_queryset().filter(
+    #         placeType=self.kwargs['placeType'])
+
+publicplace_list_view = PublicPlaceList.as_view()
+
+
 
 class SeminarCreateAPIView(generics.CreateAPIView):
 
@@ -390,13 +411,17 @@ class SellerAPIViewByType(generics.ListAPIView):
     queryset = Waste.objects.all()
     serializer_class = SellerSerializer
     lookup_field = 'seller'
+    filter_fields = ('for_waste', 'waste_type')
 
-    def get_queryset(self, type='Plastic',for_waste = 'Donation'):
+    def get_queryset(self):
+        
         lists = super().get_queryset().filter(
-            seller=self.kwargs['seller'], for_waste=for_waste, waste_type=type).order_by('-post_date')
+            seller=self.kwargs['seller'], 
+            for_waste=self.kwargs['for_waste'], 
+            waste_type= self.kwargs['waste_type']).order_by('-post_date')
         print(lists)
         return lists
-
+ 
 
 seller_list_view_by_type = SellerAPIViewByType.as_view()
 

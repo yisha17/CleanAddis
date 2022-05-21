@@ -12,21 +12,54 @@ import 'package:image_picker/image_picker.dart';
 import 'ReporList.dart';
 
 class ReportPage extends StatefulWidget {
-  const ReportPage({Key? key}) : super(key: key);
+  final int? id;
+  final String? title;
+  final String? image;
+  final String? description;
+  final String? longitude;
+  final String? latitude;
+
+  ReportPage({
+    this.id,
+    this.title,
+    this.description,
+    this.image,
+    this.longitude,
+    this.latitude
+  });
+
 
   @override
   State<ReportPage> createState() => _ReportPageState();
 }
 
 class _ReportPageState extends State<ReportPage> {
+
+  late var report_title = widget.title;
+  late var id = widget.id;
+
+
+
+  bool isEditing(){
+    if(id == null || report_title == null ){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
   var _scaffoldKey = GlobalKey<ScaffoldState>();
   File? image;
   final ImagePicker _picker = ImagePicker();
   var _formKey = GlobalKey<FormState>();
-  final report_title_text = TextEditingController(),
-      report_description_text = TextEditingController();
+  late var report_title_text = TextEditingController(text: isEditing() ? report_title : null ),
+      report_description_text = TextEditingController(text: isEditing() ? widget.description : null);
   String wasteBlank =
       "https://www.freeiconspng.com/uploads/black-recycle-icon-png-2.png";
+
+
+ 
+
 
  String? longitude;
   String? latitude;
@@ -63,7 +96,9 @@ class _ReportPageState extends State<ReportPage> {
           decoration: BoxDecoration(
               color: Colors.grey[300],
               image: DecorationImage(
-                  image: (image != null)
+                  image: isEditing() ?
+                  NetworkImage(widget.image!):
+                  (image != null)
                       ? FileImage(image!)
                       : NetworkImage(wasteBlank) as ImageProvider,
                   fit: BoxFit.fill)),
@@ -113,20 +148,27 @@ class _ReportPageState extends State<ReportPage> {
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: ElevatedButton(
           child: Text(
+            isEditing() ? 'Update' :
             'Report',
             style: TextStyle(
                 color: Colors.white, fontSize: 27, fontWeight: FontWeight.w700),
           ),
           onPressed: () {
-            getLocation();
-            reportBloc.add(ReportCreateEvent(
-              title: report_title_text.text,
-              description: report_description_text.text,
-              image: this.image,
-              longitude: this.longitude,
-              latitude: this.latitude
-            ));
-            print('waassup');
+            if (isEditing()== false) {
+               getLocation();
+              reportBloc.add(ReportCreateEvent(
+                  title: report_title_text.text,
+                  description: report_description_text.text,
+                  image: this.image,
+                  longitude: this.longitude,
+                  latitude: this.latitude));
+            }else{
+              reportBloc.add(
+                ReportEditEvent(id: widget.id!,title: report_title_text.text,description: report_description_text.text)
+              );
+            }
+           
+            
           },
           style: ElevatedButton.styleFrom(
             minimumSize: Size.fromHeight(50),
@@ -250,6 +292,7 @@ class _ReportPageState extends State<ReportPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.image);
     return Scaffold(
       key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
@@ -264,77 +307,80 @@ class _ReportPageState extends State<ReportPage> {
           ),
         ),
       ),
-      body: Form(
-          key: _formKey,
-          child: BlocProvider(
-            create: (context) =>
-            ReportBloc(ReportRepository(dataProvider: ReportDataProvider())),
-            child: BlocListener(
-              bloc: reportBloc,
-              listener: (context,ReportState state){
-                if(state is ReportLoadingState){
-                   WidgetsBinding.instance!
-                      .addPostFrameCallback((_) => loadingDialog(context));
-                } else if (state.report != null && state is ReportCreatedState) {
-                   WidgetsBinding.instance!
-                      .addPostFrameCallback((_) => messageDialog(
-                            context,
-                          ));
-                }else if(state is ReportErrorState){
-                  Navigator.of(context, rootNavigator: true).pop();
-                  ScaffoldMessenger.of(_scaffoldKey.currentContext!)
-                      .showSnackBar(
-                    SnackBar(
-                      content: Text('error happend. please try again'),
-                      duration: Duration(seconds: 6),
+      body: SingleChildScrollView(
+        child: Form(
+            key: _formKey,
+            child: BlocProvider(
+              create: (context) =>
+              ReportBloc(ReportRepository(dataProvider: ReportDataProvider())),
+              child: BlocListener(
+                bloc: reportBloc,
+                listener: (context,ReportState state){
+                  if(state is ReportLoadingState){
+                     WidgetsBinding.instance!
+                        .addPostFrameCallback((_) => loadingDialog(context));
+                  } else if (state.report != null && state is ReportCreatedState) {
+                     WidgetsBinding.instance!
+                        .addPostFrameCallback((_) => messageDialog(
+                              context,
+                            ));
+                  }else if(state is ReportErrorState){
+                    Navigator.of(context, rootNavigator: true).pop();
+                    ScaffoldMessenger.of(_scaffoldKey.currentContext!)
+                        .showSnackBar(
+                      SnackBar(
+                        content: Text('error happend. please try again'),
+                        duration: Duration(seconds: 6),
+                      ),
+                    );
+                  }
+                },
+                child: Column(
+                  children: [
+                    imageholder(),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                      child: buildTextField(
+                        icon: Icon(Icons.title),
+                        type: TextInputType.name,
+                        controller: this.report_title_text,
+                        labelText: "What is The Problem",
+                        placeholder: "Report here",
+                        validator: (value) {
+                          if (value != null && value.length < 4) {
+                            return 'You Must fill title';
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
                     ),
-                  );
-                }
-              },
-              child: Column(
-                children: [
-                  imageholder(),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-                    child: buildTextField(
-                      icon: Icon(Icons.title),
-                      type: TextInputType.name,
-                      controller: this.report_title_text,
-                      labelText: "What is The Problem",
-                      placeholder: "Report here",
-                      validator: (value) {
-                        if (value != null && value.length < 4) {
-                          return 'You Must fill title';
-                        } else {
-                          return null;
-                        }
-                      },
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                      child: buildTextField(
+                        icon: Icon(Icons.title),
+                        type: TextInputType.multiline,
+                        controller:this.report_description_text,
+                        labelText: "Describe the problem",
+                        placeholder: "Report description",
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-                    child: buildTextField(
-                      icon: Icon(Icons.title),
-                      type: TextInputType.multiline,
-                      controller: this.report_description_text,
-                      labelText: "Describe the problem",
-                      placeholder: "Report description",
-                    ),
-                  ),
-                  reportButton(),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 30.0, vertical: 5),
-                    child: Text(
-                        'when you create your report you current location also will be sent',
-                        style: TextStyle(
-                          color: Colors.red,
-                        )),
-                  )
-                ],
+                    reportButton(),
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 30.0, vertical: 5),
+                      child: Text(isEditing()==false ?
+                          'when you create your report you current location also will be sent' :
+                          'you can update only title and description only',
+                          style: TextStyle(
+                            color: Colors.red,
+                          )),
+                    )
+                  ],
+                ),
               ),
-            ),
-          )),
+            )),
+      ),
     );
   }
 }

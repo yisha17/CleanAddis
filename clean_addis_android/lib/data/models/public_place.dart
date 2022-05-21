@@ -22,7 +22,7 @@ class PublicPlace {
         name: jsonMap['name'],
         type: jsonMap['type'],
         longitude: jsonMap['longitude'],
-        latitude: jsonMap['latitiude']);
+        latitude: jsonMap['latitude']);
     return result;
   }
 }

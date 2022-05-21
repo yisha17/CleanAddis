@@ -1,6 +1,9 @@
 import 'package:clean_addis_android/presentation/Setting.dart';
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/status.dart' as status;
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({Key? key}) : super(key: key);
@@ -10,6 +13,29 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
+  late IO.Socket socket;
+
+  void connect() async{
+    
+    // rint('hello');
+    // socket = IO.io("ws://192.168.1.7:8000/ws/notification/",<String,dynamic>{
+    //   "transport":["websocket"],
+    //   "autoConnect" : false
+    // });
+    // await socket.connect();
+    // socket.on('event', (data) => print(data));
+    // socket.onConnect((_) {
+    //   print('connected');
+    //   socket.emit('msg', 'test');
+    //   }
+    //   p);
+    var channel = IOWebSocketChannel.connect(Uri.parse('ws://192.168.1.7:8000/ws/notification/'));
+     channel.stream.listen((message) {
+      channel.sink.add('received!');
+    });
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget notificationList(String title,String subtitle,Icon icon, Color color) {
@@ -34,6 +60,7 @@ class _NotificationPageState extends State<NotificationPage> {
         
       );
     }
+    print('hello');
 
     return Scaffold(backgroundColor: lightgreen,
       appBar: AppBar(
@@ -80,7 +107,10 @@ class _NotificationPageState extends State<NotificationPage> {
               'Dear Yishak, Your Report on Broken pipe on location Gerji is resolved',
               Icon(Icons.report),
               Colors.black),
-          Divider(),        
+          Divider(),    
+
+          ElevatedButton(onPressed: (){connect();},
+           child: Text('connect'))    
         ],
       ),
     );
