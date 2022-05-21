@@ -3,7 +3,7 @@ import CityadminSidebar from "../../../components/cityadmincomponents/sidebar/Ci
 import CityadminNavbar from "../../../components/cityadmincomponents/navbar/CityadminNavbar"
 import Datatable from "../../../components/cityadmincomponents/datatable/Datatable"
 
-const List = () => {
+const Slist = () => {
   return (
     <div className="list flex">
     <CityadminSidebar />
@@ -15,4 +15,4 @@ const List = () => {
   )
 }
 
-export default List
+export default Slist
