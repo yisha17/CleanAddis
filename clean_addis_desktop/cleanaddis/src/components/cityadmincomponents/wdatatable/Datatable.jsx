@@ -1,23 +1,12 @@
 import React from 'react'
-import './udatatable.scss'
+import './datatable.scss'
 import { DataGrid } from '@mui/x-data-grid'
 import { userColumns, userRows } from '../../../datatablesource'
-import {Link} from 'react-router-dom';
-import {useEffect} from 'react'
+import {Link} from 'react-router-dom'
+import New from '../../../pages/adminpages/new/New'
 
-import axios from 'axios'; 
 
- 
-
-const Datatable = () => {
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: "pjgwpra92346ilzqculx01fl822qar03",
-  };
-  useEffect(() => {
-    axios.get("https://cleanaddis.herokuapp.com/api/user/1")
-    .then((res)=>console.log(res))
-},[])
+const Wdatatable = () => {
     const actionColumn = [{field:"action", headerName:"Action", width:230,
     renderCell:(params) => {
      return(
@@ -32,9 +21,7 @@ const Datatable = () => {
 
   return (
     <div>
-      <Link to="New">
-   <div className=" border rounded border-slate-300 p-1 bg-green-200 hover:bg-yellow w-20 cursor-pointer relative left">Add new</div> 
-   </Link>
+  
     <div  style={{ height: 500, width: '100%' }} className="items-center">
        <DataGrid 
         rows={userRows}
@@ -45,9 +32,8 @@ const Datatable = () => {
       />
     </div>
     
-    
     </div>
   )
 }
 
-export default Datatable
+export default Wdatatable
