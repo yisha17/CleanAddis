@@ -11,7 +11,11 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
+<<<<<<< HEAD
+    "axios": "^0.27.2",
+=======
 <<<<<<< HEAD:clean_addis_desktop/cleanaddis/package.json
+>>>>>>> dc3103f108fdc3c46959fb4276337a9fbfe4bc5d
     "react": "^18.0.0",
     "react-circular-progressbar": "^2.0.4",
     "react-dom": "^18.0.0",
