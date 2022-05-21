@@ -37,7 +37,7 @@ const CityadminSidebar = () => {
        <Link to={menu.link}>
           <li key={index}
               className={`text-white text-sm font-medium flex items-center 
-              gap-x-2  pt-8 cursor-pointer hover:bg-green-600 rounded-md`
+              gap-x-2  pt-8 cursor-pointer hover:bg-green-600 rounded-md` 
               }>
             
              <img src={menu.src}  />
