@@ -1,19 +1,18 @@
 import "./single.scss"
-import CityadminSidebar from "../../../components/cityadmincomponents/sidebar/CityadminSidebar"
-import CityadminNavbar from "../../../components/cityadmincomponents/navbar/CityadminNavbar"
-import Chart from "../../../components/cityadmincomponents/chart/Chart"
-import Tables from "../../../components/cityadmincomponents/table/Tables"
-
+import {Link} from 'react-router-dom'
+import Modal from "../../../components/cityadmincomponents/adatatable/Modal"
 const Asingle = () => {
   return (
     <div>
       <div className="single flex">
-    <CityadminSidebar />
     <div className="singlecontainer  pt-3 pl-3">
-    <CityadminNavbar className="pt-3 " />
       <div className="top flex">
-        <div className="left shadow-2xl shadow-transparent p-10 relative pr- ">
-          <div className="editButton  border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">edit</div>
+        <div className="left shadow-2xl shadow-transparent p-10 relative flex ">
+          <div className="flex">
+          <Link to="/cityadmin/announcement"  onClick={<Modal />}> 
+           <div className="editButton  border rounded border-slate-300 p-1 hover:bg-red-600 cursor-pointer">close</div>
+          </Link>
+          </div> 
           <h1 className="title flex p-10 gap-5">Information</h1>
           <div className="item flex gap-5"> 
           <img src="https://images.unsplash.com/photo-1559308078-88465deb35cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" 
@@ -40,13 +39,9 @@ const Asingle = () => {
           </div>
           </div>
         </div>
-        <div className="right w-1/2 pl-3">
-          <Chart />
-        </div>
+        
       </div>
-      <div className="bottom pt-8">
-        <Tables />
-      </div>
+     
     </div>
     </div>
     </div>

@@ -1,5 +1,5 @@
-import React from 'react'
-import Rsingle from '../../../pages/adminpages/rsinglepage/Single';
+  import React from 'react'
+import Single from '../../../pages/adminpages/asinglepage/Single';
 
 const Modal = ({visible, onClose}) => {
 
@@ -9,7 +9,7 @@ const Modal = ({visible, onClose}) => {
     onClick={onClose} 
     className='fixed inset-0 bg-green-500 bg-opacity-30 backdrop-blur-sm flex justify-center items-center'>
     <div className='bg-white p-2 rounded'>
-    <Rsingle />
+    <Single />
     </div>
     </div>
   )
