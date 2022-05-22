@@ -19,8 +19,8 @@ class PublicPlace {
     final result = PublicPlace(
         id: jsonMap['id'],
         rating: jsonMap['rating'],
-        name: jsonMap['name'],
-        type: jsonMap['type'],
+        name: jsonMap['placeName'],
+        type: jsonMap['placeType'],
         longitude: jsonMap['longitude'],
         latitude: jsonMap['latitude']);
     return result;

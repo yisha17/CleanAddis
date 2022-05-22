@@ -90,6 +90,7 @@ class PublicPlacePageState extends State<PublicPlacePage> {
                       'duration': duration
                     });
                   }
+                  print("here");
                   
                   carouselData
                       .sort((a, b) => a['duration'] < b['duration'] ? 0 : 1);
