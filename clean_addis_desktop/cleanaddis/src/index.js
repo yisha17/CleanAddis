@@ -21,6 +21,7 @@ import Psingle from './pages/adminpages/psinglepage/Single';
 import Rsingle from './pages/adminpages/rsinglepage/Single';
 import New from '../../cleanaddis/src/pages/adminpages/new/New';
 import Ulist from './pages/userpages/ulist/List';
+import Uwlist from './pages/userpages/wastelist/List'
 import Usingle from '../../cleanaddis/src/pages/userpages/usinglepage/Single';
 import Unew from '../../cleanaddis/src/pages/userpages/unew/Unew';
 import {announcementInputs, reportuserInputs} from "../src/formsource"
@@ -65,11 +66,15 @@ ReactDOM.render(
           </Route>
           <Route path="itadmin">
             <Route index element={<Uhome />}/>
-            <Route path="user">
+              <Route path="user">
                   <Route index element={<Ulist/>} /> 
                   <Route path=":reportId" element={<Usingle />}/>
                   <Route path="new" element={<Unew inputs = {announcementInputs} title="Add user"/>}/>
-                  </Route >
+              </Route >
+              <Route path="waste">
+                  <Route index element={<Uwlist/>} /> 
+                  <Route path=":reportId" element={<Usingle />}/>
+              </Route >
           </Route>
 
           
