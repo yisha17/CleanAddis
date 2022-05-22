@@ -1,12 +1,12 @@
 import React from 'react'
-import Newmodal from '../../cityadmincomponents/wdatatable/NewModal'
+import Newmodal from '../../usercomponents/udatatable/NewModal'
 import { Link } from 'react-router-dom'
 
 const New = () => {
   return (
     <div className='bg-white p-2 rounded'>
     <div class="rounded justify-center item-center p-6 m-4">
-    <Link to="/cityadmin/work"  onClick={<Newmodal />}> <div className="editButton  border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">close</div>
+    <Link to="/itadmin/user"  onClick={<Newmodal />}> <div className="editButton  border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">close</div>
           </Link>
           
         <h1 class="block w-full text-center text-gray-800 text-2xl font-bold mb-6">Work</h1>

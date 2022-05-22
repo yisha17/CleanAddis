@@ -13,7 +13,7 @@ import {Link } from "react-router-dom"
 const CityadminSidebar = () => {
   const [open,setOpen] = useState(true);
   const Menus =[
-    {title:"Users", src:Dashboard ,link:"/user" },
+    {title:"Users", src:Dashboard ,link:"/itadmin/user" },
  
   ]
   return (

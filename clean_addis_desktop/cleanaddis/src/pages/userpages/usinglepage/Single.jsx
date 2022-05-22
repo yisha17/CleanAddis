@@ -1,6 +1,6 @@
 import "./single.scss"
 import {Link} from 'react-router-dom'
-import Modal from "../../../components/cityadmincomponents/sdatatable/Modal"
+import Modal from "../../../components/usercomponents/udatatable/Modal"
 const Asingle = () => {
   return (
     <div>
@@ -9,7 +9,7 @@ const Asingle = () => {
       <div className="top flex">
         <div className="left shadow-2xl shadow-transparent p-10 relative flex ">
           <div className="flex">
-          <Link to="/cityadmin/seminar"  onClick={<Modal />}> 
+          <Link to="/itadmin/user"  onClick={<Modal />}> 
            <div className="editButton  border rounded border-slate-300 p-1 hover:bg-red-600 cursor-pointer">close</div>
           </Link>
           </div> 

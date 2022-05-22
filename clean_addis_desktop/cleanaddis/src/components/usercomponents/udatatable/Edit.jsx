@@ -1,6 +1,6 @@
 import React from 'react'
-import Single from '../../../pages/adminpages/wsinglepage/Single';
-import Edit from '../../../pages/adminpages/wsinglepage/Edit'
+import Single from '../../../pages/userpages/usinglepage/Single';
+import Edit from '../../../pages/userpages/usinglepage/Edit'
 
 const Editormodal = ({visible, onClose}) => {
 

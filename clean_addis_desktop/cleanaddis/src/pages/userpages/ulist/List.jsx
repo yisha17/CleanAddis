@@ -1,20 +1,20 @@
 import "./list.scss"
-import CityadminSidebar from "../../../components/cityadmincomponents/sidebar/CityadminSidebar"
-import CityadminNavbar from "../../../components/cityadmincomponents/navbar/CityadminNavbar"
-import Rdatatable from "../../../components/cityadmincomponents/rdatatable/Datatable"
+import UserSidebar from "../../../components/usercomponents/usidebar/UserSidebar"
+import UserNavbar from "../../../components/usercomponents/unavbar/UserNavbar"
+import Udatatable from "../../../components/usercomponents/udatatable/Datatable"
 import Modal from "../../../components/cityadmincomponents/rdatatable/Modal"
 
-const Rlist = () => {
+const Ulist = () => {
   return (
     <div className="list flex">
-    <CityadminSidebar />
+    <UserSidebar />
     <div className="listContainer pt-3 pl-3">
-      <CityadminNavbar className="pt-3 " />
+      <UserNavbar className="pt-3 " />
      
-      <Rdatatable />
+      <Udatatable />
     </div>
     </div>
   )
 }
 
-export default Rlist
+export default Ulist

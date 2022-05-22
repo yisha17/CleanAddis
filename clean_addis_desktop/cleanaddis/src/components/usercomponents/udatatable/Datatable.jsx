@@ -3,11 +3,10 @@ import './datatable.scss'
 import { DataGrid } from '@mui/x-data-grid'
 import { userColumns, userRows } from '../../../datatablesource'
 import {Link} from 'react-router-dom'
-import New from '../../../pages/adminpages/new/New'
 import { useState } from 'react'
-import Newmodal from "../../../components/cityadmincomponents/wdatatable/NewModal"
-import Modal from '../wdatatable/Modal'
-import EditModal from '../wdatatable/Edit'
+import Newmodal from "../../../components/usercomponents/udatatable/NewModal"
+import Modal from '../udatatable/Modal'
+import EditModal from '../udatatable/Edit'
 
 const Wdatatable = () => {
     const [showMyModal,setShowMyModal]  = useState(false)
@@ -17,10 +16,10 @@ const Wdatatable = () => {
     renderCell:(params) => {
      return(
          <div className = "cellAction flex gap-4">
-          <Link to ="/cityadmin/work" onClick={() => setSingle(true)}>
+          <Link to ="/itadmin/user" onClick={() => setSingle(true)}>
            <div className="viewButton border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">View</div> 
            </Link>
-           <Link to ="/cityadmin/work" onClick={() => setEdit(true)}>
+           <Link to ="/itadmin/user" onClick={() => setEdit(true)}>
            <div className="viewButton border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">Edit</div> 
            </Link>
            
@@ -35,7 +34,7 @@ const Wdatatable = () => {
   return (
     <div>
       <div>
-      <Link to ="/cityadmin/work" onClick={() => setShowMyModal(true)}>
+      <Link to ="/itadmin/user" onClick={() => setShowMyModal(true)}>
            <div className="border rounded border-slate-300 justify-center flex items-center m-4  hover:bg-green-400 cursor-pointer pt-4 pb-5">Add New Work Schedule</div> 
            </Link>
       </div>
