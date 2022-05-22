@@ -9,7 +9,7 @@ class PublicPlaceDataProvider {
   Future<List<PublicPlace>?> getPublicPlaceByType(
       String type, String token) async {
     final response =
-        await http.get(Uri.http(base_url, '$user_report_path'), headers: {
+        await http.get(Uri.http(base_url, 'api/publicplace/list/'), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'JWT $token',

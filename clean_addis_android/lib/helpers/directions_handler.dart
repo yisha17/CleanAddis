@@ -28,5 +28,6 @@ Future<Map> getDirectionsAPIResponse(LatLng currentLatLng,LatLng publicLatLng, i
 }
 
 void saveDirectionsAPIResponse(int index, String response) {
-  sharedPreferences.setString('public place--$index', response);
+  print('saved');
+  sharedPreferences.setString('publicplace--$index', response);
 }

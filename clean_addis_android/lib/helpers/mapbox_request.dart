@@ -20,6 +20,7 @@ Future getWalkingRouteUsingMapbox(LatLng source, LatLng destination) async {
     return responseData.data;
   } catch (e) {
     final errorMessage = DioExceptions.fromDioError(e as DioError).toString();
+    debugPrint('here');
     debugPrint(errorMessage);
   }
 }

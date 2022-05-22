@@ -17,6 +17,13 @@ class PublicPlaceLoadedState extends PublicPlaceState{
   List<Object?> get props => [this.public];
 }
 
+class FinalNavigationState extends PublicPlaceState{
+  final List<PublicPlace> public;
+  FinalNavigationState({required this.public});
+   @override
+  List<Object?> get props => [this.public];
+}
+
 class ErrorState extends PublicPlaceState{
   final String message;
   ErrorState({required this.message});

@@ -3,8 +3,8 @@ class PublicPlace {
   final int? rating;
   final String? name;
   final String? type;
-  final double? longitude;
-  final double? latitude;
+  final String? longitude;
+  final String? latitude;
 
   PublicPlace({
     this.id,

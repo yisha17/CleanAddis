@@ -9,7 +9,7 @@ LatLng getLatLngFromSharedPrefs() {
 }
 
 Map getDecodedResponseFromSharedPrefs(int index) {
-  String key = 'restaurant--$index';
+  String key = 'publicplace--$index';
   Map response = json.decode(sharedPreferences.getString(key)!);
   return response;
 }
