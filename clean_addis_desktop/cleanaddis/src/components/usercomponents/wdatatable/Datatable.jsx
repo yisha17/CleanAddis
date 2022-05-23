@@ -5,11 +5,11 @@ import { userColumns, userRows } from '../../../datatablesource'
 import {Link} from 'react-router-dom'
 import New from '../../../pages/adminpages/new/New'
 import { useState } from 'react'
-import Newmodal from "../../../components/cityadmincomponents/sdatatable/NewModal"
-import Modal from '../sdatatable/Modal'
-import EditModal from '../sdatatable/Edit'
 
-const Sdatatable = () => {
+import Modal from '../wdatatable/Modal'
+
+
+const Wdatatable = () => {
     const [showMyModal,setShowMyModal]  = useState(false)
     const [showSingle, setSingle] = useState(false)
     const [showEdit, setEdit] = useState(false)
@@ -17,11 +17,8 @@ const Sdatatable = () => {
     renderCell:(params) => {
      return(
          <div className = "cellAction flex gap-4">
-          <Link to ="/cityadmin/seminar" onClick={() => setSingle(true)}>
+          <Link to ="/itadmin/waste" onClick={() => setSingle(true)}>
            <div className="viewButton border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">View</div> 
-           </Link>
-           <Link to ="/cityadmin/seminar" onClick={() => setEdit(true)}>
-           <div className="viewButton border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">Edit</div> 
            </Link>
            
 
@@ -34,11 +31,7 @@ const Sdatatable = () => {
 
   return (
     <div>
-      <div>
-      <Link to ="/cityadmin/seminar" onClick={() => setShowMyModal(true)}>
-           <div className="border rounded border-slate-300 justify-center flex items-center m-4  hover:bg-green-400 cursor-pointer pt-4 pb-5">Add New Seminar </div> 
-           </Link>
-      </div>
+     
     <div  style={{ height: 500, width: '100%' }} className="items-center">
        <DataGrid 
         rows={userRows}
@@ -49,13 +42,13 @@ const Sdatatable = () => {
       />
     </div>
     <div>
-        <Newmodal  visible={showMyModal}/>
+       
         <Modal visible={showSingle}/>
-        <EditModal visible={showEdit}/>
+       
       </div>
     
     </div>
   )
 }
 
-export default Sdatatable
+export default Wdatatable
