@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:clean_addis_android/data/repositories/public_repository.dart';
+import 'package:clean_addis_android/helpers/responseToLocation.dart';
 import 'package:clean_addis_android/widget/carousel_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -24,7 +25,7 @@ class PublicPlacePageState extends State<PublicPlacePage> {
   LatLng latLng = getLatLngFromSharedPrefs();
   late CameraPosition initialCameraPosition;
   late MapboxMapController controller;
-
+  late List<CameraPosition> publicPlaceList;
   List<Map> carouselData = [];
 
   int pageIndex = 0;
@@ -42,7 +43,48 @@ class PublicPlacePageState extends State<PublicPlacePage> {
     this.controller = controller;
   }
 
-  void onStyleLoadedCallback() {}
+  addSourceAndLineLayer(int index, bool removeLayer) async{
+    controller.animateCamera(
+      CameraUpdate.newCameraPosition(publicPlaceList[index]));
+      Map geometry = getGeometryFromSharedPrefs(carouselData[index]['index']);
+      final _fills = {
+        "type" : "FeatureCollection",
+        "features" : [
+          {
+            "type":"Feature",
+            "id" : 0,
+            "properties": <String, dynamic>{},
+            "geometry" : geometry
+          }
+        ]
+      }; 
+
+     if(removeLayer == true){
+       await controller.removeLayer("lines");
+       await controller.removeSource("fills");
+     } 
+     await controller.addSource("fills", GeojsonSourceProperties(data: _fills));
+     await controller.addLineLayer("fills", "lines", LineLayerProperties(
+       lineColor:Colors.green.toHexStringRGB(),
+       lineCap: "round",
+       lineJoin: "round",
+       lineWidth: 3
+     ));
+  }
+
+  void onStyleLoadedCallback() async {
+
+      for (CameraPosition public_place in publicPlaceList) {
+      await controller.addSymbol(
+        SymbolOptions(
+          geometry: public_place.target,
+          iconSize: 0.2,
+          iconImage: "assets/image/toilet.jpg",
+        ),
+      );
+    }
+    addSourceAndLineLayer(0, false);
+  }
 
   bool isSearching = false;
   @override
@@ -89,6 +131,8 @@ class PublicPlacePageState extends State<PublicPlacePage> {
                       'distance': distance,
                       'duration': duration
                     });
+      
+
                   }
                   print("here");
                   
@@ -102,6 +146,10 @@ class PublicPlacePageState extends State<PublicPlacePage> {
                           carouselData[index]['index'],
                           carouselData[index]['distance'],
                           carouselData[index]['duration']));
+
+                  publicPlaceList = List<CameraPosition>
+                  .generate(public_place.length, (index) => 
+                  CameraPosition(target: responseConverter(public_place,carouselData[index]['index']),zoom: 15));       
                   return CarouselSlider(items: carouselItems,
                    options:CarouselOptions(
                      height: 100,
@@ -111,8 +159,10 @@ class PublicPlacePageState extends State<PublicPlacePage> {
                      scrollDirection: Axis.horizontal,
                      onPageChanged: (int index,CarouselPageChangedReason reason){
                        setState(() => pageIndex=index);
-                     }
+                       addSourceAndLineLayer(index, true);
+                     },
                    ));
+                   
                 }
                 return (CircularProgressIndicator());
               },

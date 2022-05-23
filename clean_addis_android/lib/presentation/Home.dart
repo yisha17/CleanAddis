@@ -1,6 +1,7 @@
 import 'package:clean_addis_android/bloc/Waste/user_waste_bloc.dart';
 import 'package:clean_addis_android/data/data_providers/waste_data.dart';
 import 'package:clean_addis_android/data/repositories/waste_repository.dart';
+import 'package:clean_addis_android/presentation/UserProfile.dart';
 import 'package:clean_addis_android/presentation/WasteBuyList.dart';
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ import 'package:mapbox_gl/mapbox_gl.dart';
 import '../main.dart';
 import 'AddWaste.dart';
 import 'Login.dart';
-import 'Profile.dart';
+import 'EditProfile.dart';
 import 'WasteList.dart';
 
 class HomePage extends StatefulWidget {
@@ -132,12 +133,12 @@ class HomePageState extends State<HomePage> {
           IconButton(
             padding: EdgeInsets.all(0),
             icon: Icon(
-              Icons.settings,
+              Icons.account_circle,
               color: logogreen,
             ),
             onPressed: () => {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => EditProfilePage()))
+                  MaterialPageRoute(builder: (context) => UserProfilePage()))
             },
           ),
           IconButton(
