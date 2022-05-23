@@ -4606,3 +4606,122 @@ void main() {
         expect(summarizer.computeAverage(ProfileType.Memory), 32.0);
       });
 
+      test('has_only_memory_usage', () async {
+        final ProfilingSummarizer summarizer = summarize(<Map<String, dynamic>>[
+          memoryUsage(0, 6, 10),
+          memoryUsage(0, 8, 40),
+        ]);
+        expect(summarizer.computeAverage(ProfileType.Memory), 32.0);
+        expect(summarizer.summarize().containsKey('average_cpu_usage'), false);
+      });
+
+      test('90th_percentile_cpu_usage', () async {
+        final ProfilingSummarizer summarizer = summarize(<Map<String, dynamic>>[
+          cpuUsage(0, 10), cpuUsage(1, 20),
+          cpuUsage(2, 20), cpuUsage(3, 80),
+          cpuUsage(4, 70), cpuUsage(4, 72),
+          cpuUsage(4, 85), cpuUsage(4, 100),
+        ]);
+        expect(summarizer.computePercentile(ProfileType.CPU, 90), 85.0);
+      });
+    });
+
+    group('VsyncFrameLagSummarizer tests', () {
+      VsyncFrameLagSummarizer summarize(List<Map<String, dynamic>> traceEvents) {
+        final Timeline timeline = Timeline.fromJson(<String, dynamic>{
+          'traceEvents': traceEvents,
+        });
+        return VsyncFrameLagSummarizer(timeline.events!);
+      }
+
+      test('average_vsync_frame_lag', () async {
+        final VsyncFrameLagSummarizer summarizer = summarize(<Map<String, dynamic>>[
+          platformVsync(10),
+          vsyncCallback(12),
+          platformVsync(16),
+          vsyncCallback(29),
+        ]);
+        expect(summarizer.computeAverageVsyncFrameLag(), 7.5);
+      });
+
+      test('malformed_event_ordering', () async {
+        final VsyncFrameLagSummarizer summarizer = summarize(<Map<String, dynamic>>[
+          vsyncCallback(10),
+          platformVsync(10),
+        ]);
+        expect(summarizer.computeAverageVsyncFrameLag(), 0);
+        expect(summarizer.computePercentileVsyncFrameLag(80), 0);
+      });
+
+      test('penalize_consecutive_vsyncs', () async {
+        final VsyncFrameLagSummarizer summarizer = summarize(<Map<String, dynamic>>[
+          platformVsync(10),
+          platformVsync(12),
+        ]);
+        expect(summarizer.computeAverageVsyncFrameLag(), 2);
+      });
+
+      test('pick_nearest_platform_vsync', () async {
+        final VsyncFrameLagSummarizer summarizer = summarize(<Map<String, dynamic>>[
+          platformVsync(10),
+          platformVsync(12),
+          vsyncCallback(18),
+        ]);
+        expect(summarizer.computeAverageVsyncFrameLag(), 4);
+      });
+
+      test('percentile_vsync_frame_lag', () async {
+        final List<Map<String, dynamic>> events = <Map<String, dynamic>>[];
+        int ts = 100;
+        for (int i = 0; i < 100; i++) {
+          events.add(platformVsync(ts));
+          ts = ts + 10 * (i + 1);
+          events.add(vsyncCallback(ts));
+        }
+
+        final VsyncFrameLagSummarizer summarizer = summarize(events);
+        expect(summarizer.computePercentileVsyncFrameLag(90), 890);
+        expect(summarizer.computePercentileVsyncFrameLag(99), 990);
+      });
+    });
+
+    group('RefreshRateSummarizer tests', () {
+
+      const double kCompareDelta = 0.01;
+      RefreshRateSummary summarizeRefresh(List<Map<String, dynamic>> traceEvents) {
+        final Timeline timeline = Timeline.fromJson(<String, dynamic>{
+          'traceEvents': traceEvents,
+        });
+        return RefreshRateSummary(vsyncEvents: timeline.events!);
+      }
+
+      List<Map<String, dynamic>> populateEvents({required int numberOfEvents, required  int startTime, required int interval, required int margin}) {
+        final List<Map<String, dynamic>> events = <Map<String, dynamic>>[];
+        int startTimeInNanoseconds = startTime;
+        for (int i = 0; i < numberOfEvents; i ++) {
+          final int randomMargin = margin >= 1 ? (-margin + Random().nextInt(margin*2)) : 0;
+          final int endTime = startTimeInNanoseconds + interval + randomMargin;
+          events.add(vsyncCallback(0, startTime: startTimeInNanoseconds.toString(), endTime: endTime.toString()));
+          startTimeInNanoseconds = endTime;
+        }
+        return events;
+      }
+
+      test('Recognize 30 hz frames.', () async {
+        const int startTimeInNanoseconds = 2750850055430;
+        const int intervalInNanoseconds = 33333333;
+        // allow some margins
+        const int margin = 3000000;
+        final List<Map<String, dynamic>> events = populateEvents(numberOfEvents: 100,
+                                                                  startTime: startTimeInNanoseconds,
+                                                                  interval: intervalInNanoseconds,
+                                                                  margin: margin,
+                                                                 );
+        final RefreshRateSummary summary = summarizeRefresh(events);
+        expect(summary.percentageOf30HzFrames, closeTo(100, kCompareDelta));
+        expect(summary.percentageOf60HzFrames, 0);
+        expect(summary.percentageOf90HzFrames, 0);
+        expect(summary.percentageOf120HzFrames, 0);
+        expect(summary.framesWithIllegalRefreshRate, isEmpty);
+      });
+
