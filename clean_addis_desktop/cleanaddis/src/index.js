@@ -76,6 +76,18 @@ ReactDOM.render(
                   <Route path=":reportId" element={<Usingle />}/>
               </Route >
           </Route>
+          <Route path="recycler">
+            <Route index element={<Uhome />}/>
+              <Route path="waste">
+                  <Route index element={<Ulist/>} /> 
+                  <Route path=":reportId" element={<Usingle />}/>
+                  <Route path="new" element={<Unew inputs = {announcementInputs} title="Add user"/>}/>
+              </Route >
+              <Route path="profile">
+                  <Route index element={<Uwlist/>}/> 
+              </Route >
+          </Route>
+
 
           
         </Routes>
