@@ -65,16 +65,20 @@ class LoginBloc extends Bloc<LoginEvent,LoginState>{
 
     if (event is UserUpdateEvent){
       try{
+        print("update d event");
         yield UserLoadingState();
         final _storage = FlutterSecureStorage();
         final token = await _storage.read(key: 'token');
-
+        
         User user = User(
           username: event.username,
           email: event.email,
           address: event.address,
           phone: event.phone
         );
+        print('this.is event profile');
+        print(event.profile);
+        
         final data = await userRepository.updateProfile(user, event.id.toString(), token!, event.profile);
         yield UserDetailState(user: data!); 
 

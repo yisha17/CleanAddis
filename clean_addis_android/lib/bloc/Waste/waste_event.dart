@@ -102,4 +102,23 @@ class DeleteWasteEvent extends WasteEvent{
 }
 
 
+class AvailableWasteListEvent extends WasteEvent{
+  final String? type;
+  AvailableWasteListEvent({this.type});
+   @override
+  List<Object?> get props => [this.type];
+}
+
+
+class BuyWasteEvent extends WasteEvent{
+  final int id;
+  BuyWasteEvent({required this.id});
+   @override
+  List<Object?> get props => [this.id];
+}
+
+
+
+
+
 

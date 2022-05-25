@@ -174,4 +174,25 @@ Future<void> deleteWaste(int id, String token) async {
     throw ('error');
   }
 }
+
+Future<List<Waste>?> availableWasteByType(String token,String type) async{
+  final response = await http.get(Uri.http(base_url,'$waste_path$type'),
+  headers: {
+    'Authorization': 'JWT $token',
+  });
+   if (response.statusCode == 200) {
+      final waste = jsonDecode(response.body) as List;
+      try {
+        List<Waste> wasteList = waste.map((e) => Waste.fromJSON(e)).toList();
+
+        return wasteList;
+      } catch (err) {
+        print(err);
+      }
+    } else {
+      throw Exception('Could not fetch waste');
+    }
+    return null;
+}
+
 }

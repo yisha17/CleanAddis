@@ -1,8 +1,15 @@
+import 'dart:io';
+
+import 'package:clean_addis_android/bloc/Authentication/login_event.dart';
+import 'package:clean_addis_android/data/repositories/user_repository.dart';
 import 'package:clean_addis_android/presentation/Setting.dart';
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:image_picker/image_picker.dart';
 
+import '../bloc/Authentication/login_bloc.dart';
+import '../data/data_providers/user_data.dart';
 import 'Home.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -33,25 +40,47 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   bool showPassword = false;
+  final userBloc = LoginBloc(UserRepository(dataProvider: UserDataProvider()));
   bool isCurrentPassword = true;
+  File? image;
+  final ImagePicker _picker = ImagePicker();
   late String password;
-   
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
   }
+
   late var username_controller = TextEditingController(text: widget.username),
-  password_controller = TextEditingController(text: widget.password),
-  email_controller = TextEditingController(text: widget.email),
-  phone_controller = TextEditingController(text:widget.phone),
-  address_controller = TextEditingController(text: widget.address);
+      password_controller = TextEditingController(text: widget.password),
+      email_controller = TextEditingController(text: widget.email),
+      phone_controller = TextEditingController(text: widget.phone),
+      address_controller = TextEditingController(text: widget.address);
   var _formKey = GlobalKey<FormState>();
+
+  void _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+    setState(() {
+      if (pickedFile != null) {
+        image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: lightgreen,
-        elevation: 1,
+        elevation: 0,
+        title: Text(
+          "Edit Profile",
+          style: TextStyle(
+              color: Colors.black, fontSize: 25, fontWeight: FontWeight.w500),
+        ),
+        centerTitle: true,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -85,10 +114,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
             key: _formKey,
             child: ListView(
               children: [
-                Text(
-                  "Edit Profile",
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-                ),
                 SizedBox(
                   height: 15,
                 ),
@@ -99,22 +124,26 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         width: 130,
                         height: 130,
                         decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 4,
-                                color: Theme.of(context).scaffoldBackgroundColor),
-                            boxShadow: [
-                              BoxShadow(
-                                  spreadRadius: 2,
-                                  blurRadius: 10,
-                                  color: Colors.black.withOpacity(0.1),
-                                  offset: Offset(0, 10))
-                            ],
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(
-                                  "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250",
-                                ))),
+                          border: Border.all(
+                              width: 4,
+                              color: Theme.of(context).scaffoldBackgroundColor),
+                          boxShadow: [
+                            BoxShadow(
+                                spreadRadius: 2,
+                                blurRadius: 10,
+                                color: Colors.black.withOpacity(0.1),
+                                offset: Offset(0, 10))
+                          ],
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: this.image != null
+                                ? FileImage(image!) as ImageProvider
+                                : NetworkImage(
+                                    "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250",
+                                  ),
+                          ),
+                        ),
                       ),
                       Positioned(
                           bottom: 0,
@@ -126,14 +155,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               shape: BoxShape.circle,
                               border: Border.all(
                                 width: 4,
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                               ),
                               color: logogreen,
                             ),
                             child: IconButton(
                               icon: Icon(Icons.edit),
                               color: Colors.white,
-                              onPressed: () {},
+                              onPressed: () {
+                                _pickImage();
+                              },
                             ),
                           )),
                     ],
@@ -142,26 +174,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 SizedBox(
                   height: 35,
                 ),
-                buildTextField(
-                  "Full Name", 
-                  "Dor Alex", 
-                  false,
-                  controller: username_controller),
-                buildTextField(
-                  "E-mail", 
-                  "alexd@gmail.com", 
-                  false,
-                  controller:email_controller),
-                buildTextField(
-                  "Password", 
-                  "********", 
-                  true,
-                  controller: password_controller),
-                buildTextField(
-                  "Address", 
-                  "AA, Ethiopia", 
-                  false,
-                  controller: address_controller),
+                buildTextField("Full Name", "Dor Alex", false,
+                    controller: username_controller),
+                buildTextField("E-mail", "alexd@gmail.com", false,
+                    controller: email_controller),
+                buildTextField("Password", "********", true,
+                    controller: password_controller),
+                buildTextField("Address", "AA, Ethiopia", false,
+                    controller: address_controller),
                 SizedBox(
                   height: 35,
                 ),
@@ -182,7 +202,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               color: Colors.black)),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        print('lsave pressed');
+                        userBloc
+                          ..add(UserUpdateEvent(
+                              id: widget.id!,
+                              username: username_controller.text,
+                              email: email_controller.text,
+                              phone: phone_controller.text,
+                              profile: this.image
+                              ));
+                      },
                       style: ElevatedButton.styleFrom(
                         primary: logogreen,
                         padding: EdgeInsets.symmetric(horizontal: 50),
@@ -209,10 +239,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   Widget buildTextField(
-      String labelText,
-       String placeholder, 
-       bool isPasswordTextField,
-       {required TextEditingController controller}) {
+      String labelText, String placeholder, bool isPasswordTextField,
+      {required TextEditingController controller}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 35.0),
       child: TextFormField(
@@ -241,7 +269,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
               fontWeight: FontWeight.bold,
               color: Colors.black,
             )),
-
       ),
     );
   }

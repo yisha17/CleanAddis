@@ -43,7 +43,7 @@ class User {
       email: jsonMap['email'],
       password: jsonMap['password'],
       role : jsonMap['role'],
-      profile: jsonMap['profile'] ?? '',
+      profile: jsonMap['profile'],
       phone: jsonMap['phone'],
       access_token: jsonMap['access'],
       refresh_token: jsonMap['refresh'],

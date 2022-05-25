@@ -94,7 +94,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
   }
 
   Widget _profileImage({String? image}) {
-    print(image.runtimeType);
     return Center(
       child: Container(
         width: 130,
@@ -266,7 +265,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
               Future.delayed(Duration.zero, () async {
                 this.password = await _storage.read(key: 'password');
                 setState(() {
-                  print('function called');
                 this.id = user.id;
                 this.username = user.username;
                 this.email = user.email;

@@ -79,18 +79,22 @@ class UserDataProvider {
 
   Future<User> updateProfile(
       User user, String id, String token, File? file) async {
+      
     dio.options.headers["authorization"] = "JWT ${token}";
-    String imageFile = file!.path.split('/').last;
+    String? imageFile = file!= null ? file.path.split('/').last: null;
+    print(imageFile);
+    print('here dio');
     FormData formData = FormData.fromMap({
       'username': user.username,
       'email': user.email,
       'password': user.password,
       'phone': user.phone,
-      'profile': await MultipartFile.fromFile(file.path,
-          filename: imageFile, contentType: new MediaType('image', 'jpg'))
+      'profile': file != null ? await MultipartFile.fromFile(file.path,
+          filename: imageFile, contentType: new MediaType('image', 'jpg')) : null
     });
+    print(formData);
 
-    final response = await dio.patch('$full_base_url', data: formData);
+    final response = await dio.patch('$full_base_url/api/user/$id/update', data: formData);
     User user_updated = User.fromJSON(response.data);
     if (response.statusCode == 200) {
       return user_updated;

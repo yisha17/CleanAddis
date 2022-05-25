@@ -87,5 +87,24 @@ class AddWasteBloc extends Bloc<WasteEvent, WasteState> {
         yield WasteCreateFailedState(e.toString());
       }
     }
+
+    if (event is AvailableWasteListEvent){
+      try{
+        yield WasteLoadingState();
+        final _storage = FlutterSecureStorage();
+        final token = _storage.read(key: 'token');
+        
+      }catch(e){
+
+      }
+    }
+
+    if (event is BuyWasteEvent){
+      try{
+
+      }catch(e){
+        
+      }
+    }
   }
 }
