@@ -37,9 +37,10 @@ class User(AbstractUser):
     profile = models.ImageField(upload_to=upload_to,null=True)
     phone = models.CharField(max_length= 20,null= True)
     device_id = models.CharField(max_length=20, default="",null=True)
-
+    
     class Meta(AbstractUser.Meta):
        swappable = 'AUTH_USER_MODEL'
+
 
 
 class Company(models.Model):

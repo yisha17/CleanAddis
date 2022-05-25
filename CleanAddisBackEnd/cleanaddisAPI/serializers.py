@@ -31,23 +31,26 @@ class RegisterSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance    
-    # def create(self, validated_data):
-    #     user = User(
-    #         username = validated_data['username'],    
-    #         email = validated_data['email'], 
-    #         )
-    #     user.set_password(validated_data['password'])
-    #     return user
 
-    # def create(self, validated_data):
-    #     user = User(
-    #         email=validated_data['email'],
-    #         username=validated_data['username']
-    #     )
-    #     user.set_password(validated_data['password'])
-    #     user.save()
-    #     return user
+class UpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+        extra_kwargs = {
+            'password': {'write_only': True},
+        }
+    def update(self, instance, validated_data):
+        password = validated_data.pop('password', None)
+        if password is not None:
+            instance.set_password(password)
+        print(validated_data)
+        instance.email = validated_data['email']
+        instance.username = validated_data['username']
+        instance.profile = validated_data['profile']
+        
+        instance.save()
 
+        return instance  
 
 class AddressSerializer(serializers.ModelSerializer):
     model = Address

@@ -8,6 +8,7 @@ urlpatterns = [
     
     path('api/users/', user_signup_view),
     path('api/user/<int:id>',UserDetail.as_view()),
+    path('api/user/<int:pk>/update', user_update_view),
     path('api/companies/',CompanyAPIView.as_view()),
     path('api/waste/<int:pk>', waste_detail_view),
     path('api/waste/<int:pk>/update', waste_update_view),

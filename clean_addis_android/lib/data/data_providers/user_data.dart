@@ -31,8 +31,6 @@ class UserDataProvider {
     }
   }
 
-
-
   Future<User> login(User user) async {
     print(base_url);
     print(user_login_path);
@@ -57,23 +55,46 @@ class UserDataProvider {
     }
   }
 
-  Future<User> updateProfile(User user,String id, String token, File? file) async{
+  Future<User?> singleUser(String id, String token) async {
+    final response =
+        await http.get(Uri.http(base_url, '$user_detail_path$id'), headers: {
+      'Accept': 'application/json',
+      'Authorization': 'JWT $token',
+    });
+
+    if (response.statusCode == 200) {
+      try {
+        final user = User.fromJSON(json.decode(response.body));
+        print(user);
+        return user;
+      } catch (e) {
+        print(e.toString());
+      }
+
+      print('printing user');
+    } else {
+      throw Exception('error');
+    }
+  }
+
+  Future<User> updateProfile(
+      User user, String id, String token, File? file) async {
     dio.options.headers["authorization"] = "JWT ${token}";
     String imageFile = file!.path.split('/').last;
     FormData formData = FormData.fromMap({
-       'username': user.username != null,
-       'email' : user.email,
-       'password' : user.password,
-       'phone' : user.phone,
-        'profile': await MultipartFile.fromFile(file.path,
-          filename: imageFile,contentType: new MediaType('image','jpg'))
+      'username': user.username,
+      'email': user.email,
+      'password': user.password,
+      'phone': user.phone,
+      'profile': await MultipartFile.fromFile(file.path,
+          filename: imageFile, contentType: new MediaType('image', 'jpg'))
     });
 
-    final response = await dio.patch('$full_base_url',data: formData);
+    final response = await dio.patch('$full_base_url', data: formData);
     User user_updated = User.fromJSON(response.data);
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       return user_updated;
-    }else{
+    } else {
       throw Exception('error');
     }
   }

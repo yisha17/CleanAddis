@@ -57,11 +57,25 @@ class UserDeleteView(generics.DestroyAPIView):
     serilaizer_class = UserSerializer
 
 
-class UserUpdateView(generics.DestroyAPIView):
-    authentication_classes = [authentication.TokenAuthentication]
+class UserUpdateView(generics.UpdateAPIView):
+    permission_classes = [AllowAny]
     queryset = User.objects.all()
-    serilaizer_class = UserSerializer
+    serializer_class = UpdateSerializer
+    parser_classes = (MultiPartParser, FormParser)
+    lookup_field = 'pk'
+    # def update(self, request,*args, **kwargs):
+    #     serializer = self.serializer_class(request.user, data=request.data, partial=True)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
 
+    # def partial_update(self, request,):
+    #     serializer = self.serializer_class(
+    #         request.user, data=request.data, partial=True)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
+user_update_view = UserUpdateView.as_view()
 
 class UserView(APIView):
 
@@ -97,8 +111,18 @@ class UserDetail(APIView):
         user = self.get_object(id)
 
         serializer = UserSerializer(user)
-
-        return Response(serializer.data)
+        
+        report = Report.objects.filter(reportedBy = id).count() 
+        sell = Waste.objects.filter(for_waste = 'Sell',seller = id).count()
+        donate = Waste.objects.filter(for_waste = 'Donation',seller = id).count()
+        print(sell)
+        print(donate)
+        new_dict = {
+            "report_count":report,
+            "donation_count":donate,
+            "sell_count" : sell}
+        new_dict.update(serializer.data)
+        return Response(new_dict)
 
     def put(self, request, id):
 
