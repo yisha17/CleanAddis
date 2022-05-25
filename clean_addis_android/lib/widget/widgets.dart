@@ -4724,4 +4724,142 @@ void main() {
         expect(summary.percentageOf120HzFrames, 0);
         expect(summary.framesWithIllegalRefreshRate, isEmpty);
       });
+      test('Recognize 60 hz frames.', () async {
+        const int startTimeInNanoseconds = 2750850055430;
+        const int intervalInNanoseconds = 16666666;
+        // allow some margins
+        const int margin = 1200000;
+        final List<Map<String, dynamic>> events = populateEvents(numberOfEvents: 100,
+                                                                  startTime: startTimeInNanoseconds,
+                                                                  interval: intervalInNanoseconds,
+                                                                  margin: margin,
+                                                                 );
 
+        final RefreshRateSummary summary = summarizeRefresh(events);
+        expect(summary.percentageOf30HzFrames, 0);
+        expect(summary.percentageOf60HzFrames, closeTo(100, kCompareDelta));
+        expect(summary.percentageOf90HzFrames, 0);
+        expect(summary.percentageOf120HzFrames, 0);
+        expect(summary.framesWithIllegalRefreshRate, isEmpty);
+      });
+
+      test('Recognize 90 hz frames.', () async {
+        const int startTimeInNanoseconds = 2750850055430;
+        const int intervalInNanoseconds = 11111111;
+        // allow some margins
+        const int margin = 500000;
+        final List<Map<String, dynamic>> events = populateEvents(numberOfEvents: 100,
+                                                                  startTime: startTimeInNanoseconds,
+                                                                  interval: intervalInNanoseconds,
+                                                                  margin: margin,
+                                                                 );
+
+        final RefreshRateSummary summary = summarizeRefresh(events);
+        expect(summary.percentageOf30HzFrames, 0);
+        expect(summary.percentageOf60HzFrames, 0);
+        expect(summary.percentageOf90HzFrames, closeTo(100, kCompareDelta));
+        expect(summary.percentageOf120HzFrames, 0);
+        expect(summary.framesWithIllegalRefreshRate, isEmpty);
+      });
+
+      test('Recognize 120 hz frames.', () async {
+        const int startTimeInNanoseconds = 2750850055430;
+        const int intervalInNanoseconds = 8333333;
+        // allow some margins
+        const int margin = 300000;
+        final List<Map<String, dynamic>> events = populateEvents(numberOfEvents: 100,
+                                                                  startTime: startTimeInNanoseconds,
+                                                                  interval: intervalInNanoseconds,
+                                                                  margin: margin,
+                                                                 );
+        final RefreshRateSummary summary = summarizeRefresh(events);
+        expect(summary.percentageOf30HzFrames, 0);
+        expect(summary.percentageOf60HzFrames, 0);
+        expect(summary.percentageOf90HzFrames, 0);
+        expect(summary.percentageOf120HzFrames, closeTo(100, kCompareDelta));
+        expect(summary.framesWithIllegalRefreshRate, isEmpty);
+      });
+
+      test('Identify illegal refresh rates.', () async {
+        const int startTimeInNanoseconds = 2750850055430;
+        const int intervalInNanoseconds = 10000000;
+        final List<Map<String, dynamic>> events = populateEvents(numberOfEvents: 1,
+                                                                  startTime: startTimeInNanoseconds,
+                                                                  interval: intervalInNanoseconds,
+                                                                  margin: 0,
+                                                                 );
+        final RefreshRateSummary summary = summarizeRefresh(events);
+        expect(summary.percentageOf30HzFrames, 0);
+        expect(summary.percentageOf60HzFrames, 0);
+        expect(summary.percentageOf90HzFrames, 0);
+        expect(summary.percentageOf120HzFrames, 0);
+        expect(summary.framesWithIllegalRefreshRate, isNotEmpty);
+        expect(summary.framesWithIllegalRefreshRate.first, closeTo(100, kCompareDelta));
+      });
+
+      test('Mixed refresh rates.', () async {
+
+        final List<Map<String, dynamic>> events = <Map<String, dynamic>>[];
+        const int num30Hz = 10;
+        const int num60Hz = 20;
+        const int num80Hz = 20;
+        const int num90Hz = 20;
+        const int num120Hz = 40;
+        const int numIllegal = 10;
+        const int totalFrames = num30Hz + num60Hz + num80Hz + num90Hz + num120Hz + numIllegal;
+
+        // Add 30hz frames
+        events.addAll(populateEvents(numberOfEvents: num30Hz,
+                                      startTime: 0,
+                                      interval: 32000000,
+                                      margin: 0,
+                                      ));
+
+        // Add 60hz frames
+        events.addAll(populateEvents(numberOfEvents: num60Hz,
+                                      startTime: 0,
+                                      interval: 16000000,
+                                      margin: 0,
+                                      ));
+
+        // Add 80hz frames
+        events.addAll(populateEvents(numberOfEvents: num80Hz,
+                                      startTime: 0,
+                                      interval: 12000000,
+                                      margin: 0,
+                                      ));
+
+        // Add 90hz frames
+        events.addAll(populateEvents(numberOfEvents: num90Hz,
+                                      startTime: 0,
+                                      interval: 11000000,
+                                      margin: 0,
+                                      ));
+
+        // Add 120hz frames
+        events.addAll(populateEvents(numberOfEvents: num120Hz,
+                                      startTime: 0,
+                                      interval: 8000000,
+                                      margin: 0,
+                                      ));
+
+        // Add illegal refresh rate frames
+        events.addAll(populateEvents(numberOfEvents: numIllegal,
+                                      startTime: 0,
+                                      interval: 60000,
+                                      margin: 0,
+                                      ));
+
+        final RefreshRateSummary summary  = summarizeRefresh(events);
+
+        expect(summary.percentageOf30HzFrames, closeTo(num30Hz/totalFrames*100, kCompareDelta));
+        expect(summary.percentageOf60HzFrames, closeTo(num60Hz/totalFrames*100, kCompareDelta));
+        expect(summary.percentageOf80HzFrames, closeTo(num80Hz/totalFrames*100, kCompareDelta));
+        expect(summary.percentageOf90HzFrames, closeTo(num90Hz/totalFrames*100, kCompareDelta));
+        expect(summary.percentageOf120HzFrames, closeTo(num120Hz/totalFrames*100, kCompareDelta));
+        expect(summary.framesWithIllegalRefreshRate, isNotEmpty);
+        expect(summary.framesWithIllegalRefreshRate.length, 10);
+      });
+    });
+  });
+}
