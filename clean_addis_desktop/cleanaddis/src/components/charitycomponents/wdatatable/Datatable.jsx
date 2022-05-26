@@ -17,7 +17,7 @@ const Wdatatable = () => {
     renderCell:(params) => {
      return(
          <div className = "cellAction flex gap-4">
-          <Link to ="/itadmin/waste" onClick={() => setSingle(true)}>
+          <Link to ="/charity/donate" onClick={() => setSingle(true)}>
            <div className="viewButton border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">View</div> 
            </Link>
            

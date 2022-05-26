@@ -1,7 +1,4 @@
 import "./unew.scss"
-import UserSidebar from "../../../components/usercomponents/usidebar/UserSidebar"
-import UserNavbar from "../../../components/usercomponents/unavbar/UserNavbar"
-
 
 
 const Unew = ({inputs,title}) => {
@@ -10,9 +7,9 @@ const Unew = ({inputs,title}) => {
 
   return (
     <div className="new flex">
-    <UserSidebar />    
+    <CharitySidebar />    
       <div className="newcontainer pt-3 pl-2 flex-6 w-full">
-        <UserNavbar />
+        <CharityNavbar />
       <div className = "top flex font-bold text-3xl shadow-xl pt-7 m-2 w-full text-gray-400">
         <h1 >{title}</h1>
       </div>

@@ -1,15 +1,15 @@
 import React from 'react'
-import Newmodal from '../../usercomponents/udatatable/NewModal'
+import Newmodal from '../../recyclercomponents/rdatatable/NewModal'
 import { Link } from 'react-router-dom'
 
 const New = () => {
   return (
     <div className='bg-white p-2 rounded'>
     <div class="rounded justify-center item-center p-6 m-4">
-    <Link to="/itadmin/user"  onClick={<Newmodal />}> <div className="editButton  border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">close</div>
+    <Link to="/recycler/waste"  onClick={<Newmodal />}> <div className="editButton  border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">close</div>
           </Link>
           
-        <h1 class="block w-full text-center text-gray-800 text-2xl font-bold mb-6">Add New user</h1>
+        <h1 class="block w-full text-center text-gray-800 text-2xl font-bold mb-6">Add New Waste Amount Cap</h1>
         <form action="/" method="post">
             <div class="flex flex-col mb-4">
                 <label class="mb-2 font-bold text-lg text-gray-900" for="first_name">Username</label>
