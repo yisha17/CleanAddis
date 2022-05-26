@@ -1,5 +1,5 @@
   import React from 'react'
-import Single from '../../../pages/recyclerpages/rsinglepage/Single';
+import Single from '../../../pages/charitypages/csinglepage/Single';
 
 const Modal = ({visible, onClose}) => {
 

@@ -1,14 +1,14 @@
-import "./rhome.scss"
-import RecyclerSidebar from "../../../components/recyclercomponents/rsidebar/RecyclerSidebar"
-import RecyclerNavbar from "../../../components/recyclercomponents/rnavbar/RecyclerNavbar"
+import "./chome.scss"
+import CharitySidebar from "../../../components/charitycomponents/csidebar/CharitySidebar"
+import CharityNavbar from "../../../components/charitycomponents/cnavbar/CharityNavbar"
 
 
 const Rhome = () => {
   return (
       <div className="flex">
-          <RecyclerSidebar/>
+          <CharitySidebar/>
           <div className="p-7 text-2x1  h-screen">
-          <RecyclerNavbar />
+          <CharityNavbar />
             
             <div>
               

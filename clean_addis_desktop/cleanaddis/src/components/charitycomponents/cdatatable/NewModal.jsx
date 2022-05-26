@@ -1,7 +1,7 @@
 import React from 'react'
-import Rsingle from '../../../pages/adminpages/rsinglepage/Single';
+import Rsingle from '../../../pages/charitypages/csinglepage/Single';
 import { Link } from 'react'
-import New from '../../../components/recyclercomponents/rdatatable/New'
+import New from '../../../components/charitycomponents/cdatatable/New'
 
 const Newmodal = ({visible, onClose}) => {
 

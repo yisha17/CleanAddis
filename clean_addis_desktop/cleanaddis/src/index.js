@@ -21,7 +21,8 @@ import Psingle from './pages/adminpages/psinglepage/Single';
 import Rsingle from './pages/adminpages/rsinglepage/Single';
 import New from '../../cleanaddis/src/pages/adminpages/new/New';
 import Ulist from './pages/userpages/ulist/List';
-import Recyclerlist from './pages/recyclerpages/rlist/List';
+import Recyclerlist from './pages/charitypages/clist/List';
+import Charitylist from './pages/charitypages/clist/List';
 import Uwlist from './pages/userpages/wastelist/List'
 import Usingle from '../../cleanaddis/src/pages/userpages/usinglepage/Single';
 import Recyclersingle from '../../cleanaddis/src/pages/recyclerpages/rsinglepage/Single';
@@ -29,6 +30,7 @@ import Unew from '../../cleanaddis/src/pages/userpages/unew/Unew';
 import {announcementInputs, reportuserInputs} from "../src/formsource"
 import Uhome from '../src/pages/userpages/uhome/Uhome'
 import Rhome from '../src/pages/recyclerpages/rhome/Rhome'
+import Chome from '../src/pages/charitypages/chome/Chome'
 
 ReactDOM.render(
     <React.StrictMode>
@@ -88,6 +90,17 @@ ReactDOM.render(
               </Route >
               <Route path="profile">
                   <Route index element={<Rhome/>}/> 
+              </Route >
+          </Route>
+          <Route path="charity">
+            <Route index element={<Chome />}/>
+              <Route path="donate">
+                  <Route index element={<Charitylist/>} /> 
+                  <Route path=":wasteId" element={<Usingle />}/>
+                  <Route path="new" element={<Unew inputs = {announcementInputs} title="Add user"/>}/>
+              </Route >
+              <Route path="profile">
+                  <Route index element={<Chome/>}/> 
               </Route >
           </Route>
           

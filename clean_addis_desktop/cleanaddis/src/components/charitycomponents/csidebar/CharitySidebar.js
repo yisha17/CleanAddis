@@ -7,14 +7,14 @@ import User from './User.png'
 import Shout from './Shout.png'
 import Work from './Work.png'
 import Report from './Report.png'
-import Uhome from '../../../pages/userpages/uhome/Uhome';
+import Chome from '../../../pages/charitypages/chome/Chome';
 import {Link } from "react-router-dom"
 
-const CityadminSidebar = () => {
+const CharitySidebar = () => {
   const [open,setOpen] = useState(true);
   const Menus =[
-    {title:"Profile", src:User ,link:"/recycler/profile"},
-    {title:"Waste", src:Report,link:"/recycler/waste"},
+    {title:"Profile", src:User ,link:"/charity/profile"},
+    {title:"Donations", src:Report,link:"/charity/donate"},
  
   ]
   return (
@@ -26,7 +26,7 @@ const CityadminSidebar = () => {
       onClick={()=>setOpen(!open)}/>
       <div className="flex gap-x-4 items-left">
         <Link to="/user">
-      <h2 className={`text-white origin-left font-medium text-x1 duration-300`}>Recycler</h2>
+      <h2 className={`text-white origin-left font-medium text-x1 duration-300`}>Charity</h2>
       </Link>
       </div>
       <ul>
@@ -50,4 +50,4 @@ const CityadminSidebar = () => {
   )
 }
 
-export default CityadminSidebar
+export default CharitySidebar
