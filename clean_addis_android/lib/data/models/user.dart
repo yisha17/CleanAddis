@@ -1,6 +1,4 @@
 import 'package:clean_addis_android/data/models/address.dart';
-import 'package:flutter/material.dart';
-
 import 'waste.dart';
 
 class User {
@@ -9,10 +7,15 @@ class User {
   final String? email;
   final String? password;
   final String? role;
-  final Image? profile;
+  final String? profile;
   final String? phone;
-  final Address? address;
+  final String? address;
   final List<Waste?>? waste;
+  final String? access_token;
+  final String? refresh_token;
+  final int? report_count;
+  final int? donate_count;
+  final int? sell_count;
   //device id
 
   User({
@@ -24,7 +27,12 @@ class User {
     this.profile,
     this.phone,
     this.address,
-    this.waste
+    this.waste,
+    this.access_token,
+    this.refresh_token,
+    this.report_count,
+    this.sell_count,
+    this.donate_count
   });
 
 
@@ -37,8 +45,13 @@ class User {
       role : jsonMap['role'],
       profile: jsonMap['profile'],
       phone: jsonMap['phone'],
+      access_token: jsonMap['access'],
+      refresh_token: jsonMap['refresh'],
       address: jsonMap['address'],
-      waste: jsonMap['waste']
+      waste: jsonMap['waste'],
+      report_count : jsonMap['report_count'],
+      sell_count:jsonMap['sell_count'],
+      donate_count: jsonMap['donation_count']
     );
     return result;
   }

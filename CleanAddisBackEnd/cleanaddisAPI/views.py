@@ -1,25 +1,86 @@
 from cgitb import lookup
 from hashlib import new
-from xml.dom.pulldom import PullDOM
+
+from telnetlib import STATUS
+
 from django.shortcuts import render
 from rest_framework.views import APIView
-
-
-from rest_framework import generics,permissions ,authentication
-
-from rest_framework import mixins
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import generics, permissions, authentication
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from .models import *
 from .serializers import *
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.parsers import MultiPartParser, FormParser
+from geopy.distance import geodesic
+from math import sin, cos, sqrt, atan2, radians
 
 
-# Create your views here.
+class RegisterView(generics.GenericAPIView):
+    permission_classes = [AllowAny]
+    queryset = User.objects.all()
+    serializer_class = RegisterSerializer
+
+    def post(self, request, *args,  **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            if user:
+                json = serializer.data
+                return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+user_signup_view = RegisterView.as_view()
+
+
+
+class UserListView(generics.ListAPIView):
+    
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetailView(generics.RetrieveAPIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDeleteView(generics.DestroyAPIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    queryset = User.objects.all()
+    serilaizer_class = UserSerializer
+
+
+class UserUpdateView(generics.UpdateAPIView):
+    permission_classes = [AllowAny]
+    queryset = User.objects.all()
+    serializer_class = UpdateSerializer
+    parser_classes = (MultiPartParser, FormParser)
+    lookup_field = 'pk'
+    # def update(self, request,*args, **kwargs):
+    #     serializer = self.serializer_class(request.user, data=request.data, partial=True)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
+
+    # def partial_update(self, request,):
+    #     serializer = self.serializer_class(
+    #         request.user, data=request.data, partial=True)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
+user_update_view = UserUpdateView.as_view()
 
 class UserView(APIView):
 
     def get(self, request):
- 
+
         users = User.objects.all()
 
         serializer = UserSerializer(users, many=True)
@@ -27,13 +88,14 @@ class UserView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-
+        print("here it is")
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             question = serializer.save()
             serializer = UserSerializer(question)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class UserDetail(APIView):
@@ -49,8 +111,18 @@ class UserDetail(APIView):
         user = self.get_object(id)
 
         serializer = UserSerializer(user)
-
-        return Response(serializer.data)
+        
+        report = Report.objects.filter(reportedBy = id).count() 
+        sell = Waste.objects.filter(for_waste = 'Sell',seller = id).count()
+        donate = Waste.objects.filter(for_waste = 'Donation',seller = id).count()
+        print(sell)
+        print(donate)
+        new_dict = {
+            "report_count":report,
+            "donation_count":donate,
+            "sell_count" : sell}
+        new_dict.update(serializer.data)
+        return Response(new_dict)
 
     def put(self, request, id):
 
@@ -126,12 +198,15 @@ class CompanyAPIView(APIView):
 
 
 
+
 class ReportCreateAPIView(generics.CreateAPIView):
-
-    query = Waste.objects.all()
-
+    
+    
+    query = Report.objects.all()
+    parser_classes = (MultiPartParser, FormParser)
     serializer_class = ReportSerializer
 
+   
     def perform_create(self, serializer):
         return super().perform_create(serializer)
 
@@ -170,7 +245,17 @@ class ReportAPIView(generics.ListAPIView):
     def get_queryset(self):
         return super().get_queryset().filter(
             reportedBy = self.kwargs['reportedBy'])
+            
 report_list_view = ReportAPIView.as_view()
+
+
+
+class ReportAllAPIView(generics.ListAPIView):
+    queryset = Report.objects.all()
+    serializer_class = ReporterSerializer
+         
+all_report_list_view = ReportAPIView.as_view()
+
 
 class PublicPlaceCreateAPIView(generics.CreateAPIView):
 
@@ -207,6 +292,18 @@ class PublicPlaceDeleteAPIView(generics.DestroyAPIView):
 
 
 publicplace_delete_view = PublicPlaceDeleteAPIView.as_view()
+
+class PublicPlaceList(generics.ListAPIView):
+    queryset = PublicPlace.objects.all()
+    serializer_class = PublicPlaceSerializer
+
+    # def get_queryset(self):
+    #     return super().get_queryset().filter(
+    #         placeType=self.kwargs['placeType'])
+
+publicplace_list_view = PublicPlaceList.as_view()
+
+
 
 class SeminarCreateAPIView(generics.CreateAPIView):
 
@@ -317,65 +414,52 @@ class AnnouncementDeleteAPIView(generics.DestroyAPIView):
 announcement_delete_view = AnnouncementDeleteAPIView.as_view()
 
 class SellerAPIView(generics.ListAPIView):
-    authentication_classes = [authentication.TokenAuthentication]
-    queryset = Waste.objects.all()
-    serializer_class = SellerSerializer
-    lookup_field = 'seller'
-
-    def get_queryset(self):
-
-        return super().get_queryset().filter(
-            seller=self.kwargs['seller'])
-
-
-seller_list_view = SellerAPIView.as_view()
-
-
-class WasteCreateAPIView(generics.CreateAPIView):
-
-    queryset = Waste.objects.all()
-
-    serializer_class = WasteSerializer
-
-    def perform_create(self, serializer):
-        return super().perform_create(serializer)
-
-
-waste_create_view = WasteCreateAPIView.as_view()
-
-class WasteDetailAPIView(generics.RetrieveAPIView):
-
-    queryset = Waste.objects.all()
-    serializer_class = WasteSerializer
-    lookup_field = 'pk'
-
-waste_detail_view = WasteDetailAPIView().as_view()
-
-
-
-
-
-class SellerAPIView(generics.ListAPIView):
     
-    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = (permissions.IsAuthenticated,)
     queryset = Waste.objects.all()
     serializer_class = SellerSerializer
     lookup_field = 'seller'
 
-    def get_queryset(self):
-
-        return super().get_queryset().filter(
-            seller=self.kwargs['seller'])
+    def get_queryset(self,type= 'Plastic'):
+        lists = super().get_queryset().filter(
+            seller=self.kwargs['seller']).order_by('-post_date')
+        return lists
 
 
 seller_list_view = SellerAPIView.as_view()
 
 
-class WasteCreateAPIView(generics.CreateAPIView):
+class SellerAPIViewByType(generics.ListAPIView):
 
+    permission_classes = (permissions.IsAuthenticated,)
     queryset = Waste.objects.all()
+    serializer_class = SellerSerializer
+    lookup_field = 'seller'
+    filter_fields = ('for_waste', 'waste_type')
 
+    def get_queryset(self):
+        
+        lists = super().get_queryset().filter(
+            seller=self.kwargs['seller'], 
+            for_waste=self.kwargs['for_waste'], 
+            waste_type= self.kwargs['waste_type']).order_by('-post_date')
+        print(lists)
+        return lists
+ 
+
+seller_list_view_by_type = SellerAPIViewByType.as_view()
+
+
+
+
+
+
+class WasteCreateAPIView(generics.CreateAPIView):
+    
+    queryset = Waste.objects.all()
+    parser_classes = (MultiPartParser, FormParser)
     serializer_class = WasteSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
     def perform_create(self, serializer):
         return super().perform_create(serializer)
@@ -383,28 +467,47 @@ class WasteCreateAPIView(generics.CreateAPIView):
 
 waste_create_view = WasteCreateAPIView.as_view()
 
+
 class WasteDetailAPIView(generics.RetrieveAPIView):
 
     queryset = Waste.objects.all()
     serializer_class = WasteSerializer
     lookup_field = 'pk'
 
+
 waste_detail_view = WasteDetailAPIView().as_view()
 
+
+class WasteAllAPIView(generics.ListAPIView):
+    queryset = Waste.objects.all()
+    serializer_class = WasteSerializer
+    lookup_field = 'pk'
+
+all_waste_list_view = WasteAllAPIView().as_view()
 
 class BuyerAPIView(generics.ListAPIView):
     queryset = Waste.objects.all()
     serializer_class = SellerSerializer
     lookup_field = 'buyer'
 
-
     def get_queryset(self):
-
         return super().get_queryset().filter(
-            seller = self.kwargs['buyer'])
+            buyer=self.kwargs['buyer']).order_by('-post_date')
+
 
 buyer_list_view = BuyerAPIView.as_view()
 
+class AvailableWasteAPIView(generics.ListAPIView):
+    queryset = Waste.objects.all()
+    serializer_class = WasteSerializer
+    lookup_field = 'waste_type'
+    
+    def get_queryset(self, sold=False, for_waste='Sell'):
+        return super().get_queryset().filter(
+            sold = sold,for_waste = for_waste,
+            waste_type = self.kwargs['waste_type'],
+            ).order_by('-post_date')
+waste_list_for_sell = AvailableWasteAPIView.as_view()
 
 class WasteUpdateAPIView(generics.UpdateAPIView):
 
@@ -413,6 +516,7 @@ class WasteUpdateAPIView(generics.UpdateAPIView):
     serializer_class = WasteSerializer
 
     lookup_field = 'pk'
+
 
 waste_update_view = WasteUpdateAPIView.as_view()
 
@@ -424,7 +528,6 @@ class WasteDeleteAPIView(generics.DestroyAPIView):
     serializer_class = WasteSerializer
 
     lookup_field = 'pk'
-
 
 
 waste_delete_view = WasteDeleteAPIView.as_view()

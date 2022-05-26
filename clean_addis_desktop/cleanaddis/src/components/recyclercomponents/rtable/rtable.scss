@@ -1,0 +1,16 @@
+.table{
+    display:flex;
+    align-items: center;
+}
+.status{
+    padding: 5px;
+    border-radius: 5px;
+     &.delivered{
+         color:green;
+         background-color: lightgreen;
+     }
+     &.pending{
+        color:goldenrod;
+        background-color: rgba($color: goldenrod, $alpha: 0.203);
+    }
+}
