@@ -1,14 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Editormodal from '../../../components/usercomponents/udatatable/Edit'
+import Editormodal from '../../../components/recyclercomponents/rdatatable/Edit'
 
 const Edit = () => {
   return (
     <div>
     <div class="rounded justify-center item-center p-6 m-4">
-    <Link to="/itadmin/user"  onClick={<Editormodal />}> <div className="editButton  border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">close</div>
+    <Link to="/recycler/waste"  onClick={<Editormodal />}> <div className="editButton  border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">close</div>
           </Link>
-        <h1 class="block w-full text-center text-gray-800 text-2xl font-bold mb-6">Edit User   </h1>
+        <h1 class="block w-full text-center text-gray-800 text-2xl font-bold mb-6">Edit your Waste Amount Cap  </h1>
         <form action="/" method="post">
         <div class="flex flex-col mb-2">
                 <label class="mb-2 font-bold text-lg text-gray-900" for="first_name"> Username</label>
