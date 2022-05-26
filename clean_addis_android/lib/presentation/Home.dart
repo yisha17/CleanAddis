@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:location/location.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
+import '../bloc/Waste/waste_bloc.dart';
 import '../main.dart';
 import 'AddWaste.dart';
 import 'Login.dart';
@@ -26,7 +27,8 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   final wastebloc =
       UserWasteBloc(WasteRepository(dataProvider: WasteDataProvider()));
-
+   final waste_buybloc =
+      AddWasteBloc(WasteRepository(dataProvider: WasteDataProvider()));
   @override
   void initState() {
     super.initState();
@@ -83,8 +85,9 @@ class HomePageState extends State<HomePage> {
   Widget wasteType(String type, Color id) {
     return InkWell(
       onTap: () {
+        
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => WasteBuyListPage()));
+            .push(MaterialPageRoute(builder: (context) => WasteBuyListPage(type: type,)));
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 5),

@@ -284,10 +284,10 @@ class AddWasteState extends State<AddWastePage> {
       child: BlocListener(
         bloc: wasteBloc,
         listener: (context, WasteState state) {
-          if (state is WasteLoadingState) {
+          if (state is WasteLoading) {
             WidgetsBinding.instance!
                 .addPostFrameCallback((_) => loadingDialog(context));
-          } else if (state.waste != null && state is WasteCreatedState || state is WasteUpdatedState) {
+          } else if ( state is WasteCreatedState || state is WasteUpdatedState) {
             WidgetsBinding.instance!.addPostFrameCallback((_) => messageDialog(
                     context,
                     icon: Icons.recycling,

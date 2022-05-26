@@ -492,11 +492,22 @@ class BuyerAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         return super().get_queryset().filter(
-            buyer=self.kwargs['buyer']).order_by('post_date')
+            buyer=self.kwargs['buyer']).order_by('-post_date')
 
 
 buyer_list_view = BuyerAPIView.as_view()
 
+class AvailableWasteAPIView(generics.ListAPIView):
+    queryset = Waste.objects.all()
+    serializer_class = WasteSerializer
+    lookup_field = 'waste_type'
+    
+    def get_queryset(self, sold=False, for_waste='Sell'):
+        return super().get_queryset().filter(
+            sold = sold,for_waste = for_waste,
+            waste_type = self.kwargs['waste_type'],
+            ).order_by('-post_date')
+waste_list_for_sell = AvailableWasteAPIView.as_view()
 
 class WasteUpdateAPIView(generics.UpdateAPIView):
 

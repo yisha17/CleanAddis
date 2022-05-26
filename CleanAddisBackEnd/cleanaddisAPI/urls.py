@@ -18,6 +18,7 @@ urlpatterns = [
     path('api/waste/buyer/<int:buyer>', buyer_list_view),
     path('api/waste/', waste_create_view),
     path('api/waste/all/', all_waste_list_view),
+    path('api/waste/<str:waste_type>/',waste_list_for_sell),
     path('api/report/', report_create_view),
     path('api/report/all/', all_report_list_view),
     path('api/report/<int:pk>', report_detail_view),

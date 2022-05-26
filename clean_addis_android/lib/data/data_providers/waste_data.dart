@@ -176,7 +176,7 @@ Future<void> deleteWaste(int id, String token) async {
 }
 
 Future<List<Waste>?> availableWasteByType(String token,String type) async{
-  final response = await http.get(Uri.http(base_url,'$waste_path$type'),
+  final response = await http.get(Uri.http(base_url,'$waste_path$type/'),
   headers: {
     'Authorization': 'JWT $token',
   });

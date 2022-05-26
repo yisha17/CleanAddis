@@ -11,7 +11,7 @@ part 'waste_state.dart';
 
 class AddWasteBloc extends Bloc<WasteEvent, WasteState> {
   WasteRepository repository;
-  AddWasteBloc(this.repository) : super(WasteState());
+  AddWasteBloc(this.repository) : super(WasteLoading());
 
   void onCreateWaste(
       {String? for_waste,
@@ -39,7 +39,7 @@ class AddWasteBloc extends Bloc<WasteEvent, WasteState> {
     if (event is CreateWasteEvent) {
       print("waste create command");
       try {
-        yield WasteLoadingState();
+        yield WasteLoading();
         final _storage = FlutterSecureStorage();
         final user_id = await _storage.read(key: 'id');
 
@@ -66,12 +66,11 @@ class AddWasteBloc extends Bloc<WasteEvent, WasteState> {
       }
     }
 
-    if (event is UpdateWasteEvent){
-      try{
-         yield WasteLoadingState();
+    if (event is UpdateWasteEvent) {
+      try {
+        yield WasteLoading();
         final _storage = FlutterSecureStorage();
         Waste waste = Waste(
-          
             waste_name: event.waste_name,
             waste_type: event.waste_type,
             for_waste: event.for_waste,
@@ -80,31 +79,31 @@ class AddWasteBloc extends Bloc<WasteEvent, WasteState> {
             price_per_unit: event.price_per_unit,
             location: event.location,
             description: event.description);
-            final token = await _storage.read(key: 'token');
-            final data = await repository.updateWaste(event.id.toString(),waste, token!, event.image!);
-            yield WasteUpdatedState(waste: data!);
-      }catch(e){
+        final token = await _storage.read(key: 'token');
+        final data = await repository.updateWaste(
+            event.id.toString(), waste, token!, event.image!);
+        yield WasteUpdatedState(waste: data!);
+      } catch (e) {
         yield WasteCreateFailedState(e.toString());
       }
     }
 
-    if (event is AvailableWasteListEvent){
-      try{
-        yield WasteLoadingState();
+    if (event is AvailableWasteListEvent) {
+      try {
+        yield WasteLoading();
         final _storage = FlutterSecureStorage();
-        final token = _storage.read(key: 'token');
-        
-      }catch(e){
-
+        final token = await _storage.read(key: 'token');
+        final data = await repository.availableWasteByType(token!, event.type!);
+        print(data);
+        yield WasteListLoaded(data!);
+        print('waste Loaded');
+      } catch (e) {
+        yield WasteCreateFailedState(e.toString());
       }
     }
 
-    if (event is BuyWasteEvent){
-      try{
-
-      }catch(e){
-        
-      }
+    if (event is BuyWasteEvent) {
+      try {} catch (e) {}
     }
   }
 }

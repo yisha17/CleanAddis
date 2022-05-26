@@ -52,7 +52,7 @@ class WasteListPageState extends State<WasteListPage>
       {required String type, required Color id, required bool isRotating}) {
     return InkWell(
       onTap: () {
-        isRotating ? false : true;
+        isRotating = !isRotating;
 
         _controller.repeat();
         wastebloc
