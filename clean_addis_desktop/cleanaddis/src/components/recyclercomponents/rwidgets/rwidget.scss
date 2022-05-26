@@ -1,0 +1,22 @@
+.widget{
+    display: flex;
+    width:230px;
+}
+.left, .right{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between ;
+}
+.positive{
+    color:green
+}
+.negative{
+    color:red
+}
+.icon{
+    font-size:12px;
+    padding:5px;
+    background-color: green;
+    border-radius: 5px;
+    align-self: flex-end;
+}
