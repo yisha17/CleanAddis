@@ -1,6 +1,6 @@
 import "./unew.scss"
-import UserSidebar from "../../../components/usercomponents/usidebar/UserSidebar"
-import UserNavbar from "../../../components/usercomponents/unavbar/UserNavbar"
+import RecyclerSidebar from "../../../components/recyclercomponents/rsidebar/RecyclerSidebar"
+import RecyclerNavbar from "../../../components/recyclercomponents/rnavbar/RecyclerNavbar"
 
 
 

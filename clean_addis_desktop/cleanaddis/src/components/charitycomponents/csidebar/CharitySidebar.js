@@ -13,8 +13,8 @@ import {Link } from "react-router-dom"
 const CityadminSidebar = () => {
   const [open,setOpen] = useState(true);
   const Menus =[
-    {title:"Users", src:User ,link:"/itadmin/user" },
-    {title:"Waste", src:Report,link:"/itadmin/waste"},
+    {title:"Profile", src:User ,link:"/recycler/profile"},
+    {title:"Waste", src:Report,link:"/recycler/waste"},
  
   ]
   return (
@@ -26,7 +26,7 @@ const CityadminSidebar = () => {
       onClick={()=>setOpen(!open)}/>
       <div className="flex gap-x-4 items-left">
         <Link to="/user">
-      <h2 className={`text-white origin-left font-medium text-x1 duration-300`}>It admin</h2>
+      <h2 className={`text-white origin-left font-medium text-x1 duration-300`}>Recycler</h2>
       </Link>
       </div>
       <ul>
