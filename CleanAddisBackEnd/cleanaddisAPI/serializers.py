@@ -33,12 +33,16 @@ class RegisterSerializer(serializers.ModelSerializer):
         return instance    
 
 class UpdateSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField('get_image_url')
     class Meta:
         model = User
         fields = '__all__'
         extra_kwargs = {
             'password': {'write_only': True},
         }
+
+    def get_image_url(self, obj):
+        return obj.profile.url
     def update(self, instance, validated_data):
         password = validated_data.pop('password', None)
         if password is not None:
@@ -47,7 +51,7 @@ class UpdateSerializer(serializers.ModelSerializer):
         instance.email = validated_data['email']
         instance.username = validated_data['username']
         instance.profile = validated_data['profile']
-        
+        instance.phone = validated_data['phone']
         instance.save()
 
         return instance  

@@ -62,6 +62,19 @@ class LoginBloc extends Bloc<LoginEvent,LoginState>{
         yield AuthenticationFailureState(e.toString());
       }
     }
+    if (event is SellerProfileEvent) {
+      try {
+        yield UserLoadingState();
+        final _storage = FlutterSecureStorage();
+        final user_id = await _storage.read(key: 'id');
+        final token = await _storage.read(key: 'token');
+        final data = await userRepository.singleUser(user_id!, token!);
+        print(data);
+        yield SellerLoadedState(user: data!);
+      } catch (e) {
+        yield AuthenticationFailureState(e.toString());
+      }
+    }
 
     if (event is UserUpdateEvent){
       try{

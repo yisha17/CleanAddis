@@ -56,7 +56,6 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
         final user_id = await _storage.read(key: 'id');
         String? token = await _storage.read(key: 'token');
         final report = await reportRepository.fetchUserReport(user_id!, token!);
-        await Future.delayed(Duration(seconds: 3));
         yield ReportListState(report!);
       }catch(e){
         yield ReportErrorState(message: e.toString());

@@ -34,7 +34,7 @@ class User(AbstractUser):
     username = models.CharField(max_length=20,unique=True, default="")
     email = models.EmailField(max_length=30,default="")
     role = models.CharField(max_length=20, default="Resident", null = True)
-    profile = models.ImageField(upload_to=upload_to,null=True)
+    profile = models.ImageField(upload_to=upload_to, null=True)
     phone = models.CharField(max_length= 20,null= True)
     device_id = models.CharField(max_length=20, default="",null=True)
     
@@ -142,4 +142,5 @@ class Announcement(models.Model):
     toDate = models.DateField(max_length=20, default="",null=True)
     published = models.DateField(max_length=20, default="",null=True)
     recipient = models.ForeignKey(User, on_delete = models.DO_NOTHING )
+
 

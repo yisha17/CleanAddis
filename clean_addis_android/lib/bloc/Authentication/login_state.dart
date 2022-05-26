@@ -26,6 +26,13 @@ class AuthenticatedState extends LoginState {
   List<Object> get props => [user];
 }
 
+class SellerLoadedState extends LoginState{
+  final User user;
+  SellerLoadedState({required this.user});
+  @override
+  List<Object> get props => [user];
+}
+
 class UserDetailState extends LoginState{
 
   final User user;

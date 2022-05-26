@@ -5,6 +5,7 @@ import 'package:clean_addis_android/data/data_providers/user_data.dart';
 import 'package:clean_addis_android/data/data_providers/waste_data.dart';
 import 'package:clean_addis_android/data/repositories/waste_repository.dart';
 import 'package:clean_addis_android/presentation/Login.dart';
+import 'package:clean_addis_android/presentation/Setting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

@@ -16,11 +16,7 @@ class WasteBuyListPage extends StatefulWidget {
   }
 }
 
-
-
 class WasteBuyListPageState extends State<WasteBuyListPage> {
-
-  
   final wasteBloc =
       AddWasteBloc(WasteRepository(dataProvider: WasteDataProvider()));
   Widget horizontalSpace(double width) {
@@ -38,7 +34,7 @@ class WasteBuyListPageState extends State<WasteBuyListPage> {
   Widget wasteType(String type, Color id) {
     return InkWell(
       onTap: () {
-        wasteBloc..add(AvailableWasteListEvent(type:type));
+        wasteBloc..add(AvailableWasteListEvent(type: type));
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 5),
@@ -76,16 +72,29 @@ class WasteBuyListPageState extends State<WasteBuyListPage> {
     required String unit,
     required String for_waste,
     required String post_date,
-    required bool donated,
     required bool sold,
   }) {
+    var date = DateFormatter.changetoMD(post_date);
     return InkWell(
       onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => WasteBuyPage()));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => WasteBuyPage(
+                  waste_id: waste_id,
+                  waste_name: waste_name,
+                  seller: seller,
+                  waste_type: waste_type,
+                  for_waste: for_waste,
+                  quantity: quantity,
+                  location: location,
+                  post_date: date,
+                  unit: unit,
+                  sold: sold,
+                  price: price,
+                  image: image,
+                )));
       },
       child: Container(
-        height: 100,
+        height: 130,
         color: lightgreen,
         child: Card(
           color: lightgreen,
@@ -93,9 +102,11 @@ class WasteBuyListPageState extends State<WasteBuyListPage> {
             children: [
               Expanded(
                 flex: 33,
-                child: Image.network(
-                  'https://picsum.photos/250?image=9',
-                ),
+                child: image == ''
+                    ? Image.network(
+                        'https://picsum.photos/250?image=9',
+                      )
+                    : Image.network(image!, fit: BoxFit.cover),
               ),
               Expanded(
                 flex: 66,
@@ -103,42 +114,60 @@ class WasteBuyListPageState extends State<WasteBuyListPage> {
                   children: [
                     Expanded(
                       flex: 25,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Plastic Bottle',
-                            style: TextStyle(
-                              color: Colors.green,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.price_change,
-                                    color: Color.fromARGB(255, 139, 182, 45)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              waste_name,
+                              style: TextStyle(
+                                color: TypeColor.chooseColor(waste_type),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
                               ),
-                              Text('2000'),
-                            ],
-                          )
-                        ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     Expanded(
                         flex: 25,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(Icons.date_range),
-                            Text('Posted on May 12, 2022',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                )),
-                          ],
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.date_range),
+                              Text('Posted on $date',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                  )),
+                            ],
+                          ),
+                        )),
+                    Expanded(
+                        flex: 25,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                  description != null
+                                      ? description.length > 16
+                                          ? 'Description: ' +
+                                              description.substring(0, 16) +
+                                              '...'
+                                          : 'Description: $description'
+                                      : 'No description',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w300,
+                                  )),
+                            ],
+                          ),
                         )),
                     Expanded(
                       flex: 25,
@@ -224,16 +253,16 @@ class WasteBuyListPageState extends State<WasteBuyListPage> {
                     if (state is WasteListLoaded) {
                       print('here is working');
                       final waste = state.waste;
-                        print(waste);
+                      print(waste);
                       return !waste.isEmpty
                           ? Expanded(
                               child: ListView.builder(
                                 itemCount: waste.length,
                                 scrollDirection: Axis.vertical,
-                                itemBuilder: (context,index){
+                                itemBuilder: (context, index) {
                                   return createListTile(
-                                     waste_id: waste.elementAt(index).id!,
-                                     seller: waste.elementAt(index).seller!,
+                                      waste_id: waste.elementAt(index).id!,
+                                      seller: waste.elementAt(index).seller!,
                                       image: '${waste.elementAt(index).image}',
                                       waste_name:
                                           '${waste.elementAt(index).waste_name}',
@@ -248,15 +277,12 @@ class WasteBuyListPageState extends State<WasteBuyListPage> {
                                           '${waste.elementAt(index).location}',
                                       description:
                                           '${waste.elementAt(index).description}',
-                                      donated: waste.elementAt(index).donated!,
-                                    sold: waste.elementAt(index).sold!,
+                                      sold: waste.elementAt(index).sold!,
                                       waste_type:
                                           '${waste.elementAt(index).waste_type}',
                                       for_waste:
                                           '${waste.elementAt(index).for_waste}');
-                                  
                                 },
-                               
                               ),
                             )
                           : Center(
@@ -272,7 +298,7 @@ class WasteBuyListPageState extends State<WasteBuyListPage> {
                               ),
                             );
                     }
-                      return Column(
+                    return Column(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
