@@ -4,8 +4,10 @@ import 'package:clean_addis_android/data/repositories/waste_repository.dart';
 import 'package:clean_addis_android/presentation/UserProfile.dart';
 import 'package:clean_addis_android/presentation/WasteBuyList.dart';
 import 'package:clean_addis_android/utils.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:location/location.dart';
@@ -34,6 +36,31 @@ class HomePageState extends State<HomePage> {
     super.initState();
     wastebloc..add(HomePageOpenedEvent());
     initializeLocationAndSave();
+    
+    //  var initialzationSettingsAndroid =
+    //     AndroidInitializationSettings('@mipmap/ic_launcher');
+    // var initializationSettings =
+    //     InitializationSettings(android: initialzationSettingsAndroid);
+
+    // flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    //   RemoteNotification notification = message.notification!;
+    //   AndroidNotification? android = message.notification?.android;
+    //   if (notification != null && android != null) {
+    //     flutterLocalNotificationsPlugin.show(
+    //         notification.hashCode,
+    //         notification.title,
+    //         notification.body,
+    //         NotificationDetails(
+    //           android: AndroidNotificationDetails(
+    //             channel.id,
+    //             channel.name,
+    //             channelDescription:channel.description,
+    //             icon: android.smallIcon,
+    //           )
+    //         ));
+    //   }
+    // });
   }
 
   void initializeLocationAndSave() async {

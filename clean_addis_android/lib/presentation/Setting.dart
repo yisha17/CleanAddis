@@ -9,7 +9,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
 
-  
+  bool checkedValue = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,12 +91,43 @@ class _SettingsPageState extends State<SettingsPage> {
             SizedBox(
               height: 10,
             ),
-            buildNotificationOptionRow("New for you", true),
+            buildNotificationOptionRow("Waste Collection Announcement", true),
             buildNotificationOptionRow("Account activity", true),
             buildNotificationOptionRow("Opportunity", false),
             SizedBox(
               height: 50,
             ),
+            Row(
+              children: [
+                Icon(
+                  Icons.diamond,
+                  color: logogreen,
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "Seminars",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                
+              ],
+
+            ),
+            Divider(
+              height: 15,
+              thickness: 2,
+            ),
+            CheckboxListTile(
+  title: Text("title text"),
+  value: checkedValue,
+  onChanged: (newValue) {
+    setState(() {
+      checkedValue = newValue!;
+    });
+  },
+  controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
+),
             Center(
               child: TextButton(
                 style: TextButton.styleFrom(

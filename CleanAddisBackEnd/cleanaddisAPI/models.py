@@ -1,5 +1,6 @@
 from re import T
 from tkinter import CASCADE
+
 from django.db import models
 from django.forms import CharField
 from django.contrib.auth.models import (
@@ -142,5 +143,15 @@ class Announcement(models.Model):
     toDate = models.DateField(max_length=20, default="",null=True)
     published = models.DateField(max_length=20, default="",null=True)
     recipient = models.ForeignKey(User, on_delete = models.DO_NOTHING )
+
+
+class Notifications(models.Model):
+    isSeen = models.BooleanField(default=False)
+    notificationtype = models.CharField(max_length=10,)
+    user = models.IntegerField()
+    point_to = models.IntegerField()
+    post_date = models.DateTimeField(auto_now_add=True)
+    
+
 
 

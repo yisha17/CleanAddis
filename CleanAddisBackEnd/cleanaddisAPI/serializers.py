@@ -2,7 +2,7 @@ from cgitb import lookup
 from dataclasses import field
 from rest_framework import serializers
 #from yaml import serialize
-from .models import Address, Announcement, Company, PublicPlace, Report, Seminar, User, Waste, WorkSchedule
+from .models import Address, Announcement, Company, Notifications, PublicPlace, Report, Seminar, User, Waste, WorkSchedule
 
 
 
@@ -123,4 +123,10 @@ class AnnouncementSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Announcement
+        fields = '__all__'
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notifications
         fields = '__all__'
