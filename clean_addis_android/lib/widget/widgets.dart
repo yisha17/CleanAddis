@@ -3521,4 +3521,429 @@ void main() {
           ),
         ),
       );
+      expect(
+        await getAncestorTopLeft(),
+        const Offset((800 - 100) / 2, (600 - 100) / 2),
+      );
+    });
+  });
 
+  testWidgets('GetDiagnosticsTree', (WidgetTester tester) async {
+    final FlutterDriverExtension driverExtension = FlutterDriverExtension((String? arg) async => '', true, true);
+
+    Future<Map<String, dynamic>> getDiagnosticsTree(DiagnosticsType type, SerializableFinder finder, { int depth = 0, bool properties = true }) async {
+      final Map<String, String> arguments = GetDiagnosticsTree(finder, type, subtreeDepth: depth, includeProperties: properties).serialize();
+      final Map<String, dynamic> response = await driverExtension.call(arguments);
+      final DiagnosticsTreeResult result = DiagnosticsTreeResult(response['response'] as Map<String, dynamic>);
+      return result.json;
+    }
+
+    await tester.pumpWidget(
+      const Directionality(
+        textDirection: TextDirection.ltr,
+        child: Center(
+            child: Text('Hello World', key: ValueKey<String>('Text'))
+        ),
+      ),
+    );
+
+    // Widget
+    Map<String, dynamic> result = await getDiagnosticsTree(DiagnosticsType.widget, ByValueKey('Text'));
+    expect(result['children'], isNull); // depth: 0
+    expect(result['widgetRuntimeType'], 'Text');
+
+    List<Map<String, dynamic>> properties = (result['properties']! as List<Object>).cast<Map<String, dynamic>>();
+    Map<String, dynamic> stringProperty = properties.singleWhere((Map<String, dynamic> property) => property['name'] == 'data');
+    expect(stringProperty['description'], '"Hello World"');
+    expect(stringProperty['propertyType'], 'String');
+
+    result = await getDiagnosticsTree(DiagnosticsType.widget, ByValueKey('Text'), properties: false);
+    expect(result['widgetRuntimeType'], 'Text');
+    expect(result['properties'], isNull); // properties: false
+
+    result = await getDiagnosticsTree(DiagnosticsType.widget, ByValueKey('Text'), depth: 1);
+    List<Map<String, dynamic>> children = (result['children']! as List<Object>).cast<Map<String, dynamic>>();
+    expect(children.single['children'], isNull);
+
+    result = await getDiagnosticsTree(DiagnosticsType.widget, ByValueKey('Text'), depth: 100);
+    children = (result['children']! as List<Object>).cast<Map<String, dynamic>>();
+    expect(children.single['children'], isEmpty);
+
+    // RenderObject
+    result = await getDiagnosticsTree(DiagnosticsType.renderObject, ByValueKey('Text'));
+    expect(result['children'], isNull); // depth: 0
+    expect(result['properties'], isNotNull);
+    expect(result['description'], startsWith('RenderParagraph'));
+
+    result = await getDiagnosticsTree(DiagnosticsType.renderObject, ByValueKey('Text'), properties: false);
+    expect(result['properties'], isNull); // properties: false
+    expect(result['description'], startsWith('RenderParagraph'));
+
+    result = await getDiagnosticsTree(DiagnosticsType.renderObject, ByValueKey('Text'), depth: 1);
+    children = (result['children']! as List<Object>).cast<Map<String, dynamic>>();
+    final Map<String, dynamic> textSpan = children.single;
+    expect(textSpan['description'], 'TextSpan');
+    properties = (textSpan['properties']! as List<Object>).cast<Map<String, dynamic>>();
+    stringProperty = properties.singleWhere((Map<String, dynamic> property) => property['name'] == 'text');
+    expect(stringProperty['description'], '"Hello World"');
+    expect(stringProperty['propertyType'], 'String');
+    expect(children.single['children'], isNull);
+
+    result = await getDiagnosticsTree(DiagnosticsType.renderObject, ByValueKey('Text'), depth: 100);
+    children = (result['children']! as List<Object>).cast<Map<String, dynamic>>();
+    expect(children.single['children'], isEmpty);
+  });
+
+  group('enableTextEntryEmulation', () {
+    late FlutterDriverExtension driverExtension;
+
+    Future<Map<String, dynamic>> enterText() async {
+      final Map<String, String> arguments = const EnterText('foo').serialize();
+      final Map<String, dynamic> result = await driverExtension.call(arguments);
+      return result;
+    }
+
+    const Widget testWidget = MaterialApp(
+      home: Material(
+        child: Center(
+          child: TextField(
+            key: ValueKey<String>('foo'),
+            autofocus: true,
+          ),
+        ),
+      ),
+    );
+
+    testWidgets('enableTextEntryEmulation false', (WidgetTester tester) async {
+      driverExtension = FlutterDriverExtension((String? arg) async => '', true, false);
+
+      await tester.pumpWidget(testWidget);
+
+      final Map<String, dynamic> enterTextResult = await enterText();
+      expect(enterTextResult['isError'], isTrue);
+    });
+
+    testWidgets('enableTextEntryEmulation true', (WidgetTester tester) async {
+      driverExtension = FlutterDriverExtension((String? arg) async => '', true, true);
+
+      await tester.pumpWidget(testWidget);
+
+      final Map<String, dynamic> enterTextResult = await enterText();
+      expect(enterTextResult['isError'], isFalse);
+    });
+  });
+
+  group('extension finders', () {
+    final Widget debugTree = Directionality(
+      textDirection: TextDirection.ltr,
+      child: Center(
+        child: Column(
+          key: const ValueKey<String>('Column'),
+          children: <Widget>[
+            const Text('Foo', key: ValueKey<String>('Text1')),
+            const Text('Bar', key: ValueKey<String>('Text2')),
+            TextButton(
+              key: const ValueKey<String>('Button'),
+              onPressed: () {},
+              child: const Text('Whatever'),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    testWidgets('unknown extension finder', (WidgetTester tester) async {
+      final FlutterDriverExtension driverExtension = FlutterDriverExtension(
+        (String? arg) async => '',
+        true,
+        true,
+        finders: <FinderExtension>[],
+      );
+
+      Future<Map<String, dynamic>> getText(SerializableFinder finder) async {
+        final Map<String, String> arguments = GetText(finder, timeout: const Duration(seconds: 1)).serialize();
+        return driverExtension.call(arguments);
+      }
+
+      await tester.pumpWidget(debugTree);
+
+      final Map<String, dynamic> result = await getText(StubFinder('Text1'));
+      expect(result['isError'], true);
+      expect(result['response'] is String, true);
+      expect(result['response'] as String?, contains('Unsupported search specification type Stub'));
+    });
+
+    testWidgets('simple extension finder', (WidgetTester tester) async {
+      final FlutterDriverExtension driverExtension = FlutterDriverExtension(
+        (String? arg) async => '',
+        true,
+        true,
+        finders: <FinderExtension>[
+          StubFinderExtension(),
+        ],
+      );
+
+      Future<GetTextResult> getText(SerializableFinder finder) async {
+        final Map<String, String> arguments = GetText(finder, timeout: const Duration(seconds: 1)).serialize();
+        final Map<String, dynamic> response = await driverExtension.call(arguments);
+        return GetTextResult.fromJson(response['response'] as Map<String, dynamic>);
+      }
+
+      await tester.pumpWidget(debugTree);
+
+      final GetTextResult result = await getText(StubFinder('Text1'));
+      expect(result.text, 'Foo');
+    });
+
+    testWidgets('complex extension finder', (WidgetTester tester) async {
+      final FlutterDriverExtension driverExtension = FlutterDriverExtension(
+        (String? arg) async => '',
+        true,
+        true,
+        finders: <FinderExtension>[
+          StubFinderExtension(),
+        ],
+      );
+
+      Future<GetTextResult> getText(SerializableFinder finder) async {
+        final Map<String, String> arguments = GetText(finder, timeout: const Duration(seconds: 1)).serialize();
+        final Map<String, dynamic> response = await driverExtension.call(arguments);
+        return GetTextResult.fromJson(response['response'] as Map<String, dynamic>);
+      }
+
+      await tester.pumpWidget(debugTree);
+
+      final GetTextResult result = await getText(Descendant(of: StubFinder('Column'), matching: StubFinder('Text1')));
+      expect(result.text, 'Foo');
+    });
+
+    testWidgets('extension finder with command', (WidgetTester tester) async {
+      final FlutterDriverExtension driverExtension = FlutterDriverExtension(
+        (String? arg) async => '',
+        true,
+        true,
+        finders: <FinderExtension>[
+          StubFinderExtension(),
+        ],
+      );
+
+      Future<Map<String, dynamic>> tap(SerializableFinder finder) async {
+        final Map<String, String> arguments = Tap(finder, timeout: const Duration(seconds: 1)).serialize();
+        return driverExtension.call(arguments);
+      }
+
+      await tester.pumpWidget(debugTree);
+
+      final Map<String, dynamic> result = await tap(StubFinder('Button'));
+      expect(result['isError'], false);
+    });
+  });
+
+  group('extension commands', () {
+    int invokes = 0;
+    void stubCallback() => invokes++;
+
+    final Widget debugTree = Directionality(
+      textDirection: TextDirection.ltr,
+      child: Center(
+        child: Column(
+          children: <Widget>[
+            TextButton(
+              key: const ValueKey<String>('Button'),
+              onPressed: stubCallback,
+              child: const Text('Whatever'),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    setUp(() {
+      invokes = 0;
+    });
+
+    testWidgets('unknown extension command', (WidgetTester tester) async {
+      final FlutterDriverExtension driverExtension = FlutterDriverExtension(
+        (String? arg) async => '',
+        true,
+        true,
+        commands: <CommandExtension>[],
+      );
+
+      Future<Map<String, dynamic>> invokeCommand(SerializableFinder finder, int times) async {
+        final Map<String, String> arguments = StubNestedCommand(finder, times).serialize();
+        return driverExtension.call(arguments);
+      }
+
+      await tester.pumpWidget(debugTree);
+
+      final Map<String, dynamic> result = await invokeCommand(ByValueKey('Button'), 10);
+      expect(result['isError'], true);
+      expect(result['response'] is String, true);
+      expect(result['response'] as String?, contains('Unsupported command kind StubNestedCommand'));
+    });
+
+    testWidgets('nested command', (WidgetTester tester) async {
+      final FlutterDriverExtension driverExtension = FlutterDriverExtension(
+        (String? arg) async => '',
+        true,
+        true,
+        commands: <CommandExtension>[
+          StubNestedCommandExtension(),
+        ],
+      );
+
+      Future<StubCommandResult> invokeCommand(SerializableFinder finder, int times) async {
+        await driverExtension.call(const SetFrameSync(false).serialize()); // disable frame sync for test to avoid lock
+        final Map<String, String> arguments = StubNestedCommand(finder, times, timeout: const Duration(seconds: 1)).serialize();
+        final Map<String, dynamic> response = await driverExtension.call(arguments);
+        final Map<String, dynamic> commandResponse = response['response'] as Map<String, dynamic>;
+        return StubCommandResult(commandResponse['resultParam'] as String);
+      }
+
+      await tester.pumpWidget(debugTree);
+
+      const int times = 10;
+      final StubCommandResult result = await invokeCommand(ByValueKey('Button'), times);
+      expect(result.resultParam, 'stub response');
+      expect(invokes, times);
+    });
+
+    testWidgets('prober command', (WidgetTester tester) async {
+      final FlutterDriverExtension driverExtension = FlutterDriverExtension(
+        (String? arg) async => '',
+        true,
+        true,
+        commands: <CommandExtension>[
+          StubProberCommandExtension(),
+        ],
+      );
+
+      Future<StubCommandResult> invokeCommand(SerializableFinder finder, int times) async {
+        await driverExtension.call(const SetFrameSync(false).serialize()); // disable frame sync for test to avoid lock
+        final Map<String, String> arguments = StubProberCommand(finder, times, timeout: const Duration(seconds: 1)).serialize();
+        final Map<String, dynamic> response = await driverExtension.call(arguments);
+        final Map<String, dynamic> commandResponse = response['response'] as Map<String, dynamic>;
+        return StubCommandResult(commandResponse['resultParam'] as String);
+      }
+
+      await tester.pumpWidget(debugTree);
+
+      const int times = 10;
+      final StubCommandResult result = await invokeCommand(ByValueKey('Button'), times);
+      expect(result.resultParam, 'stub response');
+      expect(invokes, times);
+    });
+  });
+
+  group('waitForTappable', () {
+    late FlutterDriverExtension driverExtension;
+
+    Future<Map<String, dynamic>> waitForTappable() async {
+      final SerializableFinder finder = ByValueKey('widgetOne');
+      final Map<String, String> arguments = WaitForTappable(finder).serialize();
+      final Map<String, dynamic> result = await driverExtension.call(arguments);
+      return result;
+    }
+
+    final Widget testWidget = MaterialApp(
+      home: Material(
+        child: Column(children: const<Widget> [
+          Text('Hello ', key: Key('widgetOne')),
+          SizedBox(
+            height: 0,
+            width: 0,
+            child: Text('World!', key: Key('widgetTwo')),
+          ),
+        ]),
+      ),
+    );
+
+    testWidgets('returns true when widget is tappable', (
+        WidgetTester tester) async {
+      driverExtension = FlutterDriverExtension((String? arg) async => '', true, false);
+
+      await tester.pumpWidget(testWidget);
+
+      final Map<String, dynamic> waitForTappableResult = await waitForTappable();
+      expect(waitForTappableResult['isError'], isFalse);
+    });
+  });
+
+  group('waitUntilFrameSync', () {
+    late FlutterDriverExtension driverExtension;
+    Map<String, dynamic>? result;
+
+    setUp(() {
+      driverExtension = FlutterDriverExtension((String? arg) async => '', true, true);
+      result = null;
+    });
+
+    testWidgets('returns immediately when frame is synced', (
+        WidgetTester tester) async {
+      driverExtension.call(const WaitForCondition(NoPendingFrame()).serialize())
+          .then<void>(expectAsync1((Map<String, dynamic> r) {
+        result = r;
+      }));
+
+      await tester.idle();
+      expect(
+        result,
+        <String, dynamic>{
+          'isError': false,
+          'response': <String, dynamic>{},
+        },
+      );
+    });
+
+    testWidgets(
+        'waits until no transient callbacks', (WidgetTester tester) async {
+      SchedulerBinding.instance.scheduleFrameCallback((_) {
+        // Intentionally blank. We only care about existence of a callback.
+      });
+
+      driverExtension.call(const WaitForCondition(NoPendingFrame()).serialize())
+          .then<void>(expectAsync1((Map<String, dynamic> r) {
+        result = r;
+      }));
+
+      // Nothing should happen until the next frame.
+      await tester.idle();
+      expect(result, isNull);
+
+      // NOW we should receive the result.
+      await tester.pump();
+      expect(
+        result,
+        <String, dynamic>{
+          'isError': false,
+          'response': <String, dynamic>{},
+        },
+      );
+    });
+
+    testWidgets(
+        'waits until no pending scheduled frame', (WidgetTester tester) async {
+      SchedulerBinding.instance.scheduleFrame();
+
+      driverExtension.call(const WaitForCondition(NoPendingFrame()).serialize())
+          .then<void>(expectAsync1((Map<String, dynamic> r) {
+        result = r;
+      }));
+
+      // Nothing should happen until the next frame.
+      await tester.idle();
+      expect(result, isNull);
+
+      // NOW we should receive the result.
+      await tester.pump();
+      expect(
+        result,
+        <String, dynamic>{
+          'isError': false,
+          'response': <String, dynamic>{},
+        },
+      );
+    });
+  });
+}
