@@ -18,10 +18,9 @@ const Navbar = () => {
           <div className="pr-8 md:block hidden font- ">
             <Link className="p-4 hover:bg-green-500 rounded-full transition duration-300 ease-in-out" to="/">Home</Link>
             <Link className="p-4 hover:bg-green-500 rounded-full transition duration-300 ease-in-out" to="/Services">Services</Link>
-            <Link className="p-4 hover:bg-green-500 rounded-full transition duration-300 ease-in-out" to="/Companies">Companies</Link>
             <Link className="p-4 hover:bg-green-500 rounded-full transition duration-300 ease-in-out" to="/Recycler">Recycler</Link>
-            <Link className="p-4   border-green-500 rounded-full hover:bg-green-300 transition duration-300 ease-in-out" to="/Login">Login</Link>
-            <Link className="p-4 border-4 border-green-500 rounded-full hover:bg-green-500 " to="/">Register</Link>
+            <Link className="p-4 hover:bg-green-500 rounded-full transition duration-300 ease-in-out" to="/Contactus">Contact Us</Link>
+            <Link className="p-4 border-4 border-green-500 rounded-full hover:bg-green-500 " to="/login">Login</Link>
           </div>
     </nav>
   );
