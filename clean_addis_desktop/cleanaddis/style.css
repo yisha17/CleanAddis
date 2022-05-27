@@ -27,7 +27,7 @@ body{
 	height: 100%;
 	left: 0;
 	top: 0;
-	background: url("img/bg.jpg") no-repeat center;
+	background: url("src/assets/images/ca8_prev_ui.png") no-repeat center;
 	background-size: cover;
 	filter: blur(50px);
 	z-index: -1;
@@ -111,3 +111,11 @@ textarea{
     background-color: #fff;
 }
 
+@media screen and (max-width: 880px){
+	.contact-box{
+		grid-template-columns: 1fr;
+	}
+	.left{
+		height: 200px;
+	}
+}
