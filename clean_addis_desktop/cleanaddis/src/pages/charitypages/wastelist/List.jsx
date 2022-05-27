@@ -6,9 +6,9 @@ import Wdatatable from "../../../components/usercomponents/wdatatable/Datatable"
 const Uwlist = () => {
   return (
     <div className="list flex">
-    <UserSidebar />
+    <CharitySidebar />
     <div className="listContainer pt-3 pl-3">
-      <UserNavbar className="pt-3 " />
+      <CharityNavbar className="pt-3 " />
       <Wdatatable />
     </div>
     </div>

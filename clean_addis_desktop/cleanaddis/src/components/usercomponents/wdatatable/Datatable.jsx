@@ -20,8 +20,6 @@ const Wdatatable = () => {
           <Link to ="/itadmin/waste" onClick={() => setSingle(true)}>
            <div className="viewButton border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">View</div> 
            </Link>
-           
-
            <div className="deleteButton border rounded border-slate-300 p-1 hover:bg-red-600 cursor-pointer ">Delete</div>
          </div>
      )   
