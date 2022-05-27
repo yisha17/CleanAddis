@@ -1,12 +1,13 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-
+import LoginForm from './LoginForm'
 const Login = () => {
-  return ( 
-    <>
+  return (
+    <div className="justify center items-center">
     <Navbar />
-    <div>this is it</div>
-  </>
+    <div className="justify-center items-center"><LoginForm /></div>
+    </div> 
+  
   )
 }
 

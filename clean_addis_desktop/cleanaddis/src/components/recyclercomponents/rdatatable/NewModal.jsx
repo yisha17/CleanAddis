@@ -1,7 +1,7 @@
 import React from 'react'
 import Rsingle from '../../../pages/adminpages/rsinglepage/Single';
 import { Link } from 'react'
-import New from '../../../components/usercomponents/udatatable/New'
+import New from '../../../components/recyclercomponents/rdatatable/New'
 
 const Newmodal = ({visible, onClose}) => {
 
