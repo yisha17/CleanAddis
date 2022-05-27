@@ -31,6 +31,8 @@ import {announcementInputs, reportuserInputs} from "../src/formsource"
 import Uhome from '../src/pages/userpages/uhome/Uhome'
 import Rhome from '../src/pages/recyclerpages/rhome/Rhome'
 import Chome from '../src/pages/charitypages/chome/Chome'
+import Form from '../src/pages/Form'
+
 
 ReactDOM.render(
     <React.StrictMode>
@@ -41,6 +43,7 @@ ReactDOM.render(
           <Route path="Services" element = {<Services />}/>
           <Route path="Companies" element = {<Companies/>}/>
           <Route path="Recycler" element = {<Recycler />}/>
+          <Route path="register" element = {<Form />}/>
           <Route path="cityadmin">
             <Route index element={<Home />}/>   
             <Route path="new" element={<New inputs = {announcementInputs} title="Add new Announcement"/>}/>
