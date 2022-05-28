@@ -1,6 +1,7 @@
 import 'package:clean_addis_android/bloc/Waste/user_waste_bloc.dart';
 import 'package:clean_addis_android/data/data_providers/waste_data.dart';
 import 'package:clean_addis_android/data/repositories/waste_repository.dart';
+import 'package:clean_addis_android/helpers/firebase_handler.dart';
 import 'package:clean_addis_android/presentation/UserProfile.dart';
 import 'package:clean_addis_android/presentation/WasteBuyList.dart';
 import 'package:clean_addis_android/utils.dart';
@@ -31,12 +32,15 @@ class HomePageState extends State<HomePage> {
       UserWasteBloc(WasteRepository(dataProvider: WasteDataProvider()));
    final waste_buybloc =
       AddWasteBloc(WasteRepository(dataProvider: WasteDataProvider()));
+
+   FirebaseNotifications firebaseNotifications = new FirebaseNotifications();
+  
   @override
   void initState() {
     super.initState();
     wastebloc..add(HomePageOpenedEvent());
     initializeLocationAndSave();
-    
+    firebaseNotifications.setupFirebase(context);
     //  var initialzationSettingsAndroid =
     //     AndroidInitializationSettings('@mipmap/ic_launcher');
     // var initializationSettings =

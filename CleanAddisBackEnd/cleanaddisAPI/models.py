@@ -32,6 +32,13 @@ def upload_to(instance, filename):
 
 class User(AbstractUser):
 
+    ROLE = [
+        ('Qorale','Qorale'),
+        ('Garbage Collector', 'Garbage Collector'),
+        ('City Admin','City Admin'),
+        ('Resident','Resident')
+    ]
+
     username = models.CharField(max_length=20,unique=True, default="")
     email = models.EmailField(max_length=30,default="")
     role = models.CharField(max_length=20, default="Resident", null = True)
@@ -41,6 +48,7 @@ class User(AbstractUser):
     
     class Meta(AbstractUser.Meta):
        swappable = 'AUTH_USER_MODEL'
+
 
 
 
