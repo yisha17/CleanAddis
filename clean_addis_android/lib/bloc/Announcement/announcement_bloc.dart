@@ -7,7 +7,7 @@ part 'announcement_state.dart';
 class AnnouncementBloc extends Bloc<AnnouncementEvent, AnnouncementState> {
   AnnouncementBloc() : super(AnnouncementInitial()) {
     on<AnnouncementEvent>((event, emit) {
-      // TODO: implement event handler
+    
     });
   }
 }

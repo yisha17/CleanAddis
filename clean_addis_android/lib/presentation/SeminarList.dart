@@ -1,5 +1,4 @@
 import 'package:clean_addis_android/presentation/Seminar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../utils.dart';

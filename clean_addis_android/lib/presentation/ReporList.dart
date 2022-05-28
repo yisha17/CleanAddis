@@ -16,22 +16,38 @@ class ReportListPage extends StatefulWidget {
 }
 
 class _ReportListPageState extends State<ReportListPage> {
- 
-  final reportBloc = ReportBloc(ReportRepository(dataProvider: ReportDataProvider()));
+  final reportBloc =
+      ReportBloc(ReportRepository(dataProvider: ReportDataProvider()));
 
+  @override
+  void initState() {
+    reportBloc..add(ReportListEvent());
+    super.initState();
+  }
 
-   @override
-   void initState(){
-     reportBloc..add(ReportListEvent());
-     super.initState();
-   }
+  Widget createListTile(
+      {required int? id,
+      required String? image,
+      required String? raw_date,
+      required String? title,
+      String? description,
+      required String? latitude,
+      required String? longitude,
+      required bool isResolved}) {
+    var post_date = DateFormatter.changetoMD(raw_date!);
 
-
-  Widget createListTile() {
     return InkWell(
-      onTap:() {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => ReportDetailPage()));
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ReportDetailPage(
+                id: id,
+                image: image,
+                post_date: post_date,
+                title: title,
+                description: description,
+                latitude: latitude,
+                longitude: longitude,
+                isResolved: isResolved)));
       },
       child: Container(
         height: 100,
@@ -43,81 +59,105 @@ class _ReportListPageState extends State<ReportListPage> {
               Expanded(
                 flex: 33,
                 child: Image.network(
-                  'https://picsum.photos/250?image=9',
+                  image!,
+                  fit: BoxFit.cover,
                 ),
               ),
               Expanded(
                 flex: 66,
                 child: Column(
                   children: [
-                   Expanded(
+                    Expanded(
                       flex: 25,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Broken Pipe',
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 22,
-                              fontWeight: FontWeight.w500,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 7),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              title!,
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w900,
+                              ),
                             ),
-                          ),
-                          Row(
-                            children: [
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.edit, color: Colors.blue),
-                              ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.delete, color: Colors.red),
-                              ),
-                            ],
-                          )
-                          
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     Expanded(
                         flex: 25,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(Icons.date_range),
-                            Text('Reported on May 12, 2022',style:TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                            )),
-                          ],
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 7),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.date_range),
+                              Text('Reported on $post_date',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                  )),
+                            ],
+                          ),
                         )),
                     Expanded(
-                      flex: 25,
-                      child: Row(
-                        children: [
-                          
-                          Container(
-                            color:Colors.green,
-                            child: Text(
-                              'Resolved',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500, 
-                              ),
+                      flex: 35,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 7),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            isResolved
+                                ? Container(
+                                    color: Colors.green,
+                                    child: Text(
+                                      'Resolved',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  )
+                                : Container(
+                                    color: Colors.red,
+                                    child: Text(
+                                      'Unresolved',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                            TextButton(
+                              onPressed: () {},
+                              child: Text.rich(TextSpan(children: [
+                                WidgetSpan(
+                                  child: Icon(
+                                    Icons.location_on,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: 'View Location',
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                  ),
+                                )
+                              ])),
                             ),
-                          ),
-                          SizedBox(
-                            width:50,
-                          ),
-    
-                          Icon(Icons.location_on,color: Colors.red,),
-                          TextButton(
-                            onPressed: (){},
-                            child: Text(
-                              'view location'
-                            ))
-                          
-                        ],
+                            //   SizedBox(
+                            //     width: 50,
+                            //   ),
+                            //   Icon(
+                            //     Icons.location_on,
+                            //     color: Colors.red,
+                            //   ),
+                            //   TextButton(
+                            //       onPressed: () {}, child: Text('view location'))
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -134,7 +174,7 @@ class _ReportListPageState extends State<ReportListPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-            ReportBloc(ReportRepository(dataProvider: ReportDataProvider())),
+          ReportBloc(ReportRepository(dataProvider: ReportDataProvider())),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: lightgreen,
@@ -156,62 +196,52 @@ class _ReportListPageState extends State<ReportListPage> {
         ),
         backgroundColor: lightgreen,
         body: BlocBuilder(
-          bloc:reportBloc,
-           builder: (context,state) {
-                  if (state is ReportLoadingState) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [Center(child: CircularProgressIndicator())],
+            bloc: reportBloc,
+            builder: (context, state) {
+              if (state is ReportLoadingState) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [Center(child: CircularProgressIndicator())],
+                );
+              }
+
+              if (state is ReportListState) {
+                final reportList = state.reportList;
+                return reportList.isEmpty
+                    ? Center(child: Text('you dont have any Report yet'))
+                    : ListView.builder(
+                        itemCount: reportList.length,
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (context, index) {
+                          return createListTile(
+                            id: reportList.elementAt(index).id,
+                            image: '${reportList.elementAt(index).image}',
+                            raw_date:
+                                '${reportList.elementAt(index).post_date}',
+                            title: '${reportList.elementAt(index).title}',
+                            description:
+                                '${reportList.elementAt(index).description}',
+                            latitude: '${reportList.elementAt(index).latitude}',
+                            longitude:
+                                '${reportList.elementAt(index).longitude}',
+                            isResolved: reportList.elementAt(index).isResolved!,
+                          );
+                        },
                       );
-                  }
+              }
 
-                  if(state is ReportListState){
-                    final reportList = state.reportList;
-                    return reportList.isEmpty ?
-
-                     Center(
-                      child: Text('you dont have any Report yet')
-                    ):
-
-                     ListView.builder(
-                      itemCount: reportList.length,
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (context,index){
-                        return createListTile();
-                      },
-                     
-                                       );
-                    
-
-                  }
-
-                  return Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [Center(child: CircularProgressIndicator())],
-                        )
-                      );
-                  
-           }
-          // child: ListView(
-          //   children: [
-          //     createListTile(),
-          //     createListTile(),
-          //     createListTile(),
-          //     createListTile(),
-          //     createListTile(),
-          //     createListTile(),
-          //     createListTile(),
-          //   ],
-          // ),
-        ),
+              return Expanded(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [Center(child: CircularProgressIndicator())],
+              ));
+            }),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => 
-                ReportPage()));
+                .push(MaterialPageRoute(builder: (context) => ReportPage()));
           },
           child: Icon(Icons.add),
           backgroundColor: Colors.red,
