@@ -4,20 +4,21 @@ const API_URL = "http://localhost:8000/api"
 
 const login = (username, password) => {
     return axios
-    .post(API_URL + "/auth/",{
+    .post(API_URL + `/auth`,{
         username,
-        password
+        password,
+        
+        
     })
     .then((response) => {
         if(response.data.access){
             localStorage.setItem("user",JSON.stringify(response.data));
             console.log("there is a response")
             console.log(response.data)
+           
         }
         else{
-            console.log("the is no response")
-            
-            
+            console.log("the is no response")        
         }
         
     });
