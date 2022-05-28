@@ -12,11 +12,12 @@ function LoginForm({ Login, error }) {
 
 
   const navigate  = useNavigate();
+  const id = 1234;
 
   const HandleLogin = async (e) =>{
       e.preventDefault();
       try{
-          await AuthService.login(username,password).then(
+          await AuthService.login(username,password,id).then(
               (response)=>{
                   navigate("/itadmin");
                   window.location.reload();
