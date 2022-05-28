@@ -14,7 +14,7 @@ class Notification {
       this.point_to,
       this.isSeen});
 
-  factory Notification.fromJson(Map<String, dynamic> jsonMap) {
+  factory Notification.fromJSON(Map<String, dynamic> jsonMap) {
     final notification = Notification(
       id: jsonMap['id'],
       user: jsonMap['user'],
