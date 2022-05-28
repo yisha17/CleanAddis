@@ -4,6 +4,7 @@ import 'package:clean_addis_android/bloc/Waste/user_waste_bloc.dart';
 import 'package:clean_addis_android/data/data_providers/user_data.dart';
 import 'package:clean_addis_android/data/data_providers/waste_data.dart';
 import 'package:clean_addis_android/data/repositories/waste_repository.dart';
+import 'package:clean_addis_android/helpers/firebase_handler.dart';
 import 'package:clean_addis_android/presentation/Login.dart';
 import 'package:clean_addis_android/presentation/Setting.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -32,13 +33,14 @@ late SharedPreferences sharedPreferences;
 //   importance: Importance.high,
 // );
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+
+  
 void main() async {
   
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await Firebase.initializeApp();
+ 
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   // await flutterLocalNotificationsPlugin
   //     .resolvePlatformSpecificImplementation<
   //         AndroidFlutterLocalNotificationsPlugin>()
@@ -81,4 +83,10 @@ class MyApp extends StatelessWidget {
     );
 
   }
+}
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  dynamic data = message.data['data'];
+  FirebaseNotifications.showNotification(data['title'], data['body']);
 }
