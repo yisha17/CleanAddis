@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "91525154925",
+    "project_id": "cleanaddis-b7388",
+    "storage_bucket": "cleanaddis-b7388.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91525154925:android:2b82597b59872fe2105764",
+        "android_client_info": {
+          "package_name": "com.example.clean_addis_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "91525154925-v5p72954a2ji27df6v4uuqbbuib9oebt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD82BRuZoUCIAWodFHsenedgIoAfVkna2w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "91525154925-v5p72954a2ji27df6v4uuqbbuib9oebt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "91525154925-65ja42qood04f7fnf46um89pnpkm5ied.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cleanAddisAndroid"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
