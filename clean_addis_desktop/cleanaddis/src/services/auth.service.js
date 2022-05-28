@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = " http://localhost:8010/proxy"
+const API_URL = "http://localhost:8000/api"
 //lcp --proxyURL 
 
 const login = (username, password) => {
