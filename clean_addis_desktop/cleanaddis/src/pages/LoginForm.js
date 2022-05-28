@@ -3,7 +3,9 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import AuthService from '../services/auth.service';
+import getService from '../services/get.service';
 import "./login.css"
+import { isExpired, decodeToken } from "react-jwt";
 
 
 function LoginForm({ Login, error }) {
@@ -12,26 +14,42 @@ function LoginForm({ Login, error }) {
 
 
   const navigate  = useNavigate();
-  const id = 1234;
+  
+  let token = "";
+  var id = 0;
+  var userdetail = []
 
   const HandleLogin = async (e) =>{
       e.preventDefault();
       try{
-          await AuthService.login(username,password,id).then(
+          await AuthService.login(username,password).then(
               (response)=>{
-                  navigate("/itadmin");
-                  window.location.reload();
+                token = `"${response}"`
+                const decodedToken = decodeToken(token)
+                id = decodedToken.user_id  
               },
               (error) => {
                 
                   console.log(error);
               }
           );
+          await getService.getUserRole(id).then(
+            (response)=>{
+              console.log(response.data.is_superuser)
+              if ((response.data.is_superuser) == true){
+                    navigate("/itadmin")
+              }
+              
+            }
+          );
+        
         }catch(err){
           console.log("success")
             console.log(err);
         }
     };
+  
+  
  
 
 
