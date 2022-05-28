@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 class NotificationDataProvider{
 
 
-  Future<List<Notification>?> getNotification(String id,String token) async{
+  Future<List<Notifications>?> getNotification(String id,String token) async{
 
     final response = await http.get(Uri.http(base_url,'api/announcement/$id'),
     headers: {
@@ -16,7 +16,7 @@ class NotificationDataProvider{
     });
   if (response.statusCode == 200) {
     final notification = jsonDecode(response.body) as List;
-    List<Notification>? noteList = notification.map((e) => Notification.fromJSON(e)).toList();
+    List<Notifications>? noteList = notification.map((e) => Notifications.fromJSON(e)).toList();
     return noteList;
   }else{
     throw Exception('errror');

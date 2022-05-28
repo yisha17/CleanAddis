@@ -9,7 +9,7 @@ class NotificationsInitial extends NotificationsState {
 }
 
 class NotificationLoaded extends NotificationsState {
-  final Notification notification;
+  final Notifications notification;
   NotificationLoaded({required this.notification});
    @override
   List<Object?> get props => [notification];

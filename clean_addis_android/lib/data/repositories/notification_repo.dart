@@ -5,7 +5,7 @@ import 'package:clean_addis_android/data/models/notification.dart';
 class NotificationRepo {
   NotificationDataProvider dataProvider;
   NotificationRepo({required this.dataProvider});
-  Future<List<Notification>?> getNotification(String id, String token) async {
+  Future<List<Notifications>?> getNotification(String id, String token) async {
     return this.dataProvider.getNotification(id, token);
   }
 }
