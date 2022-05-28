@@ -78,11 +78,14 @@ class HomePageState extends State<HomePage> {
       permissionGranted = await _location.requestPermission();
     }
 
+
+    //capture user current location data
     LocationData locationData = await _location.getLocation();
 
     LatLng currentLatLng =
         LatLng(locationData.latitude!, locationData.longitude!);
 
+    //store user location in sharedpreferences
     sharedPreferences.setDouble('latitude', locationData.latitude!);
     sharedPreferences.setDouble('longitude', locationData.longitude!);
   }
