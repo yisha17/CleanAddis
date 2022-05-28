@@ -8,12 +8,19 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+
+  bool checkedValue = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        elevation: 1,
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          "Settings",
+          style: TextStyle(color:Colors.black, fontSize: 25, fontWeight: FontWeight.w500),
+        ),
         leading: IconButton(
           onPressed: () {
             Navigator.of(context).pop();
@@ -28,10 +35,7 @@ class _SettingsPageState extends State<SettingsPage> {
         padding: EdgeInsets.only(left: 16, top: 25, right: 16),
         child: ListView(
           children: [
-            Text(
-              "Settings",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-            ),
+           
             SizedBox(
               height: 40,
             ),
@@ -87,12 +91,43 @@ class _SettingsPageState extends State<SettingsPage> {
             SizedBox(
               height: 10,
             ),
-            buildNotificationOptionRow("New for you", true),
+            buildNotificationOptionRow("Waste Collection Announcement", true),
             buildNotificationOptionRow("Account activity", true),
             buildNotificationOptionRow("Opportunity", false),
             SizedBox(
               height: 50,
             ),
+            Row(
+              children: [
+                Icon(
+                  Icons.diamond,
+                  color: logogreen,
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "Seminars",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                
+              ],
+
+            ),
+            Divider(
+              height: 15,
+              thickness: 2,
+            ),
+            CheckboxListTile(
+  title: Text("title text"),
+  value: checkedValue,
+  onChanged: (newValue) {
+    setState(() {
+      checkedValue = newValue!;
+    });
+  },
+  controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
+),
             Center(
               child: TextButton(
                 style: TextButton.styleFrom(
@@ -151,7 +186,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ],
                 ),
                 actions: [
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },

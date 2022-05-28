@@ -1,15 +1,10 @@
 part of 'waste_bloc.dart';
 
 
-class WasteState extends Equatable{
-  final Waste? waste;
-  WasteState({this.waste});
-
-   @override
-  List<Object?> get props => throw UnimplementedError();
+abstract class WasteState extends Equatable{
 }
 
-class WasteLoadingState extends WasteState {
+class WasteLoading extends WasteState {
   @override
   List<Object?> get props => [];
 }
@@ -39,5 +34,12 @@ class WasteUpdatedState extends WasteState{
 class WasteDeletedState extends WasteState{
    @override
   List<Object?> get props => [];
+}
+
+class WasteListLoaded extends WasteState {
+  final List<Waste> waste;
+  WasteListLoaded([this.waste = const []]);
+  @override
+  List<Object?> get props => [waste];
 }
 

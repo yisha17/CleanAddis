@@ -17,8 +17,10 @@ from .serializers import *
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.parsers import MultiPartParser, FormParser
-
-
+from geopy.distance import geodesic
+from math import sin, cos, sqrt, atan2, radians
+from firebase_admin.messaging import Message,Notification
+from fcm_django.models import FCMDevice
 
 
 class RegisterView(generics.GenericAPIView):
@@ -35,12 +37,12 @@ class RegisterView(generics.GenericAPIView):
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 user_signup_view = RegisterView.as_view()
 
 
-
 class UserListView(generics.ListAPIView):
-    
+
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -57,10 +59,26 @@ class UserDeleteView(generics.DestroyAPIView):
     serilaizer_class = UserSerializer
 
 
-class UserUpdateView(generics.DestroyAPIView):
-    authentication_classes = [authentication.TokenAuthentication]
+class UserUpdateView(generics.UpdateAPIView):
+    permission_classes = [AllowAny]
     queryset = User.objects.all()
-    serilaizer_class = UserSerializer
+    serializer_class = UpdateSerializer
+    parser_classes = (MultiPartParser, FormParser)
+    lookup_field = 'pk'
+    # def update(self, request,*args, **kwargs):
+    #     serializer = self.serializer_class(request.user, data=request.data, partial=True)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+    # def partial_update(self, request,):
+    #     serializer = self.serializer_class(
+    #         request.user, data=request.data, partial=True)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
+user_update_view = UserUpdateView.as_view()
 
 
 class UserView(APIView):
@@ -83,7 +101,6 @@ class UserView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
 class UserDetail(APIView):
 
     def get_object(self, id):
@@ -98,7 +115,17 @@ class UserDetail(APIView):
 
         serializer = UserSerializer(user)
 
-        return Response(serializer.data)
+        report = Report.objects.filter(reportedBy=id).count()
+        sell = Waste.objects.filter(for_waste='Sell', seller=id).count()
+        donate = Waste.objects.filter(for_waste='Donation', seller=id).count()
+        print(sell)
+        print(donate)
+        new_dict = {
+            "report_count": report,
+            "donation_count": donate,
+            "sell_count": sell}
+        new_dict.update(serializer.data)
+        return Response(new_dict)
 
     def put(self, request, id):
 
@@ -172,27 +199,26 @@ class CompanyAPIView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
-
 class ReportCreateAPIView(generics.CreateAPIView):
-    
-    
+
     query = Report.objects.all()
     parser_classes = (MultiPartParser, FormParser)
     serializer_class = ReportSerializer
 
-   
     def perform_create(self, serializer):
         return super().perform_create(serializer)
 
+
 report_create_view = ReportCreateAPIView.as_view()
+
 
 class ReportDetailAPIView(generics.RetrieveAPIView):
 
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
     lookup_field = 'pk'
+
+
 report_detail_view = ReportDetailAPIView().as_view()
 
 
@@ -202,7 +228,9 @@ class ReportUpdateAPIView(generics.UpdateAPIView):
     serializer_class = ReportSerializer
     lookup_field = 'pk'
 
+
 report_update_view = ReportUpdateAPIView.as_view()
+
 
 class ReportDeleteAPIView(generics.DestroyAPIView):
 
@@ -213,6 +241,7 @@ class ReportDeleteAPIView(generics.DestroyAPIView):
 
 report_delete_view = ReportDeleteAPIView.as_view()
 
+
 class ReportAPIView(generics.ListAPIView):
     queryset = Report.objects.all()
     serializer_class = ReporterSerializer
@@ -220,9 +249,19 @@ class ReportAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         return super().get_queryset().filter(
-            reportedBy = self.kwargs['reportedBy'])
-            
+            reportedBy=self.kwargs['reportedBy'])
+
+
 report_list_view = ReportAPIView.as_view()
+
+
+class ReportAllAPIView(generics.ListAPIView):
+    queryset = Report.objects.all()
+    serializer_class = ReporterSerializer
+
+
+all_report_list_view = ReportAPIView.as_view()
+
 
 class PublicPlaceCreateAPIView(generics.CreateAPIView):
 
@@ -233,13 +272,17 @@ class PublicPlaceCreateAPIView(generics.CreateAPIView):
     def perform_create(self, serializer):
         return super().perform_create(serializer)
 
+
 publicplace_create_view = PublicPlaceCreateAPIView.as_view()
+
 
 class PublicPlaceDetailAPIView(generics.RetrieveAPIView):
 
     queryset = PublicPlace.objects.all()
     serializer_class = PublicPlaceSerializer
     lookup_field = 'pk'
+
+
 publicplace_detail_view = PublicPlaceDetailAPIView().as_view()
 
 
@@ -249,7 +292,9 @@ class PublicPlaceUpdateAPIView(generics.UpdateAPIView):
     serializer_class = PublicPlaceSerializer
     lookup_field = 'pk'
 
+
 publicplace_update_view = PublicPlaceUpdateAPIView.as_view()
+
 
 class PublicPlaceDeleteAPIView(generics.DestroyAPIView):
 
@@ -260,6 +305,19 @@ class PublicPlaceDeleteAPIView(generics.DestroyAPIView):
 
 publicplace_delete_view = PublicPlaceDeleteAPIView.as_view()
 
+
+class PublicPlaceList(generics.ListAPIView):
+    queryset = PublicPlace.objects.all()
+    serializer_class = PublicPlaceSerializer
+
+    # def get_queryset(self):
+    #     return super().get_queryset().filter(
+    #         placeType=self.kwargs['placeType'])
+
+
+publicplace_list_view = PublicPlaceList.as_view()
+
+
 class SeminarCreateAPIView(generics.CreateAPIView):
 
     query = Seminar.objects.all()
@@ -269,13 +327,17 @@ class SeminarCreateAPIView(generics.CreateAPIView):
     def perform_create(self, serializer):
         return super().perform_create(serializer)
 
+
 seminar_create_view = SeminarCreateAPIView.as_view()
+
 
 class SeminarDetailAPIView(generics.RetrieveAPIView):
 
     queryset = Seminar.objects.all()
     serializer_class = SeminarSerializer
     lookup_field = 'pk'
+
+
 seminar_detail_view = SeminarDetailAPIView().as_view()
 
 
@@ -285,7 +347,9 @@ class SeminarUpdateAPIView(generics.UpdateAPIView):
     serializer_class = SeminarSerializer
     lookup_field = 'pk'
 
+
 seminar_update_view = SeminarUpdateAPIView.as_view()
+
 
 class SeminarDeleteAPIView(generics.DestroyAPIView):
 
@@ -296,6 +360,7 @@ class SeminarDeleteAPIView(generics.DestroyAPIView):
 
 seminar_delete_view = SeminarDeleteAPIView.as_view()
 
+
 class WorkScheduleCreateAPIView(generics.CreateAPIView):
 
     query = WorkSchedule.objects.all()
@@ -305,13 +370,17 @@ class WorkScheduleCreateAPIView(generics.CreateAPIView):
     def perform_create(self, serializer):
         return super().perform_create(serializer)
 
+
 workschedule_create_view = WorkScheduleCreateAPIView.as_view()
+
 
 class WorkScheduleDetailAPIView(generics.RetrieveAPIView):
 
     queryset = WorkSchedule.objects.all()
     serializer_class = WorkScheduleSerializer
     lookup_field = 'pk'
+
+
 workschedule_detail_view = WorkScheduleDetailAPIView().as_view()
 
 
@@ -321,7 +390,9 @@ class WorkScheduleUpdateAPIView(generics.UpdateAPIView):
     serializer_class = WorkScheduleSerializer
     lookup_field = 'pk'
 
+
 workschedule_update_view = WorkScheduleUpdateAPIView.as_view()
+
 
 class WorkScheduleDeleteAPIView(generics.DestroyAPIView):
 
@@ -332,6 +403,7 @@ class WorkScheduleDeleteAPIView(generics.DestroyAPIView):
 
 workschedule_delete_view = WorkScheduleDeleteAPIView.as_view()
 
+
 class AnnouncementCreateAPIView(generics.CreateAPIView):
 
     query = Announcement.objects.all()
@@ -339,15 +411,29 @@ class AnnouncementCreateAPIView(generics.CreateAPIView):
     serializer_class = AnnouncementSerializer
 
     def perform_create(self, serializer):
+        title = self.request.data['notificationTitle']
+        description = self.request.data['notificationDescription']
+        devices = FCMDevice.objects.all()
+
+        devices.send_message(Message(
+            notification=Notification(title=title, body=description), data={
+            "title":title,
+            "description":description
+        }))
+        print(title)
         return super().perform_create(serializer)
 
+
 announcement_create_view = AnnouncementCreateAPIView.as_view()
+
 
 class AnnouncementDetailAPIView(generics.RetrieveAPIView):
 
     queryset = Announcement.objects.all()
     serializer_class = AnnouncementSerializer
     lookup_field = 'pk'
+
+
 announcement_detail_view = AnnouncementDetailAPIView().as_view()
 
 
@@ -357,7 +443,9 @@ class AnnouncementUpdateAPIView(generics.UpdateAPIView):
     serializer_class = AnnouncementSerializer
     lookup_field = 'pk'
 
+
 announcement_update_view = AnnouncementUpdateAPIView.as_view()
+
 
 class AnnouncementDeleteAPIView(generics.DestroyAPIView):
 
@@ -368,14 +456,15 @@ class AnnouncementDeleteAPIView(generics.DestroyAPIView):
 
 announcement_delete_view = AnnouncementDeleteAPIView.as_view()
 
+
 class SellerAPIView(generics.ListAPIView):
-    
+
     permission_classes = (permissions.IsAuthenticated,)
     queryset = Waste.objects.all()
     serializer_class = SellerSerializer
     lookup_field = 'seller'
 
-    def get_queryset(self,type= 'Plastic'):
+    def get_queryset(self, type='Plastic'):
         lists = super().get_queryset().filter(
             seller=self.kwargs['seller']).order_by('-post_date')
         return lists
@@ -390,10 +479,14 @@ class SellerAPIViewByType(generics.ListAPIView):
     queryset = Waste.objects.all()
     serializer_class = SellerSerializer
     lookup_field = 'seller'
+    filter_fields = ('for_waste', 'waste_type')
 
-    def get_queryset(self, type='Plastic',for_waste = 'Donation'):
+    def get_queryset(self):
+
         lists = super().get_queryset().filter(
-            seller=self.kwargs['seller'], for_waste=for_waste, waste_type=type).order_by('-post_date')
+            seller=self.kwargs['seller'],
+            for_waste=self.kwargs['for_waste'],
+            waste_type=self.kwargs['waste_type']).order_by('-post_date')
         print(lists)
         return lists
 
@@ -401,12 +494,8 @@ class SellerAPIViewByType(generics.ListAPIView):
 seller_list_view_by_type = SellerAPIViewByType.as_view()
 
 
-
-
-
-
 class WasteCreateAPIView(generics.CreateAPIView):
-    
+
     queryset = Waste.objects.all()
     parser_classes = (MultiPartParser, FormParser)
     serializer_class = WasteSerializer
@@ -429,6 +518,15 @@ class WasteDetailAPIView(generics.RetrieveAPIView):
 waste_detail_view = WasteDetailAPIView().as_view()
 
 
+class WasteAllAPIView(generics.ListAPIView):
+    queryset = Waste.objects.all()
+    serializer_class = WasteSerializer
+    lookup_field = 'pk'
+
+
+all_waste_list_view = WasteAllAPIView().as_view()
+
+
 class BuyerAPIView(generics.ListAPIView):
     queryset = Waste.objects.all()
     serializer_class = SellerSerializer
@@ -436,10 +534,25 @@ class BuyerAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         return super().get_queryset().filter(
-            buyer=self.kwargs['buyer']).order_by('post_date')
+            buyer=self.kwargs['buyer']).order_by('-post_date')
 
 
 buyer_list_view = BuyerAPIView.as_view()
+
+
+class AvailableWasteAPIView(generics.ListAPIView):
+    queryset = Waste.objects.all()
+    serializer_class = WasteSerializer
+    lookup_field = 'waste_type'
+
+    def get_queryset(self, sold=False, for_waste='Sell'):
+        return super().get_queryset().filter(
+            sold=sold, for_waste=for_waste,
+            waste_type=self.kwargs['waste_type'],
+        ).order_by('-post_date')
+
+
+waste_list_for_sell = AvailableWasteAPIView.as_view()
 
 
 class WasteUpdateAPIView(generics.UpdateAPIView):
@@ -464,3 +577,24 @@ class WasteDeleteAPIView(generics.DestroyAPIView):
 
 
 waste_delete_view = WasteDeleteAPIView.as_view()
+
+
+class NotificationCreateView(generics.CreateAPIView):
+
+    queryset = Notifications.objects.all()
+
+    serializer_class = NotificationSerializer
+
+
+notification_create_view = NotificationCreateView.as_view()
+
+
+class NotificationView(generics.ListAPIView):
+
+    queryset = Notifications.objects.all()
+    serializer_class = NotificationSerializer
+
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            
+        )

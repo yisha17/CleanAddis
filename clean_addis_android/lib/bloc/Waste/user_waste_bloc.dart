@@ -28,7 +28,7 @@ class UserWasteBloc extends Bloc<UserWasteEvent, UserWasteState> {
         String? token = await _storage.read(key: 'token');
         final waste = await _wasteRepository.fetchUserWaste(user_id!, token!);
         print(waste);
-        await Future.delayed(Duration(seconds: 3));
+        // await Future.delayed(Duration(seconds: 3));
         yield WasteLoaded(waste!);
         print("waste loaded");
       } catch (e) {

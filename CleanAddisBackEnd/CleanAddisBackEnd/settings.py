@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 import os
+from firebase_admin import initialize_app
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,7 +34,9 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
+    'fcm_django',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -41,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'cleanaddisAPI'
+    'cleanaddisAPI',
+    
 ]
 
 MIDDLEWARE = [
@@ -73,6 +77,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'CleanAddisBackEnd.wsgi.application'
+
+ASGI_APPLICATION = 'CleanAddisBackEnd.asgi.application'
 
 
 # Database
@@ -154,3 +160,19 @@ SIMPLE_JWT = {
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 MEDIA_URL = 'media/'
+
+FIREBASE_APP = initialize_app()
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
+
+FCM_DJANGO_SETTINGS = {
+    "FCM_SERVER_KEY": "AAAAFU9TCG0:APA91bGmevSSNcAUgQOTl4n6akALR7MfF4R3W3dMLrEpqI5fVIDyyrnn_5y-kbfeBtynq6YoGtWjhrNBznp1ISqoNZ0N0x_44zsnsuP8dSYKoZ41H7vUFKerEI1_53K4IyhiZGBfHR6n",
+    "ONE_DEVICE_PER_USER": False,
+    "DELETE_INACTIVE_DEVICES": False,
+}

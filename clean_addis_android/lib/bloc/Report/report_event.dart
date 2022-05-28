@@ -26,6 +26,33 @@ class ReportCreateEvent extends ReportEvent{
 
 }
 
+class ReportEditEvent extends ReportEvent{
+  final int id;
+  final String? title;
+  final String? description;
+
+  ReportEditEvent({
+    required this.id,
+    this.title,
+    this.description,
+  });
+
+  @override
+  List<Object?> get props => [title,description];
+}
+
+
+class ReportDeleteEvent extends ReportEvent{
+  final String id;
+
+  ReportDeleteEvent({
+    required this.id
+  });
+  
+   @override
+  List<Object?> get props => [id];
+}
+
 
 class ReportListEvent extends ReportEvent{
   @override
