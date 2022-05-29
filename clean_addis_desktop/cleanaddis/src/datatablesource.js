@@ -17,7 +17,22 @@ export const wasteColumns = [
        }},
 
 ];
+export const donationsColumns = [
+    {field:'image',headerName:"Image",width:100},
+    {field:'waste_name', headerName:"waste_name", width:150},
+    {field: 'waste_type', headerName: "Type", width: 100 },
+    {field: 'for_waste', headerName: "For", width: 100 },
+    {field: 'quantity', headerName: "Quantity", width: 100 },
+    {field: 'price_per_unit', headerName: "Price", width: 100 },
+    {field: 'post_date', headerName: "Posted Date", width: 100 },
+    {field: 'status', headerName: "status", width: 100,
+    renderCell:(params) => {
+        return(
+            <div className={`status ${params.row.status}`}>{params.row.status}</div>
+        ) 
+       }},
 
+];
 export const reportColumns = [
         {field:"reportTitle", headerName:"Title", width:230,
         renderCell:(params) => {
@@ -70,7 +85,13 @@ export const publicplaceColumns = [
     ];
 
 export const userRows = []
-export const userColumns = []
+export const userColumns = [
+        {field:"first_name", headerName:"First Name", width:100,},
+        {field: 'last_name', headerName: "Last Name", width: 100 },
+        {field: 'username', headerName: "username", width: 100 },
+        {field: 'email', headerName: "Email", width: 200 },
+        {field: 'role', headerName: "Role", width: 100,},
+]
 
 export const rColumn = [
     

@@ -1,14 +1,19 @@
 import React from 'react'
 import './datatable.scss'
 import { DataGrid } from '@mui/x-data-grid'
-import { userColumns, userRows } from '../../../datatablesource'
+import { userColumns } from '../../../datatablesource'
 import {Link} from 'react-router-dom'
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import Newmodal from "../../../components/usercomponents/udatatable/NewModal"
 import Modal from '../udatatable/Modal'
 import EditModal from '../udatatable/Edit'
+import getService from '../../../services/get.service'
 
 const Wdatatable = () => {
+  const [tableData, setTableData] = useState([])
+  useEffect(() => {getService.getAllUsers()
+      .then((response) => setTableData(response.data))
+  }, [])
     const [showMyModal,setShowMyModal]  = useState(false)
     const [showSingle, setSingle] = useState(false)
     const [showEdit, setEdit] = useState(false)
@@ -40,7 +45,7 @@ const Wdatatable = () => {
       </div>
     <div  style={{ height: 500, width: '100%' }} className="items-center">
        <DataGrid 
-        rows={userRows}
+        rows={tableData}
         columns={userColumns.concat(actionColumn)}
         pageSize={10}
         rowsPerPageOptions={[5]}
