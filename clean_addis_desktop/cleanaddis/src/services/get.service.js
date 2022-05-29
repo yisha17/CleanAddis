@@ -3,6 +3,10 @@ import authHeader from "./auth-header";
 
 const API_URI = "http://localhost:8010/proxy";
 
+const getUserRole = (id) => {
+    return axios.get(API_URI + `/user/${id}`,{headers:authHeader()});
+};
+
 const getAllUsers = () => {
     return axios.get(API_URI + "/users/all/",{headers:authHeader()});
 };  
@@ -44,6 +48,6 @@ const getService = {
     getAllWork,
     getCompanies,
     getPublicPlace,
-
+    getUserRole,
 };
 export default getService;

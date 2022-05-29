@@ -14,7 +14,7 @@ const login = (username, password) => {
         if(response.data.access){
             localStorage.setItem("user",JSON.stringify(response.data));
             console.log("there is a response")
-            console.log(response.data)
+            return String(response.data.access)
            
         }
         else{
