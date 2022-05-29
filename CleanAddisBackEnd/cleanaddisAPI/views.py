@@ -304,6 +304,15 @@ class PublicPlaceDetailAPIView(generics.RetrieveAPIView):
 
 publicplace_detail_view = PublicPlaceDetailAPIView().as_view()
 
+class PublicPlaceListAPIView(generics.ListAPIView):
+
+    queryset = PublicPlace.objects.all()
+    serializer_class = PublicPlaceSerializer
+    lookup_field = 'pk'
+
+
+all_publicplace_view = PublicPlaceListAPIView().as_view()
+
 
 class PublicPlaceUpdateAPIView(generics.UpdateAPIView):
 
@@ -402,6 +411,15 @@ class WorkScheduleDetailAPIView(generics.RetrieveAPIView):
 
 workschedule_detail_view = WorkScheduleDetailAPIView().as_view()
 
+class WorkScheduleListAPIView(generics.ListAPIView):
+
+    queryset = WorkSchedule.objects.all()
+    serializer_class = WorkScheduleSerializer
+    lookup_field = 'pk'
+
+
+all_workschedule_view = WorkScheduleListAPIView().as_view()
+
 
 class WorkScheduleUpdateAPIView(generics.UpdateAPIView):
 
@@ -475,7 +493,7 @@ class AnnouncementListAPIView(generics.ListAPIView):
     queryset = Announcement.objects.all()
     serializer_class = AnnouncementSerializer
     lookup_field = 'pk'
-    
+
 all_announcement_view = AnnouncementListAPIView.as_view()
 
 
