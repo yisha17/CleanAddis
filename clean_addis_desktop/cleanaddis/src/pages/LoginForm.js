@@ -9,7 +9,8 @@ import { isExpired, decodeToken } from "react-jwt";
 
 export var userrole = ""
 function LoginForm({ Login, error }) {
-  
+
+    AuthService.logout();
     const [username,setUsername] = useState("");
     const [password,setPassword] = useState("");
 
@@ -24,6 +25,7 @@ function LoginForm({ Login, error }) {
   const HandleLogin = async (e) =>{
       e.preventDefault();
       try{
+         
           await AuthService.login(username,password).then(
               (response)=>{
                 token = `"${response}"`
@@ -39,24 +41,24 @@ function LoginForm({ Login, error }) {
             (response)=>{
               if ((response.data.is_superuser) === true){
                     navigate("/itadmin")
-                    userrole = "superuser"
+                    console.log("it is admin")
+                    
               }
-              else if ((response.data.is_superuser) === "cityadmin"){
+              else if ((response.data.role) === "City Admin"){
+                console.log("it is cityadmin")
                 navigate("/cityadmin")
-                userrole = "cityadmin"
+                
               }
-              else if ((response.data.is_superuser) ==="charity"){
+              else if ((response.data.role) ==="charity"){
                 navigate("/charity")
-                userrole = "charity"
+                
               }
-              else if ((response.data.is_superuser) ==="recycler"){
+              else if ((response.data.role) ==="recycler"){
                 navigate("/recycler")
-                userrole = "recycler"
               }
               else {
                 navigate("/login")
               }
-            console.log("here is the userrole",userrole)
               
             },
             (error) => {

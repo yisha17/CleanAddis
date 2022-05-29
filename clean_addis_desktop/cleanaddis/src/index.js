@@ -41,12 +41,14 @@ ReactDOM.render(
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element = {<App />}/>
+          <Route>
+          <Route path="/" element = {<App />}/><Route />
           <Route path="Login" element = {<Login />}/>
           <Route path="Services" element = {<Services />}/>
           <Route path="Companies" element = {<Companies/>}/>
           <Route path="Recycler" element = {<Recycler />}/>
           <Route path="register" element = {<Form />}/>
+          </Route>
           <Route element={<Cityroute />}>
           <Route path="cityadmin">
             <Route index element={<Home />}/>   
@@ -90,6 +92,7 @@ ReactDOM.render(
                   <Route path=":reportId" element={<Usingle />}/>
               </Route >
           </Route>
+          </Route>
           <Route element={<Recyclerroute />}>
           <Route path="recycler">
             <Route index element={<Rhome />}/>
@@ -101,7 +104,6 @@ ReactDOM.render(
                   <Route path=":wasteId" element={<Usingle />}/>
                   <Route path="new" element={<Unew inputs = {announcementInputs} title="Add user"/>}/>
               </Route >
-          </Route>
           </Route>
           </Route>
           <Route element={<Charityroute />}>
