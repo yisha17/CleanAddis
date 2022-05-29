@@ -21,7 +21,7 @@ import Psingle from './pages/adminpages/psinglepage/Single';
 import Rsingle from './pages/adminpages/rsinglepage/Single';
 import New from '../../cleanaddis/src/pages/adminpages/new/New';
 import Ulist from './pages/userpages/ulist/List';
-import Recyclerlist from './pages/charitypages/clist/List';
+import Recyclerlist from './pages/recyclerpages/rlist/List';
 import Charitylist from './pages/charitypages/clist/List';
 import Uwlist from './pages/userpages/wastelist/List'
 import Usingle from '../../cleanaddis/src/pages/userpages/usinglepage/Single';
@@ -86,14 +86,15 @@ ReactDOM.render(
           </Route>
           <Route path="recycler">
             <Route index element={<Rhome />}/>
+            <Route path="profile">
+                  <Route index element={<Rhome/>}/> 
+              </Route >
               <Route path="waste">
                   <Route index element={<Recyclerlist/>} /> 
                   <Route path=":wasteId" element={<Usingle />}/>
                   <Route path="new" element={<Unew inputs = {announcementInputs} title="Add user"/>}/>
               </Route >
-              <Route path="profile">
-                  <Route index element={<Rhome/>}/> 
-              </Route >
+              
           </Route>
           <Route path="charity">
             <Route index element={<Chome />}/>

@@ -40,46 +40,26 @@ export const reportColumns = [
     
     ];
 export const announcementColumns = [
-        {field:"reportTitle", headerName:"Title", width:230,
-        renderCell:(params) => {
-         return(
-             <div className="cellwithImg flex justify-between items-center">
-                 <img className="cellImg w-14 h-14 rounded-full p-2" src={params.row.imgage} />
-                    {params.row.Title}
-             </div>
-         )   
-        }},
-        {field: 'reportDescription', headerName: "Description", width: 100 },
-        {field: 'reportedBy', headerName: "Reported by", width: 100 },
-        {field: 'post_date', headerName: "Date", width: 100 },
-        {field: 'isResolved', headerName: "status", width: 100,
-        renderCell:(params) => {
-            return(
-                <div className={`status ${params.row.status}`}>{params.row.status}</div>
-            ) 
-           }},
+        {field:"notificationTitle", headerName:"Title", width:230},
+        {field: 'notificationDesctiption', headerName: "Description", width: 100 },
+        {field: 'fromDate', headerName: "From Date", width: 100 },
+        {field: 'toDate', headerName: "ToDate", width: 100 },
+        {field: 'published', headerName: "Posted On", width: 100,},
+        {field: 'recipient', headerName:"Recipient",width:100,},
     
     ];
 export const seminarColumns = [
-        {field:"reportTitle", headerName:"Title", width:230,
+        {field:"seminarTitle", headerName:"Title", width:230,
         renderCell:(params) => {
          return(
              <div className="cellwithImg flex justify-between items-center">
-                 <img className="cellImg w-14 h-14 rounded-full p-2" src={params.row.imgage} />
+                 <img className="cellImg w-14 h-14 rounded-full p-2" src={params.row.image} />
                     {params.row.Title}
              </div>
          )   
         }},
-        {field: 'reportDescription', headerName: "Description", width: 100 },
-        {field: 'reportedBy', headerName: "Reported by", width: 100 },
-        {field: 'post_date', headerName: "Date", width: 100 },
-        {field: 'isResolved', headerName: "status", width: 100,
-        renderCell:(params) => {
-            return(
-                <div className={`status ${params.row.status}`}>{params.row.status}</div>
-            ) 
-           }},
-    
+        {field: 'from', headerName: "From Date", width: 100 },
+        {field: 'to', headerName: "To Date", width: 100 },
     ];
 export const publicplaceColumns = [
         {field:"placeName", headerName:"Name", width:230,},
