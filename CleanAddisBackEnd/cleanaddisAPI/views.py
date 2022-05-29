@@ -429,10 +429,6 @@ class AnnouncementCreateAPIView(generics.CreateAPIView):
 
     serializer_class = AnnouncementSerializer
 
-    # def send_noti_topic(self):
-    #     fcm_send_topic_message(topic_name='NEWYORK_WEATHER', message_body='message body', message_title='title')
-    #     return JsonResponse({"status": "success"}, safe=False)
-
     def perform_create(self, serializer):
         title = self.request.data['notificationTitle']
         description = self.request.data['notificationDescription']
@@ -450,6 +446,8 @@ class AnnouncementCreateAPIView(generics.CreateAPIView):
 
 
 announcement_create_view = AnnouncementCreateAPIView.as_view()
+
+
 
 
 class AnnouncementDetailAPIView(generics.RetrieveAPIView):
@@ -470,6 +468,17 @@ class AnnouncementUpdateAPIView(generics.UpdateAPIView):
 
 
 announcement_update_view = AnnouncementUpdateAPIView.as_view()
+
+
+class AnnouncementListAPIView(generics.ListAPIView):
+
+    queryset = Announcement.objects.all()
+    serializer_class = AnnouncementSerializer
+    lookup_field = 'pk'
+    
+all_announcement_view = AnnouncementListAPIView.as_view()
+
+
 
 
 class AnnouncementDeleteAPIView(generics.DestroyAPIView):
