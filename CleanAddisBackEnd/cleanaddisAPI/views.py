@@ -2,6 +2,8 @@ from cgitb import lookup
 from hashlib import new
 
 from telnetlib import STATUS
+from turtle import title
+from django.http import JsonResponse
 
 from django.shortcuts import render
 from rest_framework.views import APIView
@@ -16,6 +18,8 @@ from .models import *
 from .serializers import *
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
+from django.views.decorators.csrf import csrf_exempt
+
 from rest_framework.parsers import MultiPartParser, FormParser
 from geopy.distance import geodesic
 from math import sin, cos, sqrt, atan2, radians
@@ -23,6 +27,21 @@ from firebase_admin.messaging import Message,Notification
 from fcm_django.models import FCMDevice
 
 
+@csrf_exempt
+def notify(request):
+    if request.method == "POST":
+        devices = FCMDevice.objects.filter(name="Deutsch")
+        # devices.send_message(title='heelods',body='sdfsdf',data = {"test":"test"})
+        # devices.send_message(Message(
+        # notification=Notification(data={"title":"76687989","payload":" my payload payload"}),))
+        devices.send_message(
+            title="It's now or never: Horn Ok is back!",
+            message="Book now to get 50% off!",
+            data={
+                "title": "Sfdg",
+                "body": "sgdgsg"
+            })
+        return JsonResponse({"status": "ok"})
 class RegisterView(generics.GenericAPIView):
     permission_classes = [AllowAny]
     queryset = User.objects.all()
@@ -45,7 +64,7 @@ class UserListView(generics.ListAPIView):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
+all_user_view = UserListView.as_view()
 
 class UserDetailView(generics.RetrieveAPIView):
     authentication_classes = [authentication.TokenAuthentication]
@@ -410,16 +429,22 @@ class AnnouncementCreateAPIView(generics.CreateAPIView):
 
     serializer_class = AnnouncementSerializer
 
+    # def send_noti_topic(self):
+    #     fcm_send_topic_message(topic_name='NEWYORK_WEATHER', message_body='message body', message_title='title')
+    #     return JsonResponse({"status": "success"}, safe=False)
+
     def perform_create(self, serializer):
         title = self.request.data['notificationTitle']
         description = self.request.data['notificationDescription']
-        devices = FCMDevice.objects.all()
-
-        devices.send_message(Message(
-            notification=Notification(title=title, body=description), data={
+        devices = FCMDevice.objects.filter(name="Deutsch")
+        print(devices)
+        wer = devices.send_message(Message(
+             data={
             "title":title,
-            "description":description
+            "body":description
         }))
+        wer
+        print(wer)
         print(title)
         return super().perform_create(serializer)
 

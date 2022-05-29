@@ -1,12 +1,19 @@
-from django.urls import path
+from django.urls import include, path
 
 from .views import *
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_simplejwt import views as jwt_views
 
+from fcm_django.api.rest_framework import FCMDeviceAuthorizedViewSet
+
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register('devices', FCMDeviceAuthorizedViewSet)
 urlpatterns = [
     
     path('api/users/', user_signup_view),
+    path('api/users/all', all_user_view),
     path('api/user/<int:id>',UserDetail.as_view()),
     path('api/user/<int:pk>/update', user_update_view),
     path('api/companies/',CompanyAPIView.as_view()),
@@ -44,4 +51,7 @@ urlpatterns = [
     path('api/announcement/delete/<int:pk>', announcement_delete_view),
     path('api/auth/', jwt_views.token_obtain_pair),
     path('api/auth/refresh', jwt_views.token_refresh), 
+    path('register_device',
+         FCMDeviceAuthorizedViewSet.as_view({'post': 'create'}), name='create_fcm_device'), 
+    path('test/',notify)     
 ]
