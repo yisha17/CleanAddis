@@ -30,7 +30,25 @@ class RegisterSerializer(serializers.ModelSerializer):
         if password is not None:
             instance.set_password(password)
         instance.save()
-        return instance    
+        return instance 
+
+
+
+class RegisterWebSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username','email', 'password','role']
+        extra_kwargs = {
+            'password': {'write_only': True},
+        }
+    def create(self, validated_data):
+        password = validated_data.pop('password', None)
+        # as long as the fields are the same, we can just use this
+        instance = self.Meta.model(**validated_data)
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance   
 
 class UpdateSerializer(serializers.ModelSerializer):
     image_url = serializers.SerializerMethodField('get_image_url')

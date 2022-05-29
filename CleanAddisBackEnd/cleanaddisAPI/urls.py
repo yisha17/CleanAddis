@@ -13,6 +13,7 @@ router.register('devices', FCMDeviceAuthorizedViewSet)
 urlpatterns = [
     
     path('api/users/', user_signup_view),
+    path('api/users/web/', user_web_signup),
     path('api/users/all', all_user_view),
     path('api/user/<int:id>',UserDetail.as_view()),
     path('api/user/<int:pk>/update', user_update_view),

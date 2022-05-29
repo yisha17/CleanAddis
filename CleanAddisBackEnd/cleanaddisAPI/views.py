@@ -218,6 +218,12 @@ class CompanyAPIView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class RegisterWebView(generics.CreateAPIView):
+    
+    query = User.objects.all()
+    serializer_class = RegisterWebSerializer
+
+user_web_signup = RegisterWebView.as_view()
 class ReportCreateAPIView(generics.CreateAPIView):
 
     query = Report.objects.all()
