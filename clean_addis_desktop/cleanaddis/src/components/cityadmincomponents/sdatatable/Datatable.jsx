@@ -1,15 +1,20 @@
 import React from 'react'
 import './datatable.scss'
 import { DataGrid } from '@mui/x-data-grid'
-import { userColumns, userRows } from '../../../datatablesource'
+import { seminarColumns } from '../../../datatablesource'
 import {Link} from 'react-router-dom'
 import New from '../../../pages/adminpages/new/New'
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import Newmodal from "../../../components/cityadmincomponents/sdatatable/NewModal"
 import Modal from '../sdatatable/Modal'
 import EditModal from '../sdatatable/Edit'
+import getService from '../../../services/get.service'
 
 const Sdatatable = () => {
+  const [tableData, setTableData] = useState([])
+  useEffect(() => {getService.getAllSeminar()
+      .then((response) => setTableData(response.data))
+  }, [])
     const [showMyModal,setShowMyModal]  = useState(false)
     const [showSingle, setSingle] = useState(false)
     const [showEdit, setEdit] = useState(false)
@@ -41,8 +46,8 @@ const Sdatatable = () => {
       </div>
     <div  style={{ height: 500, width: '100%' }} className="items-center">
        <DataGrid 
-        rows={userRows}
-        columns={userColumns.concat(actionColumn)}
+        rows={tableData}
+        columns={seminarColumns.concat(actionColumn)}
         pageSize={10}
         rowsPerPageOptions={[5]}
         checkboxSelection
