@@ -13,21 +13,9 @@ class UserWasteBloc extends Bloc<UserWasteEvent, UserWasteState> {
 
   UserWasteBloc(this._wasteRepository) : super(WasteLoadingState());
 
-  //  { on<HomePageOpenedEvent>((event, emit) async {
-
-  //     try{
-  //       final _storage = const FlutterSecureStorage();
-  //       String? user_id = await _storage.read(key: 'id');
-  //       String? token = await _storage.read(key: 'token');
-  //       final waste = await _wasteRepository.fetchUserWaste(user_id!,token!);
-  //       print(waste);
-  //       emit(WasteLoaded(waste!));
-  //       print("waste loaded");
-  //     }catch(e){
-  //       emit(GetErrorState(error: e.toString()));
-  //     }
-  //   });
-  // }
+  void detailPage({String? for_waste, String? type }){
+    add(DetailPageEvent(for_waste: for_waste!,type: type!));
+  }
 
   Stream<UserWasteState> mapEventToState(
     UserWasteEvent event,
@@ -40,9 +28,25 @@ class UserWasteBloc extends Bloc<UserWasteEvent, UserWasteState> {
         String? token = await _storage.read(key: 'token');
         final waste = await _wasteRepository.fetchUserWaste(user_id!, token!);
         print(waste);
-        await Future.delayed(Duration(seconds: 3));
+        // await Future.delayed(Duration(seconds: 3));
         yield WasteLoaded(waste!);
         print("waste loaded");
+      } catch (e) {
+        yield GetErrorState(error: e.toString());
+      }
+    }
+
+    if (event is DetailPageEvent){
+      try {
+        yield WasteLoadingState();
+        final _storage = const FlutterSecureStorage();
+        String? user_id = await _storage.read(key: 'id');
+        String? token = await _storage.read(key: 'token');
+        final waste = await _wasteRepository.fetchUserWasteByType(user_id!, token!,event.for_waste,event.type);
+        print(waste);
+        await Future.delayed(Duration(seconds: 3));
+        yield WasteLoaded(waste!);
+        print("waste loa767ded");
       } catch (e) {
         yield GetErrorState(error: e.toString());
       }

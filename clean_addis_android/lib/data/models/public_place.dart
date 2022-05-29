@@ -3,8 +3,8 @@ class PublicPlace {
   final int? rating;
   final String? name;
   final String? type;
-  final double? longitude;
-  final double? latitude;
+  final String? longitude;
+  final String? latitude;
 
   PublicPlace({
     this.id,
@@ -19,10 +19,10 @@ class PublicPlace {
     final result = PublicPlace(
         id: jsonMap['id'],
         rating: jsonMap['rating'],
-        name: jsonMap['name'],
-        type: jsonMap['type'],
+        name: jsonMap['placeName'],
+        type: jsonMap['placeType'],
         longitude: jsonMap['longitude'],
-        latitude: jsonMap['latitiude']);
+        latitude: jsonMap['latitude']);
     return result;
   }
 }

@@ -1,12 +1,14 @@
 import requests
 
-endpoint = 'http://localhost:8000/api/users/'
+endpoint = 'http://192.168.1.7:8000/api/report/'
 
 
 data = {
-    "username" : "colombia",
-    "email":"abe@gmail.com",
-    "password":"dibaba"
+    "reportTitle" : "colombia",
+    "reportDescription":"sdfs sudfh sdufs dfusd f",
+    "latitude": 8.9950565,
+    "longitude":38.686775,
+    "reportedBy": 2
 }
 
 get_response = requests.post(endpoint,json=data)

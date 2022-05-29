@@ -16,7 +16,7 @@ class Waste{
   final bool ?bought;
   final bool ?donated;
   final String ?description;
-  final DateTime ?post_date;
+  final String ?post_date;
 
   Waste({
     this.id,
@@ -49,7 +49,7 @@ class Waste{
       price_per_unit:jsonMap['price_per_unit'],
       quantity:jsonMap['quantity'],
       metric:jsonMap['metric'],
-      image:jsonMap['image'],
+      image:jsonMap['image'] ?? '',
       location:jsonMap['loaction'],
       sold:jsonMap['sold'],
       bought:jsonMap['bought'],

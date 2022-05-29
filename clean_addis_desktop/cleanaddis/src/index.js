@@ -9,15 +9,30 @@ import {BrowserRouter,Routes,Route} from 'react-router-dom';
 import Recycler from './pages/Recycler';
 import Companies from './pages/Companies';
 import Home from './pages/adminpages/home/Home';
-import List from './pages/adminpages/list/List';
-import Single from '../../cleanaddis/src/pages/adminpages/singlepage/Single';
+import Rlist from './pages/adminpages/reportlist/List';
+import Alist from './pages/adminpages/announcementlist/List';
+import Slist from './pages/adminpages/seminarlist/List';
+import Wlist from './pages/adminpages/worklist/List';
+import Plist from './pages/adminpages/publicplacelist/List';
+import Ssingle from './pages/adminpages/ssinglepage/Single';
+import Asingle from './pages/adminpages/asinglepage/Single';
+import Wsingle from './pages/adminpages/wsinglepage/Single';
+import Psingle from './pages/adminpages/psinglepage/Single';
+import Rsingle from './pages/adminpages/rsinglepage/Single';
 import New from '../../cleanaddis/src/pages/adminpages/new/New';
-import Ulist from './pages/userpages/ulist/Ulist';
-import Usingle from '../../cleanaddis/src/pages/userpages/usinglepage/Usingle';
+import Ulist from './pages/userpages/ulist/List';
+import Recyclerlist from './pages/charitypages/clist/List';
+import Charitylist from './pages/charitypages/clist/List';
+import Uwlist from './pages/userpages/wastelist/List'
+import Usingle from '../../cleanaddis/src/pages/userpages/usinglepage/Single';
+import Recyclersingle from '../../cleanaddis/src/pages/recyclerpages/rsinglepage/Single';
 import Unew from '../../cleanaddis/src/pages/userpages/unew/Unew';
 import {announcementInputs, reportuserInputs} from "../src/formsource"
 import Uhome from '../src/pages/userpages/uhome/Uhome'
-import Useminar from '../src/pages/userpages/useminar/Useminar'
+import Rhome from '../src/pages/recyclerpages/rhome/Rhome'
+import Chome from '../src/pages/charitypages/chome/Chome'
+import Form from '../src/pages/Form'
+
 
 ReactDOM.render(
     <React.StrictMode>
@@ -28,61 +43,71 @@ ReactDOM.render(
           <Route path="Services" element = {<Services />}/>
           <Route path="Companies" element = {<Companies/>}/>
           <Route path="Recycler" element = {<Recycler />}/>
-          <Route path="announcement">
-            <Route index element={<List/>}/>
-            <Route path=":announcementId" element={<Single />}/>
-            <Route path="new" element={<New inputs = {announcementInputs} />}/>
-          </Route>
-          <Route path="waste">
-          <Route path=":wasteId" element={<Single />}/>
-            <Route index element={<List/>}/>
-            <Route path=":wasteId" element={<Single />}/>
-            <Route path="new" element={<New inputs = {announcementInputs} />}/>
-          </Route>
-         
-          <Route path="work">
-            <Route index element={<List/>}/>
-            <Route path=":workId" element={<Single />}/>
-            
-          </Route>
+          <Route path="register" element = {<Form />}/>
           <Route path="cityadmin">
             <Route index element={<Home />}/>   
             <Route path="new" element={<New inputs = {announcementInputs} title="Add new Announcement"/>}/>
                 <Route path="report">
-                  <Route index element={<List/>} /> 
-                  <Route path=":reportId" element={<Single />}/>
+                  <Route index element={<Rlist/>} /> 
+                  <Route path=":reportId" element={<Rsingle />}/>
                   </Route >
                   <Route path="announcement">
-                  <Route index element={<List/>} /> 
-                  <Route path=":announcementId" element={<Single />}/>
+                  <Route index element={<Alist/>} /> 
+                  <Route path=":announcementId" element={<Asingle />}/>
                   <Route path="new" element={<New inputs = {announcementInputs} title="Add new Announcement"/>}/>
                   </Route >
                   <Route path="work">
-                  <Route index element={<List/>} /> 
-                  <Route path=":workid" element={<Single />}/>
+                  <Route index element={<Wlist/>} /> 
+                  <Route path=":workid" element={<Wsingle />}/>
+                  <Route path="new" element={<New inputs = {announcementInputs} title="Add new work"/>}/>
+                  </Route>
+                  <Route path="seminar">
+                  <Route index element={<Slist/>} /> 
+                  <Route path=":semiarid" element={<Ssingle />}/>
+                  <Route path="new" element={<New inputs = {announcementInputs} title="Add new work"/>}/>
+                  </Route>
+                  <Route path="publicplace">
+                  <Route index element={<Plist/>} /> 
+                  <Route path=":publicid" element={<Psingle />}/>
                   <Route path="new" element={<New inputs = {announcementInputs} title="Add new work"/>}/>
                   </Route>
           </Route>
-          <Route path="user">
+          <Route path="itadmin">
             <Route index element={<Uhome />}/>
-            <Route path="report">
+              <Route path="user">
                   <Route index element={<Ulist/>} /> 
                   <Route path=":reportId" element={<Usingle />}/>
-                  <Route path="new" element={<Unew inputs = {announcementInputs} title="Add report"/>}/>
-                  </Route >
-            <Route path="announcement">
-                  <Route index element={<Ulist/>} /> 
-                  <Route path=":announcementId" element={<Usingle />}/>
-                  <Route path="new" element={<Unew inputs = {announcementInputs} title="Add new Announcement"/>}/>
-                  </Route >
-            <Route path="seminar">
-                  <Route index element={<Useminar/>} /> 
-                  <Route path=":announcementId" element={<Usingle />}/>
-                  <Route path="new" element={<Unew inputs = {announcementInputs} title="Add new Announcement"/>}/>
-                  </Route >
-            
-                
+                  <Route path="new" element={<Unew inputs = {announcementInputs} title="Add user"/>}/>
+              </Route >
+              <Route path="waste">
+                  <Route index element={<Uwlist/>} /> 
+                  <Route path=":reportId" element={<Usingle />}/>
+              </Route >
           </Route>
+          <Route path="recycler">
+            <Route index element={<Rhome />}/>
+              <Route path="waste">
+                  <Route index element={<Recyclerlist/>} /> 
+                  <Route path=":wasteId" element={<Usingle />}/>
+                  <Route path="new" element={<Unew inputs = {announcementInputs} title="Add user"/>}/>
+              </Route >
+              <Route path="profile">
+                  <Route index element={<Rhome/>}/> 
+              </Route >
+          </Route>
+          <Route path="charity">
+            <Route index element={<Chome />}/>
+              <Route path="donate">
+                  <Route index element={<Charitylist/>} /> 
+                  <Route path=":wasteId" element={<Usingle />}/>
+                  <Route path="new" element={<Unew inputs = {announcementInputs} title="Add user"/>}/>
+              </Route >
+              <Route path="profile">
+                  <Route index element={<Chome/>}/> 
+              </Route >
+          </Route>
+          
+
 
           
         </Routes>

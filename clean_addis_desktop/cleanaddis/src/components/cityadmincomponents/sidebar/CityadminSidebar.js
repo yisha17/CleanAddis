@@ -3,12 +3,14 @@ import { useState } from "react"
 import React from 'react'
 import Arrow from './Arrow.png'
 import Dashboard from './Dashboard.png'
-import User from './User.png'
 import Shout from './Shout.png'
 import Work from './Work.png'
+import Public from './Public.png'
+import Seminar from './Seminar.png'
 import Report from './Report.png'
 import Home from '../../../pages/adminpages/home/Home';
 import {Link } from "react-router-dom"
+import ParkIcon from '@mui/icons-material/Park';
 
 const CityadminSidebar = () => {
   const [open,setOpen] = useState(true);
@@ -17,6 +19,8 @@ const CityadminSidebar = () => {
     {title:"Report", src:Report ,link:"/cityadmin/report"},
     {title:"Announcement",src:Shout,link:"/cityadmin/announcement"},
     {title:"Work",src:Work,link:"/cityadmin/work"},
+    {title:"Public Place",src:Public,link:"/cityadmin/publicplace"},
+    {title:"seminar",src:Seminar,link:"/cityadmin/seminar"},
   ]
   return (
 
@@ -33,7 +37,7 @@ const CityadminSidebar = () => {
        <Link to={menu.link}>
           <li key={index}
               className={`text-white text-sm font-medium flex items-center 
-              gap-x-2  pt-8 cursor-pointer hover:bg-green-600 rounded-md`
+              gap-x-2  pt-8 cursor-pointer hover:bg-green-600 rounded-md` 
               }>
             
              <img src={menu.src}  />
