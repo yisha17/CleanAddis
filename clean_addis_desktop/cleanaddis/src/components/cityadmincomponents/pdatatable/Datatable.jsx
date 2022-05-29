@@ -1,15 +1,22 @@
 import React from 'react'
 import './datatable.scss'
 import { DataGrid } from '@mui/x-data-grid'
-import { userColumns, userRows } from '../../../datatablesource'
+import { publicplaceColumns } from '../../../datatablesource'
 import {Link} from 'react-router-dom'
 import New from '../../../pages/adminpages/new/New'
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import Newmodal from "../../../components/cityadmincomponents/pdatatable/NewModal"
 import Modal from '../pdatatable/Modal'
 import EditModal from '../pdatatable/Edit'
+import getService from '../../../services/get.service'
 
 const Pdatatable = () => {
+    const [tableData, setTableData] = useState([])
+    useEffect(() => {getService.getPublicPlace()
+        .then((response) => setTableData(response.data))
+    }, [])
+
+
     const [showMyModal,setShowMyModal]  = useState(false)
     const [showSingle, setSingle] = useState(false)
     const [showEdit, setEdit] = useState(false)
@@ -41,8 +48,8 @@ const Pdatatable = () => {
       </div>
     <div  style={{ height: 500, width: '100%' }} className="items-center">
        <DataGrid 
-        rows={userRows}
-        columns={userColumns.concat(actionColumn)}
+        rows={tableData}
+        columns={publicplaceColumns.concat(actionColumn)}
         pageSize={10}
         rowsPerPageOptions={[5]}
         checkboxSelection
