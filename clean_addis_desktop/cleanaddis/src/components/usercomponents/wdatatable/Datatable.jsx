@@ -1,15 +1,20 @@
 import React from 'react'
 import './datatable.scss'
 import { DataGrid } from '@mui/x-data-grid'
-import { userColumns, userRows } from '../../../datatablesource'
+import {useEffect, useState} from 'react'
+import { wasteColumns, wasteData } from '../../../datatablesource'
 import {Link} from 'react-router-dom'
 import New from '../../../pages/adminpages/new/New'
-import { useState } from 'react'
+import getService from '../../../services/get.service'
 
 import Modal from '../wdatatable/Modal'
 
 
 const Wdatatable = () => {
+  const [tableData, setTableData] = useState([])
+  useEffect(() => {getService.getAllWaste()
+      .then((response) => setTableData(response.data))
+  }, [])
     const [showMyModal,setShowMyModal]  = useState(false)
     const [showSingle, setSingle] = useState(false)
     const [showEdit, setEdit] = useState(false)
@@ -32,8 +37,8 @@ const Wdatatable = () => {
      
     <div  style={{ height: 500, width: '100%' }} className="items-center">
        <DataGrid 
-        rows={userRows}
-        columns={userColumns.concat(actionColumn)}
+        rows={tableData}
+        columns={wasteColumns.concat(actionColumn)}
         pageSize={10}
         rowsPerPageOptions={[5]}
         checkboxSelection

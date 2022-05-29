@@ -2,6 +2,8 @@ from cgitb import lookup
 from hashlib import new
 
 from telnetlib import STATUS
+from turtle import title
+from django.http import JsonResponse
 
 from django.shortcuts import render
 from rest_framework.views import APIView
@@ -9,13 +11,15 @@ from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import generics, permissions, authentication
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny,IsAdminUser,IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from .models import *
 from .serializers import *
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
+from django.views.decorators.csrf import csrf_exempt
+
 from rest_framework.parsers import MultiPartParser, FormParser
 from geopy.distance import geodesic
 from math import sin, cos, sqrt, atan2, radians
@@ -23,6 +27,21 @@ from firebase_admin.messaging import Message,Notification
 from fcm_django.models import FCMDevice
 
 
+@csrf_exempt
+def notify(request):
+    if request.method == "POST":
+        devices = FCMDevice.objects.filter(name="Deutsch")
+        # devices.send_message(title='heelods',body='sdfsdf',data = {"test":"test"})
+        # devices.send_message(Message(
+        # notification=Notification(data={"title":"76687989","payload":" my payload payload"}),))
+        devices.send_message(
+            title="It's now or never: Horn Ok is back!",
+            message="Book now to get 50% off!",
+            data={
+                "title": "Sfdg",
+                "body": "sgdgsg"
+            })
+        return JsonResponse({"status": "ok"})
 class RegisterView(generics.GenericAPIView):
     permission_classes = [AllowAny]
     queryset = User.objects.all()
@@ -45,7 +64,7 @@ class UserListView(generics.ListAPIView):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
+all_user_view = UserListView.as_view()
 
 class UserDetailView(generics.RetrieveAPIView):
     authentication_classes = [authentication.TokenAuthentication]
@@ -114,7 +133,7 @@ class UserDetail(APIView):
         user = self.get_object(id)
 
         serializer = UserSerializer(user)
-
+        permission_classes = (IsAdminUser,IsAuthenticated)
         report = Report.objects.filter(reportedBy=id).count()
         sell = Waste.objects.filter(for_waste='Sell', seller=id).count()
         donate = Waste.objects.filter(for_waste='Donation', seller=id).count()
@@ -199,6 +218,12 @@ class CompanyAPIView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class RegisterWebView(generics.CreateAPIView):
+    
+    query = User.objects.all()
+    serializer_class = RegisterWebSerializer
+
+user_web_signup = RegisterWebView.as_view()
 class ReportCreateAPIView(generics.CreateAPIView):
 
     query = Report.objects.all()
@@ -260,7 +285,7 @@ class ReportAllAPIView(generics.ListAPIView):
     serializer_class = ReporterSerializer
 
 
-all_report_list_view = ReportAPIView.as_view()
+all_report_list_view = ReportAllAPIView.as_view()
 
 
 class PublicPlaceCreateAPIView(generics.CreateAPIView):
@@ -284,6 +309,15 @@ class PublicPlaceDetailAPIView(generics.RetrieveAPIView):
 
 
 publicplace_detail_view = PublicPlaceDetailAPIView().as_view()
+
+class PublicPlaceListAPIView(generics.ListAPIView):
+
+    queryset = PublicPlace.objects.all()
+    serializer_class = PublicPlaceSerializer
+    lookup_field = 'pk'
+
+
+all_publicplace_view = PublicPlaceListAPIView().as_view()
 
 
 class PublicPlaceUpdateAPIView(generics.UpdateAPIView):
@@ -383,6 +417,15 @@ class WorkScheduleDetailAPIView(generics.RetrieveAPIView):
 
 workschedule_detail_view = WorkScheduleDetailAPIView().as_view()
 
+class WorkScheduleListAPIView(generics.ListAPIView):
+
+    queryset = WorkSchedule.objects.all()
+    serializer_class = WorkScheduleSerializer
+    lookup_field = 'pk'
+
+
+all_workschedule_view = WorkScheduleListAPIView().as_view()
+
 
 class WorkScheduleUpdateAPIView(generics.UpdateAPIView):
 
@@ -413,18 +456,22 @@ class AnnouncementCreateAPIView(generics.CreateAPIView):
     def perform_create(self, serializer):
         title = self.request.data['notificationTitle']
         description = self.request.data['notificationDescription']
-        devices = FCMDevice.objects.all()
-
-        devices.send_message(Message(
-            notification=Notification(title=title, body=description), data={
+        devices = FCMDevice.objects.filter(name="Deutsch")
+        print(devices)
+        wer = devices.send_message(Message(
+             data={
             "title":title,
-            "description":description
+            "body":description
         }))
+        wer
+        print(wer)
         print(title)
         return super().perform_create(serializer)
 
 
 announcement_create_view = AnnouncementCreateAPIView.as_view()
+
+
 
 
 class AnnouncementDetailAPIView(generics.RetrieveAPIView):
@@ -445,6 +492,17 @@ class AnnouncementUpdateAPIView(generics.UpdateAPIView):
 
 
 announcement_update_view = AnnouncementUpdateAPIView.as_view()
+
+
+class AnnouncementListAPIView(generics.ListAPIView):
+
+    queryset = Announcement.objects.all()
+    serializer_class = AnnouncementSerializer
+    lookup_field = 'pk'
+
+all_announcement_view = AnnouncementListAPIView.as_view()
+
+
 
 
 class AnnouncementDeleteAPIView(generics.DestroyAPIView):

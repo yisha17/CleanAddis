@@ -3,40 +3,73 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import AuthService from '../services/auth.service';
+import getService from '../services/get.service';
 import "./login.css"
+import { isExpired, decodeToken } from "react-jwt";
 
-
+export var userrole = ""
 function LoginForm({ Login, error }) {
+  
     const [username,setUsername] = useState("");
     const [password,setPassword] = useState("");
 
 
   const navigate  = useNavigate();
+  
+  let token = "";
+  var id = 0;
+  var userdetail = [];
+  
 
   const HandleLogin = async (e) =>{
       e.preventDefault();
       try{
           await AuthService.login(username,password).then(
               (response)=>{
-                  navigate("/itadmin");
-                  window.location.reload();
+                token = `"${response}"`
+                const decodedToken = decodeToken(token)
+                id = decodedToken.user_id  
               },
               (error) => {
                 
                   console.log(error);
               }
           );
+          await getService.getUserRole(id).then(
+            (response)=>{
+              if ((response.data.is_superuser) === true){
+                    navigate("/itadmin")
+                    userrole = "superuser"
+              }
+              else if ((response.data.is_superuser) === "cityadmin"){
+                navigate("/cityadmin")
+                userrole = "cityadmin"
+              }
+              else if ((response.data.is_superuser) ==="charity"){
+                navigate("/charity")
+                userrole = "charity"
+              }
+              else if ((response.data.is_superuser) ==="recycler"){
+                navigate("/recycler")
+                userrole = "recycler"
+              }
+              else {
+                navigate("/login")
+              }
+            console.log("here is the userrole",userrole)
+              
+            },
+            (error) => {
+              navigate("/")
+              console.log(error);
+          }
+          );
+        
         }catch(err){
-          console.log("success")
+            navigate("/login")
             console.log(err);
         }
     };
- 
-
-
-
-
-
   return (
 
     <div>
@@ -113,3 +146,4 @@ function LoginForm({ Login, error }) {
 }
 
 export default LoginForm;
+

@@ -1,18 +1,14 @@
-export const userColumns = [
-    {field: 'id', headerName: "ID", width: 70 },
-    {field:"title", headerName:"Title", width:230,
-    renderCell:(params) => {
-     return(
-         <div className="cellwithImg flex justify-between items-center">
-             <img className="cellImg w-14 h-14 rounded-full p-2" src={params.row.img} />
-                {params.row.title}
-         </div>
-     )   
-    }},
-    {field: 'from', headerName: "from", width: 100 },
-    {field: 'to', headerName: "to", width: 100 },
-    {field: 'published', headerName: "published on date", width: 100 },
-    {field: 'for', headerName: "For", width: 100 },
+import getService from "./services/get.service";
+
+
+export const wasteColumns = [
+    {field:'image',headerName:"Image",width:100},
+    {field:'waste_name', headerName:"waste_name", width:150},
+    {field: 'waste_type', headerName: "Type", width: 100 },
+    {field: 'for_waste', headerName: "For", width: 100 },
+    {field: 'quantity', headerName: "Quantity", width: 100 },
+    {field: 'price_per_unit', headerName: "Price", width: 100 },
+    {field: 'post_date', headerName: "Posted Date", width: 100 },
     {field: 'status', headerName: "status", width: 100,
     renderCell:(params) => {
         return(
@@ -21,67 +17,61 @@ export const userColumns = [
        }},
 
 ];
-export  const userRows = [{
-    id: 1,
-    title: "cleaning announcment",
-    from: "12/03/2021",
-    to: "16/03/2021",
-    img: "https://images.unsplash.com/photo-1559308078-88465deb35cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-    published: "10/03/2021",
-    for : "yeka subcity",
-    status :"delivered"
-},
-{
-    id: 2,
-    title: "cleaning announcment",
-    from: "12/03/2021",
-    to: "16/03/2021",
-    img: "https://images.unsplash.com/photo-1559308078-88465deb35cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-    published: "10/03/2021",
-    for : "bole subcity",
-    status :"delivered"
-},
-{
-    id: 3,
-    title: "cleaning announcment",
-    from: "12/03/2021",
-    to: "16/03/2021",
-    img: "https://images.unsplash.com/photo-1559308078-88465deb35cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-    published: "10/03/2021",
-    for : "arada subcity",
-    status :"delivered"
-},
-  {
-       id: 4,
-       title: "cleaning announcment",
-       from: "12/03/2021",
-       to: "16/03/2021",
-       img: "https://images.unsplash.com/photo-1559308078-88465deb35cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-       published: "10/03/2021",
-       for : "yeka subcity",
-       status :"pending"
-   },
-   {
-       id: 5,
-       title: "cleaning announcment",
-       from: "12/03/2021",
-       to: "16/03/2021",
-       img: "https://images.unsplash.com/photo-1559308078-88465deb35cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-       published: "10/03/2021",
-       for : "bole subcity",
-       status :"pending"
-   },
-   {
-       id: 6,
-       title: "cleaning announcment",
-       from: "12/03/2021",
-       to: "16/03/2021",
-       img: "https://images.unsplash.com/photo-1559308078-88465deb35cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-       published: "10/03/2021",
-       for : "arada subcity",
-       status :"delivered"
-   },
-  ];
+
+export const reportColumns = [
+        {field:"reportTitle", headerName:"Title", width:230,
+        renderCell:(params) => {
+         return(
+             <div className="cellwithImg flex justify-between items-center">
+                 <img className="cellImg w-14 h-14 rounded-full p-2" src={params.row.imgage} />
+                    {params.row.Title}
+             </div>
+         )   
+        }},
+        {field: 'reportDescription', headerName: "Description", width: 100 },
+        {field: 'reportedBy', headerName: "Reported by", width: 100 },
+        {field: 'post_date', headerName: "Date", width: 100 },
+        {field: 'isResolved', headerName: "status", width: 100,
+        renderCell:(params) => {
+            return(
+                <div className={`status ${params.row.status}`}>{params.row.status}</div>
+            ) 
+           }},
+    
+    ];
+export const announcementColumns = [
+        {field:"notificationTitle", headerName:"Title", width:230},
+        {field: 'notificationDesctiption', headerName: "Description", width: 100 },
+        {field: 'fromDate', headerName: "From Date", width: 100 },
+        {field: 'toDate', headerName: "ToDate", width: 100 },
+        {field: 'published', headerName: "Posted On", width: 100,},
+        {field: 'recipient', headerName:"Recipient",width:100,},
+    
+    ];
+export const seminarColumns = [
+        {field:"seminarTitle", headerName:"Title", width:230,
+        renderCell:(params) => {
+         return(
+             <div className="cellwithImg flex justify-between items-center">
+                 <img className="cellImg w-14 h-14 rounded-full p-2" src={params.row.image} />
+                    {params.row.Title}
+             </div>
+         )   
+        }},
+        {field: 'from', headerName: "From Date", width: 100 },
+        {field: 'to', headerName: "To Date", width: 100 },
+    ];
+export const publicplaceColumns = [
+        {field:"placeName", headerName:"Name", width:230,},
+        {field: 'placeType', headerName: "Type", width: 100 },
+        {field: 'rating', headerName: "Rating", width: 100 },
+        {field: 'longitude', headerName: "Longitude", width: 100 },
+        {field: 'latitude', headerName: "Latitude", width: 100,},
+    ];
+
+export const userRows = []
+export const userColumns = []
+
 export const rColumn = [
     
 ];

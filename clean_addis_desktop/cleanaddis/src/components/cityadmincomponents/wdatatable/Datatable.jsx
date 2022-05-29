@@ -1,15 +1,22 @@
 import React from 'react'
 import './datatable.scss'
 import { DataGrid } from '@mui/x-data-grid'
-import { userColumns, userRows } from '../../../datatablesource'
+import { wasteColumns, wasteData } from '../../../datatablesource'
 import {Link} from 'react-router-dom'
 import New from '../../../pages/adminpages/new/New'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Newmodal from "../../../components/cityadmincomponents/wdatatable/NewModal"
 import Modal from '../wdatatable/Modal'
 import EditModal from '../wdatatable/Edit'
+import getService from '../../../services/get.service'
 
 const Wdatatable = () => {
+  const [tableData, setTableData] = useState([])
+  useEffect(() => {getService.getAllWaste()
+      .then((response) => setTableData(response.data))
+  }, [])
+    
+
     const [showMyModal,setShowMyModal]  = useState(false)
     const [showSingle, setSingle] = useState(false)
     const [showEdit, setEdit] = useState(false)
@@ -33,7 +40,12 @@ const Wdatatable = () => {
     
 
   return (
+    
+   
     <div>
+     
+      <div>
+      </div>
       <div>
       <Link to ="/cityadmin/work" onClick={() => setShowMyModal(true)}>
            <div className="border rounded border-slate-300 justify-center flex items-center m-4  hover:bg-green-400 cursor-pointer pt-4 pb-5">Add New Work Schedule</div> 
@@ -41,8 +53,8 @@ const Wdatatable = () => {
       </div>
     <div  style={{ height: 500, width: '100%' }} className="items-center">
        <DataGrid 
-        rows={userRows}
-        columns={userColumns.concat(actionColumn)}
+        rows={tableData}
+        columns={wasteColumns.concat(actionColumn)}
         pageSize={10}
         rowsPerPageOptions={[5]}
         checkboxSelection
@@ -55,6 +67,7 @@ const Wdatatable = () => {
       </div>
     
     </div>
+     
   )
 }
 

@@ -1,23 +1,29 @@
 import axios from "axios";
+<<<<<<< HEAD
 const API_URL = " http://localhost:8010/proxy"
 //lcp --proxyUrl
+=======
+const API_URL = "http://localhost:8010/proxy"
+//lcp --proxyURL 
+>>>>>>> b6d8d36a30ad4816d07e47feaefd714f3bf8a4df
 
 const login = (username, password) => {
     return axios
-    .post(API_URL + "/auth/",{
+    .post(API_URL + `/auth/`,{
         username,
-        password
+        password,
+        
+        
     })
     .then((response) => {
         if(response.data.access){
             localStorage.setItem("user",JSON.stringify(response.data));
             console.log("there is a response")
-            console.log(response.data)
+            return String(response.data.access)
+           
         }
         else{
-            console.log("the is no response")
-            
-            
+            console.log("the is no response")        
         }
         
     });
