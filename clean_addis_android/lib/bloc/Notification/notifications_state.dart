@@ -14,3 +14,10 @@ class NotificationLoaded extends NotificationsState {
    @override
   List<Object?> get props => [notification];
 }
+
+class NotificationError extends NotificationsState{
+  final String message;
+  NotificationError({required this.message});
+   @override
+  List<Object?> get props => [this.message];
+}

@@ -23,11 +23,10 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
           type: 'Waste',
           user: event.user,
           point_to: event.point_to,
-
         );
         
       }catch(e){
-
+        yield NotificationError(message: e.toString());
       }
     }
   }
