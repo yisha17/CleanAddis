@@ -17,26 +17,8 @@ export const wasteColumns = [
        }},
 
 ];
-export const wasteData =() => {
-    const HandleView = async () =>{
-        try{
-            await getService.getAllWaste().then(
-                (response)=>{
-                    console.log(response.data)
-                },
-                (error) => {
-                    console.log("error")
-                    console.log(error);
-                }
-            );
-          }catch(err){
-            console.log("err")
-              console.log(err);
-          }
-      };
-      return {HandleView}
-    }
-    export const userColumns = [
+
+export const userColumns = [
         {field: 'id', headerName: "ID", width: 70 },
         {field:"title", headerName:"Title", width:230,
         renderCell:(params) => {
@@ -59,67 +41,7 @@ export const wasteData =() => {
            }},
     
     ];
-export  const userRows = [{
-    id: 1,
-    title: "cleaning announcment",
-    from: "12/03/2021",
-    to: "16/03/2021",
-    img: "https://images.unsplash.com/photo-1559308078-88465deb35cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-    published: "10/03/2021",
-    for : "yeka subcity",
-    status :"delivered"
-},
-{
-    id: 2,
-    title: "cleaning announcment",
-    from: "12/03/2021",
-    to: "16/03/2021",
-    img: "https://images.unsplash.com/photo-1559308078-88465deb35cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-    published: "10/03/2021",
-    for : "bole subcity",
-    status :"delivered"
-},
-{
-    id: 3,
-    title: "cleaning announcment",
-    from: "12/03/2021",
-    to: "16/03/2021",
-    img: "https://images.unsplash.com/photo-1559308078-88465deb35cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-    published: "10/03/2021",
-    for : "arada subcity",
-    status :"delivered"
-},
-  {
-       id: 4,
-       title: "cleaning announcment",
-       from: "12/03/2021",
-       to: "16/03/2021",
-       img: "https://images.unsplash.com/photo-1559308078-88465deb35cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-       published: "10/03/2021",
-       for : "yeka subcity",
-       status :"pending"
-   },
-   {
-       id: 5,
-       title: "cleaning announcment",
-       from: "12/03/2021",
-       to: "16/03/2021",
-       img: "https://images.unsplash.com/photo-1559308078-88465deb35cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-       published: "10/03/2021",
-       for : "bole subcity",
-       status :"pending"
-   },
-   {
-       id: 6,
-       title: "cleaning announcment",
-       from: "12/03/2021",
-       to: "16/03/2021",
-       img: "https://images.unsplash.com/photo-1559308078-88465deb35cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-       published: "10/03/2021",
-       for : "arada subcity",
-       status :"delivered"
-   },
-  ];
+
 export const rColumn = [
     
 ];
