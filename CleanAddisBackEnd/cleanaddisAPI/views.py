@@ -260,7 +260,7 @@ class ReportAllAPIView(generics.ListAPIView):
     serializer_class = ReporterSerializer
 
 
-all_report_list_view = ReportAPIView.as_view()
+all_report_list_view = ReportAllAPIView.as_view()
 
 
 class PublicPlaceCreateAPIView(generics.CreateAPIView):

@@ -19,7 +19,12 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
         yield NotificationsInitial();
         final _storage = FlutterSecureStorage();
         final user_id = await _storage.read(key: 'id');
+        Notifications notifications = Notifications(
+          type: 'Waste',
+          user: event.user,
+          point_to: event.point_to,
 
+        );
         
       }catch(e){
 
