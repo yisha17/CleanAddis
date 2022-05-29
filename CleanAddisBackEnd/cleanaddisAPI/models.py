@@ -1,7 +1,12 @@
+from re import T
 from tkinter import CASCADE
+
 from django.db import models
 from django.forms import CharField
-
+from django.contrib.auth.models import (
+    BaseUserManager, AbstractBaseUser
+)
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 
@@ -22,21 +27,29 @@ class Address(models.Model):
     woreda = models.IntegerField(default=1)
 
 
-class User(models.Model):
+def upload_to(instance, filename):
+    return 'images/{filename}'.format(filename=filename)
 
-    username = models.CharField(max_length=20, default="")
-    password = models.CharField(max_length=20, default="")
+class User(AbstractUser):
+
+    ROLE = [
+        ('Qorale','Qorale'),
+        ('Garbage Collector', 'Garbage Collector'),
+        ('City Admin','City Admin'),
+        ('Resident','Resident')
+    ]
+
+    username = models.CharField(max_length=20,unique=True, default="")
     email = models.EmailField(max_length=30,default="")
-    role = models.CharField(max_length=20, default="",null = True)
-    profile = models.ImageField(null=True)
+    role = models.CharField(max_length=20, default="Resident", null = True)
+    profile = models.ImageField(upload_to=upload_to, null=True)
     phone = models.CharField(max_length= 20,null= True)
-    # unknown field type
     device_id = models.CharField(max_length=20, default="",null=True)
+    
+    class Meta(AbstractUser.Meta):
+       swappable = 'AUTH_USER_MODEL'
 
-   
 
-    def __iter__(self):
-        return [field.value_to_string(self) for field in Address._meta.fields]
 
 
 class Company(models.Model):
@@ -66,13 +79,14 @@ class Waste(models.Model):
         ('Metal','Metal'),
         ('Aluminium', 'Almuinium'),
         ('Paper','Paper'),
-        ('Old Gadgets','Old Gadgets'),
-        ('Glass','Glass')
+        ('E-waste','E-waste'),
+        ('Glass','Glass'),
+        ('Fabric','Fabric')
     ]
 
     DO = [
         ('Sell', 'Sell'),
-        ('Donate', 'Donate'),
+        ('Donation', 'Donation'),
     ]
 
     seller = models.ForeignKey(User, on_delete = models.DO_NOTHING )
@@ -83,21 +97,25 @@ class Waste(models.Model):
     price_per_unit = models.IntegerField(null=True)
     quantity = models.IntegerField(null=True)
     metric = models.CharField(null=True, max_length = 20)
-    image = models.ImageField(null = True)
+    image = models.ImageField(upload_to = upload_to, null = True)
     loaction = models.CharField(max_length=30,null=True)
     sold = models.BooleanField(null=True)
     bought = models.BooleanField(null=True)
     donated = models.BooleanField(null=True)
     description = models.CharField(max_length=200,null=True)
+    post_date = models.DateTimeField(auto_now_add=True)
+
 class Report(models.Model):
 
-    reportID = models.CharField(max_length=20, default="",null=True)
+    
     reportTitle = models.CharField(max_length=20,default="",null=True)
     reportDescription = models.CharField(max_length=20,default="",null=True)
-    image = models.ImageField(null=True)    
-    loaction = models.CharField(max_length=30,null=True)
-    reportedBy = models.ForeignKey(User, on_delete = models.DO_NOTHING )
-    
+    isResolved = models.BooleanField(default= False)
+    image = models.ImageField(upload_to=upload_to, null=True)
+    longitude = models.DecimalField(max_digits=12, decimal_places=10)
+    latitude = models.DecimalField(max_digits=12, decimal_places=10)
+    reportedBy = models.ForeignKey(User, on_delete = models.DO_NOTHING,null= True )
+    post_date = models.DateTimeField(auto_now_add=True)
     
 class PublicPlace(models.Model):
 
@@ -105,19 +123,21 @@ class PublicPlace(models.Model):
         ('Toilet', 'Toilet'),
         ('Park','Park')
     ]
-    placeID = models.CharField(max_length=20, default="",null=True)
     placeName = models.CharField(max_length=20,default="",null=True)
     placeType = models.CharField(max_length=20, choices= TYPE_CHOICES)
-    rating = models.CharField(max_length=5,default="",null=True)
-    loaction = models.CharField(max_length=30,null=True)
+    rating = models.IntegerField( null=True)
+    longitude = models.DecimalField(max_digits= 14,decimal_places=10,unique=True )
+    latitude = models.DecimalField(max_digits=14, decimal_places=10, unique=True)
+
+    
+
 
 class Seminar(models.Model):
     TYPE_CHOICES = [('Meeting','Meeting'),('Plantation','Plantation'),('Cleaning','Cleaning')]
-    seminarID = models.CharField(max_length=20, default="",null=True)
     seminarTitle = models.CharField(max_length=20,default="",null=True)
     seminarDescription = models.CharField(max_length=20,default="",null=True)
     seminarType = models.CharField(max_length=20, choices= TYPE_CHOICES)
-    loaction = models.CharField(max_length=30,null=True)
+    
 
 class WorkSchedule(models.Model):
     workID = models.CharField(max_length=20, default="",null=True)
@@ -125,11 +145,21 @@ class WorkSchedule(models.Model):
     hour = models.DateField(max_length=20, default="",null=True)
     
 class Announcement(models.Model):
-    notificationID = models.IntegerField(max_length=20,default="",null=True)
     notificationTitle = models.CharField(max_length=20, default="",null=True)
     notificationDescription = models.CharField(max_length=20, default="",null=True)
     formDate = models.DateField(max_length=20, default="",null=True)
     toDate = models.DateField(max_length=20, default="",null=True)
     published = models.DateField(max_length=20, default="",null=True)
     recipient = models.ForeignKey(User, on_delete = models.DO_NOTHING )
+
+
+class Notifications(models.Model):
+    isSeen = models.BooleanField(default=False)
+    notificationtype = models.CharField(max_length=10,)
+    user = models.IntegerField()
+    point_to = models.IntegerField()
+    post_date = models.DateTimeField(auto_now_add=True)
+    
+
+
 

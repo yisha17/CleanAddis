@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
+import os
+from firebase_admin import initialize_app
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,13 +28,14 @@ SECRET_KEY = 'django-insecure-=woiy7_t1ywe6ilw+2u3sk%-fy8l9w-eqw1tjz@yg#ftrt4m5-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'fcm_django',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -39,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'cleanaddisAPI'
+    'cleanaddisAPI',
+    
 ]
 
 MIDDLEWARE = [
@@ -71,6 +76,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'CleanAddisBackEnd.wsgi.application'
+
+ASGI_APPLICATION = 'CleanAddisBackEnd.asgi.application'
 
 
 # Database
@@ -126,3 +133,45 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'cleanaddisAPI.User'
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend"
+)
+
+SIMPLE_JWT = {
+
+    'AUTH_HEADER_TYPES': ('JWT',),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=5),
+}
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
+MEDIA_URL = 'media/'
+
+FIREBASE_APP = initialize_app()
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
+
+FCM_DJANGO_SETTINGS = {
+    "FCM_SERVER_KEY": "AAAAFU9TCG0:APA91bGmevSSNcAUgQOTl4n6akALR7MfF4R3W3dMLrEpqI5fVIDyyrnn_5y-kbfeBtynq6YoGtWjhrNBznp1ISqoNZ0N0x_44zsnsuP8dSYKoZ41H7vUFKerEI1_53K4IyhiZGBfHR6n",
+    "ONE_DEVICE_PER_USER": False,
+    "DELETE_INACTIVE_DEVICES": False,
+}
