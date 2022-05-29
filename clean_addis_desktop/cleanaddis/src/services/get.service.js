@@ -32,7 +32,7 @@ const getCompanies = () => {
     return axios.get(API_URI+ "/companies/all/",{headers:authHeader()})
 }
 const getPublicPlace = () => {
-    return axios.get(API_URI+ "/publicplace/all/",{headers:authHeader()})
+    return axios.get(API_URI+ "/publicplace/list/",{headers:authHeader()})
 }
 
 
