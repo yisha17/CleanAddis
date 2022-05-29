@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import generics, permissions, authentication
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny,IsAdminUser,IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from .models import *
@@ -114,7 +114,7 @@ class UserDetail(APIView):
         user = self.get_object(id)
 
         serializer = UserSerializer(user)
-
+        permission_classes = (IsAdminUser,IsAuthenticated)
         report = Report.objects.filter(reportedBy=id).count()
         sell = Waste.objects.filter(for_waste='Sell', seller=id).count()
         donate = Waste.objects.filter(for_waste='Donation', seller=id).count()
@@ -260,7 +260,7 @@ class ReportAllAPIView(generics.ListAPIView):
     serializer_class = ReporterSerializer
 
 
-all_report_list_view = ReportAPIView.as_view()
+all_report_list_view = ReportAllAPIView.as_view()
 
 
 class PublicPlaceCreateAPIView(generics.CreateAPIView):
