@@ -93,6 +93,27 @@ class _UserProfilePageState extends State<UserProfilePage> {
     );
   }
 
+  void loadingDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Center(child: Text('checking..')),
+              content: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: CircularProgressIndicator(),
+                  ),
+                ],
+              ));
+        });
+  }
+
   Widget _profileImage({String? image}) {
     return Center(
       child: Container(
@@ -378,7 +399,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       icon: Icons.phone,
                       label: 'Phone Number',
                       text:
-                          user.phone != null ? user.phone! : 'no phone number',
+                          user.phone != '' ? user.phone! : 'no phone number',
                       color: Colors.black),
                   Divider(),
                 ],

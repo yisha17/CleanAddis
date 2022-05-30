@@ -21,7 +21,7 @@ import Psingle from './pages/adminpages/psinglepage/Single';
 import Rsingle from './pages/adminpages/rsinglepage/Single';
 import New from '../../cleanaddis/src/pages/adminpages/new/New';
 import Ulist from './pages/userpages/ulist/List';
-import Recyclerlist from './pages/charitypages/clist/List';
+import Recyclerlist from './pages/recyclerpages/rlist/List';
 import Charitylist from './pages/charitypages/clist/List';
 import Uwlist from './pages/userpages/wastelist/List'
 import Usingle from '../../cleanaddis/src/pages/userpages/usinglepage/Single';
@@ -31,16 +31,25 @@ import {announcementInputs, reportuserInputs} from "../src/formsource"
 import Uhome from '../src/pages/userpages/uhome/Uhome'
 import Rhome from '../src/pages/recyclerpages/rhome/Rhome'
 import Chome from '../src/pages/charitypages/chome/Chome'
+import Form from '../src/pages/Form'
+import Adminroute from './pages/Adminroute';
+import Charityroute from './pages/Charityroute';
+import Cityroute from './pages/Cityroute';
+import Recyclerroute from './pages/Recyclerroute';
 
 ReactDOM.render(
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element = {<App />}/>
+          <Route>
+          <Route path="/" element = {<App />}/><Route />
           <Route path="Login" element = {<Login />}/>
           <Route path="Services" element = {<Services />}/>
           <Route path="Companies" element = {<Companies/>}/>
           <Route path="Recycler" element = {<Recycler />}/>
+          <Route path="register" element = {<Form />}/>
+          </Route>
+          <Route element={<Cityroute />}>
           <Route path="cityadmin">
             <Route index element={<Home />}/>   
             <Route path="new" element={<New inputs = {announcementInputs} title="Add new Announcement"/>}/>
@@ -69,6 +78,8 @@ ReactDOM.render(
                   <Route path="new" element={<New inputs = {announcementInputs} title="Add new work"/>}/>
                   </Route>
           </Route>
+          </Route>
+          <Route element={<Adminroute />}>
           <Route path="itadmin">
             <Route index element={<Uhome />}/>
               <Route path="user">
@@ -81,17 +92,21 @@ ReactDOM.render(
                   <Route path=":reportId" element={<Usingle />}/>
               </Route >
           </Route>
+          </Route>
+          <Route element={<Recyclerroute />}>
           <Route path="recycler">
             <Route index element={<Rhome />}/>
+            <Route path="prof                                                                                                                                                                                                                                                                                                                                       ile">
+                  <Route index element={<Rhome/>}/> 
+              </Route >
               <Route path="waste">
                   <Route index element={<Recyclerlist/>} /> 
                   <Route path=":wasteId" element={<Usingle />}/>
                   <Route path="new" element={<Unew inputs = {announcementInputs} title="Add user"/>}/>
               </Route >
-              <Route path="profile">
-                  <Route index element={<Rhome/>}/> 
-              </Route >
           </Route>
+          </Route>
+          <Route element={<Charityroute />}>
           <Route path="charity">
             <Route index element={<Chome />}/>
               <Route path="donate">
@@ -102,6 +117,7 @@ ReactDOM.render(
               <Route path="profile">
                   <Route index element={<Chome/>}/> 
               </Route >
+          </Route>
           </Route>
           
 

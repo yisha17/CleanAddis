@@ -2,7 +2,7 @@ from cgitb import lookup
 from dataclasses import field
 from rest_framework import serializers
 #from yaml import serialize
-from .models import Address, Announcement, Company, PublicPlace, Report, Seminar, User, Waste, WorkSchedule
+from .models import Address, Announcement, Company, Notifications, PublicPlace, Report, Seminar, User, Waste, WorkSchedule
 
 
 
@@ -30,15 +30,37 @@ class RegisterSerializer(serializers.ModelSerializer):
         if password is not None:
             instance.set_password(password)
         instance.save()
-        return instance    
+        return instance 
+
+
+
+class RegisterWebSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username','email', 'password','role']
+        extra_kwargs = {
+            'password': {'write_only': True},
+        }
+    def create(self, validated_data):
+        password = validated_data.pop('password', None)
+        # as long as the fields are the same, we can just use this
+        instance = self.Meta.model(**validated_data)
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance   
 
 class UpdateSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField('get_image_url')
     class Meta:
         model = User
         fields = '__all__'
         extra_kwargs = {
             'password': {'write_only': True},
         }
+
+    def get_image_url(self, obj):
+        return obj.profile.url
     def update(self, instance, validated_data):
         password = validated_data.pop('password', None)
         if password is not None:
@@ -47,7 +69,7 @@ class UpdateSerializer(serializers.ModelSerializer):
         instance.email = validated_data['email']
         instance.username = validated_data['username']
         instance.profile = validated_data['profile']
-        
+        instance.phone = validated_data['phone']
         instance.save()
 
         return instance  
@@ -119,4 +141,10 @@ class AnnouncementSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Announcement
+        fields = '__all__'
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notifications
         fields = '__all__'

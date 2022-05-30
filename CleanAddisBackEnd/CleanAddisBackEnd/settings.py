@@ -13,7 +13,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 import os
-
+from firebase_admin import initialize_app,credentials
+from google.oauth2 import service_account
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -33,8 +34,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'channels',
     'django.contrib.admin',
+    'fcm_django',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -159,7 +160,19 @@ SIMPLE_JWT = {
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 MEDIA_URL = 'media/'
 
-
+PROJECT_APP = os.path.basename(BASE_DIR)
+f = os.path.join(PROJECT_APP, 'local_settings.py')
+if os.path.exists(f):
+    import sys
+    import imp
+    module_name = '%s.local_settings' % PROJECT_APP
+    module = imp.new_module(module_name)
+    module.__file__ = f
+    sys.modules[module_name] = module
+    exec(open(f, 'rb').read())
+cred = credentials.Certificate(
+    os.path.join(PROJECT_APP, '../cleanaddis-b7388-0920f27d51ae.json'))
+FIREBASE_APP = initialize_app(cred)
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -167,4 +180,10 @@ CHANNEL_LAYERS = {
             "hosts": [("127.0.0.1", 6379)],
         },
     },
+}
+
+FCM_DJANGO_SETTINGS = {
+    "FCM_SERVER_KEY": "AAAAFU9TCG0:APA91bGmevSSNcAUgQOTl4n6akALR7MfF4R3W3dMLrEpqI5fVIDyyrnn_5y-kbfeBtynq6YoGtWjhrNBznp1ISqoNZ0N0x_44zsnsuP8dSYKoZ41H7vUFKerEI1_53K4IyhiZGBfHR6n",
+    "ONE_DEVICE_PER_USER": False,
+    "DELETE_INACTIVE_DEVICES": False,
 }

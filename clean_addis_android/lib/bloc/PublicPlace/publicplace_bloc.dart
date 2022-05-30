@@ -24,6 +24,7 @@ class PublicPlaceBloc extends Bloc<PublicPlaceEvent, PublicPlaceState> {
       try{
         yield PublicPlaceLoadingState();
          final _storage = FlutterSecureStorage();
+         print('jskdga asdgjnasdg');
          final token = await _storage.read(key: 'token');
          final data = await repository.getPublicPlaceByType(token!,event.type);
          yield PublicPlaceLoadedState(public: data!);
@@ -38,7 +39,7 @@ class PublicPlaceBloc extends Bloc<PublicPlaceEvent, PublicPlaceState> {
          yield FinalNavigationState(public: data);
          
       }catch(e){
-        ErrorState(message: e.toString());
+        yield ErrorState(message: e.toString());
       }
     }
   }

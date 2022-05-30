@@ -1,5 +1,6 @@
 from re import T
 from tkinter import CASCADE
+
 from django.db import models
 from django.forms import CharField
 from django.contrib.auth.models import (
@@ -31,15 +32,23 @@ def upload_to(instance, filename):
 
 class User(AbstractUser):
 
+    ROLE = [
+        ('Qorale','Qorale'),
+        ('Garbage Collector', 'Garbage Collector'),
+        ('City Admin','City Admin'),
+        ('Resident','Resident')
+    ]
+
     username = models.CharField(max_length=20,unique=True, default="")
     email = models.EmailField(max_length=30,default="")
-    role = models.CharField(max_length=20, default="Resident", null = True)
-    profile = models.ImageField(upload_to=upload_to,null=True)
+    role = models.CharField(max_length=20,choices=ROLE, default="Resident", null = True)
+    profile = models.ImageField(upload_to=upload_to, null=True)
     phone = models.CharField(max_length= 20,null= True)
     device_id = models.CharField(max_length=20, default="",null=True)
     
     class Meta(AbstractUser.Meta):
        swappable = 'AUTH_USER_MODEL'
+
 
 
 
@@ -142,4 +151,15 @@ class Announcement(models.Model):
     toDate = models.DateField(max_length=20, default="",null=True)
     published = models.DateField(max_length=20, default="",null=True)
     recipient = models.ForeignKey(User, on_delete = models.DO_NOTHING )
+
+
+class Notifications(models.Model):
+    isSeen = models.BooleanField(default=False)
+    notificationtype = models.CharField(max_length=10,)
+    user = models.IntegerField()
+    point_to = models.IntegerField()
+    post_date = models.DateTimeField(auto_now_add=True)
+    
+
+
 

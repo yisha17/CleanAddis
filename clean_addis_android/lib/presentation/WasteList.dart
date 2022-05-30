@@ -133,15 +133,17 @@ class WasteListPageState extends State<WasteListPage>
             children: [
               Expanded(
                 flex: 33,
-                child: image != null
-                    ? Image.network(
-                        image,
-                        fit: BoxFit.cover,
-                      )
-                    : Image.network(
+                child: image == ''
+                    ? 
+                    Image.network(
                         'https://picsum.photos/250?image=9',
                         fit: BoxFit.cover,
+                      ):
+                    Image.network(
+                        image!,
+                        fit: BoxFit.cover,
                       ),
+                     
               ),
               Expanded(
                 flex: 66,

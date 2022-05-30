@@ -1,12 +1,20 @@
-from django.urls import path
+from django.urls import include, path
 
 from .views import *
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_simplejwt import views as jwt_views
 
+from fcm_django.api.rest_framework import FCMDeviceAuthorizedViewSet
+
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register('devices', FCMDeviceAuthorizedViewSet)
 urlpatterns = [
     
     path('api/users/', user_signup_view),
+    path('api/users/web/', user_web_signup),
+    path('api/users/all', all_user_view),
     path('api/user/<int:id>',UserDetail.as_view()),
     path('api/user/<int:pk>/update', user_update_view),
     path('api/companies/',CompanyAPIView.as_view()),
@@ -27,6 +35,7 @@ urlpatterns = [
     path('api/report/reportlist/<int:reportedBy>',report_list_view),
     path('api/publicplace/', publicplace_create_view),
     path('api/publicplace/list/', publicplace_list_view),
+    path('api/publicplace/all', all_publicplace_view),
     path('api/publicplace/<int:pk>', publicplace_detail_view),
     path('api/publicplace/<int:pk>/update', publicplace_update_view),
     path('api/publicplace/delete/<int:pk>', publicplace_delete_view),
@@ -35,13 +44,18 @@ urlpatterns = [
     path('api/seminar/<int:pk>/update', seminar_update_view),
     path('api/seminar/delete/<int:pk>', seminar_delete_view),
     path('api/workschedule/', workschedule_create_view),
+    path('api/workschedule/all', all_workschedule_view),
     path('api/workschedule/<int:pk>', workschedule_detail_view),
     path('api/workschedule/<int:pk>/update', workschedule_update_view),
     path('api/workschedule/delete/<int:pk>', workschedule_delete_view),
     path('api/announcement/', announcement_create_view),
+    path('api/announcement/all', all_announcement_view),
     path('api/announcement/<int:pk>', announcement_detail_view),
     path('api/announcement/<int:pk>/update', announcement_update_view),
     path('api/announcement/delete/<int:pk>', announcement_delete_view),
     path('api/auth/', jwt_views.token_obtain_pair),
     path('api/auth/refresh', jwt_views.token_refresh), 
+    path('register_device',
+         FCMDeviceAuthorizedViewSet.as_view({'post': 'create'}), name='create_fcm_device'), 
+    path('test/',notify)     
 ]

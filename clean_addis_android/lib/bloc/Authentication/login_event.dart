@@ -49,3 +49,10 @@ class UserUpdateEvent extends LoginEvent {
   List<Object?> get props => [id,username,profile,email,address,phone];
 
 }
+
+class SellerProfileEvent extends LoginEvent{
+  final int seller;
+  SellerProfileEvent({required this.seller});
+  @override
+  List<Object?> get props => [this.seller];
+}
