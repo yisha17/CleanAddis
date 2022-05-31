@@ -36,6 +36,7 @@ import Adminroute from './pages/Adminroute';
 import Charityroute from './pages/Charityroute';
 import Cityroute from './pages/Cityroute';
 import Recyclerroute from './pages/Recyclerroute';
+import Profile from './pages/Profile'
 
 ReactDOM.render(
     <React.StrictMode>
@@ -62,11 +63,10 @@ ReactDOM.render(
                   <Route path=":announcementId" element={<Asingle />}/>
                   <Route path="new" element={<New inputs = {announcementInputs} title="Add new Announcement"/>}/>
                   </Route >
-                  <Route path="work">
-                  <Route index element={<Wlist/>} /> 
-                  <Route path=":workid" element={<Wsingle />}/>
-                  <Route path="new" element={<New inputs = {announcementInputs} title="Add new work"/>}/>
-                  </Route>
+                  <Route path="profile">
+                  <Route index element={<Profile/>} /> 
+                   </Route >
+                  
                   <Route path="seminar">
                   <Route index element={<Slist/>} /> 
                   <Route path=":semiarid" element={<Ssingle />}/>
@@ -77,8 +77,9 @@ ReactDOM.render(
                   <Route path=":publicid" element={<Psingle />}/>
                   <Route path="new" element={<New inputs = {announcementInputs} title="Add new work"/>}/>
                   </Route>
+                  </Route >
           </Route>
-          </Route>
+          
           <Route element={<Adminroute />}>
           <Route path="itadmin">
             <Route index element={<Uhome />}/>
@@ -91,6 +92,9 @@ ReactDOM.render(
                   <Route index element={<Uwlist/>} /> 
                   <Route path=":reportId" element={<Usingle />}/>
               </Route >
+              <Route path="profile">
+                  <Route index element={<Profile/>} /> 
+                   </Route >
           </Route>
           </Route>
           <Route element={<Recyclerroute />}>

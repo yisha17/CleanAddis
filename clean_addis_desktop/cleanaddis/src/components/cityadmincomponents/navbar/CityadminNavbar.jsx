@@ -3,6 +3,7 @@ import Search from './Search.png'
 import Notification from './Notification.png'
 import List from './List.png'
 import Avatar from './Avatar.png'
+import {Link} from 'react-router-dom'
 
 
 const CityadminNavbar = () => {
@@ -23,9 +24,10 @@ const CityadminNavbar = () => {
           <div className="item flex content-center pr-8">
           <img src={List} width="30"/>
           </div>
-          <div className="item flex content-center rounded border-solid">
+          <Link to="/cityadmin/profile"><div className="item flex content-center rounded border-solid">
           <img src={Avatar} width="30"/>
           </div>
+          </Link>
         </div>
       </div>
       
