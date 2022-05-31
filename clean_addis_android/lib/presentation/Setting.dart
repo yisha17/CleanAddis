@@ -8,7 +8,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-
   bool checkedValue = false;
   @override
   Widget build(BuildContext context) {
@@ -19,7 +18,8 @@ class _SettingsPageState extends State<SettingsPage> {
         centerTitle: true,
         title: Text(
           "Settings",
-          style: TextStyle(color:Colors.black, fontSize: 25, fontWeight: FontWeight.w500),
+          style: TextStyle(
+              color: Colors.black, fontSize: 25, fontWeight: FontWeight.w500),
         ),
         leading: IconButton(
           onPressed: () {
@@ -35,10 +35,9 @@ class _SettingsPageState extends State<SettingsPage> {
         padding: EdgeInsets.only(left: 16, top: 25, right: 16),
         child: ListView(
           children: [
-           
-            SizedBox(
-              height: 40,
-            ),
+            // SizedBox(
+            //   height: 40,
+            // ),
             Row(
               children: [
                 Icon(
@@ -92,8 +91,8 @@ class _SettingsPageState extends State<SettingsPage> {
               height: 10,
             ),
             buildNotificationOptionRow("Waste Collection Announcement", true),
-            buildNotificationOptionRow("Account activity", true),
-            buildNotificationOptionRow("Opportunity", false),
+            buildNotificationOptionRow("Report Resolve", true),
+            buildNotificationOptionRow("Buyer Interested", false),
             SizedBox(
               height: 50,
             ),
@@ -110,34 +109,26 @@ class _SettingsPageState extends State<SettingsPage> {
                   "Seminars",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                
               ],
-
             ),
             Divider(
               height: 15,
               thickness: 2,
             ),
-            CheckboxListTile(
-  title: Text("title text"),
-  value: checkedValue,
-  onChanged: (newValue) {
-    setState(() {
-      checkedValue = newValue!;
-    });
-  },
-  controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
-),
+            buildCheckList('Default(all)'),
+            buildCheckList('Meeting'),
+            buildCheckList('Plantation'),
+            buildCheckList('Cleaning'),
             Center(
-              child: TextButton(
-                style: TextButton.styleFrom(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green,
                   padding: EdgeInsets.symmetric(horizontal: 40),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                 ),
-                
                 onPressed: () {},
-                child: Text("SIGN OUT",
+                child: Text("Save",
                     style: TextStyle(
                         fontSize: 16, letterSpacing: 2.2, color: Colors.black)),
               ),
@@ -216,5 +207,24 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
     );
+  }
+
+
+  Widget buildCheckList(String title){
+    return  CheckboxListTile(
+              title: Text(title,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey[600])),
+              value: checkedValue,
+              onChanged: (newValue) {
+                setState(() {
+                  checkedValue = newValue!;
+                });
+              },
+              controlAffinity:
+                  ListTileControlAffinity.trailing, //  <-- leading Checkbox
+            );
   }
 }

@@ -109,8 +109,7 @@ class _NotificationPageState extends State<NotificationPage> {
               Colors.black),
           Divider(),    
 
-          ElevatedButton(onPressed: (){connect();},
-           child: Text('connect'))    
+      
         ],
       ),
     );

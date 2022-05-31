@@ -99,7 +99,7 @@ class PublicPlacePageState extends State<PublicPlacePage> {
               height: MediaQuery.of(context).size.height,
               child: MapboxMap(
                 initialCameraPosition: initialCameraPosition,
-                // accessToken: dotenv.env['MAPBOX_ACCESS_TOKEN'],
+                accessToken: dotenv.env['MAPBOX_ACCESS_TOKEN'],
                 onMapCreated: onMapCreated,
                 onStyleLoadedCallback: onStyleLoadedCallback,
                 myLocationEnabled: true,

@@ -8,7 +8,7 @@ import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'package:tflite/tflite.dart';
 import 'WasteList.dart';
 
 class AddWastePage extends StatefulWidget {
@@ -53,12 +53,19 @@ class AddWasteState extends State<AddWastePage> {
   final list = waste_type;
   static const values = <String>['Donation', 'Sell'];
   late String selectedValue = isEditing() ? widget.for_waste! : values.first;
-   late String? value = isEditing() ? widget.waste_type! : null;
+  late String? value = isEditing() ? widget.waste_type! : null;
   File? image;
   String wasteBlank = "assets/image/recycling.png";
   final ImagePicker _picker = ImagePicker();
   final wasteBloc =
       AddWasteBloc(WasteRepository(dataProvider: WasteDataProvider()));
+  // tflite variables
+  late List result;
+  String name = "";
+  String confidence = "";
+  String number = '';
+  bool loading = false;
+  //tflite variables end here
 
   var _formKey = GlobalKey<FormState>();
   var _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -78,6 +85,18 @@ class AddWasteState extends State<AddWastePage> {
           text: isEditing() ? widget.quantity.toString() : null),
       location_text =
           TextEditingController(text: isEditing() ? widget.location : null);
+
+  @override
+  void initState() {
+    super.initState();
+    loadMyMode();
+  }
+
+  @override
+  void dispose(){
+    Tflite.close();
+    super.dispose();
+  }
 
   bool isEditing() {
     if (widget.id != null) {
@@ -106,6 +125,38 @@ class AddWasteState extends State<AddWastePage> {
         },
       ).toList(),
     );
+  }
+
+  loadMyMode() async {
+    var resultant = await Tflite.loadModel(
+        labels: "assets/labels.txt",
+        model: "assets/model_unquant.tflite",
+        numThreads: 1);
+    print("result after loading model: $resultant");
+  }
+
+  applyModelOnImage(File file) async {
+    print('running');
+    var res = await Tflite.runModelOnImage(
+        path: file.path,
+        numResults: 1,
+        threshold: 0.5,
+        imageMean: 127.5,
+        imageStd: 127.5,
+        asynch: true);
+
+    setState(() {
+      result = res!;
+      String str = result[0]["label"];
+      name = str.substring(2);
+      // confidence = result != null
+      //     ? (result[0]['condfidece'] * 100.0).toString().substring(0, 2) + "%"
+      //     : "";
+      if(list.contains(name)){
+        value = name;
+      }
+    });
+   
   }
 
   Widget buildTextField(
@@ -169,10 +220,12 @@ class AddWasteState extends State<AddWastePage> {
     final pickedFile = await _picker.pickImage(source: source);
     setState(() {
       if (pickedFile != null) {
+        loading = true;
         image = File(pickedFile.path);
       } else {
         print('No image selected.');
       }
+      applyModelOnImage(image!);
     });
   }
 
@@ -185,31 +238,35 @@ class AddWasteState extends State<AddWastePage> {
               image!,
               fit: BoxFit.cover,
             )
-          : Image.asset(wasteBlank,height: 70,
+          : Image.asset(
+              wasteBlank,
+              height: 70,
               width: 70,
             ),
     );
   }
 
-   Widget editimageField() {
+  Widget editimageField() {
     return Container(
       height: MediaQuery.of(context).size.height * 0.3,
       width: MediaQuery.of(context).size.width,
       child: widget.image != null
           ? image != null
-          ? Image.file(
-              image!,
-              fit: BoxFit.cover,
-            ):Image.network(
-              widget.image!,
-              fit: BoxFit.cover,
-            )
-          : Image.asset(wasteBlank,height: 70,width: 70,),
+              ? Image.file(
+                  image!,
+                  fit: BoxFit.cover,
+                )
+              : Image.network(
+                  widget.image!,
+                  fit: BoxFit.cover,
+                )
+          : Image.asset(
+              wasteBlank,
+              height: 70,
+              width: 70,
+            ),
     );
   }
-
-
-
 
   bool isNumeric(String str) {
     if (str == null) {
@@ -278,6 +335,9 @@ class AddWasteState extends State<AddWastePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (image != null) {
+      applyModelOnImage(image!);
+    }
     return BlocProvider(
       create: (context) =>
           AddWasteBloc(WasteRepository(dataProvider: WasteDataProvider())),
@@ -287,12 +347,14 @@ class AddWasteState extends State<AddWastePage> {
           if (state is WasteLoading) {
             WidgetsBinding.instance!
                 .addPostFrameCallback((_) => loadingDialog(context));
-          } else if ( state is WasteCreatedState || state is WasteUpdatedState) {
+          } else if (state is WasteCreatedState || state is WasteUpdatedState) {
             WidgetsBinding.instance!.addPostFrameCallback((_) => messageDialog(
                     context,
                     icon: Icons.recycling,
                     color: TypeColor.chooseColor(value!),
-                    title: state is WasteUpdatedState ? 'Waste Updated':'Waste Created',
+                    title: state is WasteUpdatedState
+                        ? 'Waste Updated'
+                        : 'Waste Created',
                     body: 'Your Waste has been Successfully Created',
                     actions: [
                       TextButton(
@@ -364,9 +426,7 @@ class AddWasteState extends State<AddWastePage> {
                   Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      isEditing() ?
-                      editimageField(): 
-                      imageField(),
+                      isEditing() ? editimageField() : imageField(),
                       Positioned(
                         bottom: 0,
                         right: 0,
@@ -399,12 +459,10 @@ class AddWasteState extends State<AddWastePage> {
                     height: MediaQuery.of(context).size.height * 0.06,
                   ),
                   buildTextField(
-                    icon: Icon(
-                      Icons.recycling,
-                      color: value != null ? 
-                      TypeColor.chooseColor(value!):
-                      Colors.grey
-                    ),
+                    icon: Icon(Icons.recycling,
+                        color: value != null
+                            ? TypeColor.chooseColor(value!)
+                            : Colors.grey),
                     type: TextInputType.name,
                     controller: this.waste_name_text,
                     labelText: "Waste name",
@@ -445,12 +503,10 @@ class AddWasteState extends State<AddWastePage> {
                         focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: logogreen),
                         ),
-                        prefixIcon: Icon(
-                          Icons.category,
+                        prefixIcon: Icon(Icons.category,
                             color: value != null
                                 ? TypeColor.chooseColor(value!)
-                                : Colors.grey
-                        ),
+                                : Colors.grey),
                         contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 20),
                         labelText: 'Waste Type',
                         hintText: "Plastic",
@@ -544,8 +600,8 @@ class AddWasteState extends State<AddWastePage> {
                   buildRadios(),
                   ElevatedButton(
                     onPressed: () {
-                        if(isEditing() == false){
-                             wasteBloc.onCreateWaste(
+                      if (isEditing() == false) {
+                        wasteBloc.onCreateWaste(
                             for_waste: this.selectedValue,
                             waste_name: this.waste_name_text.text,
                             waste_type: this.value,
@@ -556,8 +612,8 @@ class AddWasteState extends State<AddWastePage> {
                             image: this.image,
                             location: this.location_text.text,
                             description: this.waste_description_text.text);
-                        }else{
-                          wasteBloc.add(UpdateWasteEvent(
+                      } else {
+                        wasteBloc.add(UpdateWasteEvent(
                             id: widget.id!,
                             waste_name: waste_name_text.text,
                             waste_type: value,
@@ -567,13 +623,11 @@ class AddWasteState extends State<AddWastePage> {
                             price_per_unit: int.parse(price_per_unit_text.text),
                             location: location_text.text,
                             description: waste_description_text.text,
-                            image: image ));
-                        }
-                      
-                   
+                            image: image));
+                      }
                     },
                     child: Text(
-                      isEditing()  ? 'Update':'Create' ,
+                      isEditing() ? 'Update' : 'Create',
                       style:
                           TextStyle(fontSize: 26, fontWeight: FontWeight.w700),
                     ),
