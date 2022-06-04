@@ -335,9 +335,6 @@ class AddWasteState extends State<AddWastePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (image != null) {
-      applyModelOnImage(image!);
-    }
     return BlocProvider(
       create: (context) =>
           AddWasteBloc(WasteRepository(dataProvider: WasteDataProvider())),

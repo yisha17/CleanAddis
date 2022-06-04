@@ -84,19 +84,7 @@ class UserUpdateView(generics.UpdateAPIView):
     serializer_class = UpdateSerializer
     parser_classes = (MultiPartParser, FormParser)
     lookup_field = 'pk'
-    # def update(self, request,*args, **kwargs):
-    #     serializer = self.serializer_class(request.user, data=request.data, partial=True)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-    # def partial_update(self, request,):
-    #     serializer = self.serializer_class(
-    #         request.user, data=request.data, partial=True)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
+    
 user_update_view = UserUpdateView.as_view()
 
 

@@ -19,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final loginBloc = LoginBloc(UserRepository(dataProvider: UserDataProvider()));
   var _formKey = GlobalKey<FormState>();
   var _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool isSeen = false;
   final textControllerEmail = TextEditingController(),
       textControllerPassword = TextEditingController(),
       textControllerName = TextEditingController(),
@@ -95,10 +96,12 @@ class _LoginPageState extends State<LoginPage> {
         });
   }
 
+ 
+
   Widget buildPassword() => BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
           return TextFormField(
-            obscureText: true,
+            obscureText: isSeen ? false : true,
             controller: textControllerPassword,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             textInputAction: TextInputAction.done,
@@ -119,6 +122,15 @@ class _LoginPageState extends State<LoginPage> {
                 prefixIcon: Icon(
                   Icons.lock,
                   color: Colors.black,
+                ),
+                suffixIcon: IconButton(
+                  onPressed:(){
+                    setState(() {
+                      isSeen = !isSeen;
+                    });
+                    
+                  },
+                  icon:Icon(Icons.remove_red_eye)
                 ),
                 labelText: 'Password',
                 labelStyle: TextStyle(color: Colors.black),
@@ -152,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                 .showSnackBar(SnackBar(content: Text(message)));
           }
           else if (state.e == 'Exception: Incorrect username or password') {
-            String message = 'Username in use. Please change username';
+            String message = 'Username or Password not Correct';
             ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
               SnackBar(
                 content: Text(message,style: TextStyle(color: Colors.white),),

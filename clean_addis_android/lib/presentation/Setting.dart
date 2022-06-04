@@ -9,6 +9,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   bool checkedValue = false;
+  // Map seminarSetting<String, bool> =
   @override
   Widget build(BuildContext context) {
     return Scaffold(

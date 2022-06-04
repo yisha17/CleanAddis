@@ -19,7 +19,7 @@ class _SeminarListPageState extends State<SeminarListPage> {
 
   @override
   void initState(){
-    seminarBloc..add(SeminarPageOpened());
+    // seminarBloc..add(SeminarPageOpened());
     super.initState();
   }
 
@@ -94,17 +94,18 @@ class _SeminarListPageState extends State<SeminarListPage> {
     return BlocProvider(
       create:(context) => SeminarBloc(SeminarRepo(SeminarDataProvider())),
       child: Scaffold(
+        appBar: AppBar(
+          title: Text('Seminar',),
+          centerTitle:true,
+          backgroundColor: lightgreen,
+          
+        ),
         backgroundColor: lightgreen,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        body: ListView(
           children: [
-            ListView(
-              children: [
-                createCard(),
-                createCard(),
-                createCard(),
-              ],
-            ),
+            createCard(),
+            createCard(),
+            createCard(),
           ],
         ),
       ),
