@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class SeminarPage extends StatefulWidget {
-  const SeminarPage({ Key? key }) : super(key: key);
+  
+  final String link;
+  SeminarPage({Key? key,required this.link}) : super(key: key);
+
 
   @override
   State<SeminarPage> createState() => _SeminarPageState();
@@ -18,7 +21,7 @@ class _SeminarPageState extends State<SeminarPage> {
           // height: 600,
           // the most important part of this example
           child: WebView(
-            initialUrl: 'https://flutter.dev/',
+            initialUrl: widget.link,
             // Enable Javascript on WebView
             javascriptMode: JavascriptMode.unrestricted,
           )),

@@ -19,15 +19,21 @@ class _SeminarListPageState extends State<SeminarListPage> {
 
   @override
   void initState(){
-    // seminarBloc..add(SeminarPageOpened());
+    seminarBloc..add(SeminarPageOpened());
     super.initState();
   }
 
-  Widget createCard() {
+  Widget createCard({
+    required String? title,
+    required String? imageLink,
+    required String? post_date,
+    required String? link,
+  }) {
+     var fromDate = DateFormatter.changetoMD(post_date!);
     return GestureDetector(
       onTap: () {
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => SeminarPage()));
+            .push(MaterialPageRoute(builder: (context) => SeminarPage(link:link!)));
       },
       child: Container(
         height: 300,
@@ -38,7 +44,7 @@ class _SeminarListPageState extends State<SeminarListPage> {
               Expanded(
                 flex: 85,
                 child: Image.network(
-                  'https://www.cleanlink.com/resources/editorial/2021/cleaning-staff-26492.jpg',
+                imageLink!,
                   fit: BoxFit.cover,
                   width: MediaQuery.of(context).size.width,
                 ),
@@ -47,7 +53,7 @@ class _SeminarListPageState extends State<SeminarListPage> {
                 flex: 20,
                 child: Center(
                   child: Text(
-                    'How Cleaning and mental health related?',
+                    title!,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -59,7 +65,7 @@ class _SeminarListPageState extends State<SeminarListPage> {
               Row(
                 children: [
                   Icon(Icons.date_range),
-                  Text('Posted on May 22, 2022')
+                  Text('Posted on $fromDate')
                 ],
               )
             ],
@@ -95,18 +101,52 @@ class _SeminarListPageState extends State<SeminarListPage> {
       create:(context) => SeminarBloc(SeminarRepo(SeminarDataProvider())),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Seminar',),
+          title: Text('Seminar',
+          style: TextStyle(color: Colors.black),),
           centerTitle:true,
           backgroundColor: lightgreen,
-          
+
         ),
         backgroundColor: lightgreen,
-        body: ListView(
-          children: [
-            createCard(),
-            createCard(),
-            createCard(),
-          ],
+        body: BlocBuilder(
+          bloc: seminarBloc,
+          builder: (context,state) {
+            if (state is SeminarInitial){
+              Center(
+                child: CircularProgressIndicator(color: 
+                Colors.green),
+              );
+            }
+            if (state is SeminarLoaded){
+              final seminars = state.seminars;
+
+              if (seminars.isEmpty){
+                return Center(
+                  child: Text('Sorry, We have not prepared a seminar yet'),
+                );
+              }else{
+                 return ListView.builder(
+                   itemCount: seminars.length,
+                   scrollDirection: Axis.vertical,
+                   itemBuilder: (context,index){
+                     return  createCard(
+                    title: '${seminars.elementAt(index).title}',
+                    imageLink: '${seminars.elementAt(index).image}',
+                    post_date: '${seminars.elementAt(index).postdate}',
+                    link: '${seminars.elementAt(index).link}'
+                  );
+                   }
+              );
+
+              }
+
+            }
+            return Center(
+              child: Text(
+                'Sorry error happened'
+              ),
+            );
+          }
         ),
       ),
     );

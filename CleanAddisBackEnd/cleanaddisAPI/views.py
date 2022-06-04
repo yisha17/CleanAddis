@@ -84,7 +84,7 @@ class UserUpdateView(generics.UpdateAPIView):
     serializer_class = UpdateSerializer
     parser_classes = (MultiPartParser, FormParser)
     lookup_field = 'pk'
-    
+
 user_update_view = UserUpdateView.as_view()
 
 
@@ -351,6 +351,15 @@ class SeminarCreateAPIView(generics.CreateAPIView):
 
 
 seminar_create_view = SeminarCreateAPIView.as_view()
+
+
+class SeminarListAPIView(generics.ListAPIView):
+
+    queryset = Seminar.objects.all()
+    lookup_field = 'pk'
+    serializer_class = SeminarSerializer
+
+seminar_list_view = SeminarListAPIView.as_view()
 
 
 class SeminarDetailAPIView(generics.RetrieveAPIView):
