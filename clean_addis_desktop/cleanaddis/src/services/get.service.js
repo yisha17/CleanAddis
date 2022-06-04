@@ -8,7 +8,7 @@ const getUserRole = (id) => {
 };
 
 const getAllUsers = () => {
-    return axios.get(API_URI + "/users/all/",{headers:authHeader()});
+    return axios.get(API_URI + "/users/all",{headers:authHeader()});
 };  
 const getAllWaste  = () => {
     return axios.get(API_URI+ "/waste/all/",{headers:authHeader()})
@@ -20,7 +20,7 @@ const getAllSeminar = () => {
     return axios.get(API_URI+ "/seminar/all/",{headers:authHeader()})
 }
 const getAllAnnouncement = () => {
-    return axios.get(API_URI+ "/announcement/all/",{headers:authHeader()})
+    return axios.get(API_URI+ "/announcement/all",{headers:authHeader()})
 }
 const getAllDonations = () => {
     return axios.get(API_URI+ "",{headers:authHeader()})

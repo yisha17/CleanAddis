@@ -32,18 +32,25 @@ import Uhome from '../src/pages/userpages/uhome/Uhome'
 import Rhome from '../src/pages/recyclerpages/rhome/Rhome'
 import Chome from '../src/pages/charitypages/chome/Chome'
 import Form from '../src/pages/Form'
-
+import Adminroute from './pages/Adminroute';
+import Charityroute from './pages/Charityroute';
+import Cityroute from './pages/Cityroute';
+import Recyclerroute from './pages/Recyclerroute';
+import Profile from './pages/Profile'
 
 ReactDOM.render(
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element = {<App />}/>
+          <Route>
+          <Route path="/" element = {<App />}/><Route />
           <Route path="Login" element = {<Login />}/>
           <Route path="Services" element = {<Services />}/>
           <Route path="Companies" element = {<Companies/>}/>
           <Route path="Recycler" element = {<Recycler />}/>
           <Route path="register" element = {<Form />}/>
+          </Route>
+          <Route element={<Cityroute />}>
           <Route path="cityadmin">
             <Route index element={<Home />}/>   
             <Route path="new" element={<New inputs = {announcementInputs} title="Add new Announcement"/>}/>
@@ -56,11 +63,10 @@ ReactDOM.render(
                   <Route path=":announcementId" element={<Asingle />}/>
                   <Route path="new" element={<New inputs = {announcementInputs} title="Add new Announcement"/>}/>
                   </Route >
-                  <Route path="work">
-                  <Route index element={<Wlist/>} /> 
-                  <Route path=":workid" element={<Wsingle />}/>
-                  <Route path="new" element={<New inputs = {announcementInputs} title="Add new work"/>}/>
-                  </Route>
+                  <Route path="profile">
+                  <Route index element={<Profile/>} /> 
+                   </Route >
+                  
                   <Route path="seminar">
                   <Route index element={<Slist/>} /> 
                   <Route path=":semiarid" element={<Ssingle />}/>
@@ -71,7 +77,10 @@ ReactDOM.render(
                   <Route path=":publicid" element={<Psingle />}/>
                   <Route path="new" element={<New inputs = {announcementInputs} title="Add new work"/>}/>
                   </Route>
+                  </Route >
           </Route>
+          
+          <Route element={<Adminroute />}>
           <Route path="itadmin">
             <Route index element={<Uhome />}/>
               <Route path="user">
@@ -83,10 +92,15 @@ ReactDOM.render(
                   <Route index element={<Uwlist/>} /> 
                   <Route path=":reportId" element={<Usingle />}/>
               </Route >
+              <Route path="profile">
+                  <Route index element={<Profile/>} /> 
+                   </Route >
           </Route>
+          </Route>
+          <Route element={<Recyclerroute />}>
           <Route path="recycler">
             <Route index element={<Rhome />}/>
-            <Route path="profile">
+            <Route path="prof                                                                                                                                                                                                                                                                                                                                       ile">
                   <Route index element={<Rhome/>}/> 
               </Route >
               <Route path="waste">
@@ -94,8 +108,9 @@ ReactDOM.render(
                   <Route path=":wasteId" element={<Usingle />}/>
                   <Route path="new" element={<Unew inputs = {announcementInputs} title="Add user"/>}/>
               </Route >
-              
           </Route>
+          </Route>
+          <Route element={<Charityroute />}>
           <Route path="charity">
             <Route index element={<Chome />}/>
               <Route path="donate">
@@ -106,6 +121,7 @@ ReactDOM.render(
               <Route path="profile">
                   <Route index element={<Chome/>}/> 
               </Route >
+          </Route>
           </Route>
           
 

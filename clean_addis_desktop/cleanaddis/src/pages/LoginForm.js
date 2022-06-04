@@ -7,8 +7,9 @@ import getService from '../services/get.service';
 import "./login.css"
 import { isExpired, decodeToken } from "react-jwt";
 
-
+export var userrole = ""
 function LoginForm({ Login, error }) {
+    AuthService.logout();
     const [username,setUsername] = useState("");
     const [password,setPassword] = useState("");
 
@@ -17,11 +18,13 @@ function LoginForm({ Login, error }) {
   
   let token = "";
   var id = 0;
-  var userdetail = []
+  var userdetail = [];
+  
 
   const HandleLogin = async (e) =>{
       e.preventDefault();
       try{
+         
           await AuthService.login(username,password).then(
               (response)=>{
                 token = `"${response}"`
@@ -35,27 +38,39 @@ function LoginForm({ Login, error }) {
           );
           await getService.getUserRole(id).then(
             (response)=>{
-              console.log(response.data.is_superuser)
-              if ((response.data.is_superuser) == true){
+              if ((response.data.is_superuser) === true){
                     navigate("/itadmin")
+                    console.log("it is admin")
+                    
+              }
+              else if ((response.data.role) === "City Admin"){
+                console.log("it is cityadmin")
+                navigate("/cityadmin")
+                
+              }
+              else if ((response.data.role) ==="charity"){
+                navigate("/charity")
+                
+              }
+              else if ((response.data.role) ==="recycler"){
+                navigate("/recycler")
+              }
+              else {
+                navigate("/login")
               }
               
-            }
+            },
+            (error) => {
+              navigate("/")
+              console.log(error);
+          }
           );
         
         }catch(err){
-          console.log("success")
+            navigate("/login")
             console.log(err);
         }
     };
-  
-  
- 
-
-
-
-
-
   return (
 
     <div>
@@ -124,7 +139,7 @@ function LoginForm({ Login, error }) {
         
       </div>
     </div>
-  </div>
+  </div>1
 </section>
 </form>
     </div>
@@ -132,3 +147,4 @@ function LoginForm({ Login, error }) {
 }
 
 export default LoginForm;
+
