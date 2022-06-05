@@ -5,7 +5,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_simplejwt import views as jwt_views
 
 from fcm_django.api.rest_framework import FCMDeviceAuthorizedViewSet
-
+from push_notifications.api.rest_framework import APNSDeviceAuthorizedViewSet, GCMDeviceAuthorizedViewSet
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -54,9 +54,11 @@ urlpatterns = [
     path('api/announcement/<int:pk>', announcement_detail_view),
     path('api/announcement/<int:pk>/update', announcement_update_view),
     path('api/announcement/delete/<int:pk>', announcement_delete_view),
-    path('api/auth/', jwt_views.token_obtain_pair),
+    path('api/auth/', custom_token_obtain),
     path('api/auth/refresh', jwt_views.token_refresh), 
     path('register_device',
          FCMDeviceAuthorizedViewSet.as_view({'post': 'create'}), name='create_fcm_device'), 
-    path('test/',notify)     
+    path('test/',notify),
+    path('device/register/',
+         GCMDeviceAuthorizedViewSet.as_view({'post': 'create'}),)
 ]
