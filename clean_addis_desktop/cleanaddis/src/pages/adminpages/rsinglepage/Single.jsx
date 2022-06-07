@@ -47,7 +47,7 @@ const Rsingle = () => {
             <div>
 
             </div>
-                   
+            
           </div>
           </div>
         </div>

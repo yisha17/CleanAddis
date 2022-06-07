@@ -1,7 +1,7 @@
   import React from 'react'
 import Single from '../../../pages/userpages/usinglepage/Single';
 
-const Modal = ({visible, onClose}) => {
+const Modal = ({visible, onClose,id}) => {
 
     if(!visible) return null;
     return (

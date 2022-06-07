@@ -19,6 +19,7 @@ const Wdatatable = () => {
     const viewfunction=(id) =>{
       localStorage.setItem("selected",JSON.stringify(id))
     }
+    
      
    
     const [showMyModal,setShowMyModal]  = useState(false)

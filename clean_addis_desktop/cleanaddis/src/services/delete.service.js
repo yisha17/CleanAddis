@@ -4,22 +4,22 @@ import authHeader from "./auth-header";
 const API_URI = "http://localhost:8010/proxy";
 
 const deleteUser = (id) => {
-    return axios.delete(`${API_URI}/users/${id}`,{headers:authHeader()});
+    return axios.delete(`${API_URI}/users/delete/${id}`,{headers:authHeader()});
 };  
-const deleteWaste  = () => {
-    return axios.delete(`${API_URI}/waste/${id}`,{headers:authHeader()})
+const deleteWaste  = (id) => {
+    return axios.delete(`${API_URI}/waste/delete/${id}`,{headers:authHeader()})
 };
-const deleteSeminar = () => {
-    return axios.delete(`${API_URI}/seminar/${id}`,{headers:authHeader()})
+const deleteSeminar = (id) => {
+    return axios.delete(`${API_URI}/seminar/delete/${id}`,{headers:authHeader()})
 }
-const deleteAnnouncement = () => {
-    return axios.delete(`${API_URI}/announcement/${id}`,{headers:authHeader()})
+const deleteAnnouncement = (id) => {
+    return axios.delete(`${API_URI}/announcement/delete/${id}`,{headers:authHeader()})
 }
-const deleteWork = () => {
-    return axios.delete(`${API_URI}/work/${id}`,{headers:authHeader()})
+const deleteWork = (id) => {
+    return axios.delete(`${API_URI}/work/delete/${id}`,{headers:authHeader()})
 }
-const deletePublicPlace = () => {
-    return axios.delete(`${API_URI}/publicplace/${id}`,{headers:authHeader()})
+const deletePublicPlace = (id) => {
+    return axios.delete(`${API_URI}/publicplace/delete/${id}`,{headers:authHeader()})
 }
 
 const deleteService = {

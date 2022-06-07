@@ -39,28 +39,25 @@ export const reportColumns = [
          return(
              <div className="cellwithImg flex justify-between items-center">
                  <img className="cellImg w-14 h-14 rounded-full p-2" src={params.row.image} />
-                    {params.row.Title}
+                    {params.row.reportTitle}
              </div>
          )   
         }},
-        {field: 'reportDescription', headerName: "Description", width: 100 },
-        {field: 'reportedBy', headerName: "Reported by", width: 100 },
-        {field: 'post_date', headerName: "Date", width: 100 },
-        {field: 'isResolved', headerName: "status", width: 100,
+        
+        {field: 'reportDescription', headerName: "Description", width: 150 },
+        {field: 'post_date', headerName: "Date", width: 110 },
+        {field: 'isResolved', headerName: "Status", width: 100,
         renderCell:(params) => {
             return(
-                <div className={`status ${params.row.status}`}>{params.row.status}</div>
+                <div className={`status ${params.row.isResolved}`}>{params.row.isResolved}</div>
             ) 
            }},
     
     ];
 export const announcementColumns = [
-        {field:"notificationTitle", headerName:"Title", width:230},
-        {field: 'notificationDesctiption', headerName: "Description", width: 100 },
-        {field: 'fromDate', headerName: "From Date", width: 100 },
-        {field: 'toDate', headerName: "ToDate", width: 100 },
-        {field: 'published', headerName: "Posted On", width: 100,},
-        {field: 'recipient', headerName:"Recipient",width:100,},
+        {field:"notification_title", headerName:"Title", width:230},
+        {field: 'notification_body', headerName: "Description", width: 100 },
+        {field: 'address', headerName: "For", width: 100,},
     
     ];
 export const seminarColumns = [
