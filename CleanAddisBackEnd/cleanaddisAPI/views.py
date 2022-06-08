@@ -71,8 +71,9 @@ user_signup_view = RegisterView.as_view()
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
-    print("here is login")
 custom_token_obtain = MyTokenObtainPairView.as_view()
+
+
 class UserListView(generics.ListAPIView):
 
     queryset = User.objects.all()
@@ -91,15 +92,26 @@ class UserDeleteView(generics.DestroyAPIView):
     serilaizer_class = UserSerializer
 
 
-class UserUpdateView(generics.UpdateAPIView):
+class UserUpdatePasswordView(generics.UpdateAPIView):
     permission_classes = [AllowAny]
     queryset = User.objects.all()
-    serializer_class = UpdateSerializer
-    parser_classes = (MultiPartParser, FormParser)
+    print("is it what i am seeeing")
+    serializer_class = UpdatePasswordSerializer
     lookup_field = 'pk'
 
-user_update_view = UserUpdateView.as_view()
+user_password_update = UserUpdatePasswordView.as_view()
 
+
+# class UserUpdateProfileView(generics.UpdateAPIView):
+#     permission_classes = [AllowAny]
+#     queryset = User.objects.all()
+#     serializer_class = UpdateProfileSerializer
+#     parser_classes = (MultiPartParser, FormParser)
+
+#     lookup_field = 'pk'
+    
+
+# user_profile_update = UserUpdateProfileView.as_view()
 
 class UserView(APIView):
 
@@ -122,7 +134,7 @@ class UserView(APIView):
 
 
 class UserDetail(APIView):
-
+    parser_classes = (MultiPartParser, FormParser)
     def get_object(self, id):
         try:
             return User.objects.get(id=id)
@@ -132,8 +144,9 @@ class UserDetail(APIView):
     def get(self, request, id):
 
         user = self.get_object(id)
-
-        serializer = UserSerializer(user)
+        
+        serializer = UserSerializer(user, context={"request":
+                                                   request})
         permission_classes = (IsAdminUser,IsAuthenticated)
         report = Report.objects.filter(reportedBy=id).count()
         sell = Waste.objects.filter(for_waste='Sell', seller=id).count()
@@ -466,16 +479,19 @@ class AnnouncementCreateAPIView(generics.CreateAPIView):
     def perform_create(self, serializer):
         title = self.request.data['notificationTitle']
         description = self.request.data['notificationDescription']
-        devices = FCMDevice.objects.filter(name="Deutsch")
+        address = self.request.data['address']
+        users = list(User.objects.filter(address = address).values('pk'))
+        ids = []
+        for user in users:
+            ids.append(user['pk'])
+
+        print(ids)
+
+       
+        devices = GCMDevice.objects.filter(id__in = ids)
         print(devices)
-        wer = devices.send_message(Message(
-             data={
-            "title":title,
-            "body":description
-        }))
-        wer
-        print(wer)
-        print(title)
+        devices.send_message(
+            description, extra={"title": title, "icon": "icon_ressource"})
         return super().perform_create(serializer)
 
 
@@ -568,8 +584,9 @@ class WasteCreateAPIView(generics.CreateAPIView):
     parser_classes = (MultiPartParser, FormParser)
     serializer_class = WasteSerializer
     permission_classes = (permissions.IsAuthenticated,)
-
+    
     def perform_create(self, serializer):
+        print("herisdfn")
         return super().perform_create(serializer)
 
 

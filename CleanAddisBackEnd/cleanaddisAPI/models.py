@@ -40,9 +40,9 @@ class User(AbstractUser):
     username = models.CharField(max_length=20,unique=True, default="")
     email = models.EmailField(max_length=30,default="")
     role = models.CharField(max_length=20,choices=ROLE, default="Resident", null = True)
-    profile = models.ImageField(upload_to=upload_to, null=True)
+    profile = models.ImageField(upload_to= upload_to, null=True)
     phone = models.CharField(max_length= 20,null= True)
-    device_id = models.CharField(max_length=20, default="",null=True)
+    address = models.CharField(max_length=40,null = True)
     
     class Meta(AbstractUser.Meta):
        swappable = 'AUTH_USER_MODEL'
@@ -147,12 +147,13 @@ class WorkSchedule(models.Model):
     
 class Announcement(models.Model):
     notificationTitle = models.CharField(max_length=20, default="",null=True)
-    notificationDescription = models.CharField(max_length=20, default="",null=True)
-    formDate = models.DateField(null=True)
-    toDate = models.DateField(null=True)
+    notificationDescription = models.CharField(max_length=120, default="",null=True)
+    notificationType = models.CharField(max_length=30)
     published = models.DateField(null=True)
-    recipient = models.ForeignKey(User, on_delete = models.DO_NOTHING )
-
+    user_id = models.IntegerField()
+    point_to = models.IntegerField()
+    address = models.CharField(max_length=40,null=True)
+    post_date = models.DateTimeField(auto_now_add=True)
 
 class Notifications(models.Model):
     isSeen = models.BooleanField(default=False)

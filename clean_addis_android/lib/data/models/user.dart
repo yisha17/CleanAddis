@@ -16,7 +16,7 @@ class User {
   final int? report_count;
   final int? donate_count;
   final int? sell_count;
-  //device id
+  final String? registration_id;
 
   User({
     this.id,
@@ -32,7 +32,8 @@ class User {
     this.refresh_token,
     this.report_count,
     this.sell_count,
-    this.donate_count
+    this.donate_count,
+    this.registration_id
   });
 
 

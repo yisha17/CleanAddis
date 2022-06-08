@@ -24,4 +24,8 @@ class UserRepository{
   Future<User?> updateProfile(User user,String id, String token, File? file){
     return this.dataProvider.updateProfile(user, id, token, file);
   }
+
+  Future<void> createDeviceInfo(String token){
+    return this.dataProvider.createDeviceInfo(token);
+  }
 }

@@ -15,19 +15,24 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         # Add extra responses here
         data['role'] = self.user.role
-        print("we reach hear peacefully")
         return data
 
 
 
 class UserSerializer(serializers.ModelSerializer):
-
+    profile = serializers.ImageField(
+        max_length=None, use_url=True
+    )
     class Meta:
         model = User
         extra_kwargs = {'password': {'write_only': True}}
         fields = '__all__'
+        print("working here")
 
-
+    def get_photo_url(self, obj):
+        request = self.context.get('request')
+        photo_url = obj.fingerprint.url
+        return request.build_absolute_uri(photo_url)
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -49,7 +54,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 class RegisterWebSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username','email', 'password','role']
+        fields = ['id', 'username','email', 'password','role','address']
         extra_kwargs = {
             'password': {'write_only': True},
         }
@@ -62,30 +67,53 @@ class RegisterWebSerializer(serializers.ModelSerializer):
         instance.save()
         return instance   
 
-class UpdateSerializer(serializers.ModelSerializer):
-    image_url = serializers.SerializerMethodField('get_image_url')
+class UpdatePasswordSerializer(serializers.ModelSerializer):
+    # image_url = serializers.SerializerMethodField('get_image_url')
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ['password', 'username', 'email',
+                  'address', 'phone', 'profile']
         extra_kwargs = {
             'password': {'write_only': True},
         }
 
-    def get_image_url(self, obj):
-        return obj.profile.url
+
     def update(self, instance, validated_data):
+    #     print(validated_data)
+        
         password = validated_data.pop('password', None)
+        email = validated_data['email']
+        username = validated_data['username']
+        profile = validated_data['profile']
+        address = validated_data['address']
+        phone = validated_data['phone']
+        instance = self.Meta.model(**validated_data)
         if password is not None:
             instance.set_password(password)
-        print(validated_data)
-        instance.email = validated_data['email']
-        instance.username = validated_data['username']
-        instance.profile = validated_data['profile']
-        instance.phone = validated_data['phone']
+        if email is not None:
+            instance.email = validated_data['email']
+        if username is not None:
+            instance.username = validated_data['username']
+        if profile is not None:
+            instance.profile = validated_data['profile']
+        if phone is not None:
+            instance.phone = validated_data['phone']
+        if address is not None:
+            instance.address = validated_data['address']
+        
+        
         instance.save()
+        print(instance)
 
         return instance  
 
+
+class UpdateProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username','email','address','phone','profile']
+
+        
 class AddressSerializer(serializers.ModelSerializer):
     model = Address
     fields = '__all__'

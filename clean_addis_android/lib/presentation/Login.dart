@@ -2,6 +2,7 @@ import 'package:clean_addis_android/bloc/Authentication/login_bloc.dart';
 import 'package:clean_addis_android/bloc/Authentication/login_state.dart';
 import 'package:clean_addis_android/data/data_providers/user_data.dart';
 import 'package:clean_addis_android/data/repositories/user_repository.dart';
+import 'package:clean_addis_android/presentation/Home.dart';
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -145,11 +146,17 @@ class _LoginPageState extends State<LoginPage> {
       bloc: loginBloc,
       listener: (context, LoginState state) {
         if (state.user != null && state is AuthenticatedState) {
-          print("user is not null");
-          Navigator.of(context, rootNavigator: true).pop();
+         
+          // Navigator.of(context, rootNavigator: true).pop();
 
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => Pages()));
+          // Navigator.of(context)
+          //     .push(MaterialPageRoute(builder: (context) => Pages()));
+
+          Navigator.pushNamed(
+            context,
+            HomePage.id,
+          
+          );
         } else if (state is UserLoadingState) {
           print("loading true");
           WidgetsBinding.instance!
