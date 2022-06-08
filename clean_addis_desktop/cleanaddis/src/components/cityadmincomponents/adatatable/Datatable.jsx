@@ -38,6 +38,10 @@ const Adatatable = () => {
       console.log('Thing was not saved to the database.');
     }
   }
+  const editfunction = (id) => {
+    localStorage.setItem("selected",JSON.stringify(id));
+    setEdit(true);
+  }
     const [showMyModal,setShowMyModal]  = useState(false)
     const [showSingle, setSingle] = useState(false)
     const [showEdit, setEdit] = useState(false)
@@ -48,7 +52,7 @@ const Adatatable = () => {
           <Link to ="/cityadmin/announcement" onClick={() => viewfunction(params.row.id)}>
            <div className="viewButton border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">View</div> 
            </Link>
-           <Link to ="/cityadmin/announcement" onClick={() => setEdit(true)}>
+           <Link to ="/cityadmin/announcement" onClick={() => editfunction(params.row.id)}>
            <div className="viewButton border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">Edit</div> 
            </Link>
            
