@@ -1,6 +1,11 @@
 import axios from "axios";
+<<<<<<< HEAD
+const API_URL = " http://localhost:8010/proxy"
+//lcp --proxyUrl
+=======
 const API_URL = "http://localhost:8010/proxy"
 //lcp --proxyURL 
+>>>>>>> b6d8d36a30ad4816d07e47feaefd714f3bf8a4df
 
 const login = (username, password) => {
     return axios
