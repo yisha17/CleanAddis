@@ -21,3 +21,5 @@ class NotificationCreateEvent extends NotificationsEvent {
    @override
   List<Object?> get props => [user,point_to,type];    
 }
+
+

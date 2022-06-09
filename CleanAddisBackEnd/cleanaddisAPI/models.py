@@ -40,9 +40,9 @@ class User(AbstractUser):
     username = models.CharField(max_length=20,unique=True, default="")
     email = models.EmailField(max_length=30,default="")
     role = models.CharField(max_length=20,choices=ROLE, default="Resident", null = True)
-    profile = models.ImageField(upload_to=upload_to, null=True)
+    profile = models.ImageField(upload_to= upload_to, null=True)
     phone = models.CharField(max_length= 20,null= True)
-    device_id = models.CharField(max_length=20, default="",null=True)
+    address = models.CharField(max_length=40,null = True)
     
     class Meta(AbstractUser.Meta):
        swappable = 'AUTH_USER_MODEL'

@@ -323,6 +323,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 username: username_controller.text,
                                 email: email_controller.text,
                                 phone: phone_controller.text,
+                                address: address_controller.text,
                                 profile: this.image));
                         },
                         style: ElevatedButton.styleFrom(

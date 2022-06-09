@@ -5,7 +5,7 @@ import 'package:clean_addis_android/bloc/Authentication/login_event.dart';
 import 'package:clean_addis_android/bloc/Authentication/login_state.dart';
 import 'package:clean_addis_android/data/models/user.dart';
 import 'package:clean_addis_android/data/repositories/user_repository.dart';
-import 'package:clean_addis_android/helpers/space.dart';
+import 'package:clean_addis_android/helpers/device_id.dart';
 import 'package:clean_addis_android/presentation/UserProfile.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decode/jwt_decode.dart';
@@ -40,9 +40,12 @@ class LoginBloc extends Bloc<LoginEvent,LoginState>{
         await _storage.write(key: 'name', value: event.username);
         await _storage.write(key: 'password', value: event.password);
         getToken();
+        print('here');
+        print(getId());
+        await userRepository.createDeviceInfo();
         yield AuthenticatedState(user: data);
         
-       
+        
 
       } catch (e){
         
