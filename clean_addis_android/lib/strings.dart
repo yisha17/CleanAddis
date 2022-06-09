@@ -12,6 +12,8 @@ const report_path = '/api/report/';
 const user_report_path = '/api/report/reportlist/';
 const report_update_path = '/api/report6/update';
 
+
+const seminar_path = '/api/seminar/all';
 const waste_type = <String>[
   'Plastic',
   'Glass',
@@ -20,6 +22,5 @@ const waste_type = <String>[
   'E-Waste',
   'Organic',
   'Fabric',
-  'Aluminum'
 ];
 

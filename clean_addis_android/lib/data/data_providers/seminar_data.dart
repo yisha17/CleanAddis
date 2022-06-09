@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 class SeminarDataProvider{
 
   Future<List<Seminar>?> getSeminar(String token) async{
-    final response = await http.get(Uri.http(base_url,''),
+    final response = await http.get(Uri.http(base_url,'$seminar_path'),
     headers: {
       'Authorization': 'JWT $token',
     });

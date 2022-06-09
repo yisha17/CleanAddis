@@ -1,6 +1,4 @@
 from re import T
-from tkinter import CASCADE
-
 from django.db import models
 from django.forms import CharField
 from django.contrib.auth.models import (
@@ -108,8 +106,8 @@ class Waste(models.Model):
 class Report(models.Model):
 
     
-    reportTitle = models.CharField(max_length=20,default="",null=True)
-    reportDescription = models.CharField(max_length=20,default="",null=True)
+    reportTitle = models.CharField(max_length=120,default="",null=True)
+    reportDescription = models.CharField(max_length=320,default="",null=True)
     isResolved = models.BooleanField(default= False)
     image = models.ImageField(upload_to=upload_to, null=True)
     longitude = models.DecimalField(max_digits=12, decimal_places=10)
@@ -123,8 +121,8 @@ class PublicPlace(models.Model):
         ('Toilet', 'Toilet'),
         ('Park','Park')
     ]
-    placeName = models.CharField(max_length=20,default="",null=True)
-    placeType = models.CharField(max_length=20, choices= TYPE_CHOICES)
+    placeName = models.CharField(max_length=120,default="",null=True)
+    placeType = models.CharField(max_length=120, choices= TYPE_CHOICES)
     rating = models.IntegerField( null=True)
     longitude = models.DecimalField(max_digits= 14,decimal_places=10,unique=True )
     latitude = models.DecimalField(max_digits=14, decimal_places=10, unique=True)
@@ -134,22 +132,25 @@ class PublicPlace(models.Model):
 
 class Seminar(models.Model):
     TYPE_CHOICES = [('Meeting','Meeting'),('Plantation','Plantation'),('Cleaning','Cleaning')]
-    seminarTitle = models.CharField(max_length=20,default="",null=True)
-    seminarDescription = models.CharField(max_length=20,default="",null=True)
+
+    seminarTitle = models.CharField(max_length=120,default="",null=True)
     seminarType = models.CharField(max_length=20, choices= TYPE_CHOICES)
-    
+    link = models.CharField(max_length=200,default = "")
+    imageLink = models.CharField(max_length = 300, default="")
+    fromDate = models.DateTimeField(auto_now_add=True)
+    toDate = models.DateField( null=True)
+    isExpired = models.BooleanField(default=False)
 
 class WorkSchedule(models.Model):
-    workID = models.CharField(max_length=20, default="",null=True)
-    date = models.DateField(max_length=20, default="",null=True)
-    hour = models.DateField(max_length=20, default="",null=True)
+    date = models.DateField(null=True)
+    hour = models.DateField(null=True)
     
 class Announcement(models.Model):
     notificationTitle = models.CharField(max_length=20, default="",null=True)
     notificationDescription = models.CharField(max_length=20, default="",null=True)
-    formDate = models.DateField(max_length=20, default="",null=True)
-    toDate = models.DateField(max_length=20, default="",null=True)
-    published = models.DateField(max_length=20, default="",null=True)
+    formDate = models.DateField(null=True)
+    toDate = models.DateField(null=True)
+    published = models.DateField(null=True)
     recipient = models.ForeignKey(User, on_delete = models.DO_NOTHING )
 
 

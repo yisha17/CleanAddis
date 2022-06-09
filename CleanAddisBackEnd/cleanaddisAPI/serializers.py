@@ -3,8 +3,20 @@ from dataclasses import field
 from rest_framework import serializers
 #from yaml import serialize
 from .models import Address, Announcement, Company, Notifications, PublicPlace, Report, Seminar, User, Waste, WorkSchedule
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        refresh = self.get_token(self.user)
+        data['refresh'] = str(refresh)
+        data['access'] = str(refresh.access_token)
+
+        # Add extra responses here
+        data['role'] = self.user.role
+        print("we reach hear peacefully")
+        return data
 
 
 

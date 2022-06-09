@@ -9,7 +9,6 @@ import { isExpired, decodeToken } from "react-jwt";
 
 export var userrole = ""
 function LoginForm({ Login, error }) {
-
     AuthService.logout();
     const [username,setUsername] = useState("");
     const [password,setPassword] = useState("");
@@ -140,7 +139,7 @@ function LoginForm({ Login, error }) {
         
       </div>
     </div>
-  </div>
+  </div>1
 </section>
 </form>
     </div>
