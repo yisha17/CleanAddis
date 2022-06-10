@@ -147,12 +147,13 @@ class WorkSchedule(models.Model):
     
 class Announcement(models.Model):
     notificationTitle = models.CharField(max_length=20, default="",null=True)
-    notificationDescription = models.CharField(max_length=20, default="",null=True)
-    formDate = models.DateField(null=True)
-    toDate = models.DateField(null=True)
+    notificationDescription = models.CharField(max_length=120, default="",null=True)
+    notificationType = models.CharField(max_length=30)
     published = models.DateField(null=True)
-    recipient = models.ForeignKey(User, on_delete = models.DO_NOTHING )
-
+    user_id = models.IntegerField()
+    point_to = models.IntegerField()
+    address = models.CharField(max_length=40,null=True)
+    post_date = models.DateTimeField(auto_now_add=True)
 
 class Notifications(models.Model):
     isSeen = models.BooleanField(default=False)

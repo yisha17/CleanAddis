@@ -1,14 +1,14 @@
 import 'package:clean_addis_android/bloc/Waste/user_waste_bloc.dart';
+import 'package:clean_addis_android/data/data_providers/user_data.dart';
 import 'package:clean_addis_android/data/data_providers/waste_data.dart';
+import 'package:clean_addis_android/data/repositories/user_repository.dart';
 import 'package:clean_addis_android/data/repositories/waste_repository.dart';
 import 'package:clean_addis_android/helpers/firebase_handler.dart';
 import 'package:clean_addis_android/presentation/UserProfile.dart';
 import 'package:clean_addis_android/presentation/WasteBuyList.dart';
 import 'package:clean_addis_android/utils.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -18,10 +18,11 @@ import '../bloc/Waste/waste_bloc.dart';
 import '../main.dart';
 import 'AddWaste.dart';
 import 'Login.dart';
-import 'EditProfile.dart';
+
 import 'WasteList.dart';
 
 class HomePage extends StatefulWidget {
+  static String id = 'home';
   @override
   State<StatefulWidget> createState() {
     return HomePageState();
@@ -29,6 +30,10 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+
+  
+
+  final userRepository = UserRepository(dataProvider: UserDataProvider());
   final wastebloc =
       UserWasteBloc(WasteRepository(dataProvider: WasteDataProvider()));
   final waste_buybloc =
@@ -39,35 +44,13 @@ class HomePageState extends State<HomePage> {
   late final _storage = FlutterSecureStorage();
   
   @override
-  void initState() {
+  void initState(){
     super.initState();
     wastebloc..add(HomePageOpenedEvent());
     initializeLocationAndSave();
     firebaseNotifications.setupFirebase(context);
-    //  var initialzationSettingsAndroid =
-    //     AndroidInitializationSettings('@mipmap/ic_launcher');
-    // var initializationSettings =
-    //     InitializationSettings(android: initialzationSettingsAndroid);
 
-    // flutterLocalNotificationsPlugin.initialize(initializationSettings);
-    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    //   RemoteNotification notification = message.notification!;
-    //   AndroidNotification? android = message.notification?.android;
-    //   if (notification != null && android != null) {
-    //     flutterLocalNotificationsPlugin.show(
-    //         notification.hashCode,
-    //         notification.title,
-    //         notification.body,
-    //         NotificationDetails(
-    //           android: AndroidNotificationDetails(
-    //             channel.id,
-    //             channel.name,
-    //             channelDescription:channel.description,
-    //             icon: android.smallIcon,
-    //           )
-    //         ));
-    //   }
-    // });
+   
   }
 
   Future<String> getUserName() async {

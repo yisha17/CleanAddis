@@ -479,16 +479,19 @@ class AnnouncementCreateAPIView(generics.CreateAPIView):
     def perform_create(self, serializer):
         title = self.request.data['notificationTitle']
         description = self.request.data['notificationDescription']
-        devices = FCMDevice.objects.filter(name="Deutsch")
+        address = self.request.data['address']
+        users = list(User.objects.filter(address = address).values('pk'))
+        ids = []
+        for user in users:
+            ids.append(user['pk'])
+
+        print(ids)
+
+       
+        devices = GCMDevice.objects.filter(id__in = ids)
         print(devices)
-        wer = devices.send_message(Message(
-             data={
-            "title":title,
-            "body":description
-        }))
-        wer
-        print(wer)
-        print(title)
+        devices.send_message(
+            description, extra={"title": title, "icon": "icon_ressource"})
         return super().perform_create(serializer)
 
 

@@ -39,13 +39,14 @@ class LoginBloc extends Bloc<LoginEvent,LoginState>{
         await _storage.write(key: 'token', value:data.access_token);
         await _storage.write(key: 'name', value: event.username);
         await _storage.write(key: 'password', value: event.password);
-        getToken();
-        print('here');
-        print(getId());
-        await userRepository.createDeviceInfo();
+        final token = await _storage.read(key: 'token');
+        
+        try{await userRepository.createDeviceInfo(token!);}catch(e){
+          print("here is the error  "+e.toString());
+        }
         yield AuthenticatedState(user: data);
         
-        
+       
 
       } catch (e){
         

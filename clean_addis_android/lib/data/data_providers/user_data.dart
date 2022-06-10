@@ -126,22 +126,29 @@ class UserDataProvider {
     }
   }
 
-  Future<void> createDeviceInfo() async {
+  Future<void> createDeviceInfo(String token) async {
     var id = await _storage.read(key:'id');
+    final String? device_id = await getId();  
+    print(device_id);  
     final response = await http.post(Uri.http(base_url, device_register),
-    final device_id = getId();    
+    
         headers: <String, String>{
           "Content-Type": "application/json;charset=UTF-8",
           "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "POST, OPTIONS"
+          "Access-Control-Allow-Methods": "POST, OPTIONS",
+          "Authorization": "JWT $token"
         },
         body: jsonEncode({
           'id':int.parse(id!),
-          'registration_id': getToken(),
+          'user':int.parse(id),
+          'registration_id': await getToken(),
            "cloud_message_type": "FCM",
-           "device_id": getId(),
+           "device_id": device_id,
         }));
     if (response.statusCode == 201) {
+      print("successfully created");
+    }
+     else if (response.statusCode == 200) {
       print("successfully created");
     } else if (response.statusCode == 400) {
       throw Exception('Bad Request.');
