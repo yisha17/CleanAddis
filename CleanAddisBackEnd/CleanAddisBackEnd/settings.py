@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'cleanaddisAPI',
+    'push_notifications'
     
 ]
 
@@ -181,9 +182,13 @@ CHANNEL_LAYERS = {
         },
     },
 }
+PUSH_NOTIFICATIONS_SETTINGS = {
+    "FCM_API_KEY": "AAAAFU9TCG0:APA91bGmevSSNcAUgQOTl4n6akALR7MfF4R3W3dMLrEpqI5fVIDyyrnn_5y-kbfeBtynq6YoGtWjhrNBznp1ISqoNZ0N0x_44zsnsuP8dSYKoZ41H7vUFKerEI1_53K4IyhiZGBfHR6n",
+}
 
 FCM_DJANGO_SETTINGS = {
     "FCM_SERVER_KEY": "AAAAFU9TCG0:APA91bGmevSSNcAUgQOTl4n6akALR7MfF4R3W3dMLrEpqI5fVIDyyrnn_5y-kbfeBtynq6YoGtWjhrNBznp1ISqoNZ0N0x_44zsnsuP8dSYKoZ41H7vUFKerEI1_53K4IyhiZGBfHR6n",
     "ONE_DEVICE_PER_USER": False,
     "DELETE_INACTIVE_DEVICES": False,
 }
+

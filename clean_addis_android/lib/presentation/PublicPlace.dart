@@ -99,7 +99,7 @@ class PublicPlacePageState extends State<PublicPlacePage> {
               height: MediaQuery.of(context).size.height,
               child: MapboxMap(
                 initialCameraPosition: initialCameraPosition,
-                // accessToken: dotenv.env['MAPBOX_ACCESS_TOKEN'],
+                accessToken: dotenv.env['MAPBOX_ACCESS_TOKEN'],
                 onMapCreated: onMapCreated,
                 onStyleLoadedCallback: onStyleLoadedCallback,
                 myLocationEnabled: true,
@@ -124,8 +124,11 @@ class PublicPlacePageState extends State<PublicPlacePage> {
                   final public_place = state.public;
                   print(public_place);
                   for (int index = 0; index < public_place.length; index++) {
+                    print(index);
+                    
                     num distance = getDistanceFromSharedPrefs(index) / 1000;
                     num duration = getDurationFromSharedPrefs(index) / 60;
+                    print(distance);
                     carouselData.add({
                       'index': index,
                       'distance': distance,

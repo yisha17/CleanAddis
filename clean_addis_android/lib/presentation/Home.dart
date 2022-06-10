@@ -9,6 +9,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:location/location.dart';
@@ -30,10 +31,12 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   final wastebloc =
       UserWasteBloc(WasteRepository(dataProvider: WasteDataProvider()));
-   final waste_buybloc =
+  final waste_buybloc =
       AddWasteBloc(WasteRepository(dataProvider: WasteDataProvider()));
 
-   FirebaseNotifications firebaseNotifications = new FirebaseNotifications();
+  FirebaseNotifications firebaseNotifications = new FirebaseNotifications();
+
+  late final _storage = FlutterSecureStorage();
   
   @override
   void initState() {
@@ -67,6 +70,11 @@ class HomePageState extends State<HomePage> {
     // });
   }
 
+  Future<String> getUserName() async {
+    var username = await _storage.read(key: 'name');
+    return username!;
+  }
+
   void initializeLocationAndSave() async {
     Location _location = Location();
     bool? serviceEnabled;
@@ -81,7 +89,6 @@ class HomePageState extends State<HomePage> {
     if (permissionGranted == _location.hasPermission()) {
       permissionGranted = await _location.requestPermission();
     }
-
 
     //capture user current location data
     LocationData locationData = await _location.getLocation();
@@ -119,9 +126,10 @@ class HomePageState extends State<HomePage> {
   Widget wasteType(String type, Color id) {
     return InkWell(
       onTap: () {
-        
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => WasteBuyListPage(type: type,)));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => WasteBuyListPage(
+                  type: type,
+                )));
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 5),
@@ -200,15 +208,35 @@ class HomePageState extends State<HomePage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
               ),
-              Text(
-                'Hello Yishak!',
-                textAlign: TextAlign.left,
-                style: GoogleFonts.montserrat(
-                  textStyle: TextStyle(color: Colors.black),
-                  fontWeight: FontWeight.w900,
-                  fontSize: 16,
-                ),
-              ),
+              FutureBuilder(
+                  future: getUserName(),
+                  initialData: 'Loading',
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Text(
+                        'Hello Yishak!',
+                        textAlign: TextAlign.left,
+                        style: GoogleFonts.montserrat(
+                          textStyle: TextStyle(color: Colors.black),
+                          fontWeight: FontWeight.w900,
+                          fontSize: 16,
+                        ),
+                      );
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.done) {
+                      return Text(
+                        'Hello ' + snapshot.data!.capitalize() + '!',
+                        textAlign: TextAlign.left,
+                        style: GoogleFonts.montserrat(
+                          textStyle: TextStyle(color: Colors.black),
+                          fontWeight: FontWeight.w900,
+                          fontSize: 16,
+                        ),
+                      );
+                    }
+                    return Center();
+                  }),
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(children: <TextSpan>[
@@ -249,9 +277,9 @@ class HomePageState extends State<HomePage> {
                     onPressed: () => {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => WasteListPage(
-                            for_waste: 'Sell',
-                            type: 'Organic',
-                          )))
+                                for_waste: 'Sell',
+                                type: 'Organic',
+                              )))
                     },
                     child: Text(
                       'Details',
@@ -311,7 +339,8 @@ class HomePageState extends State<HomePage> {
                                             '${waste.elementAt(index).for_waste}');
                                         print(index);
                                         print(waste_donation.length);
-                                        print('${waste_donation.elementAt(index).post_date}');
+                                        print(
+                                            '${waste_donation.elementAt(index).post_date}');
                                       },
                                       child: Column(
                                         children: [
@@ -377,8 +406,7 @@ class HomePageState extends State<HomePage> {
                                                     AddWastePage()));
                                       },
                                     ),
-                                    margin:
-                                        EdgeInsets.fromLTRB(10, 0, 10, 20),
+                                    margin: EdgeInsets.fromLTRB(10, 0, 10, 20),
                                     color: Colors.grey,
                                     width: MediaQuery.of(context).size.width *
                                         0.25,
@@ -407,11 +435,9 @@ class HomePageState extends State<HomePage> {
                   ),
                   TextButton(
                     onPressed: () => {
-  
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => 
-                          WasteListPage(for_waste: 'Donation',type:'Pastic'))),
-
+                          builder: (context) => WasteListPage(
+                              for_waste: 'Donation', type: 'Pastic'))),
                     },
                     child: Text(
                       'Details',
@@ -536,8 +562,7 @@ class HomePageState extends State<HomePage> {
                                                     AddWastePage()));
                                       },
                                     ),
-                                    margin:
-                                         EdgeInsets.fromLTRB(10, 0, 10, 20),
+                                    margin: EdgeInsets.fromLTRB(10, 0, 10, 20),
                                     color: Colors.grey,
                                     width: MediaQuery.of(context).size.width *
                                         0.25,
