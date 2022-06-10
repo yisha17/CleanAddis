@@ -13,7 +13,9 @@ const Wdatatable = () => {
   const [tableData, setTableData] = useState([])
   useEffect(() => {getService.getAllUsers()
       .then((response) => setTableData(response.data))
+
   }, [])
+    
     const [showMyModal,setShowMyModal]  = useState(false)
     const [showSingle, setSingle] = useState(false)
     const [showEdit, setEdit] = useState(false)
@@ -21,7 +23,7 @@ const Wdatatable = () => {
     renderCell:(params) => {
      return(
          <div className = "cellAction flex gap-4">
-          <Link to ="/itadmin/user" onClick={() => setSingle(true)}>
+          <Link to ="/itadmin/user" onClick={() => console.log("here is the row id",params.row.id)}>
            <div className="viewButton border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">View</div> 
            </Link>
            <Link to ="/itadmin/user" onClick={() => setEdit(true)}>

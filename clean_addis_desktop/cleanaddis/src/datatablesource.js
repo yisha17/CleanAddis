@@ -38,7 +38,7 @@ export const reportColumns = [
         renderCell:(params) => {
          return(
              <div className="cellwithImg flex justify-between items-center">
-                 <img className="cellImg w-14 h-14 rounded-full p-2" src={params.row.imgage} />
+                 <img className="cellImg w-14 h-14 rounded-full p-2" src={params.row.image} />
                     {params.row.Title}
              </div>
          )   
@@ -86,6 +86,7 @@ export const publicplaceColumns = [
 
 export const userRows = []
 export const userColumns = [
+        {field:"id",headerName:"ID",width:50},
         {field:"first_name", headerName:"First Name", width:100,},
         {field: 'last_name', headerName: "Last Name", width: 100 },
         {field: 'username', headerName: "username", width: 100 },
