@@ -2,12 +2,9 @@ import axios from "axios";
 import authHeader from "./auth-header";
 
 const API_URL = "http://localhost:8010/proxy";
-const edituser = (username, email,password,role,id) => {
+const editrole = (role,id) => {
     return axios
-    .put(API_URL + `/users/${id}/update`,{
-        username,
-        email,
-        password,
+    .put(API_URL + `/user/${id}/update/`,{
         role,},{headers:authHeader()})
     .then((response) => {
         if(response){
@@ -95,7 +92,7 @@ const editwork = (workID,date,hour,id) => {
     });
 };
 const editService = {
-    edituser,
+    editrole,
     editannouncement,
     editseminar,
     editpublicplace,

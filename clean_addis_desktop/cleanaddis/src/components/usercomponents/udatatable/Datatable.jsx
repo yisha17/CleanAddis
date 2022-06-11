@@ -8,6 +8,7 @@ import Newmodal from "../../../components/usercomponents/udatatable/NewModal"
 import Modal from '../udatatable/Modal'
 import EditModal from '../udatatable/Edit'
 import getService from '../../../services/get.service'
+import deleteService from '../../../services/delete.service'
 
 const Udatatable = () => {
   const [tableData, setTableData] = useState([])
@@ -20,7 +21,23 @@ const Udatatable = () => {
       localStorage.setItem("selected",JSON.stringify(id))
       setSingle(true)
     }
-    
+    const deletefunction=async (id)=>{
+      localStorage.setItem("selected",JSON.stringify(id));
+      if (window.confirm('Are you sure you want to delete the user?')) {
+       await deleteService.deleteUser(id).then(
+          (response)=>{
+            alert("announcement deleted") 
+            window.location.reload()
+           
+          },
+          (error) => {
+              console.log(error);
+          })
+      } else {
+        // Do nothing!
+        console.log('Thing was not saved to the database.');
+      }
+    }
      
    
     const [showMyModal,setShowMyModal]  = useState(false)
@@ -40,7 +57,8 @@ const Udatatable = () => {
            </Link>
            
 
-           <div className="deleteButton border rounded border-slate-300 p-1 hover:bg-red-600 cursor-pointer ">Delete</div>
+           <div className="deleteButton border rounded border-slate-300 p-1 hover:bg-red-600 cursor-pointer "
+           onClick={()=>deletefunction(params.row.id)}>Delete</div>
          </div>
      )   
     }},]

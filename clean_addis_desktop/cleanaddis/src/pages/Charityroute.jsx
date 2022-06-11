@@ -9,7 +9,7 @@ import Uhome from './userpages/uhome/Uhome';
 
 const Charityroute = () => {
     return (
-        <Outlet /> 
+        <Outlet />  
     )
 }
 
