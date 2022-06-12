@@ -12,6 +12,9 @@ const getUserSingle = (id) => {
 const getReportSingle = (id) =>{
     return axios.get(API_URI+ `/report/${id}`,{headers:authHeader()});
 }
+const getWasteSingle = (id) =>{
+    return axios.get(API_URI+`/waste/${id}`,{headers:authHeader()});
+}
 const getAnnouncementSingle = (id) =>{
     return axios.get(API_URI+ `/announcement/${id}`,{headers:authHeader()});
 }
@@ -67,6 +70,7 @@ const getService = {
     getReportSingle,
     getAnnouncementSingle,
     getPublicPlaceSingle,
-    getSeminarSingle
+    getSeminarSingle,
+    getWasteSingle
 };
 export default getService;
