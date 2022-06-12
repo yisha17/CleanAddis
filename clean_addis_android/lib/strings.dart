@@ -1,6 +1,6 @@
 
-const base_url = '10.5.193.148:8000';
-const full_base_url = 'http://10.5.193.148:8000';
+const base_url = '192.168.1.7:8000';
+const full_base_url = 'http://192.168.1.7:8000';
 const user_signup_path = '/api/users/';
 const user_detail_path = '/api/user/';
 const user_login_path = '/api/auth/';

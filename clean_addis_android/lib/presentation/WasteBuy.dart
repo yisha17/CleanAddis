@@ -50,18 +50,18 @@ class WasteBuyPage extends StatefulWidget {
 }
 
 class _WasteBuyPageState extends State<WasteBuyPage> {
-
   final wastebloc =
       AddWasteBloc(WasteRepository(dataProvider: WasteDataProvider()));
-   final userBloc = LoginBloc(UserRepository(dataProvider: UserDataProvider()));
-  final notificationBloc = NotificationsBloc(repo: NotificationRepo(dataProvider: NotificationDataProvider()));
-  
-   @override
-   void initState(){
-     super.initState();
-     userBloc..add(SellerProfileEvent(seller: widget.seller!));
-   }
-  
+  final userBloc = LoginBloc(UserRepository(dataProvider: UserDataProvider()));
+  final notificationBloc = NotificationsBloc(
+      repo: NotificationRepo(dataProvider: NotificationDataProvider()));
+
+  @override
+  void initState() {
+    super.initState();
+    userBloc..add(SellerProfileEvent(seller: widget.seller!));
+  }
+
   Widget textField({
     required String title,
     required double titleSize,
@@ -103,7 +103,6 @@ class _WasteBuyPageState extends State<WasteBuyPage> {
       ),
     );
   }
-
 
   Widget buildText(
       {required IconData? icon,
@@ -151,7 +150,6 @@ class _WasteBuyPageState extends State<WasteBuyPage> {
     );
   }
 
-
   Widget textTile() {
     return ListTile(
       leading: Icon(Icons.recycling, size: 26, color: Colors.blue),
@@ -174,19 +172,23 @@ class _WasteBuyPageState extends State<WasteBuyPage> {
 
   Widget imageholder(String? image) {
     return Container(
-      child: Container(
-          height: MediaQuery.of(context).size.height * 0.3,
-          width: MediaQuery.of(context).size.width,
-          child: image == '' ? 
-          Image.network(
-              'https://ismwaste.co.uk/images/recycling/mixed-paper.jpg',
-              fit: BoxFit.fill):
-          Image.network(
-              image!,
-              fit: BoxFit.cover)
-               
-            )
-    );
+        child: Container(
+            height: MediaQuery.of(context).size.height * 0.3,
+            width: MediaQuery.of(context).size.width,
+            child: image == ''
+                ? Image.network(
+                    'https://ismwaste.co.uk/images/recycling/mixed-paper.jpg',
+                    fit: BoxFit.fill)
+                : Image.network(image!, fit: BoxFit.cover)));
+  }
+
+  _launchCaller(var phonenumber) async {
+    const url = "tel:1234567";
+    if (await canLaunch(phonenumber)) {
+      await launch(phonenumber);
+    } else {
+      throw 'Could not launch $phonenumber';
+    }
   }
 
   Widget verticalSpace(double height) {
@@ -299,39 +301,39 @@ class _WasteBuyPageState extends State<WasteBuyPage> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return BlocBuilder(
-            bloc: userBloc,
-            builder: (context,state) {
-               if (state is SellerLoadedState){
-                        final user = state.user;
-              return AlertDialog(
-                  title: Container(
-                    color: color,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 20,
+              bloc: userBloc,
+              builder: (context, state) {
+                if (state is SellerLoadedState) {
+                  final user = state.user;
+                  return AlertDialog(
+                      title: Container(
+                        color: color,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 20,
+                            ),
+                            _profileImage(image: user.profile),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              user.username!,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 30,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                          ],
                         ),
-                        _profileImage(image: user.profile),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          user.username!,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
-                  ),
-                  titlePadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                  content: Container(
+                      ),
+                      titlePadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                      content: Container(
                         height: 80,
                         child: Column(children: [
                           Row(
@@ -341,62 +343,60 @@ class _WasteBuyPageState extends State<WasteBuyPage> {
                                 user.email!,
                                 style: TextStyle(fontSize: 20),
                               ),
-                              
                             ],
                           ),
-                            Row(
-                        children: [
-                           Icon(Icons.phone),
-                          Text(
-                             user.phone != null? user.phone! : 'No Contact',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ],
-                      )
+                          Row(
+                            children: [
+                              Icon(Icons.phone),
+                              Text(
+                                user.phone != null ? user.phone! : 'No Contact',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          )
                         ]),
                       ),
-                  
-                  contentPadding: EdgeInsets.fromLTRB(15, 10, 15, 0),
-                  actions: actions);
-            }
-            return Center();}
-          );
+                      contentPadding: EdgeInsets.fromLTRB(15, 10, 15, 0),
+                      actions: actions);
+                }
+                return Center();
+              });
         });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:AppBar(
+      appBar: AppBar(
         elevation: 0,
         centerTitle: true,
         backgroundColor: TypeColor.chooseColor(widget.waste_type!),
-        title : Text(
+        title: Text(
           'Details',
           style: TextStyle(color: Colors.white, fontSize: 25),
-        ),),
+        ),
+      ),
       backgroundColor: lightgreen,
       body: SingleChildScrollView(
         child: Column(
           children: [
             imageholder(widget.image),
             verticalSpace(0.03),
-             BlocBuilder(
-               bloc:userBloc,
-               builder: (context,state) {
-                 
-                   if (state is UserLoadingState){
-                      return buildText(
-                            icon: Icons.account_circle,
-                            label: 'Seller',
-                            text: 'Loading',
-                            color: Colors.black);
-                   }
-                   if (state is SellerLoadedState){
-                     final user = state.user;
-                      return InkWell(
-                        onTap: (){
-                          profileDialog(
+            BlocBuilder(
+                bloc: userBloc,
+                builder: (context, state) {
+                  if (state is UserLoadingState) {
+                    return buildText(
+                        icon: Icons.account_circle,
+                        label: 'Seller',
+                        text: 'Loading',
+                        color: Colors.black);
+                  }
+                  if (state is SellerLoadedState) {
+                    final user = state.user;
+                    return InkWell(
+                      onTap: () {
+                        profileDialog(
                             context: context,
                             title: 'Buy Waste',
                             color: Colors.deepPurple,
@@ -436,28 +436,24 @@ class _WasteBuyPageState extends State<WasteBuyPage> {
                                 ),
                               ),
                             ]);
-                        },
-                        child: buildText(
-                              icon: Icons.account_circle,
-                              label: 'Seller',
-                              text: user.username!,
-                              color: Colors.black),
-                      );
-                   }
+                      },
+                      child: buildText(
+                          icon: Icons.account_circle,
+                          label: 'Seller',
+                          text: user.username!,
+                          color: Colors.black),
+                    );
+                  }
 
-                     
-                    
-                  
-                 return buildText(
-                    icon: Icons.account_circle,
-                    label: 'Seller',
-                    text: 'Couldn\'t get seller',
-                    color: Colors.black);
-               }
-             ),
+                  return buildText(
+                      icon: Icons.account_circle,
+                      label: 'Seller',
+                      text: 'Couldn\'t get seller',
+                      color: Colors.black);
+                }),
             Divider(),
             verticalSpace(0.02),
-             buildText(
+            buildText(
                 icon: Icons.recycling,
                 label: 'Waste Name',
                 text: widget.waste_name!,
@@ -474,7 +470,7 @@ class _WasteBuyPageState extends State<WasteBuyPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-               horizontalSpace(0.09),
+                horizontalSpace(0.09),
                 buildText(
                     icon: Icons.price_change,
                     color: Colors.green[900]!,
@@ -487,7 +483,7 @@ class _WasteBuyPageState extends State<WasteBuyPage> {
                     color: Colors.lime[900]!,
                     isFullWidth: false,
                     label: 'Quantity',
-                    text: widget.quantity! +' '+ widget.unit!),
+                    text: widget.quantity! + ' ' + widget.unit!),
               ],
             ),
             Divider(),
@@ -534,11 +530,11 @@ class _WasteBuyPageState extends State<WasteBuyPage> {
                                   onPressed: () {
                                     Navigator.of(context, rootNavigator: true)
                                         .pop();
-                                    notificationBloc..add(
-                                      NotificationCreateEvent(owner: widget.seller!,waste_id:widget.waste_id!)
-                                    );
+                                    notificationBloc
+                                      ..add(NotificationCreateEvent(
+                                          owner: widget.seller!,
+                                          waste_id: widget.waste_id!));
                                     print("ok");
-                                    
                                   }),
                               TextButton(
                                 child: Text(

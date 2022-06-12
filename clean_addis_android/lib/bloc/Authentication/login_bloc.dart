@@ -5,8 +5,6 @@ import 'package:clean_addis_android/bloc/Authentication/login_event.dart';
 import 'package:clean_addis_android/bloc/Authentication/login_state.dart';
 import 'package:clean_addis_android/data/models/user.dart';
 import 'package:clean_addis_android/data/repositories/user_repository.dart';
-import 'package:clean_addis_android/helpers/device_id.dart';
-import 'package:clean_addis_android/presentation/UserProfile.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 
@@ -75,7 +73,7 @@ class LoginBloc extends Bloc<LoginEvent,LoginState>{
         final _storage = FlutterSecureStorage();
         final user_id = await _storage.read(key: 'id');
         final token = await _storage.read(key: 'token');
-        final data = await userRepository.singleUser(user_id!, token!);
+        final data = await userRepository.singleUser(event.seller.toString(),token!);
         print(data);
         yield SellerLoadedState(user: data!);
       } catch (e) {
