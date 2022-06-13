@@ -28,29 +28,7 @@ from fcm_django.models import FCMDevice
 from push_notifications.models import GCMDevice
 
 
-@csrf_exempt
-def notify(request):
-    if request.method == "POST":
-        # devices = FCMDevice.objects.filter(name="Deutsch")
-        # # devices.send_message(title='heelods',body='sdfsdf',data = {"test":"test"})
-        # # devices.send_message(Message(
-        # # notification=Notification(data={"title":"76687989","payload":" my payload payload"}),))
-        # devices.send_message(
-        #     # title="It's now or never: Horn Ok is back!",
-        #     # message="Book now to get 50% off!",
-        #     # data={
-        #     #     "title": "Sfdg",
-        #     #     "body": "sgdgsg"
-        #     # }
-        #     Message(
-        #         notification=Notification(
-        #             title="title", body="text", image="url"),
-        #         topic="Optional topic parameter: Whatever you want",
-        #     )
-        #     )
-        devices = GCMDevice.objects.filter(name="yisak12")
-        devices.send_message("Happy name day!")
-        return JsonResponse({"status": "ok"})
+
 class RegisterView(generics.GenericAPIView):
     permission_classes = [AllowAny]
     queryset = User.objects.all()
@@ -93,25 +71,23 @@ class UserDeleteView(generics.DestroyAPIView):
 
 
 class UserUpdatePasswordView(generics.UpdateAPIView):
-    permission_classes = [AllowAny]
     queryset = User.objects.all()
-    print("is it what i am seeeing")
     serializer_class = UpdatePasswordSerializer
     lookup_field = 'pk'
 
 user_password_update = UserUpdatePasswordView.as_view()
 
 
-# class UserUpdateProfileView(generics.UpdateAPIView):
-#     permission_classes = [AllowAny]
-#     queryset = User.objects.all()
-#     serializer_class = UpdateProfileSerializer
-#     parser_classes = (MultiPartParser, FormParser)
+class UserUpdateProfileView(generics.UpdateAPIView):
+    permission_classes = [AllowAny]
+    queryset = User.objects.all()
+    serializer_class = UpdateProfileSerializer
+    parser_classes = (MultiPartParser, FormParser)
 
-#     lookup_field = 'pk'
+    lookup_field = 'pk'
     
 
-# user_profile_update = UserUpdateProfileView.as_view()
+user_profile_update = UserUpdateProfileView.as_view()
 
 class UserView(APIView):
 

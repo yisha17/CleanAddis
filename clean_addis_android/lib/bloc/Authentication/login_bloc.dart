@@ -97,8 +97,11 @@ class LoginBloc extends Bloc<LoginEvent,LoginState>{
         );
         print('this.is event profile');
         print(event.profile);
-        
         final data = await userRepository.updateProfile(user, event.id.toString(), token!, event.profile);
+        var _password = await _storage.read(key: 'password');
+        if (event.password != _password){
+          await userRepository.updatePassword(event.password!, event.id.toString(), token);
+        }
         yield UserDetailState(user: data!); 
 
 

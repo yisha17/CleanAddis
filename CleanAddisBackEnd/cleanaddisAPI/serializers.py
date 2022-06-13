@@ -71,41 +71,41 @@ class UpdatePasswordSerializer(serializers.ModelSerializer):
     # image_url = serializers.SerializerMethodField('get_image_url')
     class Meta:
         model = User
-        fields = ['password', 'username', 'email',
-                  'address', 'phone', 'profile']
+        fields = ['password']
         extra_kwargs = {
             'password': {'write_only': True},
         }
 
 
     def update(self, instance, validated_data):
-    #     print(validated_data)
+    # #     print(validated_data)
         
         password = validated_data.pop('password', None)
-        email = validated_data['email']
-        username = validated_data['username']
-        profile = validated_data['profile']
-        address = validated_data['address']
-        phone = validated_data['phone']
-        instance = self.Meta.model(**validated_data)
+    #     # email = validated_data['email']
+    #     # username = validated_data['username']
+        
+        
+    #     # address = validated_data['address']
+    #     # phone = validated_data['phone']
+    #     instance = self.Meta.model(**validated_data)
         if password is not None:
             instance.set_password(password)
-        if email is not None:
-            instance.email = validated_data['email']
-        if username is not None:
-            instance.username = validated_data['username']
-        if profile is not None:
-            instance.profile = validated_data['profile']
-        if phone is not None:
-            instance.phone = validated_data['phone']
-        if address is not None:
-            instance.address = validated_data['address']
+    #     # if email is not None:
+    #     #     instance.email = validated_data['email']
+    #     # if username is not None:
+    #     #     instance.username = validated_data['username']
+    #     # if validated_data['profile'] is not None:
+    #     #     instance.profile = validated_data['profile']
+    #     # if phone is not None:
+    #     #     instance.phone = validated_data['phone']
+    #     # if address is not None:
+    #     #     instance.address = validated_data['address']
         
         
         instance.save()
-        print(instance)
+        return instance
 
-        return instance  
+        
 
 
 class UpdateProfileSerializer(serializers.ModelSerializer):

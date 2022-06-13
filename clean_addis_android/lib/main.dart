@@ -5,8 +5,10 @@ import 'package:clean_addis_android/data/data_providers/user_data.dart';
 import 'package:clean_addis_android/data/data_providers/waste_data.dart';
 import 'package:clean_addis_android/data/repositories/waste_repository.dart';
 import 'package:clean_addis_android/helpers/firebase_handler.dart';
+import 'package:clean_addis_android/presentation/BottomNavigationBar.dart';
 import 'package:clean_addis_android/presentation/Home.dart';
 import 'package:clean_addis_android/presentation/Login.dart';
+import 'package:clean_addis_android/presentation/UserProfile.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -68,6 +70,8 @@ class MyApp extends StatelessWidget {
         ),
         routes:{
           HomePage.id : (context) =>  HomePage(),
+          Pages.id : (context) => Pages() ,
+          UserProfilePage.id: (context) => UserProfilePage() 
         },
         home: LoginPage(),
       ),

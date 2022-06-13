@@ -85,14 +85,11 @@ class UserDataProvider {
       User user, String id, String token, File? file) async {
     dio.options.headers["authorization"] = "JWT ${token}";
     String? imageFile = file != null ? file.path.split('/').last : null;
-    print(imageFile);
-    print('here dio');
-
     if (file != null) {
       FormData formData = FormData.fromMap({
         'username': user.username,
         'email': user.email,
-        // 'password': user.password,
+        'password': user.password,
         'phone': user.phone,
         'address': user.address,
         'profile': await MultipartFile.fromFile(file.path,
@@ -126,6 +123,22 @@ class UserDataProvider {
     }
   }
 
+  Future<void> updatePassword(String password, String id, String token) async{
+    dio.options.headers["authorization"] = "JWT ${token}";
+      FormData formData = FormData.fromMap({
+      'password': password
+    });
+     final response =
+        await dio.patch('$full_base_url/api/user/$id/update/password/', data: formData);
+
+      if (response.statusCode == 200) {
+      print("password successfully updated");
+    } else {
+      throw Exception('error');
+    }   
+
+  }
+
   Future<void> createDeviceInfo(String token) async {
     var id = await _storage.read(key:'id');
     final String? device_id = await getId();  
@@ -140,7 +153,6 @@ class UserDataProvider {
         },
         body: jsonEncode({
           'id':int.parse(id!),
-          'user':int.parse(id),
           'registration_id': await getToken(),
            "cloud_message_type": "FCM",
            "device_id": device_id,

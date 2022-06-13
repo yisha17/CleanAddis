@@ -147,15 +147,16 @@ class _LoginPageState extends State<LoginPage> {
       listener: (context, LoginState state) {
         if (state.user != null && state is AuthenticatedState) {
          
-          // Navigator.of(context, rootNavigator: true).pop();
+          Navigator.of(context, rootNavigator: true).pop();
+          Navigator.of(context, rootNavigator: true).pop();
 
           // Navigator.of(context)
           //     .push(MaterialPageRoute(builder: (context) => Pages()));
 
-          Navigator.pushNamed(
+          Navigator.pushNamedAndRemoveUntil(
             context,
-            HomePage.id,
-          
+            Pages.id,
+            (Route<dynamic> route) => false
           );
         } else if (state is UserLoadingState) {
           print("loading true");
