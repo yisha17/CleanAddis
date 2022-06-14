@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useState,useEffect } from "react";
 import Modal from "../../../components/cityadmincomponents/rdatatable/Modal"
 import getService from "../../../services/get.service";
+import editService from '../../../services/edit.service';
 
 const Rsingle = () => {
   const [reportData, setReportData] = useState([])
@@ -11,6 +12,20 @@ const Rsingle = () => {
     .then((response) => setReportData(response.data))
     console.log("here is the reportdata",reportData)
 }, [])
+  const Longitude = reportData.longitude
+  const Latitude =  reportData.latitude
+const Resolvereport = (Longitude,Latitude,isResolved,id) => async (e) =>{
+  e.preventDefault();
+  console.log("here is the request",reportData.longitude)
+  await editService.resolvereport(Longitude,Latitude,isResolved,id).then(
+    (response)=>{
+      alert("report Resolved")
+    },
+    (error) => {
+        console.log(error);
+    }
+);
+  };
   const [showMyModal,setShowMyModal]  = useState(false)
   const handleOnCLose = () => setShowMyModal(false)
   return (
@@ -42,7 +57,7 @@ const Rsingle = () => {
               <span className="itemkey font-bold ">Reported by:</span>
               <span className="itemvalue font-light ml-3">{reportData.reportedBy}</span>
             </div> 
-            <Link to="/cityadmin/report"  onClick={<Modal />}> <div className="cursor-pointer border-2 w-16 items-center flex justify-center hover:bg-green-300">Resolve</div>
+            <Link to="/cityadmin/report"  onClick={Resolvereport(Longitude,Latitude,true,id)}> <div className="cursor-pointer border-2 w-16 items-center flex justify-center hover:bg-green-300">Resolve</div>
            </Link>
             <div>
 

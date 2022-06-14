@@ -21,6 +21,10 @@ const deleteWork = (id) => {
 const deletePublicPlace = (id) => {
     return axios.delete(`${API_URI}/publicplace/delete/${id}`,{headers:authHeader()})
 }
+const deleteReport = (id) => {
+    return axios.delete(`${API_URI}/report/delete/${id}`,{headers:authHeader()})
+}
+
 
 const deleteService = {
     deleteUser,
@@ -29,6 +33,7 @@ const deleteService = {
     deleteSeminar,
     deleteWaste,
     deletePublicPlace,
-    deleteWork
+    deleteWork,
+    deleteReport
 };
 export default deleteService;

@@ -1,20 +1,20 @@
 import "./list.scss"
 import CharitySidebar from "../../../components/charitycomponents/csidebar/CharitySidebar"
 import CharityNavbar from "../../../components/charitycomponents/cnavbar/CharityNavbar"
-import Rdatatable from "../../../components/charitycomponents/cdatatable/Datatable"
+import Wdatatable from "../../../components/charitycomponents/wdatatable/Datatable"
 import Modal from "../../../components/cityadmincomponents/rdatatable/Modal"
 
-const Ulist = () => {
+const Charitylist = () => {
   return (
     <div className="list flex">
     <CharitySidebar />
     <div className="listContainer pt-3 pl-3">
       <CharityNavbar className="pt-3 " />
      
-      <Rdatatable />
+      <Wdatatable />
     </div>
     </div>
   )
 }
 
-export default Ulist
+export default Charitylist

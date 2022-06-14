@@ -42,12 +42,16 @@ const createannouncement = (notification_title,notification_body,address) => {
         
     });
 };
-const createseminar = (seminarTitle,seminarDescription,seminarType) => {
+const createseminar = (seminarTitle,seminarType,link,imageLink,toDate) => {
     return axios
     .post(API_URL + "/seminar/",{
         seminarTitle,
-        seminarDescription,
-        seminarType
+        seminarType,
+        link,
+        imageLink,
+        toDate,
+        
+        
     },{headers:authHeader()})
     .then((response) => {
         if(response){

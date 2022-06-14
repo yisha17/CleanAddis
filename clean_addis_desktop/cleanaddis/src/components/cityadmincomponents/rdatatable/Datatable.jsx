@@ -7,6 +7,7 @@ import New from '../../../pages/adminpages/new/New'
 import { useState, useEffect} from 'react'
 import Modal from "../../../components/cityadmincomponents/rdatatable/Modal"
 import getService from '../../../services/get.service'
+import deleteService from '../../../services/delete.service'
 
 const Rdatatable = () => {
   const [tableData, setTableData] = useState([])
@@ -18,6 +19,22 @@ const Rdatatable = () => {
       localStorage.setItem("selected",JSON.stringify(id));
       setShowMyModal(true);
     }
+    const deletefunction=async (id)=>{
+      localStorage.setItem("selected",JSON.stringify(id));
+      if (window.confirm('Are you sure you want to delete the r?')) {
+       await deleteService.deleteReport(id).then(
+          (response)=>{
+            alert("report deleted") 
+            window.location.reload()
+          },
+          (error) => {
+              console.log(error);
+          })
+      } else {
+        // Do nothing!
+        console.log('Thing was not saved to the database.');
+      }
+    }
     const [showMyModal,setShowMyModal]  = useState(false)
     const handleOnCLose = () => setShowMyModal(false)
     const actionColumn = [{field:"action", headerName:"Action", width:230,
@@ -27,7 +44,9 @@ const Rdatatable = () => {
           <Link to ="/cityadmin/report" onClick={() => viewfunction(params.row.id)}>
            <div className="viewButton border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">view</div> 
            </Link>
-           <div className="deleteButton border rounded border-slate-300 p-1 hover:bg-slate-500 cursor-pointer ">delete</div>
+           <Link to="/cityadmin/report" onClick={()=>deletefunction(params.row.id)} >
+           <div className="deleteButton border rounded border-slate-300 p-1 hover:bg-red-500 cursor-pointer ">delete</div>
+           </Link>
          </div>
      )   
     }},]

@@ -10,6 +10,7 @@ const Single = () => {
     .then((response) => setWasteData(response.data))
     console.log("here is the wastedata",wasteData)
 }, [])
+  
 
   return (
     <div>
