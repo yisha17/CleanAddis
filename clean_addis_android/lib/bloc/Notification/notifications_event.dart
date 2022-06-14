@@ -11,15 +11,14 @@ class NotificationPageEvent extends NotificationsEvent {
 }
 
 class NotificationCreateEvent extends NotificationsEvent {
-  final int user;
-  final int point_to;
-  final String type;
+
+  final int owner;
 
   NotificationCreateEvent(
-      {required this.user, required this.point_to, required this.type});
+      { required this.owner});
 
    @override
-  List<Object?> get props => [user,point_to,type];    
+  List<Object?> get props => [owner];    
 }
 
 

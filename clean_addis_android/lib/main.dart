@@ -1,8 +1,11 @@
 import 'package:clean_addis_android/bloc/Authentication/login_bloc.dart';
+import 'package:clean_addis_android/bloc/Notification/notifications_bloc.dart';
 import 'package:clean_addis_android/bloc/Signup/auth_bloc.dart';
 import 'package:clean_addis_android/bloc/Waste/user_waste_bloc.dart';
+import 'package:clean_addis_android/data/data_providers/notification_data.dart';
 import 'package:clean_addis_android/data/data_providers/user_data.dart';
 import 'package:clean_addis_android/data/data_providers/waste_data.dart';
+import 'package:clean_addis_android/data/repositories/notification_repo.dart';
 import 'package:clean_addis_android/data/repositories/waste_repository.dart';
 import 'package:clean_addis_android/helpers/firebase_handler.dart';
 import 'package:clean_addis_android/presentation/BottomNavigationBar.dart';
@@ -60,7 +63,9 @@ class MyApp extends StatelessWidget {
                   UserRepository(dataProvider: UserDataProvider()),
                 )),
         BlocProvider<UserWasteBloc>(
-          create: (context) => UserWasteBloc(WasteRepository(dataProvider: WasteDataProvider())),)
+          create: (context) => UserWasteBloc(WasteRepository(dataProvider: WasteDataProvider())),),
+        BlocProvider<NotificationsBloc>(
+          create: (context) => NotificationsBloc(repo: NotificationRepo(dataProvider: NotificationDataProvider())),)  
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

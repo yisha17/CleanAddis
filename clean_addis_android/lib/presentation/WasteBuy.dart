@@ -1,11 +1,14 @@
 import 'package:clean_addis_android/bloc/Authentication/login_event.dart';
 import 'package:clean_addis_android/bloc/Authentication/login_state.dart';
+import 'package:clean_addis_android/data/data_providers/notification_data.dart';
+import 'package:clean_addis_android/data/repositories/notification_repo.dart';
 import 'package:clean_addis_android/data/repositories/user_repository.dart';
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/Authentication/login_bloc.dart';
+import '../bloc/Notification/notifications_bloc.dart';
 import '../bloc/Waste/waste_bloc.dart';
 import '../data/data_providers/user_data.dart';
 import '../data/data_providers/waste_data.dart';
@@ -51,7 +54,8 @@ class _WasteBuyPageState extends State<WasteBuyPage> {
   final wastebloc =
       AddWasteBloc(WasteRepository(dataProvider: WasteDataProvider()));
    final userBloc = LoginBloc(UserRepository(dataProvider: UserDataProvider()));
-
+  final notificationBloc = NotificationsBloc(repo: NotificationRepo(dataProvider: NotificationDataProvider()));
+  
    @override
    void initState(){
      super.initState();
@@ -530,7 +534,11 @@ class _WasteBuyPageState extends State<WasteBuyPage> {
                                   onPressed: () {
                                     Navigator.of(context, rootNavigator: true)
                                         .pop();
-                                
+                                    notificationBloc..add(
+                                      NotificationCreateEvent(owner: widget.seller!)
+                                    );
+                                    print("ok");
+                                    
                                   }),
                               TextButton(
                                 child: Text(

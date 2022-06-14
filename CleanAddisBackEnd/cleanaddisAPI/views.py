@@ -23,10 +23,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import MultiPartParser, FormParser
 from geopy.distance import geodesic
 from math import sin, cos, sqrt, atan2, radians
-from firebase_admin.messaging import Message,Notification
-from fcm_django.models import FCMDevice
 from push_notifications.models import GCMDevice
-
+from django.db.models import Q
 
 
 class RegisterView(generics.GenericAPIView):
@@ -100,7 +98,6 @@ class UserView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        print("here it is")
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             question = serializer.save()
@@ -136,46 +133,6 @@ class UserDetail(APIView):
         new_dict.update(serializer.data)
         return Response(new_dict)
 
-    def put(self, request, id):
-
-        user = self.get_object(id)
-
-        user_data = request.data
-        print(user_data)
-        try:
-            updated_address = Address.objects.get(
-                subcity=user_data['address']['subcity'],
-                woreda=user_data['address']['woreda'])
-        except Address.DoesNotExist:
-
-            updated_address = Address.objects.create(
-                subcity=user_data['address']['subcity'],
-                woreda=user_data['address']['woreda'])
-
-        user = User.objects.create(
-
-            first_name=user_data['first_name'],
-            last_name=user_data['last_name'],
-            username=user_data['username'],
-            email=user_data['email'],
-            role=user_data['role'],
-            password=user_data['password'],
-            address=updated_address
-        )
-        user.save()
-
-        serializer = UserSerializer(user)
-
-        if serializer.is_valid():
-            return Response(serializer.data)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, id):
-
-        user = self.get_object(id)
-        user.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class CompanyAPIView(APIView):
@@ -453,28 +410,68 @@ class AnnouncementCreateAPIView(generics.CreateAPIView):
     serializer_class = AnnouncementSerializer
 
     def perform_create(self, serializer):
-        title = self.request.data['notificationTitle']
-        description = self.request.data['notificationDescription']
-        address = self.request.data['address']
-        users = list(User.objects.filter(address = address).values('pk'))
-        ids = []
-        for user in users:
-            ids.append(user['pk'])
-
-        print(ids)
-
-       
-        devices = GCMDevice.objects.filter(id__in = ids)
-        print(devices)
-        devices.send_message(
-            description, extra={"title": title, "icon": "icon_ressource"})
+        title = self.request.data['notification_title']
+        description = self.request.POST.get('notification_body')
+        address = self.request.POST.get('address')
+        notif_type = self.request.POST.get('notification_type')
+        if (notif_type == 'Announcement'):
+            users = list(User.objects.filter(address = address).values('pk'))
+            ids = []
+            for user in users:
+                ids.append(user['pk'])   
+            devices = GCMDevice.objects.filter(id__in = ids)
+            print(devices)
+            devices.send_message(
+                description, extra={"title": title, "icon": "icon_ressource"})          
         return super().perform_create(serializer)
 
 
 announcement_create_view = AnnouncementCreateAPIView.as_view()
 
+class AnnouncementGetView(APIView):
 
+    permission_classes = [AllowAny]
+    serializer_class = AnnouncementSerializer
+    def post(self,request):
+        serializer = AnnouncementSerializer(data=request.data)
+        address = request.POST.get("address")
+        owner = request.POST.get("owner")
+        username = User.objects.get(id=owner).username
+        address = User.objects.get(id =owner).address
+        print(address)
+        print(owner)
+        print(username)
+        if serializer.is_valid():
+            if (address is not None):
+                announcement = list( Announcement.objects.filter(
+                    Q(address=address,is_seen = False)| Q(owner=owner,is_seen = False) ).values())
+                
+                for fields in announcement:
+                    if (fields["owner_id"] is not None):
+                        fields["owner"] = User.objects.get(id=fields["owner_id"]).username
+                    if (fields["buyer_id"] is not None):
+                        fields["buyer"] = User.objects.get(id=fields["buyer_id"]).username
+                    if (fields["point_to_report_id"] is not None):
+                        fields["report_title"] = Report.objects.get(
+                            id=fields["point_to_report_id"]).reportTitle
+                        fields["created_at"]  =  Report.objects.get(
+                            id=fields["point_to_report_id"]).post_date 
+                    if (fields["point_to_waste_id"] is not None):
+                        fields["waste_name"] = Waste.objects.get(
+                            id=fields["point_to_waste_id"]).waste_name
+                        fields["created_at"] = Waste.objects.get(
+                            id=fields["point_to_waste_id"]).post_date    
 
+                
+                return Response(announcement, status=status.HTTP_200_OK)
+            else:
+                announcement = list(Announcement.objects.filter(is_seen = False,owner=owner).values())
+                serializer = AnnouncementSerializer(announcement)
+                return Response(announcement, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+announcement_view = AnnouncementGetView.as_view()
 
 class AnnouncementDetailAPIView(generics.RetrieveAPIView):
 
@@ -562,7 +559,6 @@ class WasteCreateAPIView(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     
     def perform_create(self, serializer):
-        print("herisdfn")
         return super().perform_create(serializer)
 
 

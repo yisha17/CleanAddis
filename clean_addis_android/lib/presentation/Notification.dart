@@ -5,6 +5,10 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/status.dart' as status;
 
+import '../bloc/Notification/notifications_bloc.dart';
+import '../data/data_providers/notification_data.dart';
+import '../data/repositories/notification_repo.dart';
+
 class NotificationPage extends StatefulWidget {
   const NotificationPage({Key? key}) : super(key: key);
 
@@ -14,21 +18,9 @@ class NotificationPage extends StatefulWidget {
 
 class _NotificationPageState extends State<NotificationPage> {
   late IO.Socket socket;
-
+  final notificationBloc = NotificationsBloc(
+      repo: NotificationRepo(dataProvider: NotificationDataProvider()));
   void connect() async{
-    
-    // rint('hello');
-    // socket = IO.io("ws://192.168.1.7:8000/ws/notification/",<String,dynamic>{
-    //   "transport":["websocket"],
-    //   "autoConnect" : false
-    // });
-    // await socket.connect();
-    // socket.on('event', (data) => print(data));
-    // socket.onConnect((_) {
-    //   print('connected');
-    //   socket.emit('msg', 'test');
-    //   }
-    //   p);
     var channel = IOWebSocketChannel.connect(Uri.parse('ws://192.168.1.7:8000/ws/notification/'));
      channel.stream.listen((message) {
       channel.sink.add('received!');
