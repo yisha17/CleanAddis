@@ -348,7 +348,7 @@ class _WasteBuyPageState extends State<WasteBuyPage> {
                         children: [
                            Icon(Icons.phone),
                           Text(
-                             'No Contact',
+                             user.phone != null? user.phone! : 'No Contact',
                             style: TextStyle(fontSize: 20),
                           ),
                         ],
@@ -535,7 +535,7 @@ class _WasteBuyPageState extends State<WasteBuyPage> {
                                     Navigator.of(context, rootNavigator: true)
                                         .pop();
                                     notificationBloc..add(
-                                      NotificationCreateEvent(owner: widget.seller!)
+                                      NotificationCreateEvent(owner: widget.seller!,waste_id:widget.waste_id!)
                                     );
                                     print("ok");
                                     

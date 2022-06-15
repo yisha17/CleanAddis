@@ -8,6 +8,10 @@ class Notifications {
   final String? report_title;
   final String? post_date;
   final String? created_at;
+  final String? buyer_name;
+  final String? owner_name;
+  final String? address;
+  final String? message;
 
   Notifications(
       {this.id,
@@ -15,9 +19,13 @@ class Notifications {
       this.buyer,
       this.type,
       this.created_at,
+      this.buyer_name,
+      this.owner_name,
       this.waste_name,
       this.report_title,
       this.post_date,
+      this.message,
+      this.address,
       this.isSeen});
 
   factory Notifications.fromJSON(Map<String, dynamic> jsonMap) {
@@ -29,7 +37,11 @@ class Notifications {
       created_at: jsonMap['created_at'],
       type: jsonMap['notification_type'],
       buyer: jsonMap['buyer_id'],
+      address:jsonMap['address'],
+      buyer_name:jsonMap['buyer_name'],
+      owner_name: jsonMap['owner_name'],
       isSeen: jsonMap['is_seen'],
+      message: jsonMap['notification_body']
     );
     return notification;
   }

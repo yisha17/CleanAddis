@@ -406,7 +406,7 @@ workschedule_delete_view = WorkScheduleDeleteAPIView.as_view()
 class AnnouncementCreateAPIView(generics.CreateAPIView):
 
     query = Announcement.objects.all()
-
+    permission_classes = [AllowAny]
     serializer_class = AnnouncementSerializer
 
     def perform_create(self, serializer):
@@ -414,15 +414,15 @@ class AnnouncementCreateAPIView(generics.CreateAPIView):
         description = self.request.POST.get('notification_body')
         address = self.request.POST.get('address')
         notif_type = self.request.POST.get('notification_type')
-        if (notif_type == 'Announcement'):
-            users = list(User.objects.filter(address = address).values('pk'))
-            ids = []
-            for user in users:
-                ids.append(user['pk'])   
-            devices = GCMDevice.objects.filter(id__in = ids)
-            print(devices)
-            devices.send_message(
-                description, extra={"title": title, "icon": "icon_ressource"})          
+        # if (notif_type == 'Announcement'):
+        #     users = list(User.objects.filter(address = address).values('pk'))
+        #     ids = []
+        #     for user in users:
+        #         ids.append(user['pk'])   
+        #     devices = GCMDevice.objects.filter(id__in = ids)
+        #     print(devices)
+        #     devices.send_message(
+        #         description, extra={"title": title, "icon": "icon_ressource"})          
         return super().perform_create(serializer)
 
 
@@ -437,7 +437,7 @@ class AnnouncementGetView(APIView):
         address = request.POST.get("address")
         owner = request.POST.get("owner")
         username = User.objects.get(id=owner).username
-        address = User.objects.get(id =owner).address
+        # address = User.objects.get(id =owner).address
         print(address)
         print(owner)
         print(username)
@@ -448,9 +448,9 @@ class AnnouncementGetView(APIView):
                 
                 for fields in announcement:
                     if (fields["owner_id"] is not None):
-                        fields["owner"] = User.objects.get(id=fields["owner_id"]).username
+                        fields["owner_name"] = User.objects.get(id=fields["owner_id"]).username
                     if (fields["buyer_id"] is not None):
-                        fields["buyer"] = User.objects.get(id=fields["buyer_id"]).username
+                        fields["buyer_name"] = User.objects.get(id=fields["buyer_id"]).username
                     if (fields["point_to_report_id"] is not None):
                         fields["report_title"] = Report.objects.get(
                             id=fields["point_to_report_id"]).reportTitle
@@ -494,7 +494,7 @@ announcement_update_view = AnnouncementUpdateAPIView.as_view()
 
 
 class AnnouncementListAPIView(generics.ListAPIView):
-
+    permission_classes = [AllowAny]
     queryset = Announcement.objects.all()
     serializer_class = AnnouncementSerializer
     lookup_field = 'pk'
@@ -505,7 +505,7 @@ all_announcement_view = AnnouncementListAPIView.as_view()
 
 
 class AnnouncementDeleteAPIView(generics.DestroyAPIView):
-
+    permission_classes = [AllowAny]
     queryset = Announcement.objects.all()
     serializer_class = AnnouncementSerializer
     lookup_field = 'pk'

@@ -13,12 +13,13 @@ class NotificationDataProvider{
   Future<List<Notifications>?> getNotification(String id,String token) async{
     final _storage = FlutterSecureStorage();
     final owner = await _storage.read(key: 'id');
-    final response = await http.post(Uri.http(base_url,'api/announcement/$id'),
+    final response = await http.post(Uri.http(base_url,'api/announcement/individual/'),
     headers: {
       'Authorization': 'JWT $token',
     },body: {
-      "address":"Nifas Silk",
-      "owner":owner
+      "address": "Lideta",
+      "owner": owner,
+      "notification_type":"Report"
     });
   if (response.statusCode == 200) {
     final notification = jsonDecode(response.body) as List;
@@ -31,7 +32,7 @@ class NotificationDataProvider{
   }
 
 
-  Future<void> notifySeller(String token, int owner) async {
+  Future<void> notifySeller(String token, int owner, int waste_id) async {
     final _storage = FlutterSecureStorage();
     final buyer = await _storage.read(key: 'id');
     print(int.parse(buyer!));
@@ -44,7 +45,8 @@ class NotificationDataProvider{
       "owner": owner.toString(),
       'notification_type': "Waste",
       "notification_title": "Waste wanted",
-      "notification_body" : "your item requested"
+      "notification_body" : "your item requested",
+      "point_to_waste" : waste_id.toString()
     });
 
     if (response.statusCode == 201) {
