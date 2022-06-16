@@ -107,8 +107,8 @@ class _LoginPageState extends State<LoginPage> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             textInputAction: TextInputAction.done,
             validator: (password) {
-              if (password != null && password.length < 7) {
-                return 'Password must be 7 charactesrs long';
+              if (password != null && password.length < 6) {
+                return 'Password must be 6 charactesrs long';
               } else {
                 return null;
               }

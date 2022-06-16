@@ -236,9 +236,9 @@ all_report_list_view = ReportAllAPIView.as_view()
 
 
 class PublicPlaceCreateAPIView(generics.CreateAPIView):
-
+    permission_classes = [AllowAny]
     query = PublicPlace.objects.all()
-
+    
     serializer_class = PublicPlaceSerializer
 
     def perform_create(self, serializer):
@@ -258,7 +258,7 @@ class PublicPlaceDetailAPIView(generics.RetrieveAPIView):
 publicplace_detail_view = PublicPlaceDetailAPIView().as_view()
 
 class PublicPlaceListAPIView(generics.ListAPIView):
-
+    permission_classes = [AllowAny]
     queryset = PublicPlace.objects.all()
     serializer_class = PublicPlaceSerializer
     lookup_field = 'pk'
@@ -268,7 +268,7 @@ all_publicplace_view = PublicPlaceListAPIView().as_view()
 
 
 class PublicPlaceUpdateAPIView(generics.UpdateAPIView):
-
+    permission_classes = [AllowAny]
     queryset = PublicPlace.objects.all()
     serializer_class = PublicPlaceSerializer
     lookup_field = 'pk'
@@ -288,6 +288,8 @@ publicplace_delete_view = PublicPlaceDeleteAPIView.as_view()
 
 
 class PublicPlaceList(generics.ListAPIView):
+    permission_classes = [AllowAny]
+
     queryset = PublicPlace.objects.all()
     serializer_class = PublicPlaceSerializer
 
@@ -414,15 +416,15 @@ class AnnouncementCreateAPIView(generics.CreateAPIView):
         description = self.request.POST.get('notification_body')
         address = self.request.POST.get('address')
         notif_type = self.request.POST.get('notification_type')
-        # if (notif_type == 'Announcement'):
-        #     users = list(User.objects.filter(address = address).values('pk'))
-        #     ids = []
-        #     for user in users:
-        #         ids.append(user['pk'])   
-        #     devices = GCMDevice.objects.filter(id__in = ids)
-        #     print(devices)
-        #     devices.send_message(
-        #         description, extra={"title": title, "icon": "icon_ressource"})          
+        if (notif_type == 'Announcement'):
+            users = list(User.objects.filter(address = address).values('pk'))
+            ids = []
+            for user in users:
+                ids.append(user['pk'])   
+            devices = GCMDevice.objects.filter(id__in = ids)
+            print(devices)
+            devices.send_message(
+                description, extra={"title": title, "icon": "icon_ressource"})          
         return super().perform_create(serializer)
 
 

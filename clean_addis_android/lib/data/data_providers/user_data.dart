@@ -24,6 +24,8 @@ class UserDataProvider {
           'username': user.username,
           'email': user.email,
           'password': user.password,
+          'phone':user.phone,
+          'address':user.address
         }));
     print(response.statusCode);
     if (response.statusCode == 201) {
@@ -141,7 +143,10 @@ class UserDataProvider {
 
   Future<void> createDeviceInfo(String token) async {
     var id = await _storage.read(key:'id');
+    var register_id = await getToken();
+    print(register_id);
     final String? device_id = await getId();  
+    // print()
     print(device_id);  
     final response = await http.post(Uri.http(base_url, device_register),
     
@@ -155,7 +160,7 @@ class UserDataProvider {
           'id':int.parse(id!),
           'registration_id': await getToken(),
            "cloud_message_type": "FCM",
-           "device_id": device_id,
+          //  "device_id": device_id,
         }));
     if (response.statusCode == 201) {
       print("successfully created");

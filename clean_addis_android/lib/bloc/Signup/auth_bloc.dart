@@ -9,11 +9,13 @@ class SignupBloc extends Bloc<SignupEvent, UserState> {
   SignupBloc(this.repository) : super(UserState());
 
   void onSignup(
-      String username, String email, String password) {
+      String username, String email, String password,String phone,String address) {
     add(LoadUser(
         username: username,
         email: email,
         password: password,
+        phone : phone,
+        address : address
         ));
   }
   Stream<UserState> mapEventToState(SignupEvent event) async* {
@@ -27,6 +29,8 @@ class SignupBloc extends Bloc<SignupEvent, UserState> {
           username: event.username?.trim().toString(),
           email: event.email?.trim().toString(),
           password: event.password?.trim().toString(),
+          phone: event.phone?.trim().toString(),
+          address: event.address?.trim().toString()
         );
         final data = await repository.signup(user);
         print(data);
