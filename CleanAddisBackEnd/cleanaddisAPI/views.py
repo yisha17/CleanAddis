@@ -205,7 +205,7 @@ report_update_view = ReportUpdateAPIView.as_view()
 
 
 class ReportDeleteAPIView(generics.DestroyAPIView):
-
+    permission_classes = [IsAuthenticated]
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
     lookup_field = 'pk'
