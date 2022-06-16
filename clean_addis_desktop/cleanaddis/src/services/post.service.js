@@ -1,7 +1,7 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-const API_URI = "https://localhost:8000/api";
+const API_URL = "http://localhost:8010/proxy";
 
 
 const createuser = (username, email,password,role) => {
@@ -24,25 +24,20 @@ const createuser = (username, email,password,role) => {
         
     });
 };
-const createannouncement = (notificationTitle,notificationDescription,formDate,toDate,published,recipient) => {
+const createannouncement = (notification_title,notification_body,address) => {
     return axios
     .post(API_URL + "/announcement/",{
-        notificationTitle,
-        notificationDescription,
-        formDate,
-        toDate,
-        published,
-        recipient,
+        notification_title,
+        notification_body,
+        address,
+        "notification_type":"Announcement",
+
 
     },{headers:authHeader()})
     .then((response) => {
         if(response){
-            console.log("the is  response")
         }
         else{
-            console.log("the is no response")
-            
-            
         }
         
     });

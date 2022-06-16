@@ -6,7 +6,18 @@ const API_URI = "http://localhost:8010/proxy";
 const getUserRole = (id) => {
     return axios.get(API_URI + `/user/${id}`,{headers:authHeader()});
 };
-
+const getReportSingle = (id) =>{
+    return axios.get(API_URI+ `/report/${id}`,{headers:authHeader()});
+}
+const getAnnouncementSingle = (id) =>{
+    return axios.get(API_URI+ `/announcement/${id}`,{headers:authHeader()});
+}
+const getPublicPlaceSingle = (id) =>{
+    return axios.get(API_URI+ `/publicplace/${id}`,{headers:authHeader()});
+}
+const getSeminarSingle = (id) =>{
+    return axios.get(API_URI+ `/seminar/${id}`,{headers:authHeader()});
+}
 const getAllUsers = () => {
     return axios.get(API_URI + "/users/all",{headers:authHeader()});
 };  
@@ -49,5 +60,9 @@ const getService = {
     getCompanies,
     getPublicPlace,
     getUserRole,
+    getReportSingle,
+    getAnnouncementSingle,
+    getPublicPlaceSingle,
+    getSeminarSingle
 };
 export default getService;
