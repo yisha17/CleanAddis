@@ -1,7 +1,15 @@
 import "./single.scss"
 import {Link} from 'react-router-dom'
+import { useEffect,useState} from "react";
 import Modal from "../../../components/cityadmincomponents/adatatable/Modal"
+import getService from "../../../services/get.service";
 const Asingle = () => {
+  const [announcementData, setAnnouncementData] = useState([])
+  var id = JSON.parse(localStorage.getItem("selected"))
+  useEffect(() => {getService.getAnnouncementSingle(id)
+    .then((response) => setAnnouncementData(response.data))
+    console.log("here is the announcementdata",announcementData)
+}, [])
   return (
     <div>
       <div className="single flex">
@@ -14,30 +22,21 @@ const Asingle = () => {
           </Link>
           </div> 
           
-          <div className="item flex gap-5"> 
-          <img src="https://images.unsplash.com/photo-1559308078-88465deb35cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" 
-          alt="" className="imgitem w-32 h-32 object-cover  rounded-full"  /> 
+          <div className="item flex gap-5">  
           <div className="details">
             <h1 className="itemname text-4xl m-5">Announcement </h1>
             <div className="detailedItem mb-3 text-lg text-gray-600">
               <span className="itemkey font-bold">Title:</span>
-              <span className="itemvalue font-light ml-3">Cleaning</span>
+              <span className="itemvalue font-light ml-3">{announcementData.notification_title}</span>
             </div>
             <div className="detailedItem mb-3 text-lg text-gray-600">
               <span className="itemkey font-bold">Description:</span>
-              <span className="itemvalue font-light ml-3">Cleaning</span>
+              <span className="itemvalue font-light ml-3">{announcementData.notification_body}</span>
             </div>        
-            <div className="detailedItem mb-3 text-lg text-gray-600">
-              <span className="itemkey font-bold">From:</span>
-              <span className="itemvalue font-light ml-3">12/03/2021</span>
-            </div> 
-            <div className="detailedItem mb-3 text-lg text-gray-600">
-              <span className="itemkey font-bold">To:</span>
-              <span className="itemvalue font-light ml-3">12/03/2021</span>
-            </div> 
+            
             <div className="detailedItem mb-3 text-lg text-gray-600">
               <span className="itemkey font-bold ">For:</span>
-              <span className="itemvalue font-light ml-3">yeka subcity</span>
+              <span className="itemvalue font-light ml-3">{announcementData.address}</span>
             </div> 
                    
           </div>

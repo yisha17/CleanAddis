@@ -13,13 +13,18 @@ const Rdatatable = () => {
   useEffect(() => {getService.getAllReport()
       .then((response) => setTableData(response.data))
   }, [])
+  var idvalue = 0
+    const viewfunction=(id) =>{
+      localStorage.setItem("selected",JSON.stringify(id));
+      setShowMyModal(true);
+    }
     const [showMyModal,setShowMyModal]  = useState(false)
     const handleOnCLose = () => setShowMyModal(false)
     const actionColumn = [{field:"action", headerName:"Action", width:230,
     renderCell:(params) => {
      return(
          <div className = "cellAction flex gap-4">
-          <Link to ="/cityadmin/report" onClick={() => setShowMyModal(true)}>
+          <Link to ="/cityadmin/report" onClick={() => viewfunction(params.row.id)}>
            <div className="viewButton border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">view</div> 
            </Link>
            <div className="deleteButton border rounded border-slate-300 p-1 hover:bg-slate-500 cursor-pointer ">delete</div>
