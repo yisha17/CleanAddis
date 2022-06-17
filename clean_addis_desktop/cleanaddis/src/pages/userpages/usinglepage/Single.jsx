@@ -1,7 +1,15 @@
 import "./single.scss"
 import {Link} from 'react-router-dom'
-import Modal from "../../../components/usercomponents/udatatable/Modal"
+import {useState,useEffect} from 'react';
+import Modal from "../../../components/usercomponents/udatatable/Modal";
+import getService from "../../../services/get.service";
+
 const Asingle = () => {
+  const [userData, setUserData] = useState([])
+  var id = JSON.parse(localStorage.getItem("selected"))
+  useEffect(() => {getService.getUserSingle(id)
+    .then((response) => setUserData(response.data))
+}, [])
   return (
     <div>
       <div className="single flex">
@@ -15,25 +23,25 @@ const Asingle = () => {
           </div> 
           
           <div className="item flex gap-5"> 
-          <img src="https://images.unsplash.com/photo-1559308078-88465deb35cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" 
+          <img src={userData.profile}
           alt="" className="imgitem w-32 h-32 object-cover  rounded-full"  /> 
           <div className="details">
             <h1 className="itemname text-4xl m-5">User </h1>
             <div className="detailedItem mb-3 text-lg text-gray-600">
-              <span className="itemkey font-bold">Username</span>
-              <span className="itemvalue font-light ml-3">Cleaning</span>
+              <span className="itemkey font-bold">Name:</span>
+              <span className="itemvalue font-light ml-3">{userData.firstname} {userData.last_name}</span>
+            </div>
+            <div className="detailedItem mb-3 text-lg text-gray-600">
+              <span className="itemkey font-bold">Username:</span>
+              <span className="itemvalue font-light ml-3">{userData.username}</span>
             </div>
             <div className="detailedItem mb-3 text-lg text-gray-600">
               <span className="itemkey font-bold">Role</span>
-              <span className="itemvalue font-light ml-3">Cleaning</span>
+              <span className="itemvalue font-light ml-3">{userData.role}</span>
             </div>        
             <div className="detailedItem mb-3 text-lg text-gray-600">
               <span className="itemkey font-bold">Email</span>
-              <span className="itemvalue font-light ml-3">12/03/2021</span>
-            </div> 
-            <div className="detailedItem mb-3 text-lg text-gray-600">
-              <span className="itemkey font-bold">Password</span>
-              <span className="itemvalue font-light ml-3">12/03/2021</span>
+              <span className="itemvalue font-light ml-3">{userData.email}</span>
             </div> 
             
                    
