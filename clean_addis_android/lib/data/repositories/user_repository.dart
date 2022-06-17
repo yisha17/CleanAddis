@@ -25,6 +25,11 @@ class UserRepository{
     return this.dataProvider.updateProfile(user, id, token, file);
   }
 
+
+  Future<void> updatePassword(String password, String id, String token) {
+   return this.dataProvider.updatePassword(password, id, token);
+  }
+
   Future<void> createDeviceInfo(String token){
     return this.dataProvider.createDeviceInfo(token);
   }

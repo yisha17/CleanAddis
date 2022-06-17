@@ -16,8 +16,8 @@ urlpatterns = [
     path('api/users/web/', user_web_signup),
     path('api/users/all', all_user_view),
     path('api/user/<int:id>',UserDetail.as_view()),
-    path('api/user/<int:pk>/update/', user_password_update),
-#     path('api/user/<int:pk>/update/', user_profile_update),
+    path('api/user/<int:pk>/update/password/', user_password_update),
+    path('api/user/<int:pk>/update/', user_profile_update),
     path('api/companies/',CompanyAPIView.as_view()),
     path('api/waste/<int:pk>', waste_detail_view),
     path('api/waste/<int:pk>/update', waste_update_view),
@@ -52,6 +52,7 @@ urlpatterns = [
     path('api/workschedule/delete/<int:pk>', workschedule_delete_view),
     path('api/announcement/', announcement_create_view),
     path('api/announcement/all', all_announcement_view),
+     path('api/announcement/individual/', announcement_view),
     path('api/announcement/<int:pk>', announcement_detail_view),
     path('api/announcement/<int:pk>/update', announcement_update_view),
     path('api/announcement/delete/<int:pk>', announcement_delete_view),
@@ -59,7 +60,7 @@ urlpatterns = [
     path('api/auth/refresh', jwt_views.token_refresh), 
     path('register_device',
          FCMDeviceAuthorizedViewSet.as_view({'post': 'create'}), name='create_fcm_device'), 
-    path('test/',notify),
+   
     path('device/register/',
          GCMDeviceAuthorizedViewSet.as_view({'post': 'create'}),)
 ]

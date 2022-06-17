@@ -96,9 +96,13 @@ class ReportDataProvider{
 
 
   Future<void> deleteReport(int id,String token) async{
-    final response = await http.delete(Uri.http(base_url, '$report_path'+'delete/$id'));
+    final response = await http.delete(Uri.http(base_url, '$report_path'+'delete/$id'),
+    headers: {
+      'Authorization': 'JWT $token',
+    }
+    );
 
-    if (response == 204){
+    if (response.statusCode == 204){
       print("deleted");
     }else{
       throw Exception('error');

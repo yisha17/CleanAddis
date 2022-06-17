@@ -1,5 +1,3 @@
-
-
 import 'package:clean_addis_android/bloc/Signup/auth_bloc.dart';
 import 'package:clean_addis_android/bloc/Signup/auth_state.dart';
 import 'package:clean_addis_android/data/data_providers/user_data.dart';
@@ -24,15 +22,33 @@ class _SignupPageState extends State<SignupPage> {
   var _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final textControllerEmail = TextEditingController(),
+      textControllerPhone = TextEditingController(),
       textControllerPassword = TextEditingController(),
       textControllerName = TextEditingController(),
-      textControllerRepassword = TextEditingController();
-
+      textControllerRepassword = TextEditingController(),
+      textControllerAddress = TextEditingController();
+  final List<String> subcities = [
+    'Addis Ketema',
+    'Akaky Kaliti',
+    'Arada',
+    'Bole',
+    'Gullele',
+    'Kirkos',
+    'Kolfe Keranio',
+    'Lideta',
+    'Nifas Silk',
+    'Yeka',
+    'Lemi Kura'
+  ];
+  var index = 0;
   @override
   void initState() {
     super.initState();
     myFocusNode = FocusNode();
   }
+
+  bool isSeenCP = false;
+  bool isSeenP = false;
 
   @override
   void dispose() {
@@ -205,16 +221,94 @@ class _SignupPageState extends State<SignupPage> {
         },
       );
 
+  Widget buildPhoneNumber() => BlocBuilder<SignupBloc, UserState>(
+      buildWhen: (previous, current) =>
+          previous.user!.username != current.user!.username,
+      builder: (BuildContext context, state) {
+        return TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          keyboardType: TextInputType.number,
+          textInputAction: TextInputAction.done,
+          controller: textControllerPhone,
+          validator: (value) {
+            if (value != null && value.length != 10) {
+              return 'incorrect phone Number';
+            } else {
+              return null;
+            }
+          },
+          decoration: InputDecoration(
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.black, width: 2.0),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.black, width: 2.0),
+              ),
+              prefixIcon: Icon(
+                Icons.phone,
+                color: Colors.black,
+              ),
+              labelText: 'Phone Number',
+              labelStyle: TextStyle(color: Colors.black),
+              border: OutlineInputBorder()),
+        );
+      });
+
+  Widget buildAddress() => BlocBuilder<SignupBloc, UserState>(
+      buildWhen: (previous, current) =>
+          previous.user!.username != current.user!.username,
+      builder: (BuildContext context, state) {
+        return TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          keyboardType: TextInputType.name,
+          textInputAction: TextInputAction.done,
+          controller: textControllerAddress,
+          validator: (value) {
+            if (!subcities.contains(value) ) {
+              return 'incorrect Address';
+            } else {
+              return null;
+            }
+          },
+          decoration: InputDecoration(
+              hintText: "click the the icon",
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.black, width: 2.0),
+              ),
+              suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      if (index == subcities.length-1) {
+                        index = 0;
+                      }
+                      index++;
+                      textControllerAddress.text = subcities[index];
+                    });
+                  },
+                  icon: Icon(Icons.change_circle)),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.black, width: 2.0),
+              ),
+              prefixIcon: Icon(
+                Icons.location_on,
+                color: Colors.black,
+              ),
+              labelText: 'Subcity',
+              labelStyle: TextStyle(color: Colors.black),
+              border: OutlineInputBorder()),
+        );
+      });
+
   Widget buildPassword() => BlocBuilder<SignupBloc, UserState>(
         builder: (context, state) {
           return TextFormField(
-            obscureText: true,
+            obscureText: isSeenP ? false : true,
             controller: textControllerPassword,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             textInputAction: TextInputAction.done,
             validator: (password) {
-              if (password != null && password.length < 7) {
-                return 'Password must be 7 charactesrs long';
+              if (password != null && password.length < 6) {
+                return 'Password must be 6 charactesrs long';
               } else {
                 return null;
               }
@@ -230,6 +324,13 @@ class _SignupPageState extends State<SignupPage> {
                   Icons.lock,
                   color: Colors.black,
                 ),
+                suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isSeenP = !isSeenP;
+                      });
+                    },
+                    icon: Icon(Icons.remove_red_eye)),
                 labelText: 'Password',
                 labelStyle: TextStyle(color: Colors.black),
                 border: OutlineInputBorder()),
@@ -240,7 +341,7 @@ class _SignupPageState extends State<SignupPage> {
   Widget confirmPassword() => BlocBuilder<SignupBloc, UserState>(
         builder: (context, state) {
           return TextFormField(
-            obscureText: true,
+            obscureText: isSeenCP ? false : true,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             textInputAction: TextInputAction.done,
             controller: textControllerRepassword,
@@ -262,6 +363,13 @@ class _SignupPageState extends State<SignupPage> {
                   Icons.lock,
                   color: Colors.black,
                 ),
+                suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isSeenCP = !isSeenCP;
+                      });
+                    },
+                    icon: Icon(Icons.remove_red_eye)),
                 labelText: 'Confirm Password',
                 labelStyle: TextStyle(color: Colors.black),
                 border: OutlineInputBorder()),
@@ -306,7 +414,6 @@ class _SignupPageState extends State<SignupPage> {
               SnackBar(
                 content: Text('error happend. please try again'),
                 duration: Duration(seconds: 4),
-                
               ),
             );
           }
@@ -337,6 +444,14 @@ class _SignupPageState extends State<SignupPage> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.03,
                   ),
+                  buildPhoneNumber(),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  ),
+                  buildAddress(),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  ),
                   buildPassword(),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.03,
@@ -346,6 +461,7 @@ class _SignupPageState extends State<SignupPage> {
                     height: MediaQuery.of(context).size.height * 0.07,
                   ),
                   ElevatedButton(
+                  
                       onPressed: () {
                         final isValidForm = _formKey.currentState!.validate();
 
@@ -354,6 +470,8 @@ class _SignupPageState extends State<SignupPage> {
                             textControllerName.text,
                             textControllerEmail.text,
                             textControllerPassword.text,
+                            textControllerPhone.text,
+                            textControllerAddress.text,
                           );
                         }
                       },
@@ -375,8 +493,8 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                     TextButton(
                         onPressed: () {
-                           Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => LoginPage()));
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => LoginPage()));
                         },
                         child: Text('Login',
                             style: TextStyle(

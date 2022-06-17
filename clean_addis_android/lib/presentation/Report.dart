@@ -240,6 +240,8 @@ class _ReportPageState extends State<ReportPage> {
                     height: 20,
                   ),
                   Text(
+                    isEditing() ?
+                    'Updated' :
                     'Reported',
                     style: TextStyle(
                       color: Colors.white,
@@ -258,6 +260,8 @@ class _ReportPageState extends State<ReportPage> {
               height: 80,
               child: Column(children: [
                 Text(
+                  isEditing() ?
+                  'Your report has been successfully updated.':
                   'Your report has been successfully created.',
                   style: TextStyle(fontSize: 20),
                 )
@@ -295,7 +299,7 @@ class _ReportPageState extends State<ReportPage> {
     print(widget.image);
     return Scaffold(
       key: _scaffoldKey,
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.red,
@@ -320,6 +324,7 @@ class _ReportPageState extends State<ReportPage> {
                      WidgetsBinding.instance!
                         .addPostFrameCallback((_) => loadingDialog(context));
                   } else if (state.report != null && state is ReportCreatedState) {
+                    print("here is update");
                      WidgetsBinding.instance!
                         .addPostFrameCallback((_) => messageDialog(
                               context,

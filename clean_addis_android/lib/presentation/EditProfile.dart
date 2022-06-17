@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:clean_addis_android/bloc/Authentication/login_event.dart';
 import 'package:clean_addis_android/data/repositories/user_repository.dart';
 import 'package:clean_addis_android/presentation/Setting.dart';
+import 'package:clean_addis_android/presentation/UserProfile.dart';
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -164,7 +165,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
               actions: [
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop(true);
+                    Navigator.popAndPushNamed(
+                      context,
+                       UserProfilePage.id, 
+                       );
                   },
                   child: Text("OK",
                       style: TextStyle(
@@ -251,7 +256,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               image: this.image != null
                                   ? FileImage(image!) as ImageProvider
                                   : NetworkImage(
-                                      "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250",
+                                      widget.profile!= ''? widget.profile! :"https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250",
                                     ),
                             ),
                           ),
@@ -321,6 +326,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             ..add(UserUpdateEvent(
                                 id: widget.id!,
                                 username: username_controller.text,
+                                password:password_controller.text,
                                 email: email_controller.text,
                                 phone: phone_controller.text,
                                 address: address_controller.text,

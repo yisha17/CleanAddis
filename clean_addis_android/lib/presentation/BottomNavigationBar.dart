@@ -9,6 +9,7 @@ import 'ReporList.dart';
 
 
 class Pages extends StatefulWidget {
+  static String id = 'pages';
   PagesState createState() => PagesState();
 }
 
