@@ -50,7 +50,7 @@ class Waste{
       quantity:jsonMap['quantity'],
       metric:jsonMap['metric'],
       image:jsonMap['image'] ?? '',
-      location:jsonMap['loaction'],
+      location:jsonMap['location'],
       sold:jsonMap['sold'],
       bought:jsonMap['bought'],
       donated:jsonMap['donated'],

@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class UserProfilePage extends StatefulWidget {
+  static String id = 'user_profile';
   const UserProfilePage({Key? key}) : super(key: key);
 
   @override

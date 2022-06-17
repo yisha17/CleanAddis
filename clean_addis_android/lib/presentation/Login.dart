@@ -107,8 +107,8 @@ class _LoginPageState extends State<LoginPage> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             textInputAction: TextInputAction.done,
             validator: (password) {
-              if (password != null && password.length < 7) {
-                return 'Password must be 7 charactesrs long';
+              if (password != null && password.length < 6) {
+                return 'Password must be 6 charactesrs long';
               } else {
                 return null;
               }
@@ -147,15 +147,16 @@ class _LoginPageState extends State<LoginPage> {
       listener: (context, LoginState state) {
         if (state.user != null && state is AuthenticatedState) {
          
-          // Navigator.of(context, rootNavigator: true).pop();
+          Navigator.of(context, rootNavigator: true).pop();
+          Navigator.of(context, rootNavigator: true).pop();
 
           // Navigator.of(context)
           //     .push(MaterialPageRoute(builder: (context) => Pages()));
 
-          Navigator.pushNamed(
+          Navigator.pushNamedAndRemoveUntil(
             context,
-            HomePage.id,
-          
+            Pages.id,
+            (Route<dynamic> route) => false
           );
         } else if (state is UserLoadingState) {
           print("loading true");

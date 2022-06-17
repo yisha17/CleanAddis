@@ -39,6 +39,7 @@ class LoginBloc extends Bloc<LoginEvent,LoginState>{
         await _storage.write(key: 'token', value:data.access_token);
         await _storage.write(key: 'name', value: event.username);
         await _storage.write(key: 'password', value: event.password);
+        await _storage.write(key: 'address',value : data.address);
         final token = await _storage.read(key: 'token');
         
         try{await userRepository.createDeviceInfo(token!);}catch(e){
@@ -97,8 +98,11 @@ class LoginBloc extends Bloc<LoginEvent,LoginState>{
         );
         print('this.is event profile');
         print(event.profile);
-        
         final data = await userRepository.updateProfile(user, event.id.toString(), token!, event.profile);
+        var _password = await _storage.read(key: 'password');
+        if (event.password != _password){
+          await userRepository.updatePassword(event.password!, event.id.toString(), token);
+        }
         yield UserDetailState(user: data!); 
 
 

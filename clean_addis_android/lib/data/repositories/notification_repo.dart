@@ -8,4 +8,8 @@ class NotificationRepo {
   Future<List<Notifications>?> getNotification(String id, String token) async {
     return this.dataProvider.getNotification(id, token);
   }
+
+  Future<void> notifySeller(String token, int owner,int waste_id) async{
+    return this.dataProvider.notifySeller(token,owner,waste_id);
+  }
 }

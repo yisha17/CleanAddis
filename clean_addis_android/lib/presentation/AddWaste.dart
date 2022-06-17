@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tflite/tflite.dart';
+import 'Home.dart';
 import 'WasteList.dart';
 
 class AddWastePage extends StatefulWidget {
@@ -333,305 +334,314 @@ class AddWasteState extends State<AddWastePage> {
         });
   }
 
+  Future<bool> _onWillPop() async {
+     Navigator.pushNamedAndRemoveUntil(
+        context,HomePage.id, (Route<dynamic> route) => false);
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          AddWasteBloc(WasteRepository(dataProvider: WasteDataProvider())),
-      child: BlocListener(
-        bloc: wasteBloc,
-        listener: (context, WasteState state) {
-          if (state is WasteLoading) {
-            WidgetsBinding.instance!
-                .addPostFrameCallback((_) => loadingDialog(context));
-          } else if (state is WasteCreatedState || state is WasteUpdatedState) {
-            WidgetsBinding.instance!.addPostFrameCallback((_) => messageDialog(
-                    context,
-                    icon: Icons.recycling,
-                    color: TypeColor.chooseColor(value!),
-                    title: state is WasteUpdatedState
-                        ? 'Waste Updated'
-                        : 'Waste Created',
-                    body: 'Your Waste has been Successfully Created',
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => WasteListPage(
-                                    for_waste: selectedValue,
-                                    type: value,
-                                  )));
-                        },
-                        child: Text("OK",
-                            style: TextStyle(
-                              color: Colors.green,
-                              fontWeight: FontWeight.w500,
-                            )),
-                      )
-                    ]));
-          } else if (state is WasteCreateFailedState) {
-            Navigator.of(context, rootNavigator: true).pop();
-            ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
-              SnackBar(
-                content: Text('error happend. please try again'),
-                duration: Duration(seconds: 6),
-              ),
-            );
-          }
-        },
-        child: Scaffold(
-          key: _scaffoldKey,
-          appBar: AppBar(
-            centerTitle: true,
-            elevation: 0,
-            backgroundColor: lightgreen,
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Colors.black,
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            title: Center(
-              child:
-                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                Icon(
-                  Icons.assignment_outlined,
-                  size: 30,
+    return WillPopScope(
+      onWillPop: _onWillPop ,
+      child: BlocProvider(
+        create: (context) =>
+            AddWasteBloc(WasteRepository(dataProvider: WasteDataProvider())),
+        child: BlocListener(
+          bloc: wasteBloc,
+          listener: (context, WasteState state) {
+            if (state is WasteLoading) {
+              WidgetsBinding.instance!
+                  .addPostFrameCallback((_) => loadingDialog(context));
+            } else if (state is WasteCreatedState || state is WasteUpdatedState) {
+              WidgetsBinding.instance!.addPostFrameCallback((_) => messageDialog(
+                      context,
+                      icon: Icons.recycling,
+                      color: TypeColor.chooseColor(value!),
+                      title: state is WasteUpdatedState
+                          ? 'Waste Updated'
+                          : 'Waste Created',
+                      body: 'Your Waste has been Successfully Created',
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => WasteListPage(
+                                      for_waste: selectedValue,
+                                      type: value,
+                                    )));
+                          },
+                          child: Text("OK",
+                              style: TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.w500,
+                              )),
+                        )
+                      ]));
+            } else if (state is WasteCreateFailedState) {
+              Navigator.of(context, rootNavigator: true).pop();
+              ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+                SnackBar(
+                  content: Text('error happend. please try again'),
+                  duration: Duration(seconds: 6),
+                ),
+              );
+            }
+          },
+          child: Scaffold(
+            key: _scaffoldKey,
+            appBar: AppBar(
+              centerTitle: true,
+              elevation: 0,
+              backgroundColor: lightgreen,
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
                   color: Colors.black,
                 ),
-                Text(
-                  'Waste Form',
-                  style: TextStyle(
-                    fontSize: 30,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              title: Center(
+                child:
+                    Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                  Icon(
+                    Icons.assignment_outlined,
+                    size: 30,
                     color: Colors.black,
                   ),
-                ),
-              ]),
-            ),
-          ),
-          backgroundColor: lightgreen,
-          body: Form(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-              child: ListView(
-                children: [
-                  Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      isEditing() ? editimageField() : imageField(),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Row(
-                          children: [
-                            IconButton(
-                              icon: Icon(
-                                Icons.image_outlined,
-                                size: 30,
-                              ),
-                              onPressed: () {
-                                _pickImage(ImageSource.gallery);
-                              },
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.camera_alt_outlined,
-                                size: 30,
-                              ),
-                              onPressed: () {
-                                _pickImage(ImageSource.camera);
-                              },
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.06,
-                  ),
-                  buildTextField(
-                    icon: Icon(Icons.recycling,
-                        color: value != null
-                            ? TypeColor.chooseColor(value!)
-                            : Colors.grey),
-                    type: TextInputType.name,
-                    controller: this.waste_name_text,
-                    labelText: "Waste name",
-                    placeholder: "Plastic Bottle",
-                    validator: (value) {
-                      if (value != null && value.length < 4) {
-                        return 'You Must fill waste name';
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  DropdownButtonFormField(
-                    isDense: true,
-                    validator: (value) {
-                      if (value == null) {
-                        return 'Please fill this';
-                      } else {
-                        return null;
-                      }
-                    },
-                    items: list.map((String category) {
-                      return new DropdownMenuItem(
-                          value: category,
-                          child: Row(
-                            children: <Widget>[
-                              Text(category),
-                            ],
-                          ));
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      // do other stuff with _category
-                      setState(
-                          () => {this.value = newValue, print(this.value)});
-                    },
-                    value: value,
-                    decoration: InputDecoration(
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: logogreen),
-                        ),
-                        prefixIcon: Icon(Icons.category,
-                            color: value != null
-                                ? TypeColor.chooseColor(value!)
-                                : Colors.grey),
-                        contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 20),
-                        labelText: 'Waste Type',
-                        hintText: "Plastic",
-                        hintStyle: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        )),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.06,
-                  ),
-                  Row(
-                    children: [
-                      new Flexible(
-                        child: buildTextField(
-                            icon: Icon(Icons.price_change_outlined),
-                            type: TextInputType.number,
-                            controller: this.price_per_unit_text,
-                            labelText: "price",
-                            placeholder: "100",
-                            validator: (val) {
-                              if (selectedValue == 'Donation' &&
-                                  int.parse(price_per_unit_text.text) > 0) {
-                                return 'Donation is free';
-                              } else if (!isNumeric(val!)) {
-                                return 'Incorrect Value';
-                              } else {
-                                return null;
-                              }
-                            }),
-                      ),
-                      SizedBox(
-                        width: 20.0,
-                      ),
-                      new Flexible(
-                        child: buildTextField(
-                            icon: Icon(
-                              Icons.production_quantity_limits,
-                            ),
-                            type: TextInputType.number,
-                            controller: this.quantity_text,
-                            labelText: "Quantity",
-                            placeholder: "100",
-                            validator: (val) {
-                              if (!isNumeric(val!)) {
-                                return 'Incorrect Value';
-                              } else {
-                                return null;
-                              }
-                            }),
-                      ),
-                      SizedBox(
-                        width: 20.0,
-                      ),
-                      new Flexible(
-                        child: buildTextField(
-                            icon: Icon(Icons.scale),
-                            type: TextInputType.name,
-                            controller: this.metric_text,
-                            labelText: "Unit",
-                            placeholder: "KG"),
-                      ),
-                    ],
-                  ),
-                  buildTextField(
-                      icon: Icon(
-                        Icons.location_on,
-                        color: Colors.red,
-                      ),
-                      type: TextInputType.name,
-                      controller: this.location_text,
-                      labelText: "Location",
-                      placeholder: "Piassa, AddisAbaba"),
-                  buildTextField(
-                      icon: Icon(
-                        Icons.description,
-                        color: Colors.amberAccent,
-                      ),
-                      type: TextInputType.name,
-                      controller: this.waste_description_text,
-                      labelText: "Description",
-                      placeholder: "Description here"),
                   Text(
-                    'Waste For',
+                    'Waste Form',
                     style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 22,
-                        color: Colors.black),
-                  ),
-                  buildRadios(),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (isEditing() == false) {
-                        wasteBloc.onCreateWaste(
-                            for_waste: this.selectedValue,
-                            waste_name: this.waste_name_text.text,
-                            waste_type: this.value,
-                            price_per_unit:
-                                int.parse(this.price_per_unit_text.text),
-                            quantity: int.parse(this.quantity_text.text),
-                            metric: this.metric_text.text,
-                            image: this.image,
-                            location: this.location_text.text,
-                            description: this.waste_description_text.text);
-                      } else {
-                        wasteBloc.add(UpdateWasteEvent(
-                            id: widget.id!,
-                            waste_name: waste_name_text.text,
-                            waste_type: value,
-                            for_waste: selectedValue,
-                            metric: metric_text.text,
-                            quantity: int.parse(quantity_text.text),
-                            price_per_unit: int.parse(price_per_unit_text.text),
-                            location: location_text.text,
-                            description: waste_description_text.text,
-                            image: image));
-                      }
-                    },
-                    child: Text(
-                      isEditing() ? 'Update' : 'Create',
-                      style:
-                          TextStyle(fontSize: 26, fontWeight: FontWeight.w700),
+                      fontSize: 30,
+                      color: Colors.black,
                     ),
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: Size.fromHeight(50), primary: logogreen),
-                  )
-                ],
+                  ),
+                ]),
+              ),
+            ),
+            backgroundColor: lightgreen,
+            body: Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                child: ListView(
+                  children: [
+                    Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        isEditing() ? editimageField() : imageField(),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Row(
+                            children: [
+                              IconButton(
+                                icon: Icon(
+                                  Icons.image_outlined,
+                                  size: 30,
+                                ),
+                                onPressed: () {
+                                  _pickImage(ImageSource.gallery);
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.camera_alt_outlined,
+                                  size: 30,
+                                ),
+                                onPressed: () {
+                                  _pickImage(ImageSource.camera);
+                                },
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.06,
+                    ),
+                    buildTextField(
+                      icon: Icon(Icons.recycling,
+                          color: value != null
+                              ? TypeColor.chooseColor(value!)
+                              : Colors.grey),
+                      type: TextInputType.name,
+                      controller: this.waste_name_text,
+                      labelText: "Waste name",
+                      placeholder: "Plastic Bottle",
+                      validator: (value) {
+                        if (value != null && value.length < 4) {
+                          return 'You Must fill waste name';
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                    DropdownButtonFormField(
+                      isDense: true,
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Please fill this';
+                        } else {
+                          return null;
+                        }
+                      },
+                      items: list.map((String category) {
+                        return new DropdownMenuItem(
+                            value: category,
+                            child: Row(
+                              children: <Widget>[
+                                Text(category),
+                              ],
+                            ));
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        // do other stuff with _category
+                        setState(
+                            () => {this.value = newValue, print(this.value)});
+                      },
+                      value: value,
+                      decoration: InputDecoration(
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: logogreen),
+                          ),
+                          prefixIcon: Icon(Icons.category,
+                              color: value != null
+                                  ? TypeColor.chooseColor(value!)
+                                  : Colors.grey),
+                          contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                          labelText: 'Waste Type',
+                          hintText: "Plastic",
+                          hintStyle: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          )),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.06,
+                    ),
+                    Row(
+                      children: [
+                        new Flexible(
+                          child: buildTextField(
+                              icon: Icon(Icons.price_change_outlined),
+                              type: TextInputType.number,
+                              controller: this.price_per_unit_text,
+                              labelText: "price",
+                              placeholder: "100",
+                              validator: (val) {
+                                if (selectedValue == 'Donation' &&
+                                    int.parse(price_per_unit_text.text) > 0) {
+                                  return 'Donation is free';
+                                } else if (!isNumeric(val!)) {
+                                  return 'Incorrect Value';
+                                } else {
+                                  return null;
+                                }
+                              }),
+                        ),
+                        SizedBox(
+                          width: 20.0,
+                        ),
+                        new Flexible(
+                          child: buildTextField(
+                              icon: Icon(
+                                Icons.production_quantity_limits,
+                              ),
+                              type: TextInputType.number,
+                              controller: this.quantity_text,
+                              labelText: "Quantity",
+                              placeholder: "100",
+                              validator: (val) {
+                                if (!isNumeric(val!)) {
+                                  return 'Incorrect Value';
+                                } else {
+                                  return null;
+                                }
+                              }),
+                        ),
+                        SizedBox(
+                          width: 20.0,
+                        ),
+                        new Flexible(
+                          child: buildTextField(
+                              icon: Icon(Icons.scale),
+                              type: TextInputType.name,
+                              controller: this.metric_text,
+                              labelText: "Unit",
+                              placeholder: "KG"),
+                        ),
+                      ],
+                    ),
+                    buildTextField(
+                        icon: Icon(
+                          Icons.location_on,
+                          color: Colors.red,
+                        ),
+                        type: TextInputType.name,
+                        controller: this.location_text,
+                        labelText: "Location",
+                        placeholder: "Piassa, AddisAbaba"),
+                    buildTextField(
+                        icon: Icon(
+                          Icons.description,
+                          color: Colors.amberAccent,
+                        ),
+                        type: TextInputType.name,
+                        controller: this.waste_description_text,
+                        labelText: "Description",
+                        placeholder: "Description here"),
+                    Text(
+                      'Waste For',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 22,
+                          color: Colors.black),
+                    ),
+                    buildRadios(),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (isEditing() == false) {
+                          wasteBloc.onCreateWaste(
+                              for_waste: this.selectedValue,
+                              waste_name: this.waste_name_text.text,
+                              waste_type: this.value,
+                              price_per_unit:
+                                  int.parse(this.price_per_unit_text.text),
+                              quantity: int.parse(this.quantity_text.text),
+                              metric: this.metric_text.text,
+                              image: this.image,
+                              location: this.location_text.text,
+                              description: this.waste_description_text.text);
+                        } else {
+                          wasteBloc.add(UpdateWasteEvent(
+                              id: widget.id!,
+                              waste_name: waste_name_text.text,
+                              waste_type: value,
+                              for_waste: selectedValue,
+                              metric: metric_text.text,
+                              quantity: int.parse(quantity_text.text),
+                              price_per_unit: int.parse(price_per_unit_text.text),
+                              location: location_text.text,
+                              description: waste_description_text.text,
+                              image: image));
+                        }
+                      },
+                      child: Text(
+                        isEditing() ? 'Update' : 'Create',
+                        style:
+                            TextStyle(fontSize: 26, fontWeight: FontWeight.w700),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: Size.fromHeight(50), primary: logogreen),
+                    )
+                  ],
+                ),
               ),
             ),
           ),

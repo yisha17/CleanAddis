@@ -1,24 +1,37 @@
-
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
 
-abstract class SignupEvent extends Equatable{
+abstract class SignupEvent extends Equatable {
   const SignupEvent();
 }
 
-class LoadUser extends SignupEvent{
+class LoadUser extends SignupEvent {
   final String? username;
   final String? email;
   final String? password;
   final String? re_password;
+  final String? phone;
+  final String? address;
 
-  LoadUser({this.username, this.email, this.password, this.re_password});
+  LoadUser(
+      {this.username,
+      this.email,
+      this.password,
+      this.re_password,
+      this.phone,
+      this.address});
 
   @override
-  List<Object?> get props => [this.username,this.email,this.password,this.re_password];
+  List<Object?> get props => [
+        this.username,
+        this.email,
+        this.password,
+        this.re_password,
+        this.phone,
+        this.address
+      ];
 }
-
 
 class ProfileUpdate extends SignupEvent {
   final String? username;
@@ -34,12 +47,7 @@ class ProfileUpdate extends SignupEvent {
     this.profile,
   });
 
-   @override
+  @override
   List<Object?> get props =>
-      [this.username, this.email, this.password, this.phone,this.profile];
-
-
+      [this.username, this.email, this.password, this.phone, this.profile];
 }
-
-
-

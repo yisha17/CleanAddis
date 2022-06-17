@@ -4,22 +4,21 @@ part of 'notifications_bloc.dart';
 abstract class NotificationsEvent extends Equatable {}
 
 class NotificationPageEvent extends NotificationsEvent {
-  final int id;
-  NotificationPageEvent({required this.id});
+  
   @override
-  List<Object?> get props => [this.id];
+  List<Object?> get props => [];
 }
 
 class NotificationCreateEvent extends NotificationsEvent {
-  final int user;
-  final int point_to;
-  final String type;
 
+  final int owner;
+  final int waste_id;
   NotificationCreateEvent(
-      {required this.user, required this.point_to, required this.type});
+      { required this.owner,required this.waste_id});
 
    @override
-  List<Object?> get props => [user,point_to,type];    
+  List<Object?> get props => [owner];    
 }
+
 
 

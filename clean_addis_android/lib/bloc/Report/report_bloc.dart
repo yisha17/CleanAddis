@@ -84,7 +84,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
             description: event.description,);
             print(report.description);
         final report_updated  = await reportRepository.updateReport(report: report,token: token!,id: event.id.toString());
-        yield ReportState(report: report_updated);
+        yield ReportCreatedState(report: report_updated);
       } catch (e) {
         yield ReportErrorState(message: e.toString());
       }
@@ -97,6 +97,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
         String? token = await _storage.read(key: 'token');
         await reportRepository.deleteReport(int.parse(event.id), token!);
         yield ReportDeletedState();
+        print("here deleted");
       }catch(e){
         yield ReportErrorState(message: e.toString());
       }

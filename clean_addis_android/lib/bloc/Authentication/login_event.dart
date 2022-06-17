@@ -33,6 +33,7 @@ class UserProfileEvent extends LoginEvent{
 class UserUpdateEvent extends LoginEvent {
   final int id;
   final String username;
+  final String? password;
   final File? profile;
   final String? email;
   final String? address;
@@ -40,13 +41,14 @@ class UserUpdateEvent extends LoginEvent {
   UserUpdateEvent({
     required this.id,
     required this.username,
+    this.password,
     this.profile,
     this.email,
     this.address,
     this.phone,
   });
   @override
-  List<Object?> get props => [id,username,profile,email,address,phone];
+  List<Object?> get props => [id,username,password,profile,email,address,phone];
 
 }
 

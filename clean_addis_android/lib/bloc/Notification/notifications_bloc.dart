@@ -18,16 +18,38 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       try{
         yield NotificationsInitial();
         final _storage = FlutterSecureStorage();
-        final user_id = await _storage.read(key: 'id');
-        Notifications notifications = Notifications(
-          type: 'Waste',
-          user: event.user,
-          point_to: event.point_to,
-        );
+        final token = await _storage.read(key: 'token');
+        
+        try{
+           await repo.notifySeller(token!,event.owner, event.waste_id);
+        }catch(e){
+          print(e.toString());
+        }
+       
+        
+        yield NotificationCreated();
         
       }catch(e){
         yield NotificationError(message: e.toString());
       }
     }
+
+    if (event is NotificationPageEvent){
+      try{
+        yield NotificationsInitial();
+        final _storage = FlutterSecureStorage();
+        final token = await _storage.read(key: 'token');
+        final id = await _storage.read(key: 'id');
+
+        final data = await repo.getNotification(id!, token!);
+
+        yield NotificationListLoaded(data!);
+
+      }catch(e){
+        yield NotificationError(message: e.toString());
+      }
+    }
   }
+
+
 }
