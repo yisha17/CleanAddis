@@ -18,10 +18,6 @@ const Edit = () => {
                 <label class="mb-2 font-bold text-lg text-gray-900" for="last_name">Email </label>
                 <input class="border py-2 px-3 text-grey-800" type="text" name="last_name" id="last_name"/>
             </div>
-            <div class="flex flex-col mb-2">
-              <label class="mb-2 font-bold text-lg text-gray-900" for="myfile">Password</label>
-              <input class="border py-2 px-3 text-grey-800" type="password" id="myfile" name="myfile"/>
-            </div>
             <div class="flex flex-col mb-4">
                 <label class="mb-2 font-bold text-lg text-gray-900" for="last_name">Role</label>
                 <select name="cars" id="cars">

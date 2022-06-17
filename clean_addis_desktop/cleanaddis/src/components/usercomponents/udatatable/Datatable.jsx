@@ -9,7 +9,7 @@ import Modal from '../udatatable/Modal'
 import EditModal from '../udatatable/Edit'
 import getService from '../../../services/get.service'
 
-const Wdatatable = () => {
+const Udatatable = () => {
   const [tableData, setTableData] = useState([])
   useEffect(() => {getService.getAllUsers()
       .then((response) => setTableData(response.data))
@@ -18,6 +18,7 @@ const Wdatatable = () => {
     var idvalue = 0
     const viewfunction=(id) =>{
       localStorage.setItem("selected",JSON.stringify(id))
+      setSingle(true)
     }
     
      
@@ -50,7 +51,7 @@ const Wdatatable = () => {
     <div>
       <div>
       <Link to ="/itadmin/user" onClick={() => setShowMyModal(true)}>
-           <div className="border rounded border-slate-300 justify-center flex items-center m-4  hover:bg-green-400 cursor-pointer pt-4 pb-5">Add New Work Schedule</div> 
+           <div className="border rounded border-slate-300 justify-center flex items-center m-4  hover:bg-green-400 cursor-pointer pt-4 pb-5">Add New User. </div> 
            </Link>
       </div>
     <div  style={{ height: 500, width: '100%' }} className="items-center">
@@ -72,4 +73,4 @@ const Wdatatable = () => {
   )
 }
 
-export default Wdatatable
+export default Udatatable

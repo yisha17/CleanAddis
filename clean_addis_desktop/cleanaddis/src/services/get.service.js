@@ -6,6 +6,9 @@ const API_URI = "http://localhost:8010/proxy";
 const getUserRole = (id) => {
     return axios.get(API_URI + `/user/${id}`,{headers:authHeader()});
 };
+const getUserSingle = (id) => {
+    return axios.get(API_URI + `/user/${id}`,{headers:authHeader()});
+}
 const getReportSingle = (id) =>{
     return axios.get(API_URI+ `/report/${id}`,{headers:authHeader()});
 }
@@ -60,6 +63,7 @@ const getService = {
     getCompanies,
     getPublicPlace,
     getUserRole,
+    getUserSingle,
     getReportSingle,
     getAnnouncementSingle,
     getPublicPlaceSingle,
