@@ -15,6 +15,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         # Add extra responses here
         data['role'] = self.user.role
+        data['address'] = self.user.address
         return data
 
 

@@ -285,12 +285,12 @@ class _SignupPageState extends State<SignupPage> {
                       textControllerAddress.text = subcities[index];
                     });
                   },
-                  icon: Icon(Icons.remove_red_eye)),
+                  icon: Icon(Icons.change_circle)),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.black, width: 2.0),
               ),
               prefixIcon: Icon(
-                Icons.phone,
+                Icons.location_on,
                 color: Colors.black,
               ),
               labelText: 'Subcity',

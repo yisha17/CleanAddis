@@ -13,11 +13,12 @@ class NotificationDataProvider{
   Future<List<Notifications>?> getNotification(String id,String token) async{
     final _storage = FlutterSecureStorage();
     final owner = await _storage.read(key: 'id');
+    final address = await _storage.read(key: 'address');
     final response = await http.post(Uri.http(base_url,'api/announcement/individual/'),
     headers: {
       'Authorization': 'JWT $token',
     },body: {
-      "address": "Lideta",
+      "address": address,
       "owner": owner,
       "notification_type":"Report"
     });

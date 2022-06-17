@@ -332,6 +332,7 @@ class WasteDetailState extends State<WasteDetailPage> {
                                   fontWeight: FontWeight.w500),
                             ),
                             onPressed: () {
+                              
                               Navigator.of(context, rootNavigator: true).pop();
                               
                             },
