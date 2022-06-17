@@ -1,7 +1,11 @@
+import 'package:clean_addis_android/bloc/Waste/waste_bloc.dart';
+import 'package:clean_addis_android/data/data_providers/waste_data.dart';
+import 'package:clean_addis_android/data/repositories/waste_repository.dart';
 import 'package:clean_addis_android/presentation/AddWaste.dart';
+import 'package:clean_addis_android/presentation/WasteList.dart';
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WasteDetailPage extends StatefulWidget {
   final int? waste_id;
@@ -41,21 +45,20 @@ class WasteDetailPage extends StatefulWidget {
 class WasteDetailState extends State<WasteDetailPage> {
   static const values = <String>['Donation', 'Sell'];
   String selectedValue = values.first;
+   var _scaffoldKey = GlobalKey<ScaffoldState>();
+  final wastebloc =
+      AddWasteBloc(WasteRepository(dataProvider: WasteDataProvider()));
 
   Widget imageholder(String? image) {
     return Container(
-      child: Container(
-          height: MediaQuery.of(context).size.height * 0.3,
-          width: MediaQuery.of(context).size.width,
-          child: image != null ? 
-          Image.network(
-              image,
-              fit: BoxFit.cover):
-               Image.network(
-              'https://ismwaste.co.uk/images/recycling/mixed-paper.jpg',
-              fit: BoxFit.fill)
-            )
-    );
+        child: Container(
+            height: MediaQuery.of(context).size.height * 0.3,
+            width: MediaQuery.of(context).size.width,
+            child: image != null
+                ? Image.network(image, fit: BoxFit.cover)
+                : Image.network(
+                    'https://ismwaste.co.uk/images/recycling/mixed-paper.jpg',
+                    fit: BoxFit.fill)));
   }
 
   Widget textField({
@@ -157,8 +160,9 @@ class WasteDetailState extends State<WasteDetailPage> {
       required String text,
       required Color color}) {
     return Container(
-      width:isFullWidth ? MediaQuery.of(context).size.width * 0.8:
-      MediaQuery.of(context).size.width * 0.4,
+      width: isFullWidth
+          ? MediaQuery.of(context).size.width * 0.8
+          : MediaQuery.of(context).size.width * 0.4,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -207,239 +211,291 @@ class WasteDetailState extends State<WasteDetailPage> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar:AppBar(
-        elevation: 0,
-        centerTitle: true,
-        title : Text(
-          'Details',
-          style: TextStyle(color: Colors.white, fontSize: 25),
-        ),
-        backgroundColor: TypeColor.chooseColor(widget.waste_type!),
-        actions: [
-           IconButton(
-            onPressed: () {
-              widget.donated! || widget.sold! ?
-              
-                messageDialog(
-                  context: context,
-                  title: 'Cant Edit Waste',
-                  color: Colors.red,
-                  body: 'You Already Donated/Sold the waste',
-                  icon: Icons.edit,
-                  actions: [
-                    Center(
-                      child: Row(
-                        children: [
-                          TextButton(
-                            child: Text(
-                              "OK",
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                            } 
+    return BlocProvider(
+      create: (context) => wastebloc,
+      child: BlocListener(
+        bloc: wastebloc,
+        listener: (context, WasteState state) {
+          if (state is WasteDeletedState) {
+            WidgetsBinding.instance!.addPostFrameCallback((_) => messageDialog(
+                context: context,
+                color: Colors.red,
+                title: 'Deleted',
+                body: 'Your Waste has been successfuly Deleted',
+                actions: [
+                   TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => WasteListPage(
+                                    for_waste: widget.for_waste,
+                                    type: widget.waste_type,
+                                  )));
+                        },
+                        child: Text("OK",
+                            style: TextStyle(
+                              color: Colors.green,
+                              fontWeight: FontWeight.w500,
+                            )),
+                      )
+                ]));
+          } else if (state is WasteCreateFailedState) {
+            Navigator.of(context, rootNavigator: true).pop();
+            ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+              SnackBar(
+                content: Text('error happend. please try again'),
+                duration: Duration(seconds: 6),
+              ),
+            );
+          }
+        },
+        child: Scaffold(
+          key: _scaffoldKey,
+          appBar: AppBar(
+            elevation: 0,
+            centerTitle: true,
+            title: Text(
+              'Details',
+              style: TextStyle(color: Colors.white, fontSize: 25),
+            ),
+            backgroundColor: TypeColor.chooseColor(widget.waste_type!),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  widget.donated! || widget.sold!
+                      ? messageDialog(
+                          context: context,
+                          title: 'Cant Edit Waste',
+                          color: Colors.red,
+                          body: 'You Already Donated/Sold the waste',
+                          icon: Icons.edit,
+                          actions: [
+                              Center(
+                                child: Row(
+                                  children: [
+                                    TextButton(
+                                        child: Text(
+                                          "OK",
+                                          style: TextStyle(
+                                              color: Colors.blue,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context,
+                                                  rootNavigator: true)
+                                              .pop();
+                                        }),
+                                  ],
+                                ),
+                              ),
+                            ])
+                      : messageDialog(
+                          context: context,
+                          title: 'Edit Waste',
+                          color: Colors.blue,
+                          body: 'Are you sure you want to Edit your Waste?',
+                          icon: Icons.edit,
+                          actions: [
+                              Center(
+                                child: Row(
+                                  children: [
+                                    TextButton(
+                                        child: Text(
+                                          "OK",
+                                          style: TextStyle(
+                                              color: Colors.blue,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context,
+                                                  rootNavigator: true)
+                                              .pop();
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AddWastePage(
+                                                        id: widget.waste_id,
+                                                        image: widget.image,
+                                                        waste_name:
+                                                            widget.waste_name,
+                                                        waste_type:
+                                                            widget.waste_type,
+                                                        for_waste:
+                                                            widget.for_waste,
+                                                        metric: widget.unit,
+                                                        quantity:
+                                                            widget.quantity,
+                                                        price: widget.price,
+                                                        location:
+                                                            widget.location,
+                                                        description:
+                                                            widget.description,
+                                                      )));
+                                        }),
+                                    TextButton(
+                                      child: Text(
+                                        "CANCEL",
+                                        style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context,
+                                                rootNavigator: true)
+                                            .pop();
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ]);
+                },
+                icon: Icon(Icons.edit),
+                color: Colors.white,
+              ),
+              IconButton(
+                onPressed: () {
+                  messageDialog(
+                      context: context,
+                      title: 'Delete Waste',
+                      color: Colors.red,
+                      icon: Icons.delete,
+                      body: 'Are you sure you want to delete your waste?',
+                      actions: [
+                        Center(
+                          child: Row(
+                            children: [
+                              TextButton(
+                                child: Text(
+                                  "OK",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop();
+                                },
+                              ),
+                              TextButton(
+                                child: Text(
+                                  "CANCEL",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop();
+                                },
+                              ),
+                            ],
                           ),
-                         
-                        ],
-                      ),
-                    ),
-                  ]):
-              messageDialog(
-                  context: context,
-                  title: 'Edit Waste',
-                  color: Colors.blue,
-                  body: 'Are you sure you want to Edit your Waste?',
-                  icon: Icons.edit,
-                  actions: [
-                    Center(
-                      child: Row(
-                        children: [
-                          TextButton(
-                            child: Text(
-                              "OK",
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            onPressed: () {
-                            
-                              Navigator.of(context, rootNavigator: true).pop();
-                              Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                              AddWastePage(
-                                                id: widget.waste_id,
-                                                image:widget.image,
-                                                waste_name: widget.waste_name,
-                                                waste_type: widget.waste_type,
-                                                for_waste: widget.for_waste,
-                                                metric: widget.unit,
-                                                quantity: widget.quantity,
-                                                price: widget.price,
-                                                location: widget.location,
-                                                description: widget.description,
-                                              )));
-                            } 
-                          ),
-                          TextButton(
-                            child: Text(
-                              "CANCEL",
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ]);
-                  
-
-            },
-            icon: Icon(Icons.edit),
-            color: Colors.white,
+                        ),
+                      ]);
+                },
+                icon: Icon(Icons.delete),
+                color: Colors.white,
+              ),
+            ],
           ),
-          IconButton(
-            onPressed: () {
-              messageDialog(
-                  context: context,
-                  title: 'Delete Waste',
-                  color: Colors.red,
-                  icon: Icons.delete,
-                  body: 'Are you sure you want to delete your waste?',
-                  actions: [
-                    Center(
-                      child: Row(
-                        children: [
-                          TextButton(
-                            child: Text(
-                              "OK",
-                              style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            onPressed: () {
-                              
-                              Navigator.of(context, rootNavigator: true).pop();
-                              
-                            },
-                          ),
-                          TextButton(
-                            child: Text(
-                              "CANCEL",
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ]);
-            },
-            icon: Icon(Icons.delete),
-            color: Colors.white,
-          ),
-        ],
-      ),
-      backgroundColor: lightgreen,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-          child: Column(
-            children: [
-              imageholder(widget.image),
-              verticalSpace(0.03),
-              buildText(
-                  icon: Icons.recycling,
-                  label: 'Waste Name',
-                  text: widget.waste_name!,
-                  color: TypeColor.chooseColor(widget.waste_type!)),
-              Divider(),
-              verticalSpace(0.03),
-              buildText(
-                  icon: Icons.category,
-                  label: 'Waste Type',
-                  text: widget.waste_type!,
-                  color: TypeColor.chooseColor(widget.waste_type!)),
-              Divider(),
-              verticalSpace(0.03),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+          backgroundColor: lightgreen,
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+              child: Column(
                 children: [
-                  horizontalSpace(0.09),
+                  imageholder(widget.image),
+                  verticalSpace(0.03),
                   buildText(
-                      icon: Icons.price_change,
-                      color: Colors.green[900]!,
-                      isFullWidth: false,
-                      label: 'Price',
-                      text: widget.price! + 'Birr'),
-                  horizontalSpace(0.04),
+                      icon: Icons.recycling,
+                      label: 'Waste Name',
+                      text: widget.waste_name!,
+                      color: TypeColor.chooseColor(widget.waste_type!)),
+                  Divider(),
+                  verticalSpace(0.03),
                   buildText(
-                      icon: Icons.scale,
-                      color: Colors.lime[900]!,
-                      isFullWidth: false,
-                      label: 'Quantity',
-                      text:  widget.quantity! + widget.unit!),
+                      icon: Icons.category,
+                      label: 'Waste Type',
+                      text: widget.waste_type!,
+                      color: TypeColor.chooseColor(widget.waste_type!)),
+                  Divider(),
+                  verticalSpace(0.03),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      horizontalSpace(0.09),
+                      buildText(
+                          icon: Icons.price_change,
+                          color: Colors.green[900]!,
+                          isFullWidth: false,
+                          label: 'Price',
+                          text: widget.price! + 'Birr'),
+                      horizontalSpace(0.04),
+                      buildText(
+                          icon: Icons.scale,
+                          color: Colors.lime[900]!,
+                          isFullWidth: false,
+                          label: 'Quantity',
+                          text: widget.quantity! + widget.unit!),
+                    ],
+                  ),
+                  Divider(),
+                  verticalSpace(0.03),
+                  buildText(
+                      icon: Icons.date_range,
+                      color: TypeColor.chooseColor(widget.waste_type!),
+                      label: 'Waste Created',
+                      text: 'Created on ' + widget.post_date!),
+                  Divider(),
+                  verticalSpace(0.03),
+                  buildText(
+                      icon: Icons.location_on,
+                      color: Colors.red,
+                      label: 'Location',
+                      text: widget.location != null
+                          ? widget.location!
+                          : 'No Location'),
+                  Divider(),
+                  verticalSpace(0.03),
+                  buildText(
+                      icon: Icons.description,
+                      color: Colors.amberAccent,
+                      label: 'Description',
+                      text: widget.description != null
+                          ? widget.description!
+                          : 'No description'),
+                  Divider(),
+                  verticalSpace(0.03),
+                  buildText(
+                      icon: Icons.sell,
+                      color: TypeColor.chooseColor(widget.waste_type!),
+                      label: 'Waste For',
+                      text: widget.for_waste!),
+                  Divider(),
+                  verticalSpace(0.03),
+                  buildText(
+                      icon: Icons.shop_two,
+                      color: TypeColor.chooseColor(widget.waste_type!),
+                      label: 'Status',
+                      text: widget.for_waste! == 'Donation'
+                          ? widget.donated!
+                              ? 'Donated'
+                              : 'Available'
+                          : widget.sold!
+                              ? 'Sold'
+                              : 'Available')
+                  //widget.donated! ? 'Donated' : 'Available'),
                 ],
               ),
-              Divider(),
-              verticalSpace(0.03),
-              buildText(
-                  icon: Icons.date_range,
-                  color: TypeColor.chooseColor(widget.waste_type!),
-                  label: 'Waste Created',
-                  text: 'Created on ' + widget.post_date!),
-              Divider(),
-              verticalSpace(0.03),
-              buildText(
-                  icon: Icons.location_on,
-                  color: Colors.red,
-                  label: 'Location',
-                  text: widget.location != null ? widget.location! : 'No Location'),
-              Divider(),
-              verticalSpace(0.03),
-              buildText(
-                  icon: Icons.description,
-                  color: Colors.amberAccent,
-                  label: 'Description',
-                  text: widget.description != null ? widget.description!: 'No description'),
-              Divider(),
-              verticalSpace(0.03),
-               buildText(
-                  icon: Icons.sell,
-                  color: TypeColor.chooseColor(widget.waste_type!),
-                  label: 'Waste For',
-                  text: widget.for_waste!),
-              Divider(),
-              verticalSpace(0.03),
-              buildText(
-                  icon: Icons.shop_two,
-                  color: TypeColor.chooseColor(widget.waste_type!),
-                  label: 'Status',
-                  text: widget.for_waste! == 'Donation' ?
-                        widget.donated! ? 'Donated' : 'Available':
-                        widget.sold! ? 'Sold': 'Available') 
-                  //widget.donated! ? 'Donated' : 'Available'),
-             
-            ],
+            ),
           ),
         ),
       ),

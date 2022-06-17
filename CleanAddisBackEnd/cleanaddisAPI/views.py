@@ -134,6 +134,11 @@ class UserDetail(APIView):
         return Response(new_dict)
 
 
+class UserDeleteView(generics.DestroyAPIView):
+    permission_classes = [IsAdminUser]
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+user_delete_view = UserDeleteView.as_view()  
 
 class CompanyAPIView(APIView):
 

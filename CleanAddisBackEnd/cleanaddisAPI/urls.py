@@ -18,6 +18,7 @@ urlpatterns = [
     path('api/user/<int:id>',UserDetail.as_view()),
     path('api/user/<int:pk>/update/password/', user_password_update),
     path('api/user/<int:pk>/update/', user_profile_update),
+    path('api/user/delete/<int:pk>' , user_delete_view),
     path('api/companies/',CompanyAPIView.as_view()),
     path('api/waste/<int:pk>', waste_detail_view),
     path('api/waste/<int:pk>/update', waste_update_view),
