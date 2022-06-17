@@ -12,7 +12,7 @@ class Notifications {
   final String? owner_name;
   final String? address;
   final String? message;
-
+  final String? buyer_phone;
   Notifications(
       {this.id,
       this.user,
@@ -26,7 +26,8 @@ class Notifications {
       this.post_date,
       this.message,
       this.address,
-      this.isSeen});
+      this.isSeen,
+      this.buyer_phone});
 
   factory Notifications.fromJSON(Map<String, dynamic> jsonMap) {
     final notification = Notifications(
@@ -41,7 +42,8 @@ class Notifications {
       buyer_name:jsonMap['buyer_name'],
       owner_name: jsonMap['owner_name'],
       isSeen: jsonMap['is_seen'],
-      message: jsonMap['notification_body']
+      message: jsonMap['notification_body'],
+      buyer_phone: jsonMap['buyer_phone']
     );
     return notification;
   }

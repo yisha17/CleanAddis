@@ -458,6 +458,7 @@ class AnnouncementGetView(APIView):
                         fields["owner_name"] = User.objects.get(id=fields["owner_id"]).username
                     if (fields["buyer_id"] is not None):
                         fields["buyer_name"] = User.objects.get(id=fields["buyer_id"]).username
+                        fields["buyer_phone"] = User.objects.get(id=fields["buyer_id"]).phone   
                     if (fields["point_to_report_id"] is not None):
                         fields["report_title"] = Report.objects.get(
                             id=fields["point_to_report_id"]).reportTitle
@@ -557,6 +558,21 @@ class SellerAPIViewByType(generics.ListAPIView):
 
 seller_list_view_by_type = SellerAPIViewByType.as_view()
 
+class WasteDonationList(generics.ListAPIView):
+
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = Waste.objects.all()
+    serializer_class = SellerSerializer
+    
+
+    def get_queryset(self):
+
+        lists = super().get_queryset().filter(
+            for_waste='Donation',donated = False).order_by('-post_date')
+        return lists
+
+
+waste_donation_list = WasteDonationList.as_view()
 
 class WasteCreateAPIView(generics.CreateAPIView):
 

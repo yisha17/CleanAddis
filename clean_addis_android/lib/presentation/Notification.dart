@@ -38,7 +38,11 @@ class _NotificationPageState extends State<NotificationPage> {
   @override
   Widget build(BuildContext context) {
     Widget notificationList(
-        String title, String subtitle, Icon icon, Color color) {
+      { required String title,
+        required  String subtitle, 
+        required Icon icon, 
+        required Color color,
+        Icon suffixicon = const Icon(Icons.arrow_right, color: Colors.blue),}) {
       return ListTile(
         leading: icon,
         iconColor: color,
@@ -57,7 +61,7 @@ class _NotificationPageState extends State<NotificationPage> {
           ),
         ),
         isThreeLine: true,
-        trailing: Icon(Icons.arrow_right, color: Colors.blue),
+        trailing: suffixicon
       );
     }
 
@@ -116,10 +120,12 @@ class _NotificationPageState extends State<NotificationPage> {
                             return Dismissible(
                               key: ObjectKey(notifications.elementAt(index)),
                               child: notificationList(
-                                  notifications.elementAt(index).waste_name!,
-                                  'Hello ${notifications.elementAt(index).owner_name}, ${notifications.elementAt(index).buyer_name} is interested on ${notifications.elementAt(index).waste_name} posted on ${DateFormatter.changetoMD(notifications.elementAt(index).created_at!)}. Click here if you want to contact him',
-                                  Icon(Icons.sell),
-                                  Colors.black),
+                                  title:notifications.elementAt(index).waste_name!,
+                                  subtitle:'Hello ${notifications.elementAt(index).owner_name}, ${notifications.elementAt(index).buyer_name} is interested on ${notifications.elementAt(index).waste_name} posted on ${DateFormatter.changetoMD(notifications.elementAt(index).created_at!)}. Click here if you want to contact him',
+                                  icon:Icon(Icons.sell),
+                                  color:Colors.black,
+                                  suffixicon: Icon(Icons.phone,color:Colors.green)),
+                                  
                             );
                           }
                         case 'Report':
@@ -127,10 +133,10 @@ class _NotificationPageState extends State<NotificationPage> {
                             return Dismissible(
                                key: ObjectKey(notifications.elementAt(index)),
                               child: notificationList(
-                                  notifications.elementAt(index).report_title!,
-                                  'Hello ${notifications.elementAt(index).owner_name}, your reported posted on ${DateFormatter.changetoMD(notifications.elementAt(index).created_at!)} is resolved. to see the report',
-                                  Icon(Icons.report),
-                                  Colors.black),
+                                  title:notifications.elementAt(index).report_title!,
+                                  subtitle:'Hello ${notifications.elementAt(index).owner_name}, your reported posted on ${DateFormatter.changetoMD(notifications.elementAt(index).created_at!)} is resolved. to see the report',
+                                  icon:Icon(Icons.report),
+                                  color:Colors.black),
                             );
                           }
                         case "Announcement":
@@ -140,10 +146,10 @@ class _NotificationPageState extends State<NotificationPage> {
                               key: ObjectKey(
                                   notifications.elementAt(index)),
                               child: notificationList(
-                                  notifications.elementAt(index).address!,
-                                  'Hello,${notifications.elementAt(index).message} ',
-                                  Icon(Icons.send),
-                                  Colors.black),
+                                  title:notifications.elementAt(index).address!,
+                                  subtitle:'Hello,${notifications.elementAt(index).message} ',
+                                  icon:Icon(Icons.send),
+                                  color:Colors.black),
                             );
 
                           }
