@@ -1,7 +1,16 @@
 import "./single.scss"
 import {Link} from 'react-router-dom'
+import { useEffect,useState} from "react";
 import Modal from "../../../components/usercomponents/wdatatable/Modal"
-const Asingle = () => {
+import getService from "../../../services/get.service";
+const Single = () => {
+  const [wasteData, setWasteData] = useState([])
+  var id = JSON.parse(localStorage.getItem("selected"))
+  useEffect(() => {getService.getWasteSingle(id)
+    .then((response) => setWasteData(response.data))
+    console.log("here is the wastedata",wasteData)
+}, [])
+
   return (
     <div>
       <div className="single flex">
@@ -15,18 +24,42 @@ const Asingle = () => {
           </div> 
           
           <div className="item flex gap-5"> 
-          <img src="https://images.unsplash.com/photo-1559308078-88465deb35cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" 
+          <img src={wasteData.image}
           alt="" className="imgitem w-32 h-32 object-cover  rounded-full"  /> 
           <div className="details">
-            <h1 className="itemname text-4xl m-5">Work Schedule</h1>
+            <h1 className="itemname text-4xl m-5">Waste </h1>
             <div className="detailedItem mb-3 text-lg text-gray-600">
-              <span className="itemkey font-bold">Worker:</span>
-              <span className="itemvalue font-light ml-3">Cleaning</span>
+              <span className="itemkey font-bold">Name:</span>
+              <span className="itemvalue font-light ml-3">{wasteData.waste_name}</span>
             </div>
             <div className="detailedItem mb-3 text-lg text-gray-600">
-              <span className="itemkey font-bold">Work Time:</span>
-              <span className="itemvalue font-light ml-3">Cleaning</span>
+              <span className="itemkey font-bold">Type:</span>
+              <span className="itemvalue font-light ml-3">{wasteData.waste_type}</span>
             </div>        
+            
+            
+            <div className="detailedItem mb-3 text-lg text-gray-600">
+              <span className="itemkey font-bold">Description:</span>
+              <span className="itemvalue font-light ml-3">{wasteData.description}</span>
+            </div>        
+            
+            <div className="detailedItem mb-3 text-lg text-gray-600">
+              <span className="itemkey font-bold ">For:</span>
+              <span className="itemvalue font-light ml-3">{wasteData.for_waste}</span>
+            </div> 
+            <div className="detailedItem mb-3 text-lg text-gray-600">
+              <span className="itemkey font-bold ">Posted by:</span>
+              <span className="itemvalue font-light ml-3">{wasteData.seller}</span>
+            </div> 
+            <div className="detailedItem mb-3 text-lg text-gray-600">
+              <span className="itemkey font-bold ">Posted On:</span>
+              <span className="itemvalue font-light ml-3">{wasteData.post_date}</span>
+            </div> 
+            
+
+                   
+          
+                        
            
              
                    
@@ -43,4 +76,4 @@ const Asingle = () => {
 };
 
 
-export default Asingle
+export default Single

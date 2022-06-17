@@ -55,14 +55,14 @@ const Editannouncemnt = (id) => async (e) =>{
             </div>
             <div class="flex flex-col mb-4">
                 <label class="mb-2 font-bold text-lg text-gray-900" for="last_name">Announcement Description</label>
-                <input 
+                <input  
                 class="border py-2 px-3 text-grey-800" 
                 type="text" 
                 name="description" 
                 placeholder="body"
                 value={body}
                 onChange={(e)=> setBody(e.target.value)}
-                />
+                />  
                 
             </div>
             
