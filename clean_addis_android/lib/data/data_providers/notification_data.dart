@@ -59,11 +59,13 @@ class NotificationDataProvider{
 
 
   Future<void> isSeen(String token,String id) async{
-    final response = await http.post(Uri.http(base_url,'api/announcement/$id/update/'),
+
+    print("eziga derso");
+    final response = await http.patch(Uri.http(base_url,'api/announcement/$id/update'),
     headers: {
       'Authorization': 'JWT $token',
     },body: {
-      "is_seen": true
+      "is_seen": "True"
     });
 
     if (response.statusCode == 200){

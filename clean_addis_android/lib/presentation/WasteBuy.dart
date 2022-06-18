@@ -6,7 +6,7 @@ import 'package:clean_addis_android/data/repositories/user_repository.dart';
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 import '../bloc/Authentication/login_bloc.dart';
 import '../bloc/Notification/notifications_bloc.dart';
@@ -56,7 +56,7 @@ class _WasteBuyPageState extends State<WasteBuyPage> {
   final userBloc = LoginBloc(UserRepository(dataProvider: UserDataProvider()));
   final notificationBloc = NotificationsBloc(
       repo: NotificationRepo(dataProvider: NotificationDataProvider()));
-
+  var phonenumber;
   @override
   void initState() {
     super.initState();
@@ -185,11 +185,7 @@ class _WasteBuyPageState extends State<WasteBuyPage> {
 
   _launchCaller(var phonenumber) async {
     const url = "tel:1234567";
-    if (await canLaunchUrl(phonenumber)) {
-      await launch(phonenumber);
-    } else {
-      throw 'Could not launch $phonenumber';
-    }
+   UrlLauncher.launch('tel:${phonenumber}');
   }
 
   Widget verticalSpace(double height) {
@@ -306,6 +302,7 @@ class _WasteBuyPageState extends State<WasteBuyPage> {
               builder: (context, state) {
                 if (state is SellerLoadedState) {
                   final user = state.user;
+                  phonenumber = user.phone;
                   return AlertDialog(
                       title: Container(
                         color: color,
@@ -418,6 +415,7 @@ class _WasteBuyPageState extends State<WasteBuyPage> {
                                           Navigator.of(context,
                                                   rootNavigator: true)
                                               .pop();
+                                         _launchCaller(phonenumber);     
                                         }),
                                     TextButton(
                                       child: Text(

@@ -381,6 +381,9 @@ class WasteDetailState extends State<WasteDetailPage> {
                                 onPressed: () {
                                   Navigator.of(context, rootNavigator: true)
                                       .pop();
+                                  wastebloc..add(
+                                    DeleteWasteEvent(id: widget.waste_id!)
+                                  );    
                                 },
                               ),
                               TextButton(

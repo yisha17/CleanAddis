@@ -89,8 +89,10 @@ class Waste(models.Model):
         ('Donation', 'Donation'),
     ]
 
-    seller = models.ForeignKey(User, on_delete = models.DO_NOTHING )
-    buyer = models.ForeignKey(User,null=True,on_delete = models.DO_NOTHING,related_name='buyer')
+    seller = models.ForeignKey(
+        User, on_delete=models.CASCADE)
+    buyer = models.ForeignKey(
+        User, null=True, on_delete=models.CASCADE, related_name='buyer', db_constraint=False)
     waste_name = models.CharField(max_length=20)
     waste_type = models.CharField(max_length=20, choices= TYPE_CHOICES)
     for_waste  = models.CharField(choices= DO, max_length =10)

@@ -2,6 +2,7 @@ import 'package:clean_addis_android/presentation/Setting.dart';
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/status.dart' as status;
@@ -19,6 +20,7 @@ class NotificationPage extends StatefulWidget {
 
 class _NotificationPageState extends State<NotificationPage> {
   late IO.Socket socket;
+  NotificationRepo repo = NotificationRepo(dataProvider: NotificationDataProvider());
   final notificationBloc = NotificationsBloc(
       repo: NotificationRepo(dataProvider: NotificationDataProvider()));
   void connect() async {
@@ -33,6 +35,12 @@ class _NotificationPageState extends State<NotificationPage> {
   void initState() {
     notificationBloc..add(NotificationPageEvent());
     super.initState();
+  }
+
+  removeNotification(id) async{
+    final _storage = FlutterSecureStorage();
+    final token = await _storage.read(key: 'token');
+    await repo.isSeen(token!, id);
   }
 
   @override
@@ -119,6 +127,16 @@ class _NotificationPageState extends State<NotificationPage> {
                           {
                             return Dismissible(
                               key: ObjectKey(notifications.elementAt(index)),
+                              onDismissed: (direction){
+                                print("helllo list dimiss");
+                                 try{ notificationBloc..add(NotificationIsSeen(
+                                    notifications.elementAt(index).id!));}
+                                    catch(e){
+                                      print('again');
+                                      print(e.toString());
+                                    }
+                              },
+                            
                               child: notificationList(
                                   title:notifications.elementAt(index).waste_name!,
                                   subtitle:'Hello ${notifications.elementAt(index).owner_name}, ${notifications.elementAt(index).buyer_name} is interested on ${notifications.elementAt(index).waste_name} posted on ${DateFormatter.changetoMD(notifications.elementAt(index).created_at!)}. Click here if you want to contact him',

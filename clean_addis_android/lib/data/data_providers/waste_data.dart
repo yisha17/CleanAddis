@@ -127,7 +127,10 @@ class WasteDataProvider {
   }
 
   Future<Waste> updateWaste(
-      {required String id,required Waste waste, required String token, File? file}) async {
+      {required String id,
+      required Waste waste,
+      required String token,
+      File? file}) async {
     dio.options.headers["authorization"] = "JWT ${token}";
 
     String imageFile = file!.path.split('/').last;
@@ -147,8 +150,8 @@ class WasteDataProvider {
 
     try {
       // api/waste/<int:pk>/update
-      final response =
-          await dio.patch('$full_base_url/$waste_path$id/update', data: formData);
+      final response = await dio.patch('$full_base_url/$waste_path$id/update',
+          data: formData);
       print(response.statusCode);
 
       Waste waste_returned = Waste.fromJSON(response.data);
@@ -163,24 +166,39 @@ class WasteDataProvider {
     }
   }
 
+  Future<void> deleteWaste(int id, String token) async {
+    final response =
+        await http.delete(Uri.http(base_url, 'api/waste/delete/$id'), headers: {
+      'Authorization': 'JWT $token',
+    });
 
-Future<void> deleteWaste(int id, String token) async {
-  final response =
-      await http.delete(Uri.http(base_url, '$user_waste_path/$id'));
-
-  if (response == 204) {
-    print("deleted");
-  } else {
-    throw ('error');
+    if (response == 204) {
+      print("deleted");
+    } else {
+      throw ('error');
+    }
   }
-}
 
-Future<List<Waste>?> availableWasteByType(String token,String type) async{
-  final response = await http.get(Uri.http(base_url,'$waste_path$type/'),
-  headers: {
-    'Authorization': 'JWT $token',
-  });
-   if (response.statusCode == 200) {
+Future<void> soldWaste(int id, String token) async {
+    final response =
+        await http.patch(Uri.http(base_url, 'api/waste/$id/update'), headers: {
+      'Authorization': 'JWT $token',
+    },body: {
+      "sold" : "True"
+    });
+
+    if (response == 204) {
+      print("updated");
+    } else {
+      throw ('error');
+    }
+  }
+  Future<List<Waste>?> availableWasteByType(String token, String type) async {
+    final response =
+        await http.get(Uri.http(base_url, '$waste_path$type/'), headers: {
+      'Authorization': 'JWT $token',
+    });
+    if (response.statusCode == 200) {
       final waste = jsonDecode(response.body) as List;
       try {
         List<Waste> wasteList = waste.map((e) => Waste.fromJSON(e)).toList();
@@ -193,6 +211,5 @@ Future<List<Waste>?> availableWasteByType(String token,String type) async{
       throw Exception('Could not fetch waste');
     }
     return null;
-}
-
+  }
 }
