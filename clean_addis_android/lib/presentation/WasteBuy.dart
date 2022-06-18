@@ -6,6 +6,7 @@ import 'package:clean_addis_android/data/repositories/user_repository.dart';
 import 'package:clean_addis_android/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../bloc/Authentication/login_bloc.dart';
 import '../bloc/Notification/notifications_bloc.dart';
@@ -184,7 +185,7 @@ class _WasteBuyPageState extends State<WasteBuyPage> {
 
   _launchCaller(var phonenumber) async {
     const url = "tel:1234567";
-    if (await canLaunch(phonenumber)) {
+    if (await canLaunchUrl(phonenumber)) {
       await launch(phonenumber);
     } else {
       throw 'Could not launch $phonenumber';
