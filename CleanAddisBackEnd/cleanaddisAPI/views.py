@@ -635,6 +635,19 @@ class AvailableWasteAPIView(generics.ListAPIView):
 waste_list_for_sell = AvailableWasteAPIView.as_view()
 
 
+class WasteForRecycler(generics.ListAPIView):
+    queryset = Waste.objects.all()
+    serializer_class = WasteSerializer
+    lookup_field = 'waste_type'
+
+    def get_queryset(self, sold=False, for_waste='Sell'):
+        return super().get_queryset().filter(
+            sold=sold, for_waste=for_waste,
+            waste_type=self.kwargs['waste_type'],
+        ).order_by('-post_date')
+
+waste_for_recyclers = WasteForRecycler.as_view()
+
 class WasteUpdateAPIView(generics.UpdateAPIView):
 
     queryset = Waste.objects.all()
