@@ -107,16 +107,23 @@ class PublicPlacePageState extends State<PublicPlacePage> {
                 minMaxZoomPreference: const MinMaxZoomPreference(14, 17),
               ),
             ),
+            //  onPressed: () {
+            //       publicPlaceBloc.add(GetPublicPlaceEvent(type: 'FGr'));
+            //     },
             Positioned(
-              left: 20,
+              right:10,
               top: 40,
-              child: TextButton(
-                onPressed: () {
-                  publicPlaceBloc.add(GetPublicPlaceEvent(type: 'FGr'));
-                },
-                child: Text('search'),
-              ),
+              child: CircleAvatar(
+                  backgroundColor: Colors.brown.shade800,
+                  child: IconButton(
+                    icon:Icon(Icons.park),
+                    onPressed: (){
+                      publicPlaceBloc.add(GetPublicPlaceEvent(type: 'FGr'));
+                    },
+                    ),
+                )
             ),
+            
             BlocBuilder(
               bloc: publicPlaceBloc,
               builder: (context, state) {

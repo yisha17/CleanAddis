@@ -179,19 +179,29 @@ class WasteDataProvider {
     }
   }
 
-Future<void> soldWaste(int id, String token) async {
-    final response =
-        await http.patch(Uri.http(base_url, 'api/waste/$id/update'), headers: {
-      'Authorization': 'JWT $token',
-    },body: {
-      "sold" : "True"
-    });
-
-    if (response == 204) {
-      print("updated");
-    } else {
-      throw ('error');
+Future<void> soldWaste(int id, String token,String for_waste) async {
+    switch(for_waste){
+      case 'Sell':{
+        final response = await http
+              .patch(Uri.http(base_url, 'api/waste/$id/update'), headers: {
+            'Authorization': 'JWT $token',
+          }, body: {
+            "sold": "True"
+          });
+          return null;
+      }
+      case 'Donation':{
+         final response = await http
+              .patch(Uri.http(base_url, 'api/waste/$id/update'), headers: {
+            'Authorization': 'JWT $token',
+          }, body: {
+            "donated": "True"
+          });
+          return null;
+      }
+      
     }
+    
   }
   Future<List<Waste>?> availableWasteByType(String token, String type) async {
     final response =

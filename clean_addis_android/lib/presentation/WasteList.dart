@@ -244,6 +244,7 @@ class WasteListPageState extends State<WasteListPage>
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -320,11 +321,11 @@ class WasteListPageState extends State<WasteListPage>
                         ),
                       );
                     }
-
+    
                     if (state is WasteLoaded) {
                       final waste = state.waste;
                       print('here');
-
+    
                       return waste.isEmpty
                           ? Center(
                               child: Column(

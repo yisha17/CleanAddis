@@ -205,7 +205,7 @@ class _ReportListPageState extends State<ReportListPage> {
                   children: [Center(child: CircularProgressIndicator())],
                 );
               }
-
+      
               if (state is ReportListState) {
                 final reportList = state.reportList;
                 return reportList.isEmpty
@@ -230,7 +230,7 @@ class _ReportListPageState extends State<ReportListPage> {
                         },
                       );
               }
-
+      
               return Expanded(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

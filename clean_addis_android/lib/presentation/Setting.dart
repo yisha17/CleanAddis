@@ -39,36 +39,7 @@ class _SettingsPageState extends State<SettingsPage> {
             // SizedBox(
             //   height: 40,
             // ),
-            Row(
-              children: [
-                Icon(
-                  Icons.person,
-                  color: logogreen,
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  "Account",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            Divider(
-              height: 15,
-              thickness: 2,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            buildAccountOptionRow(context, "Change password"),
-            buildAccountOptionRow(context, "Content settings"),
-            buildAccountOptionRow(context, "Social"),
-            buildAccountOptionRow(context, "Language"),
-            buildAccountOptionRow(context, "Privacy and security"),
-            SizedBox(
-              height: 40,
-            ),
+           
             Row(
               children: [
                 Icon(
