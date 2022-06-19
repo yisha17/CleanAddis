@@ -283,7 +283,7 @@ publicplace_update_view = PublicPlaceUpdateAPIView.as_view()
 
 
 class PublicPlaceDeleteAPIView(generics.DestroyAPIView):
-
+    permission_classes = [AllowAny]
     queryset = PublicPlace.objects.all()
     serializer_class = PublicPlaceSerializer
     lookup_field = 'pk'
@@ -560,16 +560,16 @@ seller_list_view_by_type = SellerAPIViewByType.as_view()
 
 class WasteDonationList(generics.ListAPIView):
 
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = [AllowAny  ]
     queryset = Waste.objects.all()
     serializer_class = SellerSerializer
     
 
     def get_queryset(self):
 
-        lists = super().get_queryset().filter(
+        return super().get_queryset().filter(
             for_waste='Donation',donated = False).order_by('-post_date')
-        return lists
+        
 
 
 waste_donation_list = WasteDonationList.as_view()
