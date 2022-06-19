@@ -46,6 +46,7 @@ const Editseminar = (id) => async (e) =>{
         <div class="flex flex-col mb-2">
                 <label class="mb-2 font-bold text-lg text-gray-900" for="first_name"> Title</label>
                 <input class="border py-2 px-3 text-grey-800" type="text" name="first_name" id="first_name"
+                placeholder={title}
                 value={title}
                 onChange={(e)=> setTitle(e.target.value)}/>
             </div>

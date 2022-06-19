@@ -12,11 +12,11 @@ const Edit = () => {
   const [announcementData, setAnnouncementData] = useState([])
   var id = JSON.parse(localStorage.getItem("selected"))
   useEffect(() => {getService.getAnnouncementSingle(id)
-    .then((response) => setAnnouncementData(response.data))
+    .then((response) => setAnnouncementData(response.data),
     //console.log("data",announcementData.notification_title)//.then(
-     setTitle(announcementData.notification_title)
-     setBody(announcementData.notification_body)
-     setAddress(announcementData.address) 
+     setTitle(announcementData.notification_title),
+     setBody(announcementData.notification_body),
+     setAddress(announcementData.address) )
 
     //)
     
@@ -48,8 +48,7 @@ const Editannouncemnt = (id) => async (e) =>{
                 type="text"
                 class="form-control border py-2 px-3 text-grey-800"
                 id="username"
-                placeholder="Title"
-                value={title}
+                value={`${title}`}
                 onChange={(e)=> setTitle(e.target.value)}
                 />
             </div>
@@ -59,8 +58,7 @@ const Editannouncemnt = (id) => async (e) =>{
                 class="border py-2 px-3 text-grey-800" 
                 type="text" 
                 name="description" 
-                placeholder="body"
-                value={body}
+                value={`${body}`}
                 onChange={(e)=> setBody(e.target.value)}
                 />  
                 
@@ -69,7 +67,7 @@ const Editannouncemnt = (id) => async (e) =>{
             <div class="flex flex-col mb-4">
             <label for="cars" class="mb-2 font-bold text-lg text-gray-900" >For:</label>
                   <select id="cars" name="cars" size="4" 
-                  placeholder="address"
+                 
                   onChange={(e)=> setAddress(e.target.value)}
                   multiple>
                     <option value="Addis Ketema">Addis Ketema</option>

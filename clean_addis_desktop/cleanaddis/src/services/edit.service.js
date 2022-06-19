@@ -55,7 +55,7 @@ const editseminar = (seminarTitle,seminarType,link,imageLink,toDate,id) => {
 };
 const editpublicplace = (placeName,placeType,rating,longitude,latitude,id) => {
     return axios
-    .put(API_URL + `/users/${id}/update`,{
+    .put(API_URL + `/publicplace/${id}/update`,{
         placeName,
         placeType,
         rating,

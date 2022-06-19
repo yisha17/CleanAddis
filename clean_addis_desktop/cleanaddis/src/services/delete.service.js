@@ -4,7 +4,7 @@ import authHeader from "./auth-header";
 const API_URI = "http://localhost:8010/proxy";
 
 const deleteUser = (id) => {
-    return axios.delete(`${API_URI}/users/delete/${id}`,{headers:authHeader()});
+    return axios.delete(`${API_URI}/user/delete/${id}`,{headers:authHeader()});
 };  
 const deleteWaste  = (id) => {
     return axios.delete(`${API_URI}/waste/delete/${id}`,{headers:authHeader()})

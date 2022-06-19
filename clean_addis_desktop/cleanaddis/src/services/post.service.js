@@ -6,7 +6,7 @@ const API_URL = "http://localhost:8010/proxy";
 
 const createuser = (username, email,password,role) => {
     return axios
-    .post(API_URL + "/users/",{
+    .post(API_URL + "/users/web/",{
         username,
         email,
         password,
