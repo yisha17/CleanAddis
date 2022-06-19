@@ -57,9 +57,7 @@ const Adatatable = () => {
            </Link>
            
 
-           <div className="deleteButton border rounded border-slate-300 p-1 hover:bg-red-600 cursor-pointer "
-           onClick={()=>deletefunction(params.row.id)}
-           >Delete</div>
+           <div className="deleteButton border rounded border-slate-300 p-1 hover:bg-red-600 cursor-pointer ">Delete</div>
          </div>
      )   
     }},]

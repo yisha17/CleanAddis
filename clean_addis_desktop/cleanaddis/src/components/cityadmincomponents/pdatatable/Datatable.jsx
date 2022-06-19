@@ -9,12 +9,38 @@ import Newmodal from "../../../components/cityadmincomponents/pdatatable/NewModa
 import Modal from '../pdatatable/Modal'
 import EditModal from '../pdatatable/Edit'
 import getService from '../../../services/get.service'
+import deleteService from '../../../services/delete.service'
 
 const Pdatatable = () => {
     const [tableData, setTableData] = useState([])
     useEffect(() => {getService.getPublicPlace()
         .then((response) => setTableData(response.data))
     }, [])
+    const viewfunction=(id) =>{
+      localStorage.setItem("selected",JSON.stringify(id));
+      setSingle(true);
+    }
+    const editfunction = (id) => {
+      localStorage.setItem("selected",JSON.stringify(id));
+      setEdit(true);
+    }
+    const deletefunction=async (id)=>{
+      localStorage.setItem("selected",JSON.stringify(id));
+      if (window.confirm('Are you sure you want to delete the public place?')) {
+       await deleteService.deletePublicPlace(id).then(
+          (response)=>{
+            alert("Public Place successfully  deleted") 
+            window.location.reload()
+           
+          },
+          (error) => {
+              console.log(error);
+          })
+      } else {
+        // Do nothing!
+        console.log('Thing was not saved to the database.');
+      }
+    }
 
 
     const [showMyModal,setShowMyModal]  = useState(false)
@@ -24,15 +50,15 @@ const Pdatatable = () => {
     renderCell:(params) => {
      return(
          <div className = "cellAction flex gap-4">
-          <Link to ="/cityadmin/publicplace" onClick={() => setSingle(true)}>
+          <Link to ="/cityadmin/publicplace" onClick={() => viewfunction(params.row.id)}>
            <div className="viewButton border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">View</div> 
            </Link>
-           <Link to ="/cityadmin/publicplace" onClick={() => setEdit(true)}>
+           <Link to ="/cityadmin/publicplace" onClick={() => editfunction(params.row.id)}>
            <div className="viewButton border rounded border-slate-300 p-1 hover:bg-blue-400 cursor-pointer">Edit</div> 
            </Link>
            
 
-           <div className="deleteButton border rounded border-slate-300 p-1 hover:bg-red-600 cursor-pointer ">Delete</div>
+           <div className="deleteButton border rounded border-slate-300 p-1 hover:bg-red-600 cursor-pointer " onClick={()=>deletefunction(params.row.id)} >Delete</div>
          </div>
      )   
     }},]

@@ -6,34 +6,25 @@ import getService from '../services/get.service';
 import {decodeToken } from "react-jwt";
 import {useState, useEffect} from "react";
 import Uhome from './userpages/uhome/Uhome';
-let t
 function firstFunction(){
-    let token ;
-    var decodedToken;
-    var id;
-    var userinfo
+    let data;
+    let role;
+    let check;
     var user = JSON.parse(localStorage.getItem("user"))
+    var id;
     if (user){
         user = JSON.parse(localStorage.getItem("user"))
-        token = `"${user.access}"`
-        const decoder = () => decodedToken = decodeToken(token) 
-        id = decoder().user_id
-        userinfo = ""
-        getService.getUserRole(id).then(
-            (response)=>{
-            userinfo = response.data
-            console.log("admiroute user info is ",userinfo)
-            if ((userinfo.is_superuser) === true){
-                return true
-                
-            }
-            else{  
-                return false
-                 
-            }})
+        data = `"${user.role}"`
+        role = data
+        check = "Resident"
+        if (role ===`"${check}"`){
+            return true
+        }
+        else{
+            return false
+        }
     }
     else{
-        console.log("there is no user")
         return false
     }
     
@@ -45,7 +36,7 @@ const Adminroute = () => {
     
     
     return (
-        firstFunction ? <Outlet /> : <Navigate to="/notadmin"/>
+        firstFunction() ? <Outlet /> : <Navigate to="/login"/>
     )
 }
 
