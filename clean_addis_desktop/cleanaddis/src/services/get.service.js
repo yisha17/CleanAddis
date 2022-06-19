@@ -34,7 +34,7 @@ const getAllReport = () => {
     return axios.get(API_URI+ "/report/all/",{headers:authHeader()})
 }
 const getAllSeminar = () => {
-    return axios.get(API_URI+ "/seminar/all/",{headers:authHeader()})
+    return axios.get(API_URI+ "/seminar/all",{headers:authHeader()})
 }
 const getAllAnnouncement = () => {
     return axios.get(API_URI+ "/announcement/all",{headers:authHeader()})
@@ -51,7 +51,9 @@ const getCompanies = () => {
 const getPublicPlace = () => {
     return axios.get(API_URI+ "/publicplace/list/",{headers:authHeader()})
 }
-
+const getDonation = () => {
+    return axios.get(API_URI+ "/waste/donations/",{headers:authHeader()})
+}
 
 
 const getService = {
@@ -71,6 +73,7 @@ const getService = {
     getAnnouncementSingle,
     getPublicPlaceSingle,
     getSeminarSingle,
-    getWasteSingle
+    getWasteSingle,
+    getDonation
 };
 export default getService;

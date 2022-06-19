@@ -18,13 +18,10 @@ export const wasteColumns = [
 
 ];
 export const donationsColumns = [
-    {field:'image',headerName:"Image",width:100},
+    {field:'image',headerName:"Image",width:200},
     {field:'waste_name', headerName:"waste_name", width:150},
-    {field: 'waste_type', headerName: "Type", width: 100 },
-    {field: 'for_waste', headerName: "For", width: 100 },
     {field: 'quantity', headerName: "Quantity", width: 100 },
-    {field: 'price_per_unit', headerName: "Price", width: 100 },
-    {field: 'post_date', headerName: "Posted Date", width: 100 },
+    {field: 'post_date', headerName: "Posted Date", width: 150 },
     {field: 'status', headerName: "status", width: 100,
     renderCell:(params) => {
         return(
@@ -61,17 +58,10 @@ export const announcementColumns = [
     
     ];
 export const seminarColumns = [
-        {field:"seminarTitle", headerName:"Title", width:230,
-        renderCell:(params) => {
-         return(
-             <div className="cellwithImg flex justify-between items-center">
-                 <img className="cellImg w-14 h-14 rounded-full p-2" src={params.row.image} />
-                    {params.row.Title}
-             </div>
-         )   
-        }},
-        {field: 'from', headerName: "From Date", width: 100 },
-        {field: 'to', headerName: "To Date", width: 100 },
+        {field:"seminarTitle", headerName:"Title", width:130},
+        {field: 'fromDate', headerName: "From Date", width: 110 },
+        {field: 'toDate', headerName: "To Date", width: 120 },
+        {field: 'link', headerName: "Link", width: 150 },
     ];
 export const publicplaceColumns = [
         {field:"placeName", headerName:"Name", width:230,},

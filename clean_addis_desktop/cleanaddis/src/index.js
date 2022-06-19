@@ -79,8 +79,7 @@ ReactDOM.render(
                   </Route>
                   </Route >
           </Route>
-          
-          <Route element={<Adminroute />}>
+          <Route  element={<Adminroute />}>
           <Route path="itadmin">
             <Route index element={<Uhome />}/>
               <Route path="user">

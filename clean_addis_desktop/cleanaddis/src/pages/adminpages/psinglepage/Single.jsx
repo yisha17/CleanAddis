@@ -1,7 +1,22 @@
 import "./single.scss"
 import {Link} from 'react-router-dom'
 import Modal from "../../../components/cityadmincomponents/pdatatable/Modal"
+import getService from "../../../services/get.service";
+import editService from '../../../services/edit.service';
+import { useState,useEffect } from "react";
+
 const Asingle = () => {
+  const [publicData, setPublicData] = useState([])
+  var id = JSON.parse(localStorage.getItem("selected"))
+  useEffect(() => {getService.getPublicPlaceSingle(id)
+    .then((response) => setPublicData(response.data))
+   
+}, [])
+  const Longitude = publicData.longitude
+  const Latitude =  publicData.latitude  
+  const location = `https://maps.google.com/maps?q=${Longitude},${Latitude}&t=&z=13&ie=UTF8&iwloc=&output=embed`
+  const [showMyModal,setShowMyModal]  = useState(false)
+  const handleOnCLose = () => setShowMyModal(false)
   return (
     <div>
       <div className="single flex">
@@ -15,21 +30,24 @@ const Asingle = () => {
           </div> 
           
           <div className="item flex gap-5"> 
-          <img src="https://images.unsplash.com/photo-1559308078-88465deb35cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" 
-          alt="" className="imgitem w-32 h-32 object-cover  rounded-full"  /> 
+
           <div className="details">
             <h1 className="itemname text-4xl m-5">Public Place</h1>
             <div className="detailedItem mb-3 text-lg text-gray-600">
               <span className="itemkey font-bold">Name:</span>
-              <span className="itemvalue font-light ml-3">Cleaning</span>
+              <span className="itemvalue font-light ml-3">{publicData.placeName}</span>
             </div>
             <div className="detailedItem mb-3 text-lg text-gray-600">
               <span className="itemkey font-bold">Type:</span>
-              <span className="itemvalue font-light ml-3">Cleaning</span>
+              <span className="itemvalue font-light ml-3">{publicData.placeType}</span>
+            </div> 
+            <div className="detailedItem mb-3 text-lg text-gray-600">
+              <span className="itemkey font-bold">Rating:</span>
+              <span className="itemvalue font-light ml-3">{publicData.rating}</span>
             </div>        
             <div className="detailedItem mb-3 text-lg text-gray-600">
               <span className="itemkey font-bold">Location:</span>
-              <span className="itemvalue font-light ml-3">12/03/2021</span>
+              <iframe className="h-64 w-64"src={location} allowfullscreen ></iframe>
             </div> 
              
                    

@@ -6,7 +6,7 @@ const API_URL = "http://localhost:8010/proxy";
 
 const createuser = (username, email,password,role) => {
     return axios
-    .post(API_URL + "/users/",{
+    .post(API_URL + "/users/web/",{
         username,
         email,
         password,
@@ -42,12 +42,16 @@ const createannouncement = (notification_title,notification_body,address) => {
         
     });
 };
-const createseminar = (seminarTitle,seminarDescription,seminarType) => {
+const createseminar = (seminarTitle,seminarType,link,imageLink,toDate) => {
     return axios
     .post(API_URL + "/seminar/",{
         seminarTitle,
-        seminarDescription,
-        seminarType
+        seminarType,
+        link,
+        imageLink,
+        toDate,
+        
+        
     },{headers:authHeader()})
     .then((response) => {
         if(response){

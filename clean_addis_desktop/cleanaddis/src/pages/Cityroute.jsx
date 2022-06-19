@@ -7,38 +7,26 @@ import {decodeToken } from "react-jwt";
 import {useState, useEffect} from "react";
 import Uhome from './userpages/uhome/Uhome';
 import Home from './adminpages/home/Home'
-let t
+
 function firstFunction(){
-    let token ;
-    var decodedToken;
-    var id;
-    var userinfo;
+    let data;
+    let check;
     var user = JSON.parse(localStorage.getItem("user"))
+    var id;
+    var role
     if (user){
         user = JSON.parse(localStorage.getItem("user"))
-        token = `"${user.access}"`
-        const decoder = () => decodedToken = decodeToken(token) 
-        id = decoder().user_id
-        userinfo = ""
-        
-        getService.getUserRole(id).then(
-            (response)=>{
-            userinfo = response.data
-            console.log("cityroute user info is ",userinfo)
-            if ((userinfo.role) === "City Admin"){
-                return true
-                
-            }
-            else{  
-                return false
-                 
-            }},
-            (error)=>{
-                return false
-            })
+        data = `"${user.role}"`
+        role = data
+        check = "City Admin"
+        if (role === `"${check}"`){
+            return true
+        }
+        else{
+            return false
+        }
     }
     else{
-        console.log("there is no user")
         return false
     }
     
@@ -50,7 +38,7 @@ const Cityroute = () => {
     
     return (
         
-        firstFunction ? <Outlet /> : <Navigate to="/notcity"/>
+        firstFunction() ? <Outlet /> : <Navigate to="/login"/>
     )
 }
 

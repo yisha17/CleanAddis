@@ -34,12 +34,14 @@ const editannouncement = (notification_title,notification_body,address,id) => {
         
     });
 };
-const editseminar = (seminarTitle,seminarDescription,seminarType,id) => {
+const editseminar = (seminarTitle,seminarType,link,imageLink,toDate,id) => {
     return axios
     .put(API_URL + `/seminar/${id}/update`,{
         seminarTitle,
-        seminarDescription,
-        seminarType
+        seminarType,
+        link,
+        imageLink,
+        toDate
     },{headers:authHeader()})
     .then((response) => {
         if(response){
@@ -53,7 +55,7 @@ const editseminar = (seminarTitle,seminarDescription,seminarType,id) => {
 };
 const editpublicplace = (placeName,placeType,rating,longitude,latitude,id) => {
     return axios
-    .put(API_URL + `/users/${id}/update`,{
+    .put(API_URL + `/publicplace/${id}/update`,{
         placeName,
         placeType,
         rating,
@@ -91,11 +93,31 @@ const editwork = (workID,date,hour,id) => {
         
     });
 };
+const resolvereport = (longitude,latitude,isResolved,id) => {
+    return axios
+    .put(API_URL + `/report/${id}/update`,{
+        longitude,
+        latitude,
+        isResolved,
+    },{headers:authHeader()})
+    .then((response) => {
+        if(response){
+            console.log("the is  response")
+        }
+        else{
+            console.log("the is no response")
+            
+            
+        }
+        
+    });
+};
 const editService = {
     editrole,
     editannouncement,
     editseminar,
     editpublicplace,
-    editwork
+    editwork,
+    resolvereport
 };
 export default editService; 
