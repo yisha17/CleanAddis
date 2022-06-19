@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:location/location.dart';
 import 'package:flutter/material.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
@@ -37,44 +37,47 @@ class PublicPlacePageState extends State<PublicPlacePage> {
   void initState() {
     super.initState();
     initialCameraPosition = CameraPosition(target: latLng, zoom: 15);
+    print("printing");
+    print(latLng);
   }
 
   void onMapCreated(MapboxMapController controller) async {
     this.controller = controller;
   }
 
-  addSourceAndLineLayer(int index, bool removeLayer) async{
-    controller.animateCamera(
-      CameraUpdate.newCameraPosition(publicPlaceList[index]));
-      Map geometry = getGeometryFromSharedPrefs(carouselData[index]['index']);
-      final _fills = {
-        "type" : "FeatureCollection",
-        "features" : [
-          {
-            "type":"Feature",
-            "id" : 0,
-            "properties": <String, dynamic>{},
-            "geometry" : geometry
-          }
-        ]
-      }; 
+  addSourceAndLineLayer(int index, bool removeLayer) async {
+    controller
+        .animateCamera(CameraUpdate.newCameraPosition(publicPlaceList[index]));
+    Map geometry = getGeometryFromSharedPrefs(carouselData[index]['index']);
+    final _fills = {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "id": 0,
+          "properties": <String, dynamic>{},
+          "geometry": geometry
+        }
+      ]
+    };
 
-     if(removeLayer == true){
-       await controller.removeLayer("lines");
-       await controller.removeSource("fills");
-     } 
-     await controller.addSource("fills", GeojsonSourceProperties(data: _fills));
-     await controller.addLineLayer("fills", "lines", LineLayerProperties(
-       lineColor:Colors.green.toHexStringRGB(),
-       lineCap: "round",
-       lineJoin: "round",
-       lineWidth: 3
-     ));
+    if (removeLayer == true) {
+      await controller.removeLayer("lines");
+      await controller.removeSource("fills");
+    }
+    await controller.addSource("fills", GeojsonSourceProperties(data: _fills));
+    await controller.addLineLayer(
+        "fills",
+        "lines",
+        LineLayerProperties(
+            lineColor: Colors.green.toHexStringRGB(),
+            lineCap: "round",
+            lineJoin: "round",
+            lineWidth: 3));
   }
 
   void onStyleLoadedCallback() async {
-
-      for (CameraPosition public_place in publicPlaceList) {
+    for (CameraPosition public_place in publicPlaceList) {
       await controller.addSymbol(
         SymbolOptions(
           geometry: public_place.target,
@@ -107,16 +110,63 @@ class PublicPlacePageState extends State<PublicPlacePage> {
                 minMaxZoomPreference: const MinMaxZoomPreference(14, 17),
               ),
             ),
+           
             Positioned(
-              left: 20,
-              top: 40,
-              child: TextButton(
-                onPressed: () {
-                  publicPlaceBloc.add(GetPublicPlaceEvent(type: 'FGr'));
-                },
-                child: Text('search'),
-              ),
-            ),
+                right: 15,
+                bottom: MediaQuery.of(context).size.height * 0.2,
+                child: CircleAvatar(
+                  backgroundColor: Color.fromARGB(255, 67, 225, 31),
+                  minRadius: 27,
+                  child: IconButton(
+                    icon: Icon(Icons.park,color: Colors.white,),
+                    onPressed: () {
+                      publicPlaceBloc.add(GetPublicPlaceEvent(type: 'FGr'));
+                    },
+                  ),
+                )),
+            Positioned(
+                right: 15,
+                bottom: MediaQuery.of(context).size.height * 0.3,
+                child: CircleAvatar(
+                  backgroundColor: Color.fromARGB(255, 7, 9, 19),
+                  minRadius: 27,
+                  child: IconButton(
+                    icon: FaIcon(FontAwesomeIcons.toilet,color: Colors.white,),
+                    onPressed: () {
+                      publicPlaceBloc.add(GetPublicPlaceEvent(type: 'FGr'));
+                    },
+                  ),
+                )),
+            Positioned(
+                right: 15,
+                bottom: MediaQuery.of(context).size.height * 0.4,
+                child: CircleAvatar(
+                  backgroundColor: Colors.brown.shade800,
+                  minRadius: 27,
+                  child: IconButton(
+                    icon: FaIcon(FontAwesomeIcons.squareParking),
+                    onPressed: () {
+                      publicPlaceBloc.add(GetPublicPlaceEvent(type: 'FGr'));
+                    },
+                  ),
+                )),
+                 Positioned(
+                right: 15,
+                bottom: MediaQuery.of(context).size.height * 0.5,
+                child: CircleAvatar(
+                  backgroundColor: Color.fromARGB(255, 211, 182, 15),
+                  minRadius: 27,
+                  child: IconButton(
+                    icon: FaIcon(
+                      FontAwesomeIcons.trashCan,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      publicPlaceBloc.add(GetPublicPlaceEvent(type: 'FGr'));
+                    },
+                  ),
+                )),
+
             BlocBuilder(
               bloc: publicPlaceBloc,
               builder: (context, state) {
@@ -125,7 +175,7 @@ class PublicPlacePageState extends State<PublicPlacePage> {
                   print(public_place);
                   for (int index = 0; index < public_place.length; index++) {
                     print(index);
-                    
+
                     num distance = getDistanceFromSharedPrefs(index) / 1000;
                     num duration = getDurationFromSharedPrefs(index) / 60;
                     print(distance);
@@ -134,11 +184,8 @@ class PublicPlacePageState extends State<PublicPlacePage> {
                       'distance': distance,
                       'duration': duration
                     });
-      
-
                   }
-                 
-                  
+
                   carouselData
                       .sort((a, b) => a['duration'] < b['duration'] ? 0 : 1);
                   carouselItems = List<Widget>.generate(
@@ -150,25 +197,29 @@ class PublicPlacePageState extends State<PublicPlacePage> {
                           carouselData[index]['distance'],
                           carouselData[index]['duration']));
 
-                  publicPlaceList = List<CameraPosition>
-                  .generate(public_place.length, (index) => 
-                  CameraPosition(target: responseConverter(public_place,carouselData[index]['index']),zoom: 15));       
-                  return CarouselSlider(items: carouselItems,
-                   options:CarouselOptions(
-                     height: 100,
-                     viewportFraction: 0.6,
-                     initialPage: 0,
-                     enableInfiniteScroll: false,
-                     scrollDirection: Axis.horizontal,
-                     onPageChanged: (int index,CarouselPageChangedReason reason){
-                       setState(() => pageIndex=index);
-                       addSourceAndLineLayer(index, true);
-                       print(carouselData[index]);
-                     },
-                   ));
-                   
-                }
-                return (CircularProgressIndicator());
+                  publicPlaceList = List<CameraPosition>.generate(
+                      public_place.length,
+                      (index) => CameraPosition(
+                          target: responseConverter(
+                              public_place, carouselData[index]['index']),
+                          zoom: 15));
+                  return CarouselSlider(
+                      items: carouselItems,
+                      options: CarouselOptions(
+                        height: 100,
+                        viewportFraction: 0.6,
+                        initialPage: 0,
+                        enableInfiniteScroll: false,
+                        scrollDirection: Axis.horizontal,
+                        onPageChanged:
+                            (int index, CarouselPageChangedReason reason) {
+                          setState(() => pageIndex = index);
+                          addSourceAndLineLayer(index, true);
+                          print(carouselData[index]);
+                        },
+                      ));
+                }return (Center());
+                
               },
             )
           ],

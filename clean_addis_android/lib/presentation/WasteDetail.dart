@@ -48,7 +48,8 @@ class WasteDetailState extends State<WasteDetailPage> {
    var _scaffoldKey = GlobalKey<ScaffoldState>();
   final wastebloc =
       AddWasteBloc(WasteRepository(dataProvider: WasteDataProvider()));
-
+  late var donated = widget.donated;
+  late var sold = widget.sold;
   Widget imageholder(String? image) {
     return Container(
         child: Container(
@@ -381,6 +382,9 @@ class WasteDetailState extends State<WasteDetailPage> {
                                 onPressed: () {
                                   Navigator.of(context, rootNavigator: true)
                                       .pop();
+                                  wastebloc..add(
+                                    DeleteWasteEvent(id: widget.waste_id!)
+                                  );    
                                 },
                               ),
                               TextButton(
@@ -481,17 +485,65 @@ class WasteDetailState extends State<WasteDetailPage> {
                       text: widget.for_waste!),
                   Divider(),
                   verticalSpace(0.03),
-                  buildText(
-                      icon: Icons.shop_two,
-                      color: TypeColor.chooseColor(widget.waste_type!),
-                      label: 'Status',
-                      text: widget.for_waste! == 'Donation'
-                          ? widget.donated!
-                              ? 'Donated'
-                              : 'Available'
-                          : widget.sold!
-                              ? 'Sold'
-                              : 'Available')
+                  GestureDetector(
+                    onLongPress: (){
+                      messageDialog(
+                        context: context, 
+                        icon: Icons.shopping_cart,
+                        color: Colors.deepPurple,
+                        title: widget.for_waste == 'Sell' ?'Sold?':'Donated?',
+                        body: 'Did you ${widget.for_waste == 'Sell' ?'Sell':'Donate'} this item? Once you approve you can not undo the task.',
+                        actions: [
+                          TextButton(
+                              child: Text(
+                                "Yes",
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
+                                setState(() {
+                                  if(widget.for_waste == 'Sell'){
+                                    sold = true;
+                                  }else{
+                                    donated = true;
+                                  }
+                                });
+                                wastebloc..add(
+                                  WasteSoldEvent(id: widget.waste_id!,for_waste: widget.for_waste!)
+                                );
+                              },
+                            ),
+                            TextButton(
+                              child: Text(
+                                "No",
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
+                              },
+                            ),
+                        ]);
+                    },
+                    child: buildText(
+                        icon: Icons.shop_two,
+                        color: TypeColor.chooseColor(widget.waste_type!),
+                        label: 'Status',
+                        text: widget.for_waste! == 'Donation'
+                            ? donated!
+                                ? 'Donated'
+                                : 'Available'
+                            : sold!
+                                ? 'Sold'
+                                : 'Available'),
+                  )
                   //widget.donated! ? 'Donated' : 'Available'),
                 ],
               ),

@@ -118,6 +118,15 @@ class BuyWasteEvent extends WasteEvent{
 }
 
 
+class WasteSoldEvent extends WasteEvent{
+  final int id;
+  final String for_waste;
+  WasteSoldEvent({required this.id,required this.for_waste});
+  @override
+  List<Object?> get props => [this.id];
+}
+
+
 
 
 

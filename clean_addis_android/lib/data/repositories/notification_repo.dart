@@ -12,4 +12,8 @@ class NotificationRepo {
   Future<void> notifySeller(String token, int owner,int waste_id) async{
     return this.dataProvider.notifySeller(token,owner,waste_id);
   }
+
+  Future<void> isSeen(String token,String id){
+    return this.dataProvider.isSeen(token, id);
+  }
 }

@@ -35,3 +35,9 @@ class NotificationError extends NotificationsState{
    @override
   List<Object?> get props => [this.message];
 }
+
+
+class NotificationRemoved extends NotificationsState {
+  @override
+  List<Object?> get props => [];
+}

@@ -36,7 +36,9 @@ class User(AbstractUser):
         ('Qorale','Qorale'),
         ('Garbage Collector', 'Garbage Collector'),
         ('City Admin','City Admin'),
-        ('Resident','Resident')
+        ('Resident','Resident'),
+        ('Recycler','Recycler'),
+        ('Charity','Charity')
     ]
 
     username = models.CharField(max_length=20,unique=True, default="")
@@ -45,7 +47,7 @@ class User(AbstractUser):
     profile = models.ImageField(upload_to= upload_to, null=True)
     phone = models.CharField(max_length= 20,null= True)
     address = models.CharField(max_length=40,null = True)
-    
+    recycle_item = models.CharField(max_length = 30,null = True)
     class Meta(AbstractUser.Meta):
        swappable = 'AUTH_USER_MODEL'
 
@@ -89,8 +91,10 @@ class Waste(models.Model):
         ('Donation', 'Donation'),
     ]
 
-    seller = models.ForeignKey(User, on_delete = models.DO_NOTHING )
-    buyer = models.ForeignKey(User,null=True,on_delete = models.DO_NOTHING,related_name='buyer')
+    seller = models.ForeignKey(
+        User, on_delete=models.CASCADE)
+    buyer = models.ForeignKey(
+        User, null=True, on_delete=models.CASCADE, related_name='buyer', db_constraint=False)
     waste_name = models.CharField(max_length=20)
     waste_type = models.CharField(max_length=20, choices= TYPE_CHOICES)
     for_waste  = models.CharField(choices= DO, max_length =10)
@@ -121,7 +125,9 @@ class PublicPlace(models.Model):
 
     TYPE_CHOICES = [
         ('Toilet', 'Toilet'),
-        ('Park','Park')
+        ('Park','Park'),
+        ('Parking','Parking'),
+        ('Trash Can', 'Trash Can')
     ]
     placeName = models.CharField(max_length=120,default="",null=True)
     placeType = models.CharField(max_length=120, choices= TYPE_CHOICES)

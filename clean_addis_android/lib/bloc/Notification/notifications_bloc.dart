@@ -49,7 +49,20 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
         yield NotificationError(message: e.toString());
       }
     }
+
+    if (event is NotificationIsSeen){
+     try{ yield NotificationsInitial();
+      final _storage = FlutterSecureStorage();
+      final token = await _storage.read(key: 'token');
+      await repo.isSeen(token!, event.notification_id.toString());
+      yield NotificationRemoved();}
+      catch(e){
+        print("here is the error");
+        print(e.toString());
+      }
+    }
   }
+
 
 
 }

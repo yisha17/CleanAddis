@@ -464,7 +464,7 @@ class _SignupPageState extends State<SignupPage> {
                   
                       onPressed: () {
                         final isValidForm = _formKey.currentState!.validate();
-
+      
                         if (isValidForm) {
                           signBloc.onSignup(
                             textControllerName.text,

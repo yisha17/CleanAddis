@@ -37,4 +37,9 @@ class WasteRepository{
     return this.dataProvider.availableWasteByType(token, type);
   }
 
+
+  Future<void> soldWaste(String token, int id,String for_waste){
+    return this.dataProvider.soldWaste(id, token, for_waste);
+  }
+
 }

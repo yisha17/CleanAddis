@@ -166,8 +166,11 @@ class UserDataProvider {
       print("successfully created");
     }
      else if (response.statusCode == 200) {
+
       print("successfully created");
     } else if (response.statusCode == 400) {
+      print(response.body);
+      print("bad request");
       throw Exception('Bad Request.');
     } else {
       throw Exception('error');

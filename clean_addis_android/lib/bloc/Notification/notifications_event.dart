@@ -20,5 +20,12 @@ class NotificationCreateEvent extends NotificationsEvent {
   List<Object?> get props => [owner];    
 }
 
+class NotificationIsSeen extends NotificationsEvent{
+  final int notification_id;
+  NotificationIsSeen(this.notification_id);
+  @override
+  List<Object?> get props => [notification_id];
+}
+
 
 

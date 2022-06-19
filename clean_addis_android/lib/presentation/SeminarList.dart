@@ -105,7 +105,7 @@ class _SeminarListPageState extends State<SeminarListPage> {
           style: TextStyle(color: Colors.black),),
           centerTitle:true,
           backgroundColor: lightgreen,
-
+          elevation: 0,
         ),
         backgroundColor: lightgreen,
         body: BlocBuilder(
